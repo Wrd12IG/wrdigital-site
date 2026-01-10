@@ -4,11 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { google } from 'googleapis';
 import { Readable } from 'stream';
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
+// Next.js handles body parsing automatically for Route Handlers.
 
 export async function POST(req: Request) {
     try {

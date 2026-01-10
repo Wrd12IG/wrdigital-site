@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
             const resized = await sharp(buffer)
                 .resize(MAX_DIMENSION, MAX_DIMENSION, { fit: 'inside', withoutEnlargement: true })
                 .toBuffer({ resolveWithObject: true });
-            processedBuffer = resized.data;
+            processedBuffer = resized.data as any; // Type mismatch fix for Next.js build
             finalWidth = resized.info.width;
             finalHeight = resized.info.height;
         }
