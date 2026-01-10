@@ -35,7 +35,7 @@ export async function GET() {
         }));
 
         // Merge: DB variables override built-in by key
-        const merged = [...builtinList];
+        const merged: any[] = [...builtinList];
         dbList.forEach(dbVar => {
             const idx = merged.findIndex(m => m.key === dbVar.key);
             if (idx >= 0) {
