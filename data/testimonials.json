@@ -1,42 +1,34 @@
 [
     {
         "id": "1",
-        "quote": "In 6 mesi siamo passati dalla pagina 3 alla prima posizione.",
-        "author": "Marco B.",
-        "company": "TechSolutions",
-        "result": "+380% Traffico",
+        "quote": "WR Digital è sinonimo di eccellenza. Hanno capito perfettamente la nostra visione e l'hanno portata ad un livello superiore.",
+        "author": "Cattaneo Luigi",
+        "company": "Cattaneo S.p.A.",
+        "result": "Brand Excellence",
         "service": "seo"
     },
     {
         "id": "2",
-        "quote": "ROI del 400% sul nostro investimento SEO. Risultati concreti.",
-        "author": "Elena R.",
-        "company": "E-Shop Italia",
-        "result": "4x ROI",
+        "quote": "La crescita che abbiamo visto nel settore e-commerce grazie alle loro strategie SEO è stata sorprendente. Partner affidabile e concreto.",
+        "author": "Massimo Mancini",
+        "company": "Yeppon.it",
+        "result": "+320% Fatturato",
         "service": "seo"
     },
     {
         "id": "3",
-        "quote": "Da 2.000 a 50.000 follower in 8 mesi. Il 15% sono diventati clienti.",
-        "author": "Laura R.",
-        "company": "BeautyLab",
-        "result": "+2400% Follower",
-        "service": "social"
-    },
-    {
-        "id": "4",
-        "quote": "ROAS da 1.8 a 5.2 in 3 mesi. Fatturato triplicato stesso budget.",
-        "author": "Andrea V.",
-        "company": "FashionStore",
-        "result": "ROAS 5.2x",
+        "quote": "La professionalità del team nella gestione delle campagne Ads ha portato risultati immediati e di altissima qualità.",
+        "author": "Direzione",
+        "company": "Toyota Citymotors",
+        "result": "Performance Lead",
         "service": "ads"
     },
     {
-        "id": "5",
-        "quote": "Sito che carica in <1s. Richieste preventivo +180% nel primo mese.",
-        "author": "Giulia N.",
-        "company": "ArchStudio",
-        "result": "+180% Lead",
+        "id": "4",
+        "quote": "Esperti del settore marketing che sanno come valorizzare un brand storico. Grazie a loro la nostra presenza digitale è più forte che mai.",
+        "author": "Domenico Dormio",
+        "company": "Asus Gold Store - Help Computer Group",
+        "result": "Market Leader",
         "service": "web"
     }
 ]
