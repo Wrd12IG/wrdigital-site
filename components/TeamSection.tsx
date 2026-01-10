@@ -5,10 +5,16 @@ import Image from 'next/image';
 import styles from './TeamSection.module.css';
 
 const staticTeam = [
-    { name: 'Alessio Rossi', role: 'Founder & CEO', color: '#f5df4a' },
-    { name: 'Giulia Bianchi', role: 'Creative Director', color: '#ff6b6b' },
-    { name: 'Marco Verdi', role: 'Head of SEO', color: '#4ecdc4' },
-    { name: 'Luca Neri', role: 'Lead Developer', color: '#45b7d1' },
+    { name: 'Valentina Dell\'Orto', role: 'CEO & Founder | Digital Marketing Manager', color: '#FACC15' },
+    { name: 'Roberto Solano', role: 'CEO & Founder | Google Specialist', color: '#FACC15' },
+    { name: 'Giuseppe Savino', role: 'CEO & Founder | Business Developer', color: '#FACC15' },
+    { name: 'Bassetto Eleonora', role: 'Social Manager Senior | Account', color: '#ef4444' },
+    { name: 'Gatto Rebecca', role: 'Social Manager Senior | Account', color: '#ef4444' },
+    { name: 'Messinese Valeria', role: 'Social Manager Senior | Account', color: '#ef4444' },
+    { name: 'Fallara Daniela', role: 'Graphic Designer', color: '#3b82f6' },
+    { name: 'Francesconi Lorenzo', role: 'Graphic Designer', color: '#3b82f6' },
+    { name: 'Gjashta Enxhi', role: 'Graphic Designer', color: '#3b82f6' },
+    { name: 'Tarricone Giulia', role: 'Social Manager Junior', color: '#22c55e' },
 ];
 
 export default function TeamSection() {
