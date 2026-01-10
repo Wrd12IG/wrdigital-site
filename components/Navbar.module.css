@@ -1,0 +1,222 @@
+/* Navbar Framework */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 24px 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar.scrolled {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    /* Sottile bordo luminoso */
+    padding: 16px 0;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo Styling */
+.logo {
+    display: flex;
+    align-items: baseline;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+    user-select: none;
+}
+
+.logoText {
+    color: #fff;
+}
+
+.logoBracket {
+    color: #FACC15;
+    font-weight: 300;
+}
+
+/* YELLOW ACCENT FIXED */
+.logoR {
+    color: #fff;
+    font-weight: 800;
+}
+
+/* Desktop Navigation */
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+@media (max-width: 900px) {
+    .nav {
+        display: none;
+    }
+}
+
+.navLink {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #a1a1aa;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 8px 0;
+}
+
+.navLink:hover {
+    color: #fff;
+    text-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
+    /* Yellow glow */
+}
+
+.navLink::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #FACC15, transparent);
+    /* Yellow line */
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(-50%);
+}
+
+.navLink:hover::after {
+    width: 100%;
+}
+
+/* Action Buttons */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Area Clienti Icon */
+.iconLink {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.iconLink:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* CTA Button "Parliamo" */
+.ctaButton {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #000;
+    background: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.ctaButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 600px) {
+    .ctaButton {
+        display: none;
+    }
+}
+
+/* Mobile Toggle */
+.mobileToggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+    /* Above mobile menu */
+}
+
+@media (max-width: 900px) {
+    .mobileToggle {
+        display: block;
+    }
+}
+
+.hamburger {
+    width: 24px;
+    height: 24px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+}
+
+.hamburgerLine {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+/* Mobile Menu Overlay */
+.mobileMenu {
+    position: fixed;
+    top: 80px;
+    /* Below navbar */
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 0;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.mobileNav {
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px;
+}
+
+.mobileNavLink {
+    padding: 20px 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mobileNavLink:last-child {
+    border-bottom: none;
+}

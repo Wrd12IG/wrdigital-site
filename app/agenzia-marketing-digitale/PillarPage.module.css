@@ -1,0 +1,367 @@
+.container {
+    padding-top: 120px;
+    padding-bottom: 80px;
+    background: var(--color-bg-primary);
+    min-height: 100vh;
+    color: var(--color-text-primary);
+}
+
+.hero {
+    text-align: center;
+    max-width: 1200px;
+    /* Match layout width */
+    margin: 0 auto var(--spacing-4xl);
+    padding: 0 var(--spacing-xl);
+}
+
+.heroLabel {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    color: var(--color-accent-primary);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: var(--spacing-md);
+    padding: 4px 12px;
+    border: 1px solid var(--color-accent-primary);
+    border-radius: 8px;
+}
+
+.title {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: var(--spacing-lg);
+    background: linear-gradient(to right, #fff, #ccc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    color: var(--color-text-secondary);
+    font-weight: 300;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.metaInfo {
+    margin-top: var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-lg);
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    /* Slimmer sidebar */
+    gap: var(--spacing-4xl);
+    max-width: 1200px;
+    /* Consistent width */
+    margin: 0 auto;
+    padding: 0 var(--spacing-xl);
+    position: relative;
+}
+
+@media (max-width: 1024px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    /* Move sidebar below content on mobile */
+    .sidebar {
+        order: 2;
+        width: 100%;
+        position: static;
+        /* No longer sticky on mobile flow */
+        margin-top: var(--spacing-2xl);
+    }
+
+    .content {
+        order: 1;
+    }
+
+    .heroImage {
+        height: 250px;
+        /* Reduce height on mobile */
+    }
+
+    /* Make hero text readable on mobile */
+    .heroImage span {
+        font-size: 0.8rem;
+        bottom: 10px;
+        left: 10px;
+    }
+}
+
+/* Sidebar TOC + Widget Container */
+/* ROBUST STICKY SIDEBAR STRATEGY */
+.sidebar {
+    position: sticky;
+    top: 120px;
+    /* Distance from header */
+    align-self: start;
+    /* Critical for sticky in grid */
+
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    /* Space between TOC and Widget */
+
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    /* Scroll if too tall */
+
+    min-width: 250px;
+    padding-bottom: 20px;
+    z-index: 10;
+}
+
+/* Hide scrollbar */
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.toc {
+    position: static;
+    margin: 0;
+    max-height: none;
+    overflow-y: visible;
+}
+
+.sidebarWidget {
+    position: static;
+    width: 100%;
+    margin-top: auto;
+}
+
+/* Branded Text Styling */
+.brandedText {
+    white-space: nowrap;
+}
+
+.bracket {
+    color: var(--color-accent-primary);
+    -webkit-text-fill-color: var(--color-accent-primary);
+    font-weight: 700;
+}
+
+.letterR {
+    color: #fff;
+    -webkit-text-fill-color: #fff;
+    font-weight: 400;
+}
+
+
+
+/* Comparison Graph Mockup */
+.graphContainer {
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+    border: 1px solid var(--color-border);
+    height: 350px;
+    /* Fixed height for container */
+    display: flex;
+    flex-direction: column;
+}
+
+.graphTitle {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: var(--spacing-xl);
+}
+
+.barChart {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 100%;
+    /* Fill container */
+    gap: var(--spacing-md);
+    padding-bottom: 20px;
+}
+
+.barCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    /* Align bars to bottom */
+    gap: 8px;
+    width: 100px;
+    height: 100%;
+    /* Take full height to allow bar percentage */
+}
+
+/* Main Content Typography & Spacing */
+.content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+}
+
+/* Apply scroll margin to ID targets (sections) */
+.content section {
+    scroll-margin-top: 200px;
+    /* Generous offset for sticky header */
+}
+
+.content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+}
+
+.content h2:first-of-type {
+    margin-top: 0;
+}
+
+.content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+
+
+.content p {
+    margin-bottom: 1.5rem;
+}
+
+.content ul,
+.content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    /* Restore indentation */
+    list-style-position: outside;
+    /* Ensure bullets are visible */
+}
+
+.content ul {
+    list-style-type: disc;
+    /* Force disc bullets */
+}
+
+.content li {
+    margin-bottom: 0.5rem;
+    padding-left: 0.25rem;
+}
+
+
+.bar {
+    width: 40px;
+    /* Slimmer bars */
+    background: #333;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    transition: height 1s ease;
+    /* Height is set inline */
+    min-height: 4px;
+    /* Visibility even if 0 */
+}
+
+/* Hero Image Placeholder */
+.heroImage {
+    width: 100%;
+    height: 400px;
+    background: linear-gradient(to bottom, #111, #222);
+    /* Fallback */
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-2xl);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+}
+
+.heroImage img {
+    object-fit: cover;
+}
+
+.bar.highlight {
+    background: var(--color-accent-primary);
+    box-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+.barLabel {
+    font-size: 0.8rem;
+    text-align: center;
+    color: var(--color-text-muted);
+}
+
+/* 5 Questions Checklist Box */
+.checklist {
+    background: var(--color-bg-glass);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+}
+
+.checklistItem {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.checklistItem:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.checkNumber {
+    background: var(--color-accent-primary);
+    color: #000;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+/* FAQ Section */
+.faqSection {
+    margin-top: var(--spacing-4xl);
+    padding-top: var(--spacing-2xl);
+    border-top: 1px solid var(--color-border);
+}
+
+.faqItem {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--spacing-lg) 0;
+}
+
+.faqQuestion {
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+    cursor: pointer;
+}
+
+.faqAnswer {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}

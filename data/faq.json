@@ -1,0 +1,68 @@
+[
+  {
+    "id": "1",
+    "question": "Quanto tempo ci vuole per vedere risultati SEO?",
+    "answer": "I primi miglioramenti sono visibili in 2-3 mesi. Risultati significativi in 4-6 mesi.",
+    "service": "seo"
+  },
+  {
+    "id": "2",
+    "question": "Quanto costa il servizio SEO?",
+    "answer": "I nostri piani partono da €1.500/mese per PMI. Il costo dipende dalla competitività del settore.",
+    "service": "seo"
+  },
+  {
+    "id": "3",
+    "question": "Quanti post pubblicate al mese?",
+    "answer": "Il piano base include 15 post/mese + Stories giornaliere.",
+    "service": "social"
+  },
+  {
+    "id": "4",
+    "question": "Qual è il budget minimo per iniziare con Ads?",
+    "answer": "Consigliamo un minimo di €2.000/mese di ad spend per avere dati sufficienti.",
+    "service": "ads"
+  },
+  {
+    "id": "5",
+    "question": "Quanto tempo ci vuole per un sito web?",
+    "answer": "Landing page: 2 settimane. Sito corporate: 4-6 settimane. E-commerce: 8-12 settimane.",
+    "service": "web"
+  },
+  {
+    "id": "1767635948432",
+    "question": "Come iniziare a lavorare con W[r]Digital?",
+    "answer": "Il processo è semplice e trasparente: 1) Primo contatto via form o telefono dove capiamo le tue esigenze iniziali. 2) Audit gratuita del tuo attuale stato digitale (sito, social, competitors). 3) Presentazione strategia personalizzata con timeline, KPI e budget chiaro. 4) Kick-off progetto con assegnazione del team dedicato. 5) Monitoring continuo con report mensili trasparenti. Non richiediamo vincoli lunghissimi: vogliamo guadagnarci la tua fiducia mese dopo mese con risultati concreti. Il primo step? Contattaci per la tua audit gratuita.",
+    "service": "seo",
+    "priority": 7,
+    "keywords": [
+      "come iniziare wrdigital",
+      "processo collaborazione",
+      "audit gratuita"
+    ]
+  },
+  {
+    "id": "1767635951249",
+    "question": "Quali servizi offre W[r]Digital?",
+    "answer": "Copriamo l'intero ecosistema digitale con 4 pilastri: SEO & Content (ottimizzazione tecnica, link building, contenuti strategici), Social Media (gestione Instagram, TikTok, LinkedIn con focus su community building), Web Development (siti ultra-performanti con Next.js, mobile-first, ottimizzati SEO) e Ads & Performance (Google Ads, Meta Ads, campagne data-driven con focus su ROAS). Offriamo anche servizi complementari come e-commerce development, marketing automation e consulenza strategica. Ogni servizio è scalabile in base agli obiettivi e al budget del cliente.",
+    "service": "seo",
+    "priority": 9,
+    "keywords": [
+      "servizi digital marketing",
+      "cosa fa wrdigital",
+      "servizi agenzia"
+    ]
+  },
+  {
+    "id": "1767635953720",
+    "question": "Perché scegliere W[r]Digital come partner digitale?",
+    "answer": "W[r]Digital non è la classica agenzia. Uniamo creatività e dati con un approccio scientifico al marketing digitale. Il nostro metodo si basa su KPI reali e ROI misurabile, costruendo strategie personalizzate che durano nel tempo. Ogni progetto è seguito da specialist dedicati con competenze verticali (SEO, Ads, Social, Dev). Non vendiamo pacchetti preconfezionati ma soluzioni su misura. Il nostro track record parla chiaro: 95% dei clienti in prima pagina Google, +380% di traffico medio, 2.5x ROI sulle campagne Ads. Trasformiamo la tua presenza online in un generatore di profitti concreto.",
+    "service": "seo",
+    "priority": 8,
+    "keywords": [
+      "agenzia digital marketing",
+      "perchè scegliere wrdigital",
+      "agenzia milano"
+    ]
+  }
+]

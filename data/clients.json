@@ -1,0 +1,68 @@
+[
+  {
+    "name": "City Motors",
+    "logo": "https://cdnwp.dealerk.com/a7243f12/uploads/sites/6/2024/12/logo-sito-1.jpg",
+    "url": "https://www.citymotors.it/https://netflix.com",
+    "description": "Stai cercando una concessionaria e centro assistenza Toyota a Monza e Bellusco? Vieni da City Motors e scopri le nostre auto nuove, usate e km0 e officina Chevrolet.",
+    "socials": {
+      "facebook": "https://www.facebook.com/citymotorsmonza",
+      "instagram": "https://www.instagram.com/toyotacitymotors",
+      "linkedin": "https://www.linkedin.com/company/city-motors-srl",
+      "youtube": "https://www.youtube.com/channel/UCeh0oV_lLDn4_80bip0ZEQQ"
+    },
+    "showInSuccessStories": true
+  },
+  {
+    "name": "netflix",
+    "logo": "https://assets.nflxext.com/us/ffe/siteui/common/icons/nficon2016.png",
+    "url": "https://netflix.com",
+    "description": "Guarda film e programmi TV su Netflix online o direttamente su smart TV, console per videogiochi, PC, Mac, cellulare, tablet e molti altri dispositivi.",
+    "socials": {
+      "twitter": "x.com/log"
+    },
+    "selectedSocials": [
+      "twitter"
+    ],
+    "showInSuccessStories": true
+  },
+  {
+    "name": "BlueSky Ventures",
+    "logo": ""
+  },
+  {
+    "name": "NovaDesign",
+    "logo": ""
+  },
+  {
+    "name": "Quantum Labs",
+    "logo": ""
+  },
+  {
+    "name": "Alpine Solutions",
+    "logo": ""
+  },
+  {
+    "name": "Urban Dynamics",
+    "logo": ""
+  },
+  {
+    "name": "Stellar Media",
+    "logo": ""
+  },
+  {
+    "name": "Forge Industries",
+    "logo": ""
+  },
+  {
+    "name": "Nexus Partners",
+    "logo": ""
+  },
+  {
+    "name": "",
+    "logo": "",
+    "url": "",
+    "socials": {},
+    "selectedSocials": [],
+    "showInSuccessStories": false
+  }
+]

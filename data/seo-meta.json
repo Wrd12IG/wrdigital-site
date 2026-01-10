@@ -1,0 +1,165 @@
+{
+  "home": {
+    "title": "Digital Agency Milano: SEO, Social & Web | W[r]Digital",
+    "description": "Trasforma il tuo brand con W[r]Digital. Strategie SEO, Social Media e Sviluppo Web che portano risultati misurabili. Richiedi la tua audit gratuita oggi.",
+    "keywords": "digital agency milano, agenzia seo, social media marketing, sviluppo web, crescita organica",
+    "ogTitle": "W[r]Digital | L'Agenzia che scala il tuo business",
+    "ogDescription": "Non la solita agenzia. Un partner strategico per la tua crescita digitale.",
+    "ogImage": "/og-image.png",
+    "schemaType": "Organization",
+    "hasFaq": true,
+    "pageFaqs": [
+      {
+        "q": "Perché scegliere W[r]Digital?",
+        "a": "Perché uniamo creatività e dati. Non seguiamo solo le tendenze, costruiamo strategie personalizzate basate su KPI reali e ROI misurabile."
+      },
+      {
+        "q": "Quali servizi offrite?",
+        "a": "Copriamo l'intero ecosistema digitale: SEO tecnica per scalare Google, Gestione Social per creare community, e Sviluppo Web performante."
+      },
+      {
+        "q": "Lavorate con piccole imprese?",
+        "a": "Sì, scaliamo le nostre strategie in base ai tuoi obiettivi, che tu sia una startup ambiziosa o un brand consolidato."
+      }
+    ],
+    "hasVideo": false,
+    "videoUrl": ""
+  },
+  "seo": {
+    "title": "Agenzia SEO Milano: Posizionamento Google Garantito | W[r]Digital",
+    "description": "Scala la SERP con W[r]Digital. Strategie SEO data-driven, Link Building e Ottimizzazione Tecnica per dominare il tuo mercato. Inizia la scalata ora.",
+    "keywords": "agenzia seo milano, consulenza seo, posizionamento siti web, link building, audit seo tecnica",
+    "ogTitle": "Domina la prima pagina di Google | SEO W[r]Digital",
+    "ogDescription": "Essere in seconda pagina significa essere invisibili. Cambia le regole del gioco.",
+    "ogImage": "/og-seo.png",
+    "schemaType": "Service",
+    "hasFaq": true,
+    "pageFaqs": [
+      {
+        "q": "Quanto tempo serve per vedere i risultati SEO?",
+        "a": "La SEO è una maratona, non uno sprint. Generalmente i primi risultati tangibili si vedono tra i 3 e i 6 mesi, ma costruiamo fondamenta che durano anni."
+      },
+      {
+        "q": "Cos'è la SEO Tecnica?",
+        "a": "È l'ottimizzazione del 'motore' del tuo sito: velocità, struttura URL, sicurezza HTTPS e dati strutturati per parlare la lingua di Google."
+      },
+      {
+        "q": "Garantite la prima posizione?",
+        "a": "Nessuno può garantire la #1 (mentirebbe). Noi garantiamo un metodo scientifico e trasparente che ha portato il 95% dei nostri clienti in prima pagina."
+      }
+    ],
+    "hasInternalLinks": true
+  },
+  "social": {
+    "title": "Social Media Agency: Strategie che Convertono | W[r]Digital",
+    "description": "Più che like, creiamo clienti. Gestione professionale Instagram, TikTok e LinkedIn con focus su E-E-A-T e conversioni. Scopri la nostra strategia social.",
+    "keywords": "social media agency, gestione instagram, tiktok marketing, social media manager milano, content creation",
+    "ogTitle": "Trasforma i Follower in Clienti | Social W[r]Digital",
+    "ogDescription": "Smetti di postare a caso. Inizia a costruire una community fedele.",
+    "ogImage": "/og-social.png",
+    "schemaType": "Service",
+    "hasFaq": true,
+    "pageFaqs": [
+      {
+        "q": "Quali canali social gestite?",
+        "a": "Siamo verticali su Instagram, TikTok, LinkedIn e Facebook. Scegliamo i canali dove si trova realmente il tuo pubblico target."
+      },
+      {
+        "q": "Fate anche creazione contenuti?",
+        "a": "Assolutamente. Dal piano editoriale allo shooting video e foto, ci occupiamo di tutta la produzione creativa in linea con il tuo brand."
+      }
+    ],
+    "hasInternalLinks": true
+  },
+  "ads": {
+    "title": "Google Ads & Meta Advertising: Campagne ROI+ | W[r]Digital",
+    "description": "Smetti di bruciare budget. Campagne PPC mirate su Google e Social che massimizzano il tuo ritorno sull'investimento. Richiedi un'analisi gratuita.",
+    "keywords": "google ads agency, meta ads, pubblicità online, ppc management, lead generation",
+    "ogTitle": "Advertising che Ripaga l'Investimento | Ads W[r]Digital",
+    "ogDescription": "Ogni euro speso deve portarne indietro almeno due. Questa è la nostra filosofia.",
+    "ogImage": "/og-ads.png",
+    "schemaType": "Service",
+    "hasFaq": true,
+    "pageFaqs": [
+      {
+        "q": "Qual è il budget minimo per le Ads?",
+        "a": "Dipende dal settore e dagli obiettivi. Consigliamo di partire con un budget che permetta di raccogliere dati significativi, solitamente dai 500€/mese in su."
+      },
+      {
+        "q": "Fate reportistica?",
+        "a": "Sì, report mensili chiari e trasparenti. Non ti sommergiamo di numeri inutili, ti mostriamo quanto ti è costato acquisire un cliente (CPA) e quanto hai guadagnato (ROAS)."
+      }
+    ],
+    "hasInternalLinks": true
+  },
+  "web": {
+    "title": "Sviluppo Siti Web: Veloci, Moderni, Efficaci | W[r]Digital",
+    "description": "Il tuo sito è lento? Perdi clienti. Realizziamo siti web ultra-performanti, mobile-first e ottimizzati SEO. Il tuo miglior venditore, attivo 24/7.",
+    "keywords": "realizzazione siti web milano, web design, siti ecommerce, sviluppo web custom, restyling sito",
+    "ogTitle": "Siti Web Belli ma Soprattutto Veloci | Web W[r]Digital",
+    "ogDescription": "Design premium e performance da Formula 1. Il connubio perfetto.",
+    "ogImage": "/og-web.png",
+    "schemaType": "Service",
+    "hasFaq": true,
+    "pageFaqs": [
+      {
+        "q": "Che tecnologia usate per i siti?",
+        "a": "Utilizziamo Next.js e React, lo standard moderno per siti ultra-veloci, sicuri e scalabili, preferito dalle grandi aziende tech."
+      },
+      {
+        "q": "Il sito sarà ottimizzato per mobile?",
+        "a": "Assolutamente. Progettiamo in logica Mobile-First per garantire un'esperienza perfetta su smartphone, come richiesto da Google nel 2026."
+      }
+    ],
+    "hasInternalLinks": true
+  },
+  "portfolio": {
+    "title": "Digital Agency Milano: SEO, Social & Web | W[r]Digital",
+    "description": "Trasforma il tuo brand con W[r]Digital. Strategie SEO, Social Media e Sviluppo Web che portano risultati misurabili. Richiedi la tua audit gratuita oggi.",
+    "keywords": "digital agency milano, agenzia seo, social media marketing, sviluppo web, crescita organica",
+    "ogTitle": "W[r]Digital | L'Agenzia che scala il tuo business",
+    "ogDescription": "Non la solita agenzia. Un partner strategico per la tua crescita digitale.",
+    "ogImage": "/og-portfolio.png",
+    "schemaType": "Service",
+    "hasFaq": true,
+    "pageFaqs": [
+      {
+        "q": "Perché scegliere W[r]Digital?",
+        "a": "Perché uniamo creatività e dati. Non seguiamo solo le tendenze, costruiamo strategie personalizzate basate su KPI reali e ROI misurabile."
+      },
+      {
+        "q": "Quali servizi offrite?",
+        "a": "Copriamo l'intero ecosistema digitale: SEO tecnica per scalare Google, Gestione Social per creare community, e Sviluppo Web performante."
+      },
+      {
+        "q": "Lavorate con piccole imprese?",
+        "a": "Sì, scaliamo le nostre strategie in base ai tuoi obiettivi, che tu sia una startup ambiziosa o un brand consolidato."
+      }
+    ],
+    "hasInternalLinks": true
+  },
+  "contatti": {
+    "title": "Digital Agency Milano: SEO, Social & Web | W[r]Digital",
+    "description": "Trasforma il tuo brand con W[r]Digital. Strategie SEO, Social Media e Sviluppo Web che portano risultati misurabili. Richiedi la tua audit gratuita oggi.",
+    "keywords": "digital agency milano, agenzia seo, social media marketing, sviluppo web, crescita organica",
+    "ogTitle": "Contattaci | WR Digital",
+    "ogDescription": "Parliamo del tuo progetto.",
+    "ogImage": "/og-image.png",
+    "schemaType": "Service",
+    "hasFaq": true,
+    "pageFaqs": [
+      {
+        "q": "Perché scegliere W[r]Digital?",
+        "a": "Perché uniamo creatività e dati. Non seguiamo solo le tendenze, costruiamo strategie personalizzate basate su KPI reali e ROI misurabile."
+      },
+      {
+        "q": "Quali servizi offrite?",
+        "a": "Copriamo l'intero ecosistema digitale: SEO tecnica per scalare Google, Gestione Social per creare community, e Sviluppo Web performante."
+      },
+      {
+        "q": "Lavorate con piccole imprese?",
+        "a": "Sì, scaliamo le nostre strategie in base ai tuoi obiettivi, che tu sia una startup ambiziosa o un brand consolidato."
+      }
+    ]
+  }
+}

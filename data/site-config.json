@@ -1,0 +1,22 @@
+{
+    "hero": {
+        "title": "W[r]Digital",
+        "subtitle": "Trasformiamo la tua presenza online in un generatore di profitti.",
+        "description": "Non vendiamo fumo, ma strategie scalabili. Dalla SEO al Web Design, portiamo il tuo brand dove i tuoi clienti lo stanno già cercando.",
+        "stats": {
+            "traffic": "+380%",
+            "roi": "2.5x"
+        }
+    },
+    "social": {
+        "instagram": "https://instagram.com/wrdigital",
+        "linkedin": "https://linkedin.com/company/wrdigital",
+        "facebook": "https://facebook.com/wrdigital",
+        "youtube": "https://www.youtube.com/@wrdigital.agency"
+    },
+    "team": {
+        "bio": "Siamo un collettivo di creativi, sviluppatori e strategist. Non seguiamo i trend, li anticipiamo.",
+        "image": "/team-placeholder.jpg"
+    },
+    "favicon": "/uploads/portfolio/1767730281044_WRD_2025-12_Favicon.png"
+}

@@ -1,0 +1,30 @@
+{
+    "seo": {
+        "title": "SEO & Content",
+        "uvpTitle": "SEO: Fatti trovare quando conta davvero.",
+        "uvpSubtitle": "Essere in seconda pagina su Google significa essere invisibili.",
+        "ctaText": "Analizza il mio sito gratis",
+        "description": "In W[r]Digital scaliamo i motori di ricerca con un approccio tecnico e contenuti che piacciono sia agli algoritmi che alle persone."
+    },
+    "social": {
+        "title": "Social Media",
+        "uvpTitle": "Social Media: Costruiamo community, non solo follower.",
+        "uvpSubtitle": "I \"like\" non pagano le bollette. Trasforma i follower in clienti fedeli.",
+        "ctaText": "Ottieni una consulenza social",
+        "description": "Creiamo narrazioni visive e piani editoriali che trasformano gli utenti distratti in ambasciatori fedeli del tuo brand."
+    },
+    "ads": {
+        "title": "Advertising",
+        "uvpTitle": "Smetti di bruciare budget. Inizia a investire in Profitto.",
+        "uvpSubtitle": "Campagne PPC chirurgiche su Google e Meta. Paghi solo per risultati misurabili.",
+        "ctaText": "Calcola il tuo potenziale ROI",
+        "description": "Ogni euro speso deve tornarti con gli interessi. Utilizziamo algoritmi di bidding avanzati e creatività ad alta conversione."
+    },
+    "web": {
+        "title": "Web Design",
+        "uvpTitle": "Web Design: Il tuo ufficio digitale aperto 24/7.",
+        "uvpSubtitle": "Un sito lento allontana i clienti. Progettiamo velocità e conversione.",
+        "ctaText": "Richiedi preventivo in 24h",
+        "description": "Progettiamo esperienze web ultra-veloci, moderne e ottimizzate per convertire ogni visita in un contatto qualificato."
+    }
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "admin",
+    "email": "roberto@wrdigital.it",
+    "password": "$2b$10$BTtqbLa34Vs9ofalgqZeAObKEweo85BqNTKxlsmznpnce20voTwwy",
+    "name": "Roberto Admin",
+    "role": "admin"
+  },
+  {
+    "id": "1767568852714",
+    "name": "Wrdigital",
+    "email": "info@wrdigital.it",
+    "password": "$2b$10$jChT.CWzQz55eJLkP6vg0eRs3fMc4v9ZOftn1UQ4aDahSbtICg6ra",
+    "role": "user",
+    "driveFolderId": "12aDx8pf5e8K9_Zj--2XidorVDzHlkDRK"
+  }
+]

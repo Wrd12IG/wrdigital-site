@@ -1,0 +1,42 @@
+[
+    {
+        "id": "1",
+        "quote": "In 6 mesi siamo passati dalla pagina 3 alla prima posizione.",
+        "author": "Marco B.",
+        "company": "TechSolutions",
+        "result": "+380% Traffico",
+        "service": "seo"
+    },
+    {
+        "id": "2",
+        "quote": "ROI del 400% sul nostro investimento SEO. Risultati concreti.",
+        "author": "Elena R.",
+        "company": "E-Shop Italia",
+        "result": "4x ROI",
+        "service": "seo"
+    },
+    {
+        "id": "3",
+        "quote": "Da 2.000 a 50.000 follower in 8 mesi. Il 15% sono diventati clienti.",
+        "author": "Laura R.",
+        "company": "BeautyLab",
+        "result": "+2400% Follower",
+        "service": "social"
+    },
+    {
+        "id": "4",
+        "quote": "ROAS da 1.8 a 5.2 in 3 mesi. Fatturato triplicato stesso budget.",
+        "author": "Andrea V.",
+        "company": "FashionStore",
+        "result": "ROAS 5.2x",
+        "service": "ads"
+    },
+    {
+        "id": "5",
+        "quote": "Sito che carica in <1s. Richieste preventivo +180% nel primo mese.",
+        "author": "Giulia N.",
+        "company": "ArchStudio",
+        "result": "+180% Lead",
+        "service": "web"
+    }
+]
