@@ -25,7 +25,7 @@ export async function GET() {
                         Object.entries(client.socials).filter(([platform]) =>
                             client.selectedSocials.includes(platform)
                         )
-                    );
+                    ) as Record<string, string>;
                 }
 
                 return {
