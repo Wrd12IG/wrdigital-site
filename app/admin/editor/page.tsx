@@ -16,7 +16,9 @@ const BlockEditor = dynamic(() => import('@/components/cms/BlockEditor'), {
     )
 });
 
-export default function CMSEditorPage() {
+import { Suspense } from 'react';
+
+function EditorContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pageId = searchParams.get('pageId');
@@ -133,5 +135,17 @@ export default function CMSEditorPage() {
                 onBack={() => router.push('/admin')}
             />
         </div>
+    );
+}
+
+export default function CMSEditorPage() {
+    return (
+        <Suspense fallback={
+            <div className="h-screen flex items-center justify-center bg-gray-950 text-white">
+                <Loader2 className="w-8 h-8 animate-spin text-yellow-400" />
+            </div>
+        }>
+            <EditorContent />
+        </Suspense>
     );
 }
