@@ -9,7 +9,15 @@ export default function NotFound() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [glitchActive, setGlitchActive] = useState(false);
 
+    const [windowSize, setWindowSize] = useState({ width: 1920, height: 1080 }); // Default for SSR
+
     useEffect(() => {
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+
+        const handleResize = () => {
+            setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+        };
+
         const handleMouseMove = (e: MouseEvent) => {
             setMousePosition({ x: e.clientX, y: e.clientY });
         };
@@ -21,15 +29,17 @@ export default function NotFound() {
         }, 3000);
 
         window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('resize', handleResize);
             clearInterval(glitchInterval);
         };
     }, []);
 
     const parallaxOffset = {
-        x: (mousePosition.x - window.innerWidth / 2) / 50,
-        y: (mousePosition.y - window.innerHeight / 2) / 50,
+        x: (mousePosition.x - windowSize.width / 2) / 50,
+        y: (mousePosition.y - windowSize.height / 2) / 50,
     };
 
     return (
@@ -50,12 +60,12 @@ export default function NotFound() {
                         key={i}
                         className="absolute w-1 h-1 bg-[#FACC15] rounded-full"
                         initial={{
-                            x: Math.random() * window.innerWidth,
-                            y: Math.random() * window.innerHeight,
+                            x: Math.random() * windowSize.width,
+                            y: Math.random() * windowSize.height,
                             opacity: 0,
                         }}
                         animate={{
-                            y: [null, Math.random() * window.innerHeight],
+                            y: [null, Math.random() * windowSize.height],
                             opacity: [0, 1, 0],
                         }}
                         transition={{
