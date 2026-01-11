@@ -32,6 +32,14 @@
     font-weight: 800;
 }
 
+.description {
+    max-width: 800px;
+    margin: var(--spacing-md) auto 0;
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+}
+
 /* Grid Layout */
 .grid {
     display: grid;

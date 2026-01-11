@@ -46,7 +46,8 @@ export default function AdminPage() {
     const [siteConfig, setSiteConfig] = useState<any>({
         hero: { title: '', subtitle: '', description: '', stats: { traffic: '', roi: '' } },
         social: { facebook: '', linkedin: '', instagram: '', youtube: '' },
-        team: { bio: '', image: '' }
+        team: { bio: '', image: '' },
+        testimonials: { title: '', subtitle: '', description: '' }
     });
     // NEW DATA STATES
     const [servicesConfig, setServicesConfig] = useState<any>({});
@@ -97,7 +98,7 @@ export default function AdminPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const userRole = (session?.user as any)?.role;
-    const isAllowed = userRole === 'admin' || session?.user?.email === 'roberto@wrdigital.it';
+    const isAllowed = userRole === 'admin' || session?.user?.email?.toLowerCase() === 'roberto@wrdigital.it';
 
     useEffect(() => {
         if (status === 'authenticated' && isAllowed) {
@@ -144,10 +145,62 @@ export default function AdminPage() {
 
 
     // --- ACTIONS ---
-    const handleCreateUser = async (e: React.FormEvent) => { e.preventDefault(); setIsSubmitting(true); try { const res = await fetch('/api/admin/users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) }); if (res.ok) { setUsers(await (await fetch('/api/admin/users')).json()); setModalUser(false); alert('Utente creato!'); } } finally { setIsSubmitting(false); } };
-    const handleChangePassword = async (e: React.FormEvent) => { e.preventDefault(); setIsSubmitting(true); try { const res = await fetch('/api/admin/users', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: modalPassword.email, newPassword: passwordData }) }); if (res.ok) { setModalPassword({ open: false }); alert('Password aggiornata'); } } finally { setIsSubmitting(false); } };
+    const handleCreateUser = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const res = await fetch('/api/admin/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            if (res.ok) {
+                setUsers(await (await fetch('/api/admin/users')).json());
+                setModalUser(false);
+                setFormData({ name: '', email: '', password: '' });
+                alert('Utente creato!');
+            } else {
+                const data = await res.json();
+                alert('Errore: ' + data.error);
+            }
+        } finally { setIsSubmitting(false); }
+    };
+    const handleChangePassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const res = await fetch('/api/admin/users', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: modalPassword.email, newPassword: passwordData })
+            });
+            if (res.ok) {
+                setModalPassword({ open: false, email: '' });
+                setPasswordData('');
+                alert('Password aggiornata!');
+            } else {
+                const data = await res.json();
+                alert('Errore: ' + data.error);
+            }
+        } finally { setIsSubmitting(false); }
+    };
     const handleUpload = async (e: React.FormEvent) => { e.preventDefault(); if (!fileData) return; setIsSubmitting(true); const d = new FormData(); d.append('file', fileData); d.append('folderId', modalUpload.user.driveFolderId); try { await fetch('/api/drive/upload', { method: 'POST', body: d }); setModalUpload({ open: false }); alert('Caricato!'); } finally { setIsSubmitting(false); } };
-    const handleDeleteUser = async (email: string) => { if (!confirm('Eliminare?')) return; try { await fetch('/api/admin/users', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }); setUsers(await (await fetch('/api/admin/users')).json()); } catch (e) { } };
+    const handleDeleteUser = async (email: string) => {
+        if (!confirm(`Eliminare definitivamente l'utente ${email}?`)) return;
+        try {
+            const res = await fetch('/api/admin/users', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email.toLowerCase() })
+            });
+            if (res.ok) {
+                setUsers(await (await fetch('/api/admin/users')).json());
+                alert('Utente eliminato.');
+            } else {
+                alert('Errore eliminazione.');
+            }
+        } catch (e) { alert('Errore server.'); }
+    };
 
     // Site Config Actions
     const handleHeroUpload = async (e: React.FormEvent) => { e.preventDefault(); if (!heroFile) return; setIsSubmitting(true); const d = new FormData(); d.append('file', heroFile); try { await fetch('/api/admin/hero-image', { method: 'POST', body: d }); setHeroFile(null); alert('Sfondo Uploaded!'); window.location.reload(); } finally { setIsSubmitting(false); } };
@@ -452,11 +505,12 @@ export default function AdminPage() {
     };
 
     const handleSaveTestimonials = async () => {
-        setIsSubmitting(true);
-        try {
-            const res = await fetch('/api/admin/testimonials', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(testimonials) });
-            if (res.ok) alert('Testimonial salvati!');
-        } finally { setIsSubmitting(false); }
+        const res = await fetch('/api/admin/testimonials', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(testimonials)
+        });
+        return res.ok;
     };
 
     const handleSaveFaq = async () => {
@@ -714,8 +768,38 @@ export default function AdminPage() {
 
 
     // --- RENDER ---
-    if (status === 'loading') return <div className="min-h-screen bg-black flex items-center justify-center text-white">Verifica...</div>;
-    if (status === 'unauthenticated' || !isAllowed) return <div className="min-h-screen bg-black flex items-center justify-center text-white">Accesso Riservato</div>;
+    if (status === 'loading') return <div className="min-h-screen bg-black flex items-center justify-center text-white">Verifica in corso...</div>;
+
+    if (status === 'unauthenticated' || !isAllowed) {
+        return (
+            <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white p-4 text-center">
+                <div className="mb-8">
+                    <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-500/20">
+                        <AlertTriangle className="w-10 h-10 text-red-500" />
+                    </div>
+                    <h1 className="text-3xl font-bold mb-2">Accesso Riservato</h1>
+                    <p className="text-gray-400 max-w-md mx-auto">
+                        Devi essere autenticato come amministratore per visualizzare questa pagina.
+                    </p>
+                </div>
+
+                <div className="flex flex-col gap-4 w-full max-w-xs">
+                    <button
+                        onClick={() => router.push('/area-clienti')}
+                        className="bg-white text-black font-bold py-3 px-6 rounded-xl hover:bg-gray-200 transition-all flex items-center justify-center gap-2"
+                    >
+                        Vai al Login
+                    </button>
+                    <button
+                        onClick={() => router.push('/')}
+                        className="text-gray-400 hover:text-white transition-all text-sm"
+                    >
+                        Torna alla Home
+                    </button>
+                </div>
+            </div>
+        );
+    }
     if (isLoading) return <div className="min-h-screen bg-black flex items-center justify-center text-white">Caricamento...</div>;
 
     const stats = { totalUsers: users.length, connectedDrives: users.filter(u => u.driveFolderId).length };
@@ -990,18 +1074,68 @@ export default function AdminPage() {
                                 <div className="flex justify-between items-center">
                                     <h2 className="text-xl font-bold">Testimonial</h2>
                                     <div className="flex gap-2">
-                                        <button onClick={() => setTestimonials([...testimonials, { id: Date.now().toString(), quote: '', author: '', company: '', result: '', service: 'seo' }])} className="bg-white/10 px-4 py-2 rounded-xl">+ Aggiungi</button>
-                                        <button onClick={handleSaveTestimonials} disabled={isSubmitting} className="bg-pink-500 text-black px-6 py-2 rounded-xl font-bold">{isSubmitting ? 'Salva...' : <><Save className="w-4 h-4 inline-block mr-1" /> Salva</>}</button>
+                                        <button onClick={() => setTestimonials([...testimonials, { id: Date.now().toString(), quote: '', author: '', company: '', result: '', service: 'seo', rating: 5 }])} className="bg-white/10 px-4 py-2 rounded-xl text-sm">+ Aggiungi</button>
+                                        <button
+                                            onClick={async () => {
+                                                setIsSubmitting(true);
+                                                try {
+                                                    await Promise.all([
+                                                        handleSaveTestimonials(),
+                                                        fetch('/api/admin/site-config', {
+                                                            method: 'POST',
+                                                            headers: { 'Content-Type': 'application/json' },
+                                                            body: JSON.stringify(siteConfig)
+                                                        })
+                                                    ]);
+                                                    alert('Testimonial e Intestazioni salvati!');
+                                                } finally {
+                                                    setIsSubmitting(false);
+                                                }
+                                            }}
+                                            disabled={isSubmitting}
+                                            className="bg-yellow-500 text-black px-6 py-2 rounded-xl font-bold text-sm"
+                                        >
+                                            {isSubmitting ? 'Salva...' : <><Save className="w-4 h-4 inline-block mr-1" /> Salva Tutto</>}
+                                        </button>
                                     </div>
                                 </div>
+
+                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8">
+                                    <h3 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-wider">Intestazione Sezione</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <Input
+                                            label="Sottotitolo (Label)"
+                                            value={siteConfig.testimonials?.subtitle || ''}
+                                            onChange={(v: any) => setSiteConfig({ ...siteConfig, testimonials: { ...siteConfig.testimonials, subtitle: v } })}
+                                        />
+                                        <Input
+                                            label="Titolo Principale"
+                                            value={siteConfig.testimonials?.title || ''}
+                                            onChange={(v: any) => setSiteConfig({ ...siteConfig, testimonials: { ...siteConfig.testimonials, title: v } })}
+                                        />
+                                    </div>
+                                    <Input
+                                        label="Descrizione Breve (Bio della sezione)"
+                                        value={siteConfig.testimonials?.description || ''}
+                                        onChange={(v: any) => setSiteConfig({ ...siteConfig, testimonials: { ...siteConfig.testimonials, description: v } })}
+                                    />
+                                </div>
+
+                                <h3 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-wider">Elenco Testimonianze ({testimonials.length})</h3>
                                 {testimonials.map((t, i) => (
                                     <div key={t.id || i} className="bg-white/5 border border-white/10 rounded-2xl p-6 relative">
                                         <button onClick={() => setTestimonials(testimonials.filter((_, idx) => idx !== i))} className="absolute top-4 right-4 text-red-400 hover:text-red-300"><X className="w-4 h-4" /></button>
-                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                                             <Input label="Autore" value={t.author} onChange={(v: any) => { const arr = [...testimonials]; arr[i].author = v; setTestimonials(arr); }} />
                                             <Input label="Azienda" value={t.company} onChange={(v: any) => { const arr = [...testimonials]; arr[i].company = v; setTestimonials(arr); }} />
                                             <Input label="Risultato" value={t.result} onChange={(v: any) => { const arr = [...testimonials]; arr[i].result = v; setTestimonials(arr); }} />
-                                            <div><label className="block text-xs font-semibold text-gray-500 mb-2">Servizio</label><select value={t.service} onChange={e => { const arr = [...testimonials]; arr[i].service = e.target.value; setTestimonials(arr); }} className="w-full bg-black/50 p-3 rounded-xl border border-white/10"><option value="seo">SEO</option><option value="social">Social</option><option value="ads">Ads</option><option value="web">Web</option></select></div>
+                                            <div>
+                                                <label className="block text-xs font-semibold text-gray-500 mb-2">Rating</label>
+                                                <select value={t.rating || 5} onChange={e => { const arr = [...testimonials]; arr[i].rating = parseInt(e.target.value); setTestimonials(arr); }} className="w-full bg-black/50 p-3 rounded-xl border border-white/10 text-sm">
+                                                    {[5, 4, 3, 2, 1].map(n => <option key={n} value={n}>{n} Stelle</option>)}
+                                                </select>
+                                            </div>
+                                            <div><label className="block text-xs font-semibold text-gray-500 mb-2">Servizio</label><select value={t.service} onChange={e => { const arr = [...testimonials]; arr[i].service = e.target.value; setTestimonials(arr); }} className="w-full bg-black/50 p-3 rounded-xl border border-white/10 text-sm"><option value="seo">SEO</option><option value="social">Social</option><option value="ads">Ads</option><option value="web">Web</option></select></div>
                                         </div>
                                         <div className="mt-4"><Input label="Citazione" value={t.quote} onChange={(v: any) => { const arr = [...testimonials]; arr[i].quote = v; setTestimonials(arr); }} /></div>
                                     </div>
@@ -1447,9 +1581,21 @@ export default function AdminPage() {
                     </AnimatePresence >
                 </main >
                 {/* MODALS REUSED */}
-                < Modal isOpen={modalUser} onClose={() => setModalUser(false)
-                } title="Nuovo Cliente" > <form onSubmit={handleCreateUser} className="space-y-4"><Input label="Nome" value={formData.name} onChange={(v: any) => setFormData({ ...formData, name: v })} /><Input label="Email" value={formData.email} onChange={(v: any) => setFormData({ ...formData, email: v })} /><Input label="Pass" type="password" value={formData.password} onChange={(v: any) => setFormData({ ...formData, password: v })} /><Button submit>Crea</Button></form></Modal >
-                <Modal isOpen={modalUpload.open} onClose={() => setModalUpload({ open: false })} title="Upload"><form onSubmit={handleUpload} className="space-y-4"><input type="file" onChange={e => setFileData(e.target.files?.[0] || null)} className="w-full bg-white/5 p-3 rounded-lg" /><Button submit disabled={!fileData}>Upload</Button></form></Modal>
+                <Modal isOpen={modalUser} onClose={() => setModalUser(false)} title="Nuovo Cliente">
+                    <form onSubmit={handleCreateUser} className="space-y-4">
+                        <Input label="Nome" value={formData.name} onChange={(v: any) => setFormData({ ...formData, name: v })} />
+                        <Input label="Email" value={formData.email} onChange={(v: any) => setFormData({ ...formData, email: v })} />
+                        <Input label="Pass" type="password" value={formData.password} onChange={(v: any) => setFormData({ ...formData, password: v })} />
+                        <Button submit loading={isSubmitting}>Crea</Button>
+                    </form>
+                </Modal>
+                <Modal isOpen={modalPassword.open} onClose={() => setModalPassword({ open: false, email: '' })} title={`Cambia Password: ${modalPassword.email}`}>
+                    <form onSubmit={handleChangePassword} className="space-y-4">
+                        <Input label="Nuova Password" type="password" value={passwordData} onChange={(v: any) => setPasswordData(v)} />
+                        <Button submit loading={isSubmitting}>Aggiorna Password</Button>
+                    </form>
+                </Modal>
+                <Modal isOpen={modalUpload.open} onClose={() => setModalUpload({ open: false })} title="Upload"><form onSubmit={handleUpload} className="space-y-4"><input type="file" onChange={e => setFileData(e.target.files?.[0] || null)} className="w-full bg-white/5 p-3 rounded-lg" /><Button submit disabled={!fileData} loading={isSubmitting}>Upload</Button></form></Modal>
                 <Modal isOpen={modalProject.open} onClose={() => setModalProject({ open: false, project: null })} title={modalProject.project ? 'Modifica Progetto' : 'Nuovo Progetto'}>
                     <form onSubmit={handleSaveProject} className="space-y-4 max-h-[80vh] overflow-auto pr-2">
                         {/* Basic Info */}

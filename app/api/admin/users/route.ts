@@ -36,7 +36,8 @@ const getDriveAuth = () => {
 
 // Helper: Check Admin Role
 const isAdmin = (session: any) => {
-    return (session?.user as any)?.role === 'admin' || session?.user?.email === 'roberto@wrdigital.it' || session?.user?.email === 'admin@wrdigital.com';
+    const email = session?.user?.email?.toLowerCase();
+    return (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'admin@wrdigital.com';
 };
 
 // GET: Lista Utenti
@@ -153,7 +154,7 @@ export async function PUT(req: Request) {
         }
 
         const users = getUsers();
-        const userIndex = users.findIndex((u: any) => u.email === email);
+        const userIndex = users.findIndex((u: any) => u.email.toLowerCase() === email.toLowerCase());
 
         if (userIndex === -1) {
             return NextResponse.json({ error: 'Utente non trovato' }, { status: 404 });
@@ -188,7 +189,7 @@ export async function DELETE(req: Request) {
         }
 
         const users = getUsers();
-        const newUsers = users.filter((u: any) => u.email !== email);
+        const newUsers = users.filter((u: any) => u.email.toLowerCase() !== email.toLowerCase());
 
         if (users.length === newUsers.length) {
             return NextResponse.json({ error: 'Utente non trovato' }, { status: 404 });

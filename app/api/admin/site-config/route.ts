@@ -7,7 +7,8 @@ import path from 'path';
 const DATA_FILE = path.join(process.cwd(), 'data', 'site-config.json');
 
 const isAdmin = (session: any) => {
-    return (session?.user as any)?.role === 'admin' || session?.user?.email === 'roberto@wrdigital.it';
+    const email = session?.user?.email?.toLowerCase();
+    return (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it';
 };
 
 // Helper to read data safely

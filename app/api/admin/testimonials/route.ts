@@ -16,7 +16,10 @@ export async function GET() {
 
 export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user as any)?.role !== 'admin') {
+    const email = session?.user?.email?.toLowerCase();
+    const isAdmin = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it';
+
+    if (!session || !isAdmin) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {

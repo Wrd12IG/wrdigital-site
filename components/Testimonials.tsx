@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import styles from './Testimonials.module.css';
 
@@ -8,42 +8,33 @@ interface Testimonial {
     id: string;
     quote: string;
     author: string;
-    role: string;
+    role?: string;
     company: string;
     rating: number;
+    result?: string;
+    service?: string;
 }
 
-const testimonials: Testimonial[] = [
+const defaultTestimonials: Testimonial[] = [
     {
         id: '1',
-        quote: 'WR Digital è sinonimo di eccellenza. Hanno capito perfettamente la nostra visione e l\'hanno portata ad un livello superiore.',
-        author: 'Cattaneo Luigi',
-        role: 'CEO & Founder',
-        company: 'Cattaneo S.p.A.',
+        quote: 'WR Digital ha trasformato completamente la nostra presenza online. I risultati hanno superato ogni aspettativa.',
+        author: 'Marco Rossi',
+        company: 'TechStartup Italia',
         rating: 5,
     },
     {
         id: '2',
-        quote: 'La crescita che abbiamo visto nel settore e-commerce grazie alle loro strategie SEO è stata sorprendente. Partner affidabile e concreto.',
-        author: 'Massimo Mancini',
-        role: 'CEO',
-        company: 'Yeppon.it',
+        quote: 'Professionalità, creatività e risultati concreti. Il team di WR Digital è diventato un partner strategico indispensabile.',
+        author: 'Laura Bianchi',
+        company: 'Fashion Brand Milano',
         rating: 5,
     },
     {
         id: '3',
-        quote: 'La professionalità del team nella gestione delle campagne Ads ha portato risultati immediati e di altissima qualità.',
-        author: 'Direzione',
-        role: 'Marketing Manager',
-        company: 'Toyota Citymotors',
-        rating: 5,
-    },
-    {
-        id: '4',
-        quote: 'Esperti del settore marketing che sanno come valorizzare un brand storico. Grazie a loro la nostra presenza digitale è più forte che mai.',
-        author: 'Domenico Dormio',
-        role: 'Owner',
-        company: 'Asus Gold Store - Help Computer Group',
+        quote: 'Dal primo giorno hanno capito le nostre esigenze. La nostra crescita organica è stata del 380% in 6 mesi.',
+        author: 'Alessandro Verdi',
+        company: 'E-commerce Solutions',
         rating: 5,
     },
 ];
@@ -71,9 +62,34 @@ function StarRating({ rating }: { rating: number }) {
 export default function Testimonials() {
     const sectionRef = useRef<HTMLElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+    const [list, setList] = useState<Testimonial[]>([]);
+    const [config, setConfig] = useState({ title: 'Cosa dicono i nostri clienti.', subtitle: 'Testimonianze', description: '' });
+
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const [resT, resC] = await Promise.all([
+                    fetch('/api/admin/testimonials'),
+                    fetch('/api/site-config')
+                ]);
+                if (resT.ok) {
+                    const data = await resT.json();
+                    if (data && data.length > 0) setList(data);
+                    else setList(defaultTestimonials);
+                }
+                if (resC.ok) {
+                    const siteData = await resC.json();
+                    if (siteData.testimonials) setConfig(siteData.testimonials);
+                }
+            } catch (e) {
+                setList(defaultTestimonials);
+            }
+        };
+        load();
+    }, []);
 
     return (
-        <section ref={sectionRef} className={styles.section}>
+        <section ref={sectionRef} className={styles.section} id="testimonianze">
             <div className={styles.container}>
                 {/* Section Header */}
                 <motion.div
@@ -82,10 +98,29 @@ export default function Testimonials() {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                 >
-                    <span className={styles.label}>Testimonianze</span>
+                    <span className={styles.label}>{config.subtitle}</span>
                     <h2 className={styles.title}>
-                        Cosa dicono <span className="text-gradient">i nostri clienti.</span>
+                        {config.title.split(' ').map((word, i, arr) => (
+                            <span key={i}>
+                                {i === arr.length - 1 || i === arr.length - 2 ? (
+                                    <span className="text-gradient">{word} </span>
+                                ) : (
+                                    <>{word} </>
+                                )}
+                            </span>
+                        ))}
                     </h2>
+
+                    {config.description && (
+                        <motion.p
+                            className={styles.description}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                        >
+                            {config.description}
+                        </motion.p>
+                    )}
                 </motion.div>
 
                 {/* Grid Layout */}
@@ -103,7 +138,7 @@ export default function Testimonials() {
                         }
                     }}
                 >
-                    {testimonials.map((testimonial) => (
+                    {list.map((testimonial) => (
                         <motion.div
                             key={testimonial.id}
                             className={styles.testimonialCard}
@@ -129,13 +164,17 @@ export default function Testimonials() {
                                         {testimonial.author}
                                     </span>
                                     <span className={styles.authorRole}>
-                                        {testimonial.role}, {testimonial.company}
+                                        {testimonial.company}{testimonial.result && (
+                                            <span style={{ color: 'var(--color-accent-primary)', marginLeft: '4px', fontWeight: 600 }}>
+                                                • {testimonial.result}
+                                            </span>
+                                        )}
                                     </span>
                                 </div>
                             </div>
 
                             {/* Rating */}
-                            <StarRating rating={testimonial.rating} />
+                            <StarRating rating={testimonial.rating || 5} />
 
                             {/* Quote */}
                             <blockquote className={styles.quote}>

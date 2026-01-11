@@ -1,34 +1,38 @@
 [
-    {
-        "id": "1",
-        "quote": "WR Digital è sinonimo di eccellenza. Hanno capito perfettamente la nostra visione e l'hanno portata ad un livello superiore.",
-        "author": "Cattaneo Luigi",
-        "company": "Cattaneo S.p.A.",
-        "result": "Brand Excellence",
-        "service": "seo"
-    },
-    {
-        "id": "2",
-        "quote": "La crescita che abbiamo visto nel settore e-commerce grazie alle loro strategie SEO è stata sorprendente. Partner affidabile e concreto.",
-        "author": "Massimo Mancini",
-        "company": "Yeppon.it",
-        "result": "+320% Fatturato",
-        "service": "seo"
-    },
-    {
-        "id": "3",
-        "quote": "La professionalità del team nella gestione delle campagne Ads ha portato risultati immediati e di altissima qualità.",
-        "author": "Direzione",
-        "company": "Toyota Citymotors",
-        "result": "Performance Lead",
-        "service": "ads"
-    },
-    {
-        "id": "4",
-        "quote": "Esperti del settore marketing che sanno come valorizzare un brand storico. Grazie a loro la nostra presenza digitale è più forte che mai.",
-        "author": "Domenico Dormio",
-        "company": "Asus Gold Store - Help Computer Group",
-        "result": "Market Leader",
-        "service": "web"
-    }
+  {
+    "id": "1",
+    "quote": "WR Digital ha trasformato completamente la nostra presenza online. I risultati hanno superato ogni aspettativa.",
+    "author": "Marco Rossi",
+    "company": "TechStartup Italia",
+    "rating": 5,
+    "result": "+150% Leads",
+    "service": "web"
+  },
+  {
+    "id": "2",
+    "quote": "Professionalità, creatività e risultati concreti. Il team di WR Digital è diventato un partner strategico indispensabile.",
+    "author": "Marco Bonelli",
+    "company": "Ristorante",
+    "rating": 5,
+    "result": "+150% Clienti",
+    "service": "social"
+  },
+  {
+    "id": "3",
+    "quote": "Dal primo giorno hanno capito le nostre esigenze. La nostra crescita organica è stata del 380% in 6 mesi.",
+    "author": "Luigi Cattaneo",
+    "company": "E-commerce Solutions",
+    "rating": 5,
+    "result": "+380% Traffico",
+    "service": "web"
+  },
+  {
+    "id": "4",
+    "quote": "Un approccio chirurgico all'advertising che ci ha permesso di scalare il fatturato in tempi record.",
+    "author": "Massimo Mancini",
+    "company": "Concessionario Auto",
+    "rating": 5,
+    "result": "+30% Fatturato",
+    "service": "ads"
+  }
 ]

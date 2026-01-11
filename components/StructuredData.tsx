@@ -267,18 +267,21 @@ export default function StructuredData() {
         <>
             {/* Organization Schema */}
             <script
+                key="schema-org"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
             />
 
             {/* LocalBusiness Schema */}
             <script
+                key="schema-local"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
             />
 
             {/* WebSite Schema (per Sitelinks Search Box) */}
             <script
+                key="schema-website"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
             />
@@ -286,6 +289,7 @@ export default function StructuredData() {
             {/* Breadcrumb Schema (non-homepage) */}
             {breadcrumbSchema && (
                 <script
+                    key="schema-breadcrumb"
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
                 />
@@ -294,6 +298,7 @@ export default function StructuredData() {
             {/* Homepage FAQ Schema */}
             {homepageFaqSchema && (
                 <script
+                    key="schema-faq-home"
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageFaqSchema) }}
                 />
@@ -302,6 +307,7 @@ export default function StructuredData() {
             {/* Service Schema (Rich Snippets) */}
             {serviceSchema && (
                 <script
+                    key="schema-service"
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
                 />
@@ -310,6 +316,7 @@ export default function StructuredData() {
             {/* FAQ Schema (Service Pages) */}
             {faqSchema && (
                 <script
+                    key="schema-faq-service"
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
                 />

@@ -42,7 +42,7 @@ export const authOptions: AuthOptions = {
                 }
 
                 const users = getUsers();
-                const user = users.find(u => u.email === credentials.email);
+                const user = users.find(u => u.email.toLowerCase() === credentials.email.toLowerCase());
 
                 if (!user) {
                     return null;

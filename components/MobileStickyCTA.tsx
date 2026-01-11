@@ -2,21 +2,25 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Phone, X, Mail } from 'lucide-react';
+import { MessageSquare, Phone, Mail } from 'lucide-react';
 import { useModal } from './ModalContext';
+import { usePathname } from 'next/navigation';
 
 export default function MobileStickyCTA() {
     const { openContactModal } = useModal();
     const [isVisible, setIsVisible] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         const handleScroll = () => {
             // Show only after scrolling a bit
             setIsVisible(window.scrollY > 100);
         };
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    const isHiddenPath = pathname?.startsWith('/admin') || pathname?.startsWith('/area-clienti');
 
     // Real number from footer
     const phoneNumber = "3401204651";
@@ -51,7 +55,7 @@ export default function MobileStickyCTA() {
 
     return (
         <AnimatePresence>
-            {isVisible && (
+            {(isVisible && !isHiddenPath) && (
                 <motion.div
                     className="fixed bottom-8 right-4 z-50 flex flex-col gap-4 md:hidden"
                     initial={{ x: 100, opacity: 0 }}
