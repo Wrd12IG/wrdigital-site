@@ -7,7 +7,7 @@ export const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // true per 465, false per altre porte
     auth: {
-        user: process.env.SMTP_USER || 'info@wrdigital.it', // Login SMTP Brevo
+        user: process.env.SMTP_USER || '4f5875001@smtp-brevo.com', // Login SMTP Brevo
         // NOTA: In produzione usare process.env.SMTP_PASSWORD
         // Qui usiamo la chiave fornita temporaneamente per configurazione espressa
         pass: process.env.SMTP_PASSWORD,
