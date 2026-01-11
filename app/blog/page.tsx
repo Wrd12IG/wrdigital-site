@@ -1,11 +1,6 @@
 import { Metadata } from 'next';
 import BlogFeed from '@/components/blog/BlogFeed';
-
-export const metadata: Metadata = {
-    title: 'Blog Marketing & Strategie Digitali | W[r]Digital',
-    description: 'Approfondimenti tecnici, casi studio e guide per chi vuole dominare il mercato digitale. Risorse strategiche per SEO, Social e Web Design.',
-};
-
+import NewsletterForm from '@/components/NewsletterForm';
 import { prisma } from '@/lib/prisma';
 
 async function getPosts() {
@@ -47,22 +42,7 @@ export default async function BlogPage() {
                 </p>
 
                 {/* NEWSLETTER FORM */}
-                <div className="max-w-md mx-auto relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-                    <form className="relative bg-[#0a0a0a] rounded-lg p-1 flex items-center border border-white/10">
-                        <input
-                            type="email"
-                            placeholder="La tua email aziendale"
-                            className="bg-transparent text-white w-full px-4 py-3 outline-none text-sm placeholder-gray-600 font-mono"
-                        />
-                        <button type="submit" className="bg-white text-black font-bold text-xs uppercase px-6 py-3 rounded hover:bg-gray-200 transition-colors whitespace-nowrap">
-                            Iscriviti [r]
-                        </button>
-                    </form>
-                    <p className="text-[10px] text-gray-600 mt-3 font-mono">
-                        Ricevi i nostri report settimanali. No spam, solo valore.
-                    </p>
-                </div>
+                <NewsletterForm />
             </section>
 
             {/* BLOG FEED */}
