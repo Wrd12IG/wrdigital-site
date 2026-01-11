@@ -9,7 +9,7 @@
     "lint": "eslint",
     "seo:monitor": "node scripts/seo-guardian.js"
   },
-  "dependencies": {
+   "prisma": { "seed": "npx tsx prisma/seed.ts" }, "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^5.22.0",
     "@react-three/drei": "^10.7.7",

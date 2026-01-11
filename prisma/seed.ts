@@ -239,7 +239,11 @@ async function main() {
                     image: post.image,
                     author: post.author,
                     category: typeof post.category === 'string' ? post.category : post.category?.join(', '),
-                    published: post.published ?? true
+                    published: post.published ?? true,
+                    date: post.date,
+                    readTime: post.readTime,
+                    featured: post.featured || false,
+                    tags: post.tags ? JSON.stringify(post.tags) : '[]'
                 },
                 create: {
                     slug,
@@ -249,7 +253,11 @@ async function main() {
                     image: post.image,
                     author: post.author,
                     category: typeof post.category === 'string' ? post.category : post.category?.join(', '),
-                    published: post.published ?? true
+                    published: post.published ?? true,
+                    date: post.date,
+                    readTime: post.readTime,
+                    featured: post.featured || false,
+                    tags: post.tags ? JSON.stringify(post.tags) : '[]'
                 }
             })
         }

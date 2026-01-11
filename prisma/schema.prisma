@@ -262,6 +262,10 @@ model BlogPost {
   image     String?
   author    String?
   category  String?
+  date      String?
+  readTime  String?
+  featured  Boolean  @default(false)
+  tags      String?  // JSON string
   published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
