@@ -1,0 +1,160 @@
+.wizardContainer {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--color-bg-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--spacing-2xl);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.progressBarContainer {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+}
+
+.progressBarFill {
+    height: 100%;
+    background: var(--color-accent-gradient);
+    border-radius: var(--radius-full);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px var(--color-accent-glow);
+}
+
+.stepHeader {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.stepTitle {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-primary);
+}
+
+.stepSubtitle {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-base);
+}
+
+.optionsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.optionCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-sm);
+}
+
+.optionCard:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+    border-color: var(--color-accent-primary);
+}
+
+.optionCard.selected {
+    background: rgba(245, 223, 74, 0.1);
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 0 20px rgba(245, 223, 74, 0.1);
+}
+
+.optionIcon {
+    width: 32px;
+    height: 32px;
+    color: var(--color-accent-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.optionLabel {
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.optionDescription {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
+}
+
+.formGroup {
+    margin-bottom: var(--spacing-md);
+}
+
+.input {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 0 0 2px rgba(245, 223, 74, 0.1);
+}
+
+.summary {
+    background: rgba(255, 255, 255, 0.02);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-xs) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summaryLabel {
+    color: var(--color-text-muted);
+}
+
+.summaryValue {
+    font-weight: 600;
+    color: var(--color-accent-primary);
+}
+
+@media (max-width: 640px) {
+    .optionsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .wizardContainer {
+        padding: var(--spacing-lg);
+    }
+}

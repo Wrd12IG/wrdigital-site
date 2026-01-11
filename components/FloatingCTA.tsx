@@ -78,16 +78,32 @@ export default function FloatingCTA() {
 
                         {/* Quick Actions */}
                         <div className="p-4 space-y-3">
-                            <button
-                                onClick={handleContact}
-                                className="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left group"
+                            <a
+                                href="/preventivo"
+                                className="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left group border border-yellow-500/30"
                             >
                                 <div className="w-10 h-10 rounded-full bg-yellow-400/20 flex items-center justify-center group-hover:bg-yellow-400/30 transition-colors">
                                     <Send className="w-5 h-5 text-yellow-400" />
                                 </div>
                                 <div className="flex-1">
-                                    <div className="font-medium text-white">Richiedi Consulenza</div>
-                                    <div className="text-xs text-gray-400">Gratuita e senza impegno</div>
+                                    <div className="font-medium text-white flex items-center gap-2">
+                                        Calcola Preventivo
+                                        <span className="text-[10px] bg-yellow-400 text-black px-1.5 rounded font-bold uppercase">New</span>
+                                    </div>
+                                    <div className="text-xs text-gray-400">Stima immediata online</div>
+                                </div>
+                            </a>
+
+                            <button
+                                onClick={handleContact}
+                                className="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left group"
+                            >
+                                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                                    <MessageCircle className="w-5 h-5 text-white" />
+                                </div>
+                                <div className="flex-1">
+                                    <div className="font-medium text-white">Contattaci</div>
+                                    <div className="text-xs text-gray-400">Modulo rapido</div>
                                 </div>
                             </button>
 
