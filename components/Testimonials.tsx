@@ -69,7 +69,7 @@ export default function Testimonials() {
         const loadData = async () => {
             // Load Testimonials
             try {
-                const res = await fetch('/api/testimonials');
+                const res = await fetch(`/api/testimonials?t=${Date.now()}`);
                 if (res.ok) {
                     const data = await res.json();
                     if (Array.isArray(data) && data.length > 0) {

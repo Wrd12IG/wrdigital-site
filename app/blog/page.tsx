@@ -6,7 +6,10 @@ import { prisma } from '@/lib/prisma';
 async function getPosts() {
     try {
         const posts = await prisma.blogPost.findMany({
-            where: { published: true },
+            where: {
+                published: true,
+                deleted: false
+            },
             orderBy: { createdAt: 'desc' }
         });
         return posts as any;
@@ -57,11 +60,11 @@ export default async function BlogPage() {
                         Ti senti sopraffatto dalle informazioni?
                     </h2>
                     <p className="text-gray-400 mb-8 max-w-lg mx-auto relative z-10 text-sm md:text-base">
-                        Lascia che sia il team di W[r]Digital a gestire la complessità per te. Costruiamo il tuo piano d'attacco in una call strategica.
+                        Lascia che sia il team di W[r]Digital a gestire la complessità per te. Costruiamo il tuo piano d&apos;attacco in una call strategica.
                     </p>
 
                     <a href="/#contatti" className="inline-block bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-bold py-4 px-10 rounded-full text-sm md:text-lg shadow-xl shadow-yellow-500/20 hover:scale-105 transition-transform relative z-10">
-                        [ Attiva il tuo piano d'attacco ]
+                        [ Attiva il tuo piano d&apos;attacco ]
                     </a>
                 </div>
             </section>

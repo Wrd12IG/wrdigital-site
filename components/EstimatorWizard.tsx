@@ -5,17 +5,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from './ToastContext';
 import styles from './EstimatorWizard.module.css';
 import {
+    CheckCircle,
+    Facebook,
+    Instagram,
+    Linkedin,
+    Twitter,
+    Youtube,
+    Music, // For TikTok
     Rocket,
     Globe,
     BarChart,
     Search,
     Coins,
     Briefcase,
-    Target,
-    CheckCircle
+    Target
 } from 'lucide-react';
 
-type Step = 'goal' | 'service' | 'budget' | 'details' | 'success';
+type Step = 'goal' | 'service' | 'socials' | 'budget' | 'details' | 'success';
 
 interface FormData {
     goal: string;
@@ -25,8 +31,18 @@ interface FormData {
     email: string;
     company: string;
     website: string;
+    socials: string[];
     privacy: boolean;
 }
+
+const socialOptions = [
+    { id: 'instagram', label: 'Instagram', icon: <Instagram size={18} /> },
+    { id: 'facebook', label: 'Facebook', icon: <Facebook size={18} /> },
+    { id: 'linkedin', label: 'LinkedIn', icon: <Linkedin size={18} /> },
+    { id: 'tiktok', label: 'TikTok', icon: <Music size={18} /> },
+    { id: 'youtube', label: 'YouTube', icon: <Youtube size={18} /> },
+    { id: 'twitter', label: 'Twitter/X', icon: <Twitter size={18} /> }
+];
 
 const goals = [
     { id: 'sales', label: 'Aumentare le Vendite', desc: 'Voglio più clienti e fatturato', icon: <Rocket /> },
@@ -62,22 +78,46 @@ export default function EstimatorWizard() {
         email: '',
         company: '',
         website: '',
+        socials: [],
         privacy: false
     });
 
-    const steps = ['Obiettivo', 'Servizi', 'Budget', 'Contatti'];
-    const progress = ((currentStep + 1) / steps.length) * 100;
+    const getVisibleSteps = () => {
+        const s = [{ id: 0, label: 'Obiettivo' }, { id: 1, label: 'Servizi' }];
+        if (data.services.includes('social')) s.push({ id: 2, label: 'Canali Social' });
+        s.push({ id: 3, label: 'Budget' }, { id: 4, label: 'Contatti' });
+        return s;
+    };
+
+    const visibleSteps = getVisibleSteps();
+    const currentIdx = visibleSteps.findIndex(s => s.id === currentStep);
+    const progress = ((currentIdx + 1) / visibleSteps.length) * 100;
 
     const handleNext = () => {
         if (currentStep === 0 && !data.goal) return addToast('Seleziona un obiettivo', 'error');
         if (currentStep === 1 && data.services.length === 0) return addToast('Seleziona almeno un servizio', 'error');
-        if (currentStep === 2 && !data.budget) return addToast('Seleziona un budget', 'error');
+
+        // Skip social step if not selected
+        if (currentStep === 1 && !data.services.includes('social')) {
+            setCurrentStep(3);
+            return;
+        }
+
+        if (currentStep === 2 && data.services.includes('social') && data.socials.length === 0) {
+            return addToast('Seleziona almeno un social', 'error');
+        }
+
+        if (currentStep === 3 && !data.budget) return addToast('Seleziona un budget', 'error');
 
         setCurrentStep(prev => prev + 1);
     };
 
     const handleBack = () => {
-        setCurrentStep(prev => prev - 1);
+        if (currentStep === 3 && !data.services.includes('social')) {
+            setCurrentStep(1);
+        } else {
+            setCurrentStep(prev => prev - 1);
+        }
     };
 
     const toggleService = (id: string) => {
@@ -92,20 +132,32 @@ export default function EstimatorWizard() {
         });
     };
 
+    const toggleSocial = (id: string) => {
+        setData(prev => {
+            const exists = prev.socials.includes(id);
+            return {
+                ...prev,
+                socials: exists
+                    ? prev.socials.filter(s => s !== id)
+                    : [...prev.socials, id]
+            };
+        });
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!data.privacy) return addToast('Devi accettare la privacy policy', 'error');
 
         setIsSubmitting(true);
 
-        // Format message for backend
-        const message = `
+        const messageText = `
 RICHIESTA PREVENTIVO WIZARD
 ---------------------------
 Obiettivo: ${goals.find(g => g.id === data.goal)?.label}
 Servizi: ${data.services.map(s => services.find(srv => srv.id === s)?.label).join(', ')}
 Budget: ${budgets.find(b => b.id === data.budget)?.label}
 Sito Web: ${data.website || 'Non specificato'}
+Social: ${data.socials.length > 0 ? data.socials.join(', ') : 'Nessuno selezionato'}
         `.trim();
 
         try {
@@ -116,22 +168,21 @@ Sito Web: ${data.website || 'Non specificato'}
                     name: data.name,
                     email: data.email,
                     company: data.company,
-                    service: 'preventivo', // Special tag
-                    message: message,
+                    service: 'preventivo',
+                    message: messageText,
                     privacyAccepted: true
                 })
             });
 
-            const responseData = await res.json();
-
             if (res.ok) {
-                setCurrentStep(4); // Success step
+                setCurrentStep(5);
                 addToast('Richiesta inviata con successo!', 'success');
             } else {
+                const responseData = await res.json();
                 throw new Error(responseData.error);
             }
         } catch (error) {
-            addToast('Errore durante l\'invio. Riprova.', 'error');
+            addToast("Errore durante l'invio. Riprova.", 'error');
         } finally {
             setIsSubmitting(false);
         }
@@ -157,21 +208,54 @@ Sito Web: ${data.website || 'Non specificato'}
                 );
             case 1:
                 return (
-                    <div className={styles.optionsGrid}>
-                        {services.map(service => (
-                            <div
-                                key={service.id}
-                                className={`${styles.optionCard} ${data.services.includes(service.id) ? styles.selected : ''}`}
-                                onClick={() => toggleService(service.id)}
-                            >
-                                <div className={styles.optionIcon}>{service.icon}</div>
-                                <div className={styles.optionLabel}>{service.label}</div>
-                                <div className={styles.optionDescription}>{service.desc}</div>
-                            </div>
-                        ))}
+                    <div className="space-y-6">
+                        <div className={styles.optionsGrid}>
+                            {services.map(service => (
+                                <div
+                                    key={service.id}
+                                    className={`${styles.optionCard} ${data.services.includes(service.id) ? styles.selected : ''}`}
+                                    onClick={() => toggleService(service.id)}
+                                >
+                                    <div className={styles.optionIcon}>{service.icon}</div>
+                                    <div className={styles.optionLabel}>{service.label}</div>
+                                    <div className={styles.optionDescription}>{service.desc}</div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="pt-4 border-t border-white/5">
+                            <label className="text-[10px] text-gray-500 uppercase font-bold mb-2 block">Hai già un sito web? (Opzionale)</label>
+                            <input
+                                type="url"
+                                placeholder="https://tuosito.it"
+                                className={styles.input}
+                                value={data.website}
+                                onChange={e => setData({ ...data, website: e.target.value })}
+                            />
+                        </div>
                     </div>
                 );
             case 2:
+                return (
+                    <div className="flex flex-col gap-6">
+                        <div className="text-center mb-4">
+                            <h3 className="text-xl font-bold text-white">Quali canali social utilizzi?</h3>
+                            <p className="text-gray-400 text-sm">Seleziona quelli su cui vuoi attivare i nostri servizi</p>
+                        </div>
+                        <div className={styles.socialGrid}>
+                            {socialOptions.map(social => (
+                                <div
+                                    key={social.id}
+                                    className={`${styles.socialOption} ${data.socials.includes(social.id) ? styles.selected : ''}`}
+                                    onClick={() => toggleSocial(social.id)}
+                                >
+                                    {social.icon}
+                                    <span>{social.label}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            case 3:
                 return (
                     <div className={styles.optionsGrid}>
                         {budgets.map(budget => (
@@ -187,7 +271,7 @@ Sito Web: ${data.website || 'Non specificato'}
                         ))}
                     </div>
                 );
-            case 3:
+            case 4:
                 return (
                     <div className="flex flex-col gap-4">
                         <div className={styles.summary}>
@@ -198,8 +282,20 @@ Sito Web: ${data.website || 'Non specificato'}
                             </div>
                             <div className={styles.summaryRow}>
                                 <span className={styles.summaryLabel}>Servizi</span>
-                                <span className={styles.summaryValue}>{data.services.length} selezionati</span>
+                                <span className={styles.summaryValue}>{data.services.map(s => services.find(srv => srv.id === s)?.label).join(', ')}</span>
                             </div>
+                            {data.socials.length > 0 && (
+                                <div className={styles.summaryRow}>
+                                    <span className={styles.summaryLabel}>Social</span>
+                                    <span className={styles.summaryValue}>{data.socials.join(', ')}</span>
+                                </div>
+                            )}
+                            {data.website && (
+                                <div className={styles.summaryRow}>
+                                    <span className={styles.summaryLabel}>Sito Web</span>
+                                    <span className={styles.summaryValue}>{data.website}</span>
+                                </div>
+                            )}
                             <div className={styles.summaryRow}>
                                 <span className={styles.summaryLabel}>Budget</span>
                                 <span className={styles.summaryValue}>{budgets.find(b => b.id === data.budget)?.label}</span>
@@ -230,13 +326,9 @@ Sito Web: ${data.website || 'Non specificato'}
                                 onChange={e => setData({ ...data, email: e.target.value })}
                                 required
                             />
-                            <input
-                                type="url"
-                                placeholder="Sito Web (opzionale)"
-                                className={styles.input}
-                                value={data.website}
-                                onChange={e => setData({ ...data, website: e.target.value })}
-                            />
+                            <div className="flex items-center gap-2 p-3 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-400 opacity-60">
+                                <span>URL Sito: {data.website || 'Non specificato'}</span>
+                            </div>
                         </div>
 
                         <div className="flex items-start gap-2 mt-2">
@@ -254,7 +346,7 @@ Sito Web: ${data.website || 'Non specificato'}
                         </div>
                     </div>
                 );
-            case 4:
+            case 5:
                 return (
                     <div className="text-center py-10">
                         <div className="text-green-500 mb-4 flex justify-center">
@@ -274,7 +366,7 @@ Sito Web: ${data.website || 'Non specificato'}
 
     return (
         <div className={styles.wizardContainer}>
-            {currentStep < 4 && (
+            {currentStep < 5 && (
                 <div className={styles.progressBarContainer}>
                     <div
                         className={styles.progressBarFill}
@@ -283,10 +375,10 @@ Sito Web: ${data.website || 'Non specificato'}
                 </div>
             )}
 
-            {currentStep < 4 && (
+            {currentStep < 5 && (
                 <div className={styles.stepHeader}>
-                    <h2 className={styles.stepTitle}>{steps[currentStep]}</h2>
-                    <p className={styles.stepSubtitle}>Step {currentStep + 1} di {steps.length}</p>
+                    <h2 className={styles.stepTitle}>{visibleSteps[currentIdx]?.label}</h2>
+                    <p className={styles.stepSubtitle}>Step {currentIdx + 1} di {visibleSteps.length}</p>
                 </div>
             )}
 
@@ -302,7 +394,7 @@ Sito Web: ${data.website || 'Non specificato'}
                 </motion.div>
             </AnimatePresence>
 
-            {currentStep < 4 && (
+            {currentStep < 5 && (
                 <div className={styles.navigation}>
                     <button
                         className="btn btn-ghost"
@@ -313,10 +405,10 @@ Sito Web: ${data.website || 'Non specificato'}
                         Indietro
                     </button>
 
-                    {currentStep === 3 ? (
+                    {currentStep === 4 ? (
                         <button
                             className="btn btn-primary"
-                            onClick={handleSubmit as any}
+                            onClick={handleSubmit}
                             disabled={!data.name || !data.email || !data.privacy || isSubmitting}
                         >
                             {isSubmitting ? 'Invio in corso...' : 'Invia Richiesta'}

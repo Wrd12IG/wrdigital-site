@@ -16,12 +16,13 @@ import {
     Mail, Lightbulb, Briefcase, FileText, TrendingUp, Monitor, Folder, Home,
     LogOut, Settings, AlertTriangle, Newspaper, ArrowLeft, Star,
     Upload, Video, Facebook as FacebookIcon, Instagram as InstagramIcon, RotateCcw,
-    Youtube, Linkedin, Twitter, Music, Link2 as Link, List, Tag, Gem, Calendar, HelpCircle, Check, X, Zap
+    ExternalLink, Check, X, Zap, Archive, EyeOff
 } from 'lucide-react';
 
 // Icons
 const IconHome = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
 const IconUsers = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>;
+const IconMessageCircle = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>;
 const IconFolder = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>;
 const IconUpload = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>;
 const IconKey = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>;
@@ -34,16 +35,24 @@ const IconRocket = () => <svg className="w-5 h-5" fill="none" stroke="currentCol
 const IconNewspaper = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>;
 
 // Types
-interface Project { id?: string; title: string; client: string; category: string; year: string; description: string; results: any[]; tags: string[]; image: string; color: string; showOnHome?: boolean; }
-interface Client { name: string; logo: string; url?: string; description?: string; socials?: Record<string, string>; showInSuccessStories?: boolean; selectedSocials?: string[]; }
+interface Project { id?: string; title: string; client: string; category: string; year: string; description: string; results: { label: string; value: string; }[]; tags: string[]; image: string; color: string; showOnHome?: boolean; }
+interface Client { id?: string; name: string; logo: string; url?: string; description?: string; socials?: Record<string, string>; showInSuccessStories?: boolean; selectedSocials?: string[]; }
+interface Lead { id: string; name: string; email: string; company?: string; website?: string; source: string; services: string; status: string; message?: string; createdAt: string; }
+interface DashboardStats { totalLeads: number; leadsBySource: Record<string, number>; recentLeads: Lead[]; newsletterSubscribers: number; }
+interface User { id: string; name: string; email: string; role: string; driveFolderId?: string; }
+interface BlogPost { id: string; slug?: string; title: string; excerpt?: string; image?: string; category?: string; published?: boolean; createdAt?: string; tags?: string; metaTitle?: string; metaDescription?: string; content?: string; date?: string; readTime?: string; featured?: boolean; status?: string; keywords?: any; deleted?: boolean; }
+interface Testimonial { id: string; quote: string; author: string; company?: string; rating: number; service: string; result?: string; deleted?: boolean; }
+interface FaqItem { id: string; question: string; answer: string; order?: number; category?: string; service?: string; priority?: any; keywords?: any; }
+
 const defaultProject: Project = { title: '', client: '', category: 'Web Development', year: '2025', description: '', results: [{ label: '', value: '' }], tags: [], image: '/hero-bg.png', color: '#00d4ff', showOnHome: false };
 
 export default function AdminPage() {
     const { data: session, status } = useSession();
     const router = useRouter();
 
-    // Data
-    const [users, setUsers] = useState<any[]>([]);
+    // 1. STATE DEFINITIONS
+    const [dashboardStats, setDashboardStats] = useState<DashboardStats | null>(null);
+    const [users, setUsers] = useState<User[]>([]);
     const [projects, setProjects] = useState<Project[]>([]);
     const [siteConfig, setSiteConfig] = useState<any>({
         hero: { title: '', subtitle: '', description: '', stats: { traffic: '', roi: '' } },
@@ -51,28 +60,26 @@ export default function AdminPage() {
         team: { bio: '', image: '' },
         testimonials: { title: '', subtitle: '', description: '' }
     });
-    // NEW DATA STATES
     const [servicesConfig, setServicesConfig] = useState<any>({});
-    const [testimonials, setTestimonials] = useState<any[]>([]);
-    const [faqItems, setFaqItems] = useState<any[]>([]);
-    const [faqSuggestions, setFaqSuggestions] = useState<any[]>([]); // NEW: AI FAQ Suggestions
-    const [faqSuggestionsLoading, setFaqSuggestionsLoading] = useState(false); // NEW: Loading state
+    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+    const [faqItems, setFaqItems] = useState<FaqItem[]>([]);
+    const [faqSuggestions, setFaqSuggestions] = useState<any[]>([]);
+    const [faqSuggestionsLoading, setFaqSuggestionsLoading] = useState(false);
     const [clientsList, setClientsList] = useState<Client[]>([]);
 
-    // Freepik Integration
+    // Freepik & SEO
     const [freepikQuery, setFreepikQuery] = useState('');
     const [freepikResults, setFreepikResults] = useState<any[]>([]);
     const [searchingFreepik, setSearchingFreepik] = useState(false);
-
-    const [seoMeta, setSeoMeta] = useState<any>({});
+    const [seoMeta, setSeoMeta] = useState<Record<string, any>>({});
     const [servicesContent, setServicesContent] = useState<any>({});
-    const [blogPosts, setBlogPosts] = useState<any[]>([]);
-    const [selectedPost, setSelectedPost] = useState<any | null>(null);
-    const [suggestedTrends, setSuggestedTrends] = useState<any[]>([]); // Added
+    const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+    const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+    const [suggestedTrends, setSuggestedTrends] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // UI State
-    const [activeTab, setActiveTab] = useState<'dashboard' | 'users' | 'site' | 'portfolio' | 'services' | 'testimonials' | 'faq' | 'clients' | 'seo' | 'blog'>('dashboard');
+    // UI & Modals
+    const [activeTab, setActiveTab] = useState<'dashboard' | 'users' | 'site' | 'portfolio' | 'services' | 'testimonials' | 'faq' | 'clients' | 'seo' | 'blog' | 'leads'>('dashboard');
     const [modalUser, setModalUser] = useState(false);
     const [modalPassword, setModalPassword] = useState<{ open: boolean, email: string } & any>({ open: false, email: '' });
     const [modalUpload, setModalUpload] = useState<{ open: boolean, user: any } & any>({ open: false, user: null });
@@ -84,49 +91,72 @@ export default function AdminPage() {
     const [fileData, setFileData] = useState<File | null>(null);
     const [projectForm, setProjectForm] = useState<Project>(defaultProject);
     const [projectImageFile, setProjectImageFile] = useState<File | null>(null);
-
-    // Site Config Forms
     const [heroFile, setHeroFile] = useState<File | null>(null);
     const [teamImageFile, setTeamImageFile] = useState<File | null>(null);
     const [analysisStep, setAnalysisStep] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [aiLoading, setAiLoading] = useState<string | null>(null);
+    const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+    const [modalLead, setModalLead] = useState(false);
 
     const email = session?.user?.email?.toLowerCase();
     const isAllowed = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
 
-    const [isRefreshing, setIsRefreshing] = useState(false);
+    // 2. DATA FETCHING
+    const fetchDashboardStats = async () => {
+        try {
+            const res = await fetch('/api/admin/dashboard');
+            if (res.ok) setDashboardStats(await res.json());
+        } catch (e) { console.error('Dashboard Stats Error', e); }
+    };
 
     const refreshAllData = async () => {
         setIsRefreshing(true);
+        setAnalysisStep('Sincronizzazione in corso...');
         try {
-            const [cRes, pRes, bRes] = await Promise.all([
-                fetch('/api/admin/clients'),
-                fetch('/api/portfolio'),
-                fetch('/api/admin/blog')
+            const [resStats, resBlog, resProjects] = await Promise.all([
+                fetch(`/api/admin/dashboard?t=${Date.now()}`),
+                fetch(`/api/admin/blog?t=${Date.now()}`),
+                fetch(`/api/portfolio?t=${Date.now()}`)
             ]);
-            if (cRes.ok) setClientsList(await cRes.json());
-            if (pRes.ok) setProjects(await pRes.json());
-            if (bRes.ok) {
-                const blogData = await bRes.json();
-                setBlogPosts(blogData.posts || blogData);
+
+            if (resStats.ok) setDashboardStats(await resStats.json());
+            if (resBlog.ok) {
+                const blogData = await resBlog.json();
+                const posts = Array.isArray(blogData) ? blogData : (blogData.posts || []);
+                setBlogPosts(posts.map((p: any) => ({
+                    ...p,
+                    status: p.published ? 'published' : 'draft',
+                    tags: typeof p.tags === 'string' ? (p.tags.startsWith('[') ? JSON.parse(p.tags) : p.tags) : (p.tags || [])
+                })));
             }
-        } finally { setIsRefreshing(false); }
+            if (resProjects.ok) setProjects(await resProjects.json());
+            setAnalysisStep('Sincronizzazione completata!');
+        } catch (e) {
+            console.error('Refresh error:', e);
+            setAnalysisStep('Errore sincronizzazione.');
+        } finally {
+            setIsRefreshing(false);
+            setTimeout(() => setAnalysisStep(''), 4000);
+        }
     };
 
     useEffect(() => {
         if (status === 'authenticated' && isAllowed) {
+            fetchDashboardStats();
             const loadData = async () => {
                 try {
                     const [resUsers, resProjects, resConfig, resServices, resTestimonials, resFaq, resClients, resSeo, resBlog] = await Promise.all([
-                        fetch('/api/admin/users'),
-                        fetch('/api/portfolio'),
-                        fetch('/api/site-config'),
-                        fetch('/api/admin/services'),
-                        fetch('/api/admin/testimonials'),
-                        fetch('/api/admin/faq'),
-                        fetch('/api/admin/clients'),
-                        fetch('/api/admin/seo-meta'),
-                        fetch('/api/admin/blog')
+                        fetch(`/api/admin/users?t=${Date.now()}`),
+                        fetch(`/api/portfolio?t=${Date.now()}`),
+                        fetch(`/api/site-config?t=${Date.now()}`),
+                        fetch(`/api/admin/services?t=${Date.now()}`),
+                        fetch(`/api/admin/testimonials?t=${Date.now()}`),
+                        fetch(`/api/admin/faq?t=${Date.now()}`),
+                        fetch(`/api/admin/clients?t=${Date.now()}`),
+                        fetch(`/api/admin/seo-meta?t=${Date.now()}`),
+                        fetch(`/api/admin/blog?t=${Date.now()}`)
                     ]);
                     if (resUsers.ok) setUsers(await resUsers.json());
                     if (resProjects.ok) setProjects(await resProjects.json());
@@ -135,19 +165,23 @@ export default function AdminPage() {
                     if (resTestimonials.ok) setTestimonials(await resTestimonials.json());
                     if (resFaq.ok) setFaqItems(await resFaq.json());
                     if (resClients.ok) setClientsList(await resClients.json());
-                    if (resBlog.ok) setBlogPosts(await resBlog.json());
+                    if (resBlog.ok) {
+                        const blogData = await resBlog.json();
+                        const posts = Array.isArray(blogData) ? blogData : (blogData.posts || []);
+                        setBlogPosts(posts.map((p: any) => ({
+                            ...p,
+                            status: p.published ? 'published' : 'draft',
+                            tags: typeof p.tags === 'string' ? (p.tags.startsWith('[') ? JSON.parse(p.tags) : p.tags) : (p.tags || [])
+                        })));
+                    }
                     if (resSeo.ok) {
                         const loadedSeo = await resSeo.json();
-                        // Apply Default Schema if missing
                         ['home', 'seo', 'social', 'ads', 'web', 'portfolio', 'contatti'].forEach(key => {
                             if (!loadedSeo[key]) loadedSeo[key] = {};
-                            if (!loadedSeo[key].schemaType) {
-                                loadedSeo[key].schemaType = key === 'home' ? 'Organization' : 'Service';
-                            }
+                            if (!loadedSeo[key].schemaType) loadedSeo[key].schemaType = key === 'home' ? 'Organization' : 'Service';
                         });
                         setSeoMeta(loadedSeo);
                     }
-
                     const resContent = await fetch('/api/admin/services-content');
                     if (resContent.ok) setServicesContent(await resContent.json());
                 } catch (err: any) {
@@ -158,11 +192,23 @@ export default function AdminPage() {
         }
     }, [status, isAllowed]);
 
+    // 3. HANDLERS
+    const updateLeadStatus = async (id: string, newStatus: string) => {
+        try {
+            const res = await fetch('/api/admin/dashboard', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, status: newStatus })
+            });
+            if (res.ok) {
+                fetchDashboardStats();
+                if (selectedLead?.id === id) setSelectedLead({ ...selectedLead, status: newStatus });
+            }
+        } catch (e) { console.error('Error updating lead', e); }
+    };
 
-    // --- ACTIONS ---
     const handleCreateUser = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitting(true);
         try {
             const res = await fetch('/api/admin/users', {
                 method: 'POST',
@@ -221,7 +267,6 @@ export default function AdminPage() {
     const handleHeroUpload = async (e: React.FormEvent) => { e.preventDefault(); if (!heroFile) return; setIsSubmitting(true); const d = new FormData(); d.append('file', heroFile); try { await fetch('/api/admin/hero-image', { method: 'POST', body: d }); setHeroFile(null); alert('Sfondo Uploaded!'); window.location.reload(); } finally { setIsSubmitting(false); } };
 
     // AI Generation
-    const [aiLoading, setAiLoading] = useState<string | null>(null);
     const handleGenerateAI = async (pageKey: string, type: 'meta' | 'og' | 'faq' | 'article') => {
         setAiLoading(`${pageKey}-${type}`);
         try {
@@ -342,17 +387,16 @@ export default function AdminPage() {
                 return;
             }
 
-            setAnalysisStep('Analisi completata!');
+            setAnalysisStep('Market Trends acquisiti!');
             setSuggestedTrends(trendsArray);
+        } catch (e) {
+            console.error(e);
+            setAnalysisStep('Errore durante l\'analisi dei Trends.');
+        } finally {
             setTimeout(() => {
                 setIsSubmitting(false);
                 setAnalysisStep('');
-            }, 1000);
-        } catch (e) {
-            setIsSubmitting(false);
-            setAnalysisStep('');
-            console.error(e);
-            alert('Errore durante l\'analisi.');
+            }, 4000);
         }
     };
 
@@ -370,7 +414,8 @@ export default function AdminPage() {
 
             setAnalysisStep('Salvataggio bozza...');
             const newPost = {
-                id: Date.now().toString(),
+                id: `temp-${Date.now()}`,
+                slug: trend.keyword.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
                 title: data.title,
                 excerpt: data.excerpt,
                 content: data.content,
@@ -380,34 +425,52 @@ export default function AdminPage() {
                 image: data.image || '/hero-bg.png',
                 featured: false,
                 status: 'draft',
+                published: false,
+                tags: trend.keyword,
                 metaTitle: dataSeo.metaTitle,
                 metaDescription: dataSeo.metaDescription,
                 keywords: dataSeo.keywords
             };
 
-            const updated = [...blogPosts, newPost];
-            await fetch('/api/admin/blog', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updated) });
-            setBlogPosts(updated);
-            setSelectedPost(newPost);
+            const resSave = await fetch('/api/admin/blog', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newPost)
+            });
 
-            setAnalysisStep('Bozza pronta nell\'editor!');
-            setTimeout(() => {
-                setIsSubmitting(false);
-                setAnalysisStep('');
-            }, 1000);
+            if (resSave.ok) {
+                const saveResult = await resSave.json();
+                const refreshRes = await fetch('/api/admin/blog');
+                if (refreshRes.ok) {
+                    const blogData = await refreshRes.json();
+                    const posts = (Array.isArray(blogData) ? blogData : (blogData.posts || [])).map((p: any) => ({
+                        ...p,
+                        status: p.published ? 'published' : 'draft',
+                        tags: typeof p.tags === 'string' ? (p.tags.startsWith('[') ? JSON.parse(p.tags) : p.tags) : (p.tags || [])
+                    }));
+                    setBlogPosts(posts);
+                    const saved = posts.find((p: any) => p.slug === newPost.slug || p.id === saveResult.post?.id);
+                    if (saved) setSelectedPost(saved);
+                }
+                setAnalysisStep('Articolo generato e salvato correttamente!');
+            } else {
+                setAnalysisStep('Errore durante il salvataggio dell\'articolo.');
+            }
         } catch (e) {
             console.error(e);
-            setAnalysisStep('Errore durante la creazione');
+            setAnalysisStep('Errore critico durante la generazione AI.');
+        } finally {
             setTimeout(() => {
                 setIsSubmitting(false);
                 setAnalysisStep('');
-            }, 2000);
+            }, 4000);
         }
     };
 
     const handleGenerateBlogAI = async (field: 'content' | 'seo') => {
         if (!selectedPost) return;
         setIsSubmitting(true);
+        setAnalysisStep(field === 'content' ? 'Generazione contenuto profondo...' : 'Ottimizzazione SEO e Metadati...');
         try {
             const endpointType = field === 'content' ? 'blog-post' : 'blog-seo';
             const topic = selectedPost.title || selectedPost.category;
@@ -416,51 +479,75 @@ export default function AdminPage() {
 
             if (field === 'content') {
                 setSelectedPost({ ...selectedPost, content: data.content, excerpt: data.excerpt, image: data.image || selectedPost.image });
+                setAnalysisStep('Contenuto generato con successo!');
             } else {
                 const generatedTags = typeof data.keywords === 'string' ? data.keywords.split(',').map((k: string) => k.trim()) : (Array.isArray(data.keywords) ? data.keywords : []);
                 setSelectedPost({ ...selectedPost, metaTitle: data.metaTitle, metaDescription: data.metaDescription, tags: generatedTags });
+                setAnalysisStep('SEO ottimizzato con successo!');
             }
-        } finally { setIsSubmitting(false); }
+            setTimeout(() => {
+                setIsSubmitting(false);
+                setAnalysisStep('');
+            }, 4000);
+        } catch (e) {
+            setAnalysisStep('Errore durante la generazione AI');
+            setTimeout(() => {
+                setIsSubmitting(false);
+                setAnalysisStep('');
+            }, 4000);
+        }
     };
 
     // Blog Handlers
     const handleSaveBlog = async (e: React.FormEvent) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         if (!selectedPost) return;
 
-        // Update or Add
-        let newPosts = [...blogPosts];
-        const idx = newPosts.findIndex(p => p.id === selectedPost.id);
-        if (idx !== -1) {
-            newPosts[idx] = selectedPost;
-        } else {
-            newPosts.push({ ...selectedPost, id: Date.now().toString() });
-        }
-
         setIsSubmitting(true);
+        setAnalysisStep('Salvataggio articolo nel database...');
         try {
-            const payload = newPosts.map(p => ({
-                ...p,
-                published: p.status === 'published',
-                date: p.date || new Date().toLocaleDateString('it-IT'),
-                readTime: p.readTime || '5 min',
-                featured: p.featured || false,
-                tags: p.tags || [],
-                metaTitle: p.metaTitle,
-                metaDescription: p.metaDescription
-            }));
+            const payload = {
+                ...selectedPost,
+                published: selectedPost.status === 'published',
+                date: selectedPost.date || new Date().toLocaleDateString('it-IT'),
+                readTime: selectedPost.readTime || '5 min',
+                featured: selectedPost.featured || false,
+                tags: selectedPost.tags || [],
+            };
 
             const res = await fetch('/api/admin/blog', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
+
             if (res.ok) {
-                setBlogPosts(newPosts);
-                setSelectedPost(null);
-                alert('Articolo salvato!');
+                const data = await res.json();
+                const refreshRes = await fetch('/api/admin/blog');
+                if (refreshRes.ok) {
+                    const blogData = await refreshRes.json();
+                    const posts = (Array.isArray(blogData) ? blogData : (blogData.posts || [])).map((p: any) => ({
+                        ...p,
+                        status: p.published ? 'published' : 'draft',
+                        tags: typeof p.tags === 'string' ? (p.tags.startsWith('[') ? JSON.parse(p.tags) : p.tags) : (p.tags || [])
+                    }));
+                    setBlogPosts(posts);
+                    const currentId = data.post?.id || selectedPost.id;
+                    const current = posts.find((p: any) => p.id === currentId || p.slug === selectedPost.slug);
+                    if (current) setSelectedPost(current);
+                }
+                setAnalysisStep('Articolo salvato con successo!');
+            } else {
+                setAnalysisStep('Errore durante il salvataggio.');
             }
-        } finally { setIsSubmitting(false); }
+        } catch (err) {
+            setAnalysisStep('Errore di connessione.');
+        } finally {
+            setTimeout(() => {
+                setIsSubmitting(false);
+                setAnalysisStep('');
+            }, 2000);
+        }
     };
 
     const handleSaveService = async (slug: string, data: any, isDelete = false) => {
@@ -472,65 +559,119 @@ export default function AdminPage() {
                 body: JSON.stringify({ slug, serviceData: data, deleteSlug: isDelete ? slug : undefined })
             });
             if (res.ok) {
-                const updated = await (await fetch('/api/admin/services')).json();
+                const updated = await (await fetch(`/api/admin/services?t=${Date.now()}`)).json();
                 setServicesConfig(updated);
-                if (!isDelete) alert('Landing Page salvata con successo!');
-                else alert('Landing Page eliminata.');
+                setAnalysisStep(isDelete ? 'Servizio eliminato.' : 'Servizio salvato con successo!');
             } else {
-                alert('Errore durante il salvataggio.');
+                setAnalysisStep('Errore durante l\'operazione.');
             }
         } catch (e) {
-            alert('Errore di connessione.');
+            setAnalysisStep('Errore di connessione.');
         } finally {
-            setIsSubmitting(false);
+            setTimeout(() => {
+                setIsSubmitting(false);
+                setAnalysisStep('');
+            }, 2000);
         }
     };
 
     const handleDeleteBlogPost = async (id: string) => {
-        if (!confirm('Eliminare articolo?')) return;
-        const newPosts = blogPosts.filter(p => p.id !== id);
+        if (!id) return;
+        if (!confirm('Vuoi annullare e nascondere questo articolo? Verrà rimosso dal sito e dal pannello.')) return;
+
         setIsSubmitting(true);
+        setAnalysisStep('Annullamento articolo in corso...');
+
         try {
-            await fetch('/api/admin/blog', {
+            const res = await fetch(`/api/admin/blog?t=${Date.now()}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newPosts)
+                body: JSON.stringify({ action: 'delete', id, slug: selectedPost?.slug })
             });
-            setBlogPosts(newPosts);
-            if (selectedPost?.id === id) setSelectedPost(null);
-        } finally { setIsSubmitting(false); }
+
+            if (res.ok) {
+                setAnalysisStep('Sincronizzazione database...');
+
+                // 1. Force local removal immediately
+                const targetSlug = selectedPost?.slug;
+                setBlogPosts(prev => prev.filter(p => p.id !== id && p.slug !== targetSlug));
+                setSelectedPost(null);
+
+                // 2. Fetch fresh list with cache buster
+                const refreshRes = await fetch(`/api/admin/blog?t=${Date.now()}`);
+                if (refreshRes.ok) {
+                    const blogData = await refreshRes.json();
+                    const posts = (Array.isArray(blogData) ? blogData : (blogData.posts || [])).map((p: any) => ({
+                        ...p,
+                        status: p.published ? 'published' : 'draft',
+                        tags: typeof p.tags === 'string' ? (p.tags.startsWith('[') ? JSON.parse(p.tags) : p.tags) : (p.tags || [])
+                    }));
+                    setBlogPosts(posts);
+                }
+                setAnalysisStep('Articolo annullato e nascosto!');
+            } else {
+                const errData = await res.json();
+                setAnalysisStep(`Errore: ${errData.error || 'Impossibile eliminare'}`);
+            }
+        } catch (err) {
+            setAnalysisStep('Errore di rete. L\'articolo è rimosso solo dalla vista locale.');
+            setBlogPosts(prev => prev.filter(p => p.id !== id));
+            setSelectedPost(null);
+        } finally {
+            setTimeout(() => {
+                setIsSubmitting(false);
+                setAnalysisStep('');
+            }, 4000);
+        }
     };
 
     const handleTogglePublish = async () => {
         if (!selectedPost) return;
         const newStatus = selectedPost.status === 'draft' ? 'published' : 'draft';
-        const updatedPost = { ...selectedPost, status: newStatus };
-        setSelectedPost(updatedPost);
-
-        const newPosts = [...blogPosts];
-        const idx = newPosts.findIndex(p => p.id === updatedPost.id);
-        if (idx !== -1) newPosts[idx] = updatedPost;
 
         setIsSubmitting(true);
+        setAnalysisStep(newStatus === 'published' ? 'Pubblicazione in corso...' : 'Ritorno a bozza in corso...');
         try {
-            const payload = newPosts.map(p => ({
-                ...p,
-                published: p.status === 'published',
-                date: p.date || new Date().toLocaleDateString('it-IT'),
-                readTime: p.readTime || '5 min',
-                featured: p.featured || false,
-                tags: p.tags || [],
-                metaTitle: p.metaTitle,
-                metaDescription: p.metaDescription
-            }));
+            const payload = {
+                ...selectedPost,
+                published: newStatus === 'published',
+                date: selectedPost.date || new Date().toLocaleDateString('it-IT'),
+                readTime: selectedPost.readTime || '5 min',
+                featured: selectedPost.featured || false,
+                tags: selectedPost.tags || [],
+            };
 
-            await fetch('/api/admin/blog', {
+            const res = await fetch('/api/admin/blog', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-            setBlogPosts(newPosts);
-        } finally { setIsSubmitting(false); }
+
+            if (res.ok) {
+                const refreshRes = await fetch('/api/admin/blog');
+                if (refreshRes.ok) {
+                    const blogData = await refreshRes.json();
+                    const posts = (Array.isArray(blogData) ? blogData : (blogData.posts || [])).map((p: any) => ({
+                        ...p,
+                        status: p.published ? 'published' : 'draft',
+                        tags: typeof p.tags === 'string' ? (p.tags.startsWith('[') ? JSON.parse(p.tags) : p.tags) : (p.tags || [])
+                    }));
+                    setBlogPosts(posts);
+                    const current = posts.find((p: any) => p.id === selectedPost.id || p.slug === selectedPost.slug);
+                    if (current) setSelectedPost(current);
+                }
+                setAnalysisStep(newStatus === 'published' ? 'Articolo pubblicato!' : 'Articolo riportato a bozza.');
+            } else {
+                setAnalysisStep('Errore durante il cambio stato.');
+            }
+        } catch (err) {
+            setAnalysisStep('Errore di connessione.');
+        } finally {
+            setTimeout(() => {
+                setIsSubmitting(false);
+                setAnalysisStep('');
+            }, 4000);
+        }
     };
 
     // NEW SECTION SAVE HANDLERS
@@ -752,7 +893,31 @@ export default function AdminPage() {
             if (r.ok) { setProjects(await (await fetch('/api/portfolio')).json()); setModalProject({ open: false, project: null }); alert('Progetto Salvato!'); }
         } finally { setIsSubmitting(false); }
     };
-    const handleDeleteProject = async (id: string) => { if (!confirm('Eliminare?')) return; await fetch('/api/admin/portfolio', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'delete', id }) }); setProjects(await (await fetch('/api/portfolio')).json()); };
+    const handleDeleteProject = async (id: string) => {
+        if (!confirm('Vuoi rimuovere questo progetto? Verrà nascosto dal sito e dal pannello.')) return;
+        setIsSubmitting(true);
+        setAnalysisStep('Rimozione progetto in corso...');
+        try {
+            const res = await fetch(`/api/admin/portfolio?t=${Date.now()}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'delete', id })
+            });
+            if (res.ok) {
+                setProjects(prev => prev.filter(p => p.id !== id));
+                setAnalysisStep('Progetto rimosso correttamente!');
+            } else {
+                setAnalysisStep('Errore durante l\'eliminazione del progetto.');
+            }
+        } catch (e) {
+            setAnalysisStep('Errore di rete. Riprova più tardi.');
+        } finally {
+            setTimeout(() => {
+                setIsSubmitting(false);
+                setAnalysisStep('');
+            }, 4000);
+        }
+    };
     const handleToggleHomeProject = async (project: Project) => {
         const updatedProject = { ...project, showOnHome: !project.showOnHome };
         const r = await fetch('/api/admin/portfolio', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'update', project: updatedProject }) });
@@ -823,9 +988,11 @@ export default function AdminPage() {
                         </div>
                         <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 px-3">Start</div>
                         <TabButton active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} icon={<IconHome />} label="Overview" color="purple" />
+                        <TabButton active={activeTab === 'seo'} onClick={() => setActiveTab('seo')} icon={<TrendingUp className="w-5 h-5" />} label="SEO Dashboard" color="blue" />
 
-                        <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 mt-4 px-3">Generale</div>
-                        <TabButton active={activeTab === 'users'} onClick={() => setActiveTab('users')} icon={<IconUsers />} label="Dashboard / Utenti" color="purple" />
+                        <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 mt-4 px-3">CRM & Clienti</div>
+                        <TabButton active={activeTab === 'leads'} onClick={() => setActiveTab('leads')} icon={<Target className="w-5 h-5" />} label="Inbound Leads" color="orange" />
+                        <TabButton active={activeTab === 'users'} onClick={() => setActiveTab('users')} icon={<IconUsers />} label="Clienti Attivi" color="purple" />
                         <TabButton active={activeTab === 'site'} onClick={() => setActiveTab('site')} icon={<IconCog />} label="Configurazione Sito" color="blue" />
 
 
@@ -860,12 +1027,131 @@ export default function AdminPage() {
 
                 {/* Main Content Area */}
                 <main className="flex-1 ml-64 p-8 pt-32">
-
                     <AnimatePresence mode="wait">
-                        {/* DASHBOARD */}
+
+                        {/* DASHBOARD OVERVIEW */}
                         {activeTab === 'dashboard' && (
-                            <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                            <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-8">
+                                {/* Header with quick stats */}
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                    <StatCard label="Totale Lead" value={dashboardStats?.totalLeads || 0} icon={<IconUsers />} color="blue" />
+                                    <StatCard label="Newsletter" value={dashboardStats?.newsletterSubscribers || 0} icon={<IconNewspaper />} color="orange" />
+                                    <StatCard label="Lead Wizard" value={dashboardStats?.leadsBySource?.wizard || 0} icon={<Sparkles className="w-5 h-5" />} color="purple" />
+                                    <StatCard label="Conversion Rate" value="3.2%" icon={<TrendingUp className="w-5 h-5" />} color="green" />
+                                </div>
+
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                    {/* Recent Leads Summary */}
+                                    <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-3xl overflow-hidden p-6">
+                                        <div className="flex justify-between items-center mb-4">
+                                            <h3 className="text-lg font-bold flex items-center gap-2"><span className="text-gray-400"><IconUsers /></span> Ultimi Lead</h3>
+                                            <button onClick={() => setActiveTab('leads')} className="text-xs text-blue-400 hover:underline">Vedi Tutti</button>
+                                        </div>
+                                        <div className="space-y-3">
+                                            {dashboardStats?.recentLeads?.slice(0, 5).map((lead: any) => (
+                                                <div key={lead.id} onClick={() => { setSelectedLead(lead); setModalLead(true); }} className="bg-black/20 p-4 rounded-2xl flex items-center justify-between hover:bg-white/5 cursor-pointer transition-all border border-transparent hover:border-white/10">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${lead.source === 'wizard' ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                                                            {lead.source === 'wizard' ? <Sparkles className="w-5 h-5" /> : <Mail className="w-5 h-5" />}
+                                                        </div>
+                                                        <div>
+                                                            <p className="font-bold text-sm">{lead.name}</p>
+                                                            <p className="text-xs text-gray-500">{lead.email}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <span className="text-[10px] uppercase font-bold text-gray-500">{new Date(lead.createdAt).toLocaleDateString('it-IT')}</span>
+                                                        <div className="flex items-center gap-2 mt-1">
+                                                            <span className={`w-2 h-2 rounded-full ${lead.status === 'new' ? 'bg-blue-500' : lead.status === 'won' ? 'bg-green-500' : 'bg-gray-500'}`}></span>
+                                                            <span className="text-[10px] text-gray-400 uppercase">{lead.status}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Quick Tips / AI Insights Placeholder */}
+                                    <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 border border-white/10 rounded-3xl p-6">
+                                        <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><Sparkles className="w-5 h-5 text-yellow-500" /> AI Insights</h3>
+                                        <div className="space-y-4">
+                                            <div className="p-3 bg-white/5 rounded-xl border border-white/5">
+                                                <p className="text-xs text-blue-300 font-bold mb-1">Opportunità</p>
+                                                <p className="text-sm text-gray-300">I lead dal "Wizard" hanno un tasso di conversione superiore del 40%.</p>
+                                            </div>
+                                            <div className="p-3 bg-white/5 rounded-xl border border-white/5">
+                                                <p className="text-xs text-orange-300 font-bold mb-1">Alert Newsletter</p>
+                                                <p className="text-sm text-gray-300">Hai 15 nuovi iscritti questa settimana che non hanno ancora ricevuto l'ultimo case study.</p>
+                                            </div>
+                                        </div>
+                                        <button onClick={() => setActiveTab('seo')} className="w-full mt-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-bold transition-all">Analizza Performance SEO</button>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {/* SEO DASHBOARD TAB */}
+                        {activeTab === 'seo' && (
+                            <motion.div key="seo" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                                 <SeoDashboard />
+                            </motion.div>
+                        )}
+
+                        {/* LEADS CRM TAB */}
+                        {activeTab === 'leads' && (
+                            <motion.div key="leads" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-bold flex items-center gap-2 pt-20"><Target className="w-6 h-6 text-orange-500" /> Inbound Lead Management</h2>
+                                    <div className="flex gap-2">
+                                        <button onClick={() => fetchDashboardStats()} className="btn-secondary-small"><RotateCcw className="w-4 h-4 mr-2" /> Refresh</button>
+                                    </div>
+                                </div>
+                                <div className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden p-6">
+                                    <table className="w-full text-left text-sm">
+                                        <thead className="text-gray-400 uppercase text-xs border-b border-white/5">
+                                            <tr>
+                                                <th className="p-4">Data</th>
+                                                <th className="p-4">Contatto</th>
+                                                <th className="p-4">Fonte</th>
+                                                <th className="p-4">Servizi</th>
+                                                <th className="p-4">Stato</th>
+                                                <th className="p-4 text-right">Azioni</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-white/5">
+                                            {dashboardStats?.recentLeads?.map((lead: any) => (
+                                                <tr key={lead.id} className="hover:bg-white/5 transition-colors group">
+                                                    <td className="p-4 text-gray-500">{new Date(lead.createdAt).toLocaleDateString('it-IT')}</td>
+                                                    <td className="p-4">
+                                                        <p className="font-bold">{lead.name}</p>
+                                                        <p className="text-xs text-gray-500">{lead.email}</p>
+                                                    </td>
+                                                    <td className="p-4">
+                                                        <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase ${lead.source === 'wizard' ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                                                            {lead.source}
+                                                        </span>
+                                                    </td>
+                                                    <td className="p-4 text-xs max-w-[150px] truncate" title={lead.services}>{lead.services || '-'}</td>
+                                                    <td className="p-4">
+                                                        <select
+                                                            value={lead.status}
+                                                            onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
+                                                            className={`bg-transparent border-none text-xs font-bold focus:ring-0 cursor-pointer ${lead.status === 'new' ? 'text-blue-400' : lead.status === 'won' ? 'text-green-400' : 'text-gray-500'}`}
+                                                        >
+                                                            <option value="new" className="bg-zinc-900 text-white">Nuovo</option>
+                                                            <option value="contacted" className="bg-zinc-900 text-white">Contattato</option>
+                                                            <option value="won" className="bg-zinc-900 text-white">Vinto</option>
+                                                            <option value="lost" className="bg-zinc-900 text-white">Perso</option>
+                                                        </select>
+                                                    </td>
+                                                    <td className="p-4 text-right">
+                                                        <button onClick={() => { setSelectedLead(lead); setModalLead(true); }} className="text-xs text-gray-400 hover:text-white bg-white/5 px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">Dettagli</button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </motion.div>
                         )}
 
@@ -991,14 +1277,14 @@ export default function AdminPage() {
                                     <div>
                                         <h3 className="text-xl font-bold mb-4 text-blue-400">Hero Section</h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <Input label="Titolo Principale" value={siteConfig.hero?.title} onChange={(v: any) => setSiteConfig({ ...siteConfig, hero: { ...siteConfig.hero, title: v } })} />
-                                            <Input label="Sottotitolo" value={siteConfig.hero?.subtitle} onChange={(v: any) => setSiteConfig({ ...siteConfig, hero: { ...siteConfig.hero, subtitle: v } })} />
-                                            <div className="md:col-span-2"><Input label="Descrizione" value={siteConfig.hero?.description} onChange={(v: any) => setSiteConfig({ ...siteConfig, hero: { ...siteConfig.hero, description: v } })} /></div>
+                                            <Input label="Titolo Principale" value={siteConfig.hero?.title} onChange={(v: string) => setSiteConfig({ ...siteConfig, hero: { ...siteConfig.hero, title: v } })} />
+                                            <Input label="Sottotitolo" value={siteConfig.hero?.subtitle} onChange={(v: string) => setSiteConfig({ ...siteConfig, hero: { ...siteConfig.hero, subtitle: v } })} />
+                                            <div className="md:col-span-2"><Input label="Descrizione" value={siteConfig.hero?.description} onChange={(v: string) => setSiteConfig({ ...siteConfig, hero: { ...siteConfig.hero, description: v } })} /></div>
                                             <div className="p-4 bg-black/20 rounded-xl border border-white/5 md:col-span-2">
                                                 <h3 className="text-sm font-bold text-yellow-500 mb-2">Floating Stats Widget</h3>
                                                 <div className="flex gap-4">
-                                                    <Input label="Traffic (es +380%)" value={siteConfig.hero?.stats?.traffic} onChange={(v: any) => setSiteConfig({ ...siteConfig, hero: { ...siteConfig.hero, stats: { ...siteConfig.hero.stats, traffic: v } } })} />
-                                                    <Input label="ROI (es 2.5x)" value={siteConfig.hero?.stats?.roi} onChange={(v: any) => setSiteConfig({ ...siteConfig, hero: { ...siteConfig.hero, stats: { ...siteConfig.hero.stats, roi: v } } })} />
+                                                    <Input label="Traffic (es +380%)" value={siteConfig.hero?.stats?.traffic} onChange={(v: string) => setSiteConfig({ ...siteConfig, hero: { ...siteConfig.hero, stats: { ...siteConfig.hero.stats, traffic: v } } })} />
+                                                    <Input label="ROI (es 2.5x)" value={siteConfig.hero?.stats?.roi} onChange={(v: string) => setSiteConfig({ ...siteConfig, hero: { ...siteConfig.hero, stats: { ...siteConfig.hero.stats, roi: v } } })} />
                                                 </div>
                                             </div>
                                         </div>
@@ -1007,17 +1293,17 @@ export default function AdminPage() {
                                     <div className="border-t border-white/10 pt-8">
                                         <h3 className="text-xl font-bold mb-4 text-blue-400">Social Links (Footer)</h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <Input label="Instagram URL" value={siteConfig.social?.instagram} onChange={(v: any) => setSiteConfig({ ...siteConfig, social: { ...siteConfig.social, instagram: v } })} />
-                                            <Input label="LinkedIn URL" value={siteConfig.social?.linkedin} onChange={(v: any) => setSiteConfig({ ...siteConfig, social: { ...siteConfig.social, linkedin: v } })} />
-                                            <Input label="Facebook URL" value={siteConfig.social?.facebook} onChange={(v: any) => setSiteConfig({ ...siteConfig, social: { ...siteConfig.social, facebook: v } })} />
-                                            <Input label="YouTube URL" value={siteConfig.social?.youtube} onChange={(v: any) => setSiteConfig({ ...siteConfig, social: { ...siteConfig.social, youtube: v } })} />
+                                            <Input label="Instagram URL" value={siteConfig.social?.instagram} onChange={(v: string) => setSiteConfig({ ...siteConfig, social: { ...siteConfig.social, instagram: v } })} />
+                                            <Input label="LinkedIn URL" value={siteConfig.social?.linkedin} onChange={(v: string) => setSiteConfig({ ...siteConfig, social: { ...siteConfig.social, linkedin: v } })} />
+                                            <Input label="Facebook URL" value={siteConfig.social?.facebook} onChange={(v: string) => setSiteConfig({ ...siteConfig, social: { ...siteConfig.social, facebook: v } })} />
+                                            <Input label="YouTube URL" value={siteConfig.social?.youtube} onChange={(v: string) => setSiteConfig({ ...siteConfig, social: { ...siteConfig.social, youtube: v } })} />
                                         </div>
                                     </div>
 
                                     <div className="border-t border-white/10 pt-8">
                                         <h3 className="text-xl font-bold mb-4 text-blue-400">Chi Siamo (Team)</h3>
                                         <div className="grid grid-cols-1 gap-6">
-                                            <Input label="Bio / Manifesto" value={siteConfig.team?.bio} onChange={(v: any) => setSiteConfig({ ...siteConfig, team: { ...siteConfig.team, bio: v } })} />
+                                            <Input label="Bio / Manifesto" value={siteConfig.team?.bio} onChange={(v: string) => setSiteConfig({ ...siteConfig, team: { ...siteConfig.team, bio: v } })} />
                                             <div>
                                                 <label className="block text-xs font-semibold text-gray-500 mb-2">Immagine Team (Opzionale)</label>
                                                 <input type="file" accept="image/*" onChange={e => setTeamImageFile(e.target.files?.[0] || null)} className="w-full bg-black/50 p-3 rounded-xl border border-white/10 text-sm" />
@@ -1036,7 +1322,7 @@ export default function AdminPage() {
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     {projects.map(p => (
                                         <div key={p.id} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden group">
-                                            <img src={p.image} className="h-40 w-full object-cover opacity-60 group-hover:opacity-100" />
+                                            <img src={p.image} alt={p.title} className="h-40 w-full object-cover opacity-60 group-hover:opacity-100" />
                                             <div className="p-4 relative">
                                                 <h3 className="font-bold">{p.title}</h3>
                                                 <p className="text-xs text-gray-400">{p.client}</p>
@@ -1049,7 +1335,9 @@ export default function AdminPage() {
                                                         <Star className={`w-4 h-4 ${p.showOnHome ? 'fill-current' : ''}`} />
                                                     </button>
                                                     <IconButton icon={<IconSettings />} onClick={() => openEditProject(p)} />
-                                                    <IconButton icon={<IconTrash />} onClick={() => p.id && handleDeleteProject(p.id)} color="red" />
+                                                    <button onClick={() => p.id && handleDeleteProject(p.id)} className="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/10 hover:bg-white/20 text-gray-400 hover:text-white transition-all" title="Rimuovi/Archivia">
+                                                        <Archive className="w-4 h-4" />
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1104,38 +1392,38 @@ export default function AdminPage() {
                                         <Input
                                             label="Sottotitolo (Label)"
                                             value={siteConfig.testimonials?.subtitle || ''}
-                                            onChange={(v: any) => setSiteConfig({ ...siteConfig, testimonials: { ...siteConfig.testimonials, subtitle: v } })}
+                                            onChange={(v: string) => setSiteConfig({ ...siteConfig, testimonials: { ...siteConfig.testimonials, subtitle: v } })}
                                         />
                                         <Input
                                             label="Titolo Principale"
                                             value={siteConfig.testimonials?.title || ''}
-                                            onChange={(v: any) => setSiteConfig({ ...siteConfig, testimonials: { ...siteConfig.testimonials, title: v } })}
+                                            onChange={(v: string) => setSiteConfig({ ...siteConfig, testimonials: { ...siteConfig.testimonials, title: v } })}
                                         />
                                     </div>
                                     <Input
                                         label="Descrizione Breve (Bio della sezione)"
                                         value={siteConfig.testimonials?.description || ''}
-                                        onChange={(v: any) => setSiteConfig({ ...siteConfig, testimonials: { ...siteConfig.testimonials, description: v } })}
+                                        onChange={(v: string) => setSiteConfig({ ...siteConfig, testimonials: { ...siteConfig.testimonials, description: v } })}
                                     />
                                 </div>
 
                                 <h3 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-wider">Elenco Testimonianze ({testimonials.length})</h3>
-                                {testimonials.map((t, i) => (
+                                {testimonials.filter(t => !t.deleted).map((t, i) => (
                                     <div key={t.id || i} className="bg-white/5 border border-white/10 rounded-2xl p-6 relative">
-                                        <button onClick={() => setTestimonials(testimonials.filter((_, idx) => idx !== i))} className="absolute top-4 right-4 text-red-400 hover:text-red-300"><X className="w-4 h-4" /></button>
+                                        <button onClick={() => { const arr = [...testimonials]; arr[i].deleted = true; setTestimonials(arr); }} className="absolute top-4 right-4 text-gray-500 hover:text-white" title="Rimuovi/Annulla"><Archive className="w-4 h-4" /></button>
                                         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                                            <Input label="Autore" value={t.author} onChange={(v: any) => { const arr = [...testimonials]; arr[i].author = v; setTestimonials(arr); }} />
-                                            <Input label="Azienda" value={t.company} onChange={(v: any) => { const arr = [...testimonials]; arr[i].company = v; setTestimonials(arr); }} />
-                                            <Input label="Risultato" value={t.result} onChange={(v: any) => { const arr = [...testimonials]; arr[i].result = v; setTestimonials(arr); }} />
+                                            <Input label="Autore" value={t.author || ''} onChange={(v: string) => { const arr = [...testimonials]; arr[i].author = v; setTestimonials(arr); }} />
+                                            <Input label="Azienda" value={t.company || ''} onChange={(v: string) => { const arr = [...testimonials]; arr[i].company = v; setTestimonials(arr); }} />
+                                            <Input label="Risultato" value={t.result || ''} onChange={(v: string) => { const arr = [...testimonials]; arr[i].result = v; setTestimonials(arr); }} />
                                             <div>
                                                 <label className="block text-xs font-semibold text-gray-500 mb-2">Rating</label>
                                                 <select value={t.rating || 5} onChange={e => { const arr = [...testimonials]; arr[i].rating = parseInt(e.target.value); setTestimonials(arr); }} className="w-full bg-black/50 p-3 rounded-xl border border-white/10 text-sm">
                                                     {[5, 4, 3, 2, 1].map(n => <option key={n} value={n}>{n} Stelle</option>)}
                                                 </select>
                                             </div>
-                                            <div><label className="block text-xs font-semibold text-gray-500 mb-2">Servizio</label><select value={t.service} onChange={e => { const arr = [...testimonials]; arr[i].service = e.target.value; setTestimonials(arr); }} className="w-full bg-black/50 p-3 rounded-xl border border-white/10 text-sm"><option value="seo">SEO</option><option value="social">Social</option><option value="ads">Ads</option><option value="web">Web</option></select></div>
+                                            <div><label className="block text-xs font-semibold text-gray-500 mb-2">Servizio</label><select value={t.service || 'seo'} onChange={e => { const arr = [...testimonials]; arr[i].service = e.target.value; setTestimonials(arr); }} className="w-full bg-black/50 p-3 rounded-xl border border-white/10 text-sm"><option value="seo">SEO</option><option value="social">Social</option><option value="ads">Ads</option><option value="web">Web</option></select></div>
                                         </div>
-                                        <div className="mt-4"><Input label="Citazione" value={t.quote} onChange={(v: any) => { const arr = [...testimonials]; arr[i].quote = v; setTestimonials(arr); }} /></div>
+                                        <div className="mt-4"><Input label="Citazione" value={t.quote || ''} onChange={(v: string) => { const arr = [...testimonials]; arr[i].quote = v; setTestimonials(arr); }} /></div>
                                     </div>
                                 ))}
                             </motion.div>
@@ -1165,12 +1453,12 @@ export default function AdminPage() {
                                     <h3 className="text-md font-bold text-gray-400"><FileText className="w-4 h-4 inline-block mr-1" /> FAQ Esistenti ({faqItems.length})</h3>
                                     {faqItems.map((f, i) => (
                                         <div key={f.id || i} className="bg-white/5 border border-white/10 rounded-2xl p-6 relative">
-                                            <button onClick={() => setFaqItems(faqItems.filter((_, idx) => idx !== i))} className="absolute top-4 right-4 text-red-400 hover:text-red-300"><X className="w-4 h-4" /></button>
+                                            <button onClick={() => setFaqItems(faqItems.filter((_, idx) => idx !== i))} className="absolute top-4 right-4 text-gray-500 hover:text-white" title="Rimuovi"><Archive className="w-4 h-4" /></button>
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                                <div className="md:col-span-2"><Input label="Domanda" value={f.question} onChange={(v: any) => { const arr = [...faqItems]; arr[i].question = v; setFaqItems(arr); }} /></div>
+                                                <div className="md:col-span-2"><Input label="Domanda" value={f.question} onChange={(v: string) => { const arr = [...faqItems]; arr[i].question = v; setFaqItems(arr); }} /></div>
                                                 <div><label className="block text-xs font-semibold text-gray-500 mb-2">Servizio</label><select value={f.service} onChange={e => { const arr = [...faqItems]; arr[i].service = e.target.value; setFaqItems(arr); }} className="w-full bg-black/50 p-3 rounded-xl border border-white/10"><option value="seo">SEO</option><option value="social">Social</option><option value="ads">Ads</option><option value="web">Web</option></select></div>
                                             </div>
-                                            <div className="mt-4"><Input label="Risposta" value={f.answer} onChange={(v: any) => { const arr = [...faqItems]; arr[i].answer = v; setFaqItems(arr); }} /></div>
+                                            <div className="mt-4"><Input label="Risposta" value={f.answer} onChange={(v: string) => { const arr = [...faqItems]; arr[i].answer = v; setFaqItems(arr); }} /></div>
                                         </div>
                                     ))}
                                 </div>
@@ -1207,7 +1495,7 @@ export default function AdminPage() {
                                                                 className="flex-1 bg-black/50 p-3 rounded-xl border border-white/10"
                                                             />
                                                             <input
-                                                                value={(c as any).description || ''}
+                                                                value={c.description || ''}
                                                                 onChange={e => { const arr = [...clientsList]; arr[i] = { ...arr[i], description: e.target.value }; setClientsList(arr); }}
                                                                 placeholder="Settore / Descrizione breve"
                                                                 className="flex-1 bg-black/50 p-3 rounded-xl border border-white/10"
@@ -1258,10 +1546,10 @@ export default function AdminPage() {
                                     <div className="flex justify-between items-center mb-6">
                                         <h2 className="text-2xl font-bold"><Newspaper className="w-6 h-6 inline-block mr-2" /> Blog Editor & SEO Strategy</h2>
                                         <button
-                                            onClick={() => setSelectedPost({ id: Date.now().toString(), title: 'Nuovo Articolo', featured: false, category: 'SEO', excerpt: '', content: '', date: new Date().toLocaleDateString('it-IT'), readTime: '5 min', image: '/hero-bg.png', status: 'draft', tags: [] })}
+                                            onClick={() => setSelectedPost({ id: Date.now().toString(), slug: '', title: 'Nuovo Articolo', featured: false, category: 'SEO', excerpt: '', content: '', date: new Date().toLocaleDateString('it-IT'), readTime: '5 min', image: '/hero-bg.png', status: 'draft', tags: '', published: false })}
                                             className="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2"
                                         >
-                                            + Nuovo Manuale
+                                            <Newspaper className="w-4 h-4" /> + Nuovo Manuale
                                         </button>
                                     </div>
 
@@ -1289,7 +1577,7 @@ export default function AdminPage() {
                                                         <p className="text-xs font-mono text-purple-300 italic">{analysisStep}</p>
                                                     </div>
                                                 ) : suggestedTrends.length === 0 ? (
-                                                    <p className="text-xs text-gray-400">Clicca "Analizza" per trovare nuove opportunità SEO basate sui volumi di ricerca.</p>
+                                                    <p className="text-xs text-gray-400">Clicca &quot;Analizza&quot; per trovare nuove opportunità SEO basate sui volumi di ricerca.</p>
                                                 ) : (
                                                     <div className="space-y-2">
                                                         {suggestedTrends.map((trend, i) => (
@@ -1310,7 +1598,7 @@ export default function AdminPage() {
                                             {/* Posts List */}
                                             <div className="space-y-3">
                                                 <h4 className="font-bold text-gray-400 text-xs uppercase tracking-wider">Articoli Recenti</h4>
-                                                {[...blogPosts].reverse().map((post: any) => (
+                                                {[...blogPosts].reverse().map((post: BlogPost) => (
                                                     <div
                                                         key={post.id}
                                                         onClick={() => setSelectedPost(post)}
@@ -1345,7 +1633,16 @@ export default function AdminPage() {
                                                             <button type="button" onClick={handleTogglePublish} className={`text-xs px-3 py-1 rounded font-bold ${selectedPost.status === 'draft' ? 'bg-green-600 text-white' : 'bg-yellow-600 text-white'}`}>
                                                                 {selectedPost.status === 'draft' ? 'Pubblica' : 'Riporta a Bozza'}
                                                             </button>
-                                                            <button type="button" onClick={() => handleDeleteBlogPost(selectedPost.id)} className="text-red-400 text-sm hover:underline">Elimina</button>
+
+                                                            <div className="flex items-center gap-2 bg-white/5 px-3 py-1 rounded border border-white/10">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={selectedPost.deleted || false}
+                                                                    onChange={(e) => setSelectedPost({ ...selectedPost, deleted: e.target.checked })}
+                                                                    className="w-4 h-4 rounded border-gray-600"
+                                                                />
+                                                                <span className="text-xs font-bold text-gray-400 uppercase">Archiviato</span>
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -1367,7 +1664,7 @@ export default function AdminPage() {
                                                                 <option>AI & Tech</option>
                                                             </select>
                                                         </div>
-                                                        <Input label="Data" value={selectedPost.date} onChange={(v: string) => setSelectedPost({ ...selectedPost, date: v })} />
+                                                        <Input label="Data" value={selectedPost.date || ''} onChange={(v: string) => setSelectedPost({ ...selectedPost, date: v })} />
                                                     </div>
 
                                                     <div className="bg-purple-900/10 p-4 rounded-xl border border-purple-500/20">
@@ -1376,21 +1673,21 @@ export default function AdminPage() {
                                                             <button type="button" onClick={() => handleGenerateBlogAI('seo')} className="text-[10px] bg-purple-500 text-white px-2 py-1 rounded hover:bg-purple-400"><Sparkles className="w-3 h-3 inline-block mr-1" /> Genera Meta con AI</button>
                                                         </div>
                                                         <div className="space-y-3">
-                                                            <Input label="Meta Title (Max 60 chars)" value={selectedPost.metaTitle} onChange={(v: string) => setSelectedPost({ ...selectedPost, metaTitle: v })} />
+                                                            <Input label="Meta Title (Max 60 chars)" value={selectedPost.metaTitle || ''} onChange={(v: string) => setSelectedPost({ ...selectedPost, metaTitle: v })} />
                                                             <div>
                                                                 <label className="text-xs text-gray-500 uppercase font-bold mb-1 block">Meta Description (Max 160 chars)</label>
-                                                                <textarea className="w-full bg-[#222] border border-white/10 rounded-lg p-2 text-white h-16 text-xs" value={selectedPost.metaDescription} onChange={(e) => setSelectedPost({ ...selectedPost, metaDescription: e.target.value })} />
+                                                                <textarea className="w-full bg-[#222] border border-white/10 rounded-lg p-2 text-white h-16 text-xs" value={selectedPost.metaDescription || ''} onChange={(e) => setSelectedPost({ ...selectedPost, metaDescription: e.target.value })} />
                                                             </div>
                                                             <Input
                                                                 label="Tags (separati da virgola)"
-                                                                value={Array.isArray(selectedPost.tags) ? selectedPost.tags.join(', ') : (selectedPost.tags || '')}
-                                                                onChange={(v: string) => setSelectedPost({ ...selectedPost, tags: v.split(',').map(s => s.trim()).filter(Boolean) })}
+                                                                value={typeof selectedPost.tags === 'string' ? selectedPost.tags : (Array.isArray(selectedPost.tags) ? (selectedPost.tags as string[]).join(', ') : '')}
+                                                                onChange={(v: string) => setSelectedPost({ ...selectedPost, tags: v })}
                                                             />
                                                         </div>
                                                     </div>
 
                                                     <div className="grid grid-cols-2 gap-4">
-                                                        <Input label="Tempo Lettura" value={selectedPost.readTime} onChange={(v: string) => setSelectedPost({ ...selectedPost, readTime: v })} />
+                                                        <Input label="Tempo Lettura" value={selectedPost.readTime || ''} onChange={(v: string) => setSelectedPost({ ...selectedPost, readTime: v })} />
                                                         <div className="flex items-center gap-2 pt-6">
                                                             <input
                                                                 type="checkbox"
@@ -1402,7 +1699,7 @@ export default function AdminPage() {
                                                         </div>
                                                     </div>
 
-                                                    <Input label="Immagine URL" value={selectedPost.image} onChange={(v: string) => setSelectedPost({ ...selectedPost, image: v })} />
+                                                    <Input label="Immagine URL" value={selectedPost.image || ''} onChange={(v: string) => setSelectedPost({ ...selectedPost, image: v })} />
 
                                                     <div>
                                                         <label className="text-xs text-gray-500 uppercase font-bold mb-1 block flex justify-between">
@@ -1430,214 +1727,291 @@ export default function AdminPage() {
                                 </motion.div>
                             )
                         }
+                    </AnimatePresence>
+                </main>
+            </div>
 
-                    </AnimatePresence >
-                </main >
-                {/* MODALS REUSED */}
-                <Modal isOpen={modalUser} onClose={() => setModalUser(false)} title="Nuovo Cliente">
-                    <form onSubmit={handleCreateUser} className="space-y-4">
-                        <Input label="Nome" value={formData.name} onChange={(v: any) => setFormData({ ...formData, name: v })} />
-                        <Input label="Email" value={formData.email} onChange={(v: any) => setFormData({ ...formData, email: v })} />
-                        <Input label="Pass" type="password" value={formData.password} onChange={(v: any) => setFormData({ ...formData, password: v })} />
-                        <Button submit loading={isSubmitting}>Crea</Button>
-                    </form>
-                </Modal>
-                <Modal isOpen={modalPassword.open} onClose={() => setModalPassword({ open: false, email: '' })} title={`Cambia Password: ${modalPassword.email}`}>
-                    <form onSubmit={handleChangePassword} className="space-y-4">
-                        <Input label="Nuova Password" type="password" value={passwordData} onChange={(v: any) => setPasswordData(v)} />
-                        <Button submit loading={isSubmitting}>Aggiorna Password</Button>
-                    </form>
-                </Modal>
-                <Modal isOpen={modalUpload.open} onClose={() => setModalUpload({ open: false })} title="Upload"><form onSubmit={handleUpload} className="space-y-4"><input type="file" onChange={e => setFileData(e.target.files?.[0] || null)} className="w-full bg-white/5 p-3 rounded-lg" /><Button submit disabled={!fileData} loading={isSubmitting}>Upload</Button></form></Modal>
-                <Modal isOpen={modalProject.open} onClose={() => setModalProject({ open: false, project: null })} title={modalProject.project ? 'Modifica Progetto' : 'Nuovo Progetto'}>
-                    <form onSubmit={handleSaveProject} className="space-y-4 max-h-[80vh] overflow-auto pr-2">
-                        {/* Basic Info */}
+            {/* MODALS REUSED */}
+            <Modal isOpen={modalLead} onClose={() => setModalLead(false)} title="Dettaglio Inbound Lead">
+                {selectedLead && (
+                    <div className="space-y-6">
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <h3 className="text-2xl font-bold text-white">{selectedLead.name}</h3>
+                                <p className="text-blue-400 text-sm">{selectedLead.email}</p>
+                                {selectedLead.company && <p className="text-gray-400 text-sm font-medium mt-1"><Briefcase className="w-4 h-4 inline mr-1" /> {selectedLead.company}</p>}
+                            </div>
+                            <div className="text-right">
+                                <p className="text-xs text-gray-500 uppercase tracking-widest">Ricevuto il</p>
+                                <p className="text-white font-mono">{new Date(selectedLead.createdAt).toLocaleString('it-IT')}</p>
+                            </div>
+                        </div>
+
                         <div className="grid grid-cols-2 gap-4">
-                            <Input label="Titolo Progetto" value={projectForm.title} onChange={(v: any) => setProjectForm({ ...projectForm, title: v })} />
-                            <Input label="Nome Cliente" value={projectForm.client} onChange={(v: any) => setProjectForm({ ...projectForm, client: v })} />
-                        </div>
-
-                        <div className="grid grid-cols-3 gap-4">
-                            <div>
-                                <label className="text-xs text-gray-500 uppercase font-bold mb-1 block">Categoria</label>
-                                <select className="w-full bg-[#222] border border-white/10 p-3 rounded-lg text-white" value={projectForm.category} onChange={e => setProjectForm({ ...projectForm, category: e.target.value })}>
-                                    <option>Web Development</option>
-                                    <option>SEO & Content</option>
-                                    <option>Social Media</option>
-                                    <option>Advertising</option>
-                                    <option>Branding</option>
-                                    <option>E-Commerce</option>
-                                </select>
+                            <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                <p className="text-[10px] text-gray-500 uppercase font-bold mb-1">Fonte</p>
+                                <p className="text-white capitalize">{selectedLead.source}</p>
                             </div>
-                            <Input label="Anno" value={projectForm.year} onChange={(v: any) => setProjectForm({ ...projectForm, year: v })} />
-                            <div>
-                                <label className="text-xs text-gray-500 uppercase font-bold mb-1 block">Colore Accent</label>
-                                <div className="flex gap-2 items-center">
-                                    <input type="color" value={projectForm.color} onChange={e => setProjectForm({ ...projectForm, color: e.target.value })} className="w-12 h-10 rounded cursor-pointer" />
-                                    <input type="text" value={projectForm.color} onChange={e => setProjectForm({ ...projectForm, color: e.target.value })} className="flex-1 bg-[#222] border border-white/10 p-3 rounded-lg text-white text-sm" />
-                                </div>
+                            <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                <p className="text-[10px] text-gray-500 uppercase font-bold mb-1">Servizi Richiesti</p>
+                                <p className="text-white">{selectedLead.services || 'Informazioni Generali'}</p>
                             </div>
                         </div>
 
-                        {/* Visibility Toggle */}
-                        <div className="bg-purple-900/20 border border-purple-500/30 p-3 rounded-lg flex justify-between items-center">
-                            <div className="flex items-center gap-3">
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${projectForm.showOnHome ? 'bg-green-500 text-white' : 'bg-gray-700 text-gray-400'}`}>
-                                    {projectForm.showOnHome ? <Star className="w-4 h-4 fill-current" /> : <Monitor className="w-4 h-4" />}
-                                </div>
+                        <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                            <p className="text-[10px] text-gray-500 uppercase font-bold mb-2">Messaggio del Cliente</p>
+                            <div className="bg-black/40 p-4 rounded-xl text-gray-300 text-sm leading-relaxed min-h-[100px] whitespace-pre-wrap">
+                                {selectedLead.message || 'Nessun messaggio fornito.'}
+                            </div>
+                        </div>
+
+                        {selectedLead.website && (
+                            <div className="bg-blue-500/10 p-4 rounded-2xl border border-blue-500/20 flex items-center justify-between">
                                 <div>
-                                    <h5 className="text-sm font-bold text-white">Pubblica in Homepage</h5>
-                                    <p className="text-[10px] text-gray-400">Se attivo, questo progetto sarà visibile nella sezione Storie di Successo.</p>
+                                    <p className="text-[10px] text-blue-400 uppercase font-bold">Sito Web</p>
+                                    <p className="text-white text-sm">{selectedLead.website}</p>
                                 </div>
+                                <a href={selectedLead.website.startsWith('http') ? selectedLead.website : `https://${selectedLead.website}`} target="_blank" className="text-blue-400 hover:text-white"><ExternalLink className="w-5 h-5" /></a>
                             </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    checked={projectForm.showOnHome || false}
-                                    onChange={e => setProjectForm({ ...projectForm, showOnHome: e.target.checked })}
-                                    className="sr-only peer"
-                                />
-                                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                            </label>
-                        </div>
+                        )}
 
-                        {/* Image */}
-                        {/* Image Selection with Unsplash Integration */}
-                        <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                            <label className="text-xs text-gray-500 uppercase font-bold mb-3 block">Immagine Copertina</label>
-
-                            <div className="space-y-4">
-                                {/* Current Image Preview */}
-                                {projectForm.image && (
-                                    <div className="relative w-full h-32 rounded-lg overflow-hidden border border-white/10 group">
-                                        <img src={projectForm.image} alt="Cover" className="w-full h-full object-cover" />
-                                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <span className="text-xs font-bold text-white">Attuale</span>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Tabs / Options */}
-                                <div className="grid grid-cols-2 gap-4">
-                                    {/* Option 1: File Upload */}
-                                    <div>
-                                        <div className="text-xs font-bold text-gray-400 mb-2 flex items-center gap-1"><Upload className="w-3 h-3" /> Upload Locale</div>
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={e => setProjectImageFile(e.target.files?.[0] || null)}
-                                            className="w-full bg-[#222] border border-white/10 p-2 rounded-lg text-xs text-gray-400 file:bg-white/10 file:border-0 file:rounded file:px-2 file:py-1 file:text-xs file:text-white"
-                                        />
-                                    </div>
-
-                                    {/* Option 2: Freepik Search */}
-                                    <div>
-                                        <div className="text-xs font-bold text-gray-400 mb-2 flex items-center gap-1"><Search className="w-3 h-3" /> Cerca su Freepik</div>
-                                        <div className="flex gap-2">
-                                            <input
-                                                value={freepikQuery}
-                                                onChange={e => setFreepikQuery(e.target.value)}
-                                                onKeyDown={e => e.key === 'Enter' && handleSearchFreepik(e)}
-                                                placeholder="Es: Tech office, Laptop..."
-                                                className="flex-1 bg-[#222] border border-white/10 p-2 rounded-lg text-xs text-white outline-none focus:border-purple-500"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={handleSearchFreepik}
-                                                disabled={searchingFreepik}
-                                                className="bg-purple-600 hover:bg-purple-500 text-white px-3 rounded-lg flex items-center justify-center disabled:opacity-50"
-                                            >
-                                                {searchingFreepik ? <span className="animate-spin text-xs">↻</span> : <Search className="w-3 h-3" />}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Freepik Results Grid */}
-                                {freepikResults.length > 0 && (
-                                    <div className="mt-3">
-                                        <div className="text-[10px] text-gray-500 mb-2 uppercase tracking-wider font-bold">Risultati Freepik</div>
-                                        <div className="grid grid-cols-4 gap-2 max-h-40 overflow-y-auto pr-1 custom-scrollbar">
-                                            {freepikResults.map((result: any) => (
-                                                <div
-                                                    key={result.id}
-                                                    onClick={() => setProjectForm({ ...projectForm, image: result.urls.regular })}
-                                                    className="aspect-video relative rounded-lg overflow-hidden cursor-pointer border border-transparent hover:border-purple-500 group"
-                                                >
-                                                    <img src={result.urls.small || result.urls.regular} alt={result.alt_description} className="w-full h-full object-cover" />
-                                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                        <Check className="w-4 h-4 text-white" />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
+                        <div className="flex justify-between items-center bg-zinc-900 p-4 rounded-2xl border border-white/5">
+                            <div className="flex items-center gap-3">
+                                <p className="text-[10px] text-gray-500 uppercase font-bold">Stato Attuale:</p>
+                                <span className={`text-xs font-bold px-3 py-1 rounded-full ${selectedLead.status === 'new' ? 'bg-blue-500/20 text-blue-400' : selectedLead.status === 'won' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}`}>
+                                    {selectedLead.status.toUpperCase()}
+                                </span>
+                            </div>
+                            <div className="flex gap-2">
+                                <button onClick={() => updateLeadStatus(selectedLead.id, 'contacted')} className="text-[10px] bg-white text-black px-3 py-1.5 rounded-lg font-bold">Contattato</button>
+                                <button onClick={() => updateLeadStatus(selectedLead.id, 'won')} className="text-[10px] bg-green-500 text-white px-3 py-1.5 rounded-lg font-bold">Vinto</button>
+                                <button onClick={() => updateLeadStatus(selectedLead.id, 'lost')} className="text-[10px] bg-red-500 text-white px-3 py-1.5 rounded-lg font-bold">Perso</button>
                             </div>
                         </div>
-
-                        {/* Description */}
-                        <div>
-                            <label className="text-xs text-gray-500 uppercase font-bold mb-1 block">Descrizione Progetto</label>
-                            <textarea
-                                value={projectForm.description}
-                                onChange={e => setProjectForm({ ...projectForm, description: e.target.value })}
-                                className="w-full bg-[#222] border border-white/10 p-3 rounded-lg text-white h-24 resize-none"
-                                placeholder="Descrivi il progetto, le sfide affrontate e le soluzioni..."
-                            />
-                        </div>
-
-                        {/* Results */}
-                        <div className="bg-white/5 p-4 rounded-xl space-y-3">
-                            <div className="flex justify-between items-center">
-                                <label className="text-xs text-gray-400 uppercase font-bold">Risultati (KPI)</label>
-                                <button type="button" onClick={() => setProjectForm({ ...projectForm, results: [...projectForm.results, { label: '', value: '' }] })} className="text-xs bg-white/10 px-3 py-1 rounded">+ Aggiungi</button>
-                            </div>
-                            {projectForm.results.map((r: any, i: number) => (
-                                <div key={i} className="flex gap-2 items-center">
-                                    <input placeholder="es. +350%" value={r.value || ''} onChange={e => { const arr = [...projectForm.results]; arr[i].value = e.target.value; setProjectForm({ ...projectForm, results: arr }); }} className="w-1/3 bg-[#333] border border-white/10 p-2 rounded text-white text-sm" />
-                                    <input placeholder="es. Traffico Organico" value={r.label || ''} onChange={e => { const arr = [...projectForm.results]; arr[i].label = e.target.value; setProjectForm({ ...projectForm, results: arr }); }} className="flex-1 bg-[#333] border border-white/10 p-2 rounded text-white text-sm" />
-                                    {projectForm.results.length > 1 && <button type="button" onClick={() => setProjectForm({ ...projectForm, results: projectForm.results.filter((_: any, idx: number) => idx !== i) })} className="text-red-400 px-2"><X className="w-3 h-3" /></button>}
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Tags */}
-                        <div>
-                            <label className="text-xs text-gray-500 uppercase font-bold mb-1 block">Tags (separati da virgola)</label>
-                            <input
-                                type="text"
-                                value={(projectForm.tags || []).join(',')}
-                                onChange={e => setProjectForm({ ...projectForm, tags: e.target.value.split(',') })}
-                                className="w-full bg-[#222] border border-white/10 p-3 rounded-lg text-white"
-                                placeholder="Next.js, React, SEO, E-commerce..."
-                            />
-                        </div>
-
-                        <Button submit><Save className="w-4 h-4 inline-block mr-1" /> Salva Progetto</Button>
-                    </form>
-                </Modal>
-
-                {/* DB Status Overlay - Reassurance for USER */}
-                <div className="fixed bottom-4 left-4 z-[100] bg-black/80 backdrop-blur-md border border-white/10 p-3 rounded-xl text-[10px] text-gray-400 font-mono pointer-events-none">
-                    <div className="flex items-center gap-2 mb-1">
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                        <span className="text-white font-bold uppercase tracking-wider">Storage Status (DB)</span>
                     </div>
+                )}
+            </Modal>
+            <Modal isOpen={modalUser} onClose={() => setModalUser(false)} title="Nuovo Cliente">
+                <form onSubmit={handleCreateUser} className="space-y-4">
+                    <Input label="Nome" value={formData.name} onChange={(v: string) => setFormData({ ...formData, name: v })} />
+                    <Input label="Email" value={formData.email} onChange={(v: string) => setFormData({ ...formData, email: v })} />
+                    <Input label="Pass" type="password" value={formData.password} onChange={(v: string) => setFormData({ ...formData, password: v })} />
+                    <Button submit loading={isSubmitting}>Crea</Button>
+                </form>
+            </Modal>
+            <Modal isOpen={modalPassword.open} onClose={() => setModalPassword({ open: false, email: '' })} title={`Cambia Password: ${modalPassword.email}`}>
+                <form onSubmit={handleChangePassword} className="space-y-4">
+                    <Input label="Nuova Password" type="password" value={passwordData} onChange={(v: string) => setPasswordData(v)} />
+                    <Button submit loading={isSubmitting}>Aggiorna Password</Button>
+                </form>
+            </Modal>
+            <Modal isOpen={modalUpload.open} onClose={() => setModalUpload({ open: false })} title="Upload"><form onSubmit={handleUpload} className="space-y-4"><input type="file" onChange={e => setFileData(e.target.files?.[0] || null)} className="w-full bg-white/5 p-3 rounded-lg" /><Button submit disabled={!fileData} loading={isSubmitting}>Upload</Button></form></Modal>
+            <Modal isOpen={modalProject.open} onClose={() => setModalProject({ open: false, project: null })} title={modalProject.project ? 'Modifica Progetto' : 'Nuovo Progetto'}>
+                <form onSubmit={handleSaveProject} className="space-y-4 max-h-[80vh] overflow-auto pr-2">
+                    {/* Basic Info */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Titolo Progetto" value={projectForm.title} onChange={(v: string) => setProjectForm({ ...projectForm, title: v })} />
+                        <Input label="Nome Cliente" value={projectForm.client} onChange={(v: string) => setProjectForm({ ...projectForm, client: v })} />
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4">
+                        <div>
+                            <label className="text-xs text-gray-500 uppercase font-bold mb-1 block">Categoria</label>
+                            <select className="w-full bg-[#222] border border-white/10 p-3 rounded-lg text-white" value={projectForm.category} onChange={e => setProjectForm({ ...projectForm, category: e.target.value })}>
+                                <option>Web Development</option>
+                                <option>SEO & Content</option>
+                                <option>Social Media</option>
+                                <option>Advertising</option>
+                                <option>Branding</option>
+                                <option>E-Commerce</option>
+                            </select>
+                        </div>
+                        <Input label="Anno" value={projectForm.year} onChange={(v: string) => setProjectForm({ ...projectForm, year: v })} />
+                        <div>
+                            <label className="text-xs text-gray-500 uppercase font-bold mb-1 block">Colore Accent</label>
+                            <div className="flex gap-2 items-center">
+                                <input type="color" value={projectForm.color} onChange={e => setProjectForm({ ...projectForm, color: e.target.value })} className="w-12 h-10 rounded cursor-pointer" />
+                                <input type="text" value={projectForm.color} onChange={e => setProjectForm({ ...projectForm, color: e.target.value })} className="flex-1 bg-[#222] border border-white/10 p-3 rounded-lg text-white text-sm" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Visibility Toggle */}
+                    <div className="bg-purple-900/20 border border-purple-500/30 p-3 rounded-lg flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${projectForm.showOnHome ? 'bg-green-500 text-white' : 'bg-gray-700 text-gray-400'}`}>
+                                {projectForm.showOnHome ? <Star className="w-4 h-4 fill-current" /> : <Monitor className="w-4 h-4" />}
+                            </div>
+                            <div>
+                                <h5 className="text-sm font-bold text-white">Pubblica in Homepage</h5>
+                                <p className="text-[10px] text-gray-400">Se attivo, questo progetto sarà visibile nella sezione Storie di Successo.</p>
+                            </div>
+                        </div>
+                        <label className="relative inline-flex items-center cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={projectForm.showOnHome || false}
+                                onChange={e => setProjectForm({ ...projectForm, showOnHome: e.target.checked })}
+                                className="sr-only peer"
+                            />
+                            <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                        </label>
+                    </div>
+
+                    {/* Image */}
+                    {/* Image Selection with Unsplash Integration */}
+                    <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                        <label className="text-xs text-gray-500 uppercase font-bold mb-3 block">Immagine Copertina</label>
+
+                        <div className="space-y-4">
+                            {/* Current Image Preview */}
+                            {projectForm.image && (
+                                <div className="relative w-full h-32 rounded-lg overflow-hidden border border-white/10 group">
+                                    <img src={projectForm.image} alt="Cover Preview" className="w-full h-full object-cover" />
+                                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <span className="text-xs font-bold text-white">Attuale</span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Tabs / Options */}
+                            <div className="grid grid-cols-2 gap-4">
+                                {/* Option 1: File Upload */}
+                                <div>
+                                    <div className="text-xs font-bold text-gray-400 mb-2 flex items-center gap-1"><Upload className="w-3 h-3" /> Upload Locale</div>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={e => setProjectImageFile(e.target.files?.[0] || null)}
+                                        className="w-full bg-[#222] border border-white/10 p-2 rounded-lg text-xs text-gray-400 file:bg-white/10 file:border-0 file:rounded file:px-2 file:py-1 file:text-xs file:text-white"
+                                    />
+                                </div>
+
+                                {/* Option 2: Freepik Search */}
+                                <div>
+                                    <div className="text-xs font-bold text-gray-400 mb-2 flex items-center gap-1"><Search className="w-3 h-3" /> Cerca su Freepik</div>
+                                    <div className="flex gap-2">
+                                        <input
+                                            value={freepikQuery}
+                                            onChange={e => setFreepikQuery(e.target.value)}
+                                            onKeyDown={e => e.key === 'Enter' && handleSearchFreepik(e)}
+                                            placeholder="Es: Tech office, Laptop..."
+                                            className="flex-1 bg-[#222] border border-white/10 p-2 rounded-lg text-xs text-white outline-none focus:border-purple-500"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={handleSearchFreepik}
+                                            disabled={searchingFreepik}
+                                            className="bg-purple-600 hover:bg-purple-500 text-white px-3 rounded-lg flex items-center justify-center disabled:opacity-50"
+                                        >
+                                            {searchingFreepik ? <span className="animate-spin text-xs">↻</span> : <Search className="w-3 h-3" />}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Freepik Results Grid */}
+                            {freepikResults.length > 0 && (
+                                <div className="mt-3">
+                                    <div className="text-[10px] text-gray-500 mb-2 uppercase tracking-wider font-bold">Risultati Freepik</div>
+                                    <div className="grid grid-cols-4 gap-2 max-h-40 overflow-y-auto pr-1 custom-scrollbar">
+                                        {freepikResults.map((result: any) => (
+                                            <div
+                                                key={result.id}
+                                                onClick={() => setProjectForm({ ...projectForm, image: result.urls.regular })}
+                                                className="aspect-video relative rounded-lg overflow-hidden cursor-pointer border border-transparent hover:border-purple-500 group"
+                                            >
+                                                <img src={result.urls.small || result.urls.regular} alt={result.alt_description || 'Freepik Result'} className="w-full h-full object-cover" />
+                                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <Check className="w-4 h-4 text-white" />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                        <label className="text-xs text-gray-500 uppercase font-bold mb-1 block">Descrizione Progetto</label>
+                        <textarea
+                            value={projectForm.description}
+                            onChange={e => setProjectForm({ ...projectForm, description: e.target.value })}
+                            className="w-full bg-[#222] border border-white/10 p-3 rounded-lg text-white h-24 resize-none"
+                            placeholder="Descrivi il progetto, le sfide affrontate e le soluzioni..."
+                        />
+                    </div>
+
+                    {/* Results */}
+                    <div className="bg-white/5 p-4 rounded-xl space-y-3">
+                        <div className="flex justify-between items-center">
+                            <label className="text-xs text-gray-400 uppercase font-bold">Risultati (KPI)</label>
+                            <button type="button" onClick={() => setProjectForm({ ...projectForm, results: [...projectForm.results, { label: '', value: '' }] })} className="text-xs bg-white/10 px-3 py-1 rounded">+ Aggiungi</button>
+                        </div>
+                        {projectForm.results.map((r, i) => (
+                            <div key={i} className="flex gap-2 items-center">
+                                <input placeholder="es. +350%" value={r.value || ''} onChange={e => { const arr = [...projectForm.results]; arr[i].value = e.target.value; setProjectForm({ ...projectForm, results: arr }); }} className="w-1/3 bg-[#333] border border-white/10 p-2 rounded text-white text-sm" />
+                                <input placeholder="es. Traffico Organico" value={r.label || ''} onChange={e => { const arr = [...projectForm.results]; arr[i].label = e.target.value; setProjectForm({ ...projectForm, results: arr }); }} className="flex-1 bg-[#333] border border-white/10 p-2 rounded text-white text-sm" />
+                                {projectForm.results.length > 1 && <button type="button" onClick={() => setProjectForm({ ...projectForm, results: projectForm.results.filter((_: any, idx: number) => idx !== i) })} className="text-red-400 px-2"><X className="w-3 h-3" /></button>}
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Tags */}
+                    <div>
+                        <label className="text-xs text-gray-500 uppercase font-bold mb-1 block">Tags (separati da virgola)</label>
+                        <input
+                            type="text"
+                            value={(projectForm.tags || []).join(',')}
+                            onChange={e => setProjectForm({ ...projectForm, tags: e.target.value.split(',') })}
+                            className="w-full bg-[#222] border border-white/10 p-3 rounded-lg text-white"
+                            placeholder="Next.js, React, SEO, E-commerce..."
+                        />
+                    </div>
+
+                    <Button submit><Save className="w-4 h-4 inline-block mr-1" /> Salva Progetto</Button>
+                </form>
+            </Modal>
+
+            {/* Premium Status Console - ABSOLUTE TOP FOR GUARANTEED VISIBILITY */}
+            {
+                analysisStep && (
+                    <div className="fixed top-0 left-0 right-0 z-[9999] pointer-events-none flex justify-center p-0 animate-in fade-in slide-in-from-top-full duration-700 ease-out">
+                        <div className="bg-black/90 backdrop-blur-xl border border-white/10 px-8 py-6 rounded-2xl shadow-2xl flex items-center gap-6 max-w-2xl w-full ring-1 ring-white/10">
+                            <div className="bg-yellow-500/10 p-4 rounded-xl animate-pulse ring-1 ring-yellow-500/20">
+                                <Sparkles className="w-8 h-8 text-yellow-500" />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="font-mono text-[10px] uppercase tracking-widest text-gray-500 mb-1">System Status</span>
+                                <span className="text-xl font-bold tracking-tight text-white">{analysisStep}</span>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
+            {/* DB Status Overlay - Bottom Left */}
+            <div className="fixed bottom-4 left-4 z-[100] bg-black/80 backdrop-blur-md border border-white/10 p-3 rounded-xl text-[10px] text-gray-400 font-mono pointer-events-none">
+                <div className="flex items-center gap-2 mb-1">
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                    <span className="text-white font-bold uppercase tracking-wider">Storage Status (DB)</span>
+                </div>
+                <div className="flex gap-4">
                     <div>Clients: {clientsList.length}</div>
                     <div>Projects: {projects.length}</div>
                     <div>Posts: {blogPosts.length}</div>
-                    <div>DB Path: .../prisma/dev.db</div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
 
 
 // UI Components Simplified - Updated Input for uncontrolled fix
-function TabButton({ active, onClick, icon, label, color }: any) {
+function TabButton({ active, onClick, icon, label, color }: { active: boolean, onClick: () => void, icon: React.ReactNode, label: string, color: string }) {
     const colorMap: Record<string, string> = {
         purple: 'bg-purple-600 text-white',
         yellow: 'bg-yellow-500 text-black',
@@ -1646,29 +2020,16 @@ function TabButton({ active, onClick, icon, label, color }: any) {
         pink: 'bg-pink-600 text-white',
         orange: 'bg-orange-500 text-black',
         cyan: 'bg-cyan-500 text-black',
-        red: 'bg-red-600 text-white'
+        red: 'bg-red-600 text-white',
+        indigo: 'bg-indigo-600 text-white'
     };
     const c = active ? (colorMap[color] || 'bg-gray-600 text-white') : 'text-gray-400 hover:text-white';
     return <button onClick={onClick} className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold transition-all text-sm ${c}`}>{icon} {label}</button>;
 }
-function StatCard({ label, value, icon, color = 'purple' }: any) { return <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex justify-between"><div><p className="text-gray-400 text-xs">{label}</p><h3 className="text-2xl font-bold">{value}</h3></div><div className={`text-${color}-400`}>{icon}</div></div> }
-function IconButton({ icon, onClick, disabled, color }: any) { return <button onClick={onClick} disabled={disabled} className={`p-2 rounded hover:bg-white/10 ${color === 'red' ? 'text-red-500' : ''}`}>{icon}</button> }
-function Modal({ isOpen, onClose, title, children }: any) { if (!isOpen) return null; return <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"><div className="bg-[#111] border border-white/10 rounded-2xl p-6 w-full max-w-2xl relative"><button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white"><X className="w-4 h-4" /></button><h3 className="text-xl font-bold mb-4">{title}</h3>{children}</div></div> }
-function Input({ label, value, onChange, type = 'text' }: any) { return <div><label className="text-xs text-gray-500 uppercase font-bold mb-1 block">{label}</label><input type={type} className="w-full bg-[#222] border border-white/10 rounded-lg p-3 text-white focus:border-purple-500 outline-none" value={value ?? ''} onChange={e => onChange(e.target.value)} /></div> }
-function Button({ children, submit, loading, disabled }: any) { return <button type={submit ? 'submit' : 'button'} disabled={loading || disabled} className="w-full bg-white text-black font-bold p-3 rounded-lg hover:bg-gray-200 disabled:opacity-50">{loading ? '...' : children}</button> }
+function StatCard({ label, value, icon, color = 'purple' }: { label: string, value: string | number, icon: React.ReactNode, color?: string }) { return <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex justify-between"><div><p className="text-gray-400 text-xs">{label}</p><h3 className="text-2xl font-bold">{value}</h3></div><div className={`text-${color}-400`}>{icon}</div></div> }
+function IconButton({ icon, onClick, disabled, color }: { icon: React.ReactNode, onClick: () => void, disabled?: boolean, color?: string }) { return <button onClick={onClick} disabled={disabled} className={`p-2 rounded hover:bg-white/10 ${color === 'red' ? 'text-red-500' : ''}`}>{icon}</button> }
+function Modal({ isOpen, onClose, title, children }: { isOpen: boolean, onClose: () => void, title: string, children: React.ReactNode }) { if (!isOpen) return null; return <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"><div className="bg-[#111] border border-white/10 rounded-2xl p-6 w-full max-w-2xl relative"><button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white"><X className="w-4 h-4" /></button><h3 className="text-xl font-bold mb-4">{title}</h3>{children}</div></div> }
+function Input({ label, value, onChange, type = 'text' }: { label: string, value: string, onChange: (v: string) => void, type?: string }) { return <div><label className="text-xs text-gray-500 uppercase font-bold mb-1 block">{label}</label><input type={type} className="w-full bg-[#222] border border-white/10 rounded-lg p-3 text-white focus:border-purple-500 outline-none" value={value ?? ''} onChange={e => onChange(e.target.value)} /></div> }
+function Button({ children, submit, loading, disabled }: { children: React.ReactNode, submit?: boolean, loading?: boolean, disabled?: boolean }) { return <button type={submit ? 'submit' : 'button'} disabled={loading || disabled} className="w-full bg-white text-black font-bold p-3 rounded-lg hover:bg-gray-200 disabled:opacity-50">{loading ? '...' : children}</button> }
 
-function getWordCount(data: any) {
-    if (!data) return 0;
-    const text = [data.title, data.description, ...(data.benefits || []).map((b: any) => b.description), ...(data.faq || []).map((f: any) => f.answer)].join(' ');
-    return text.replace(/<[^>]*>?/gm, '').split(/\s+/).length;
-}
 
-function CheckItem({ label, checked, manual }: any) {
-    return (
-        <div className={`flex items-center gap-2 p-2 rounded ${checked ? 'bg-green-500/10' : 'bg-red-500/10'}`}>
-            <span className={checked ? 'text-green-400' : 'text-red-400'}>{checked ? <Check className="w-3 h-3 inline-block" /> : <X className="w-3 h-3 inline-block" />}</span>
-            <span className={`flex-1 ${checked ? 'text-white' : 'text-gray-400'}`}>{label}</span>
-            {manual && <span className="text-[10px] text-gray-500 border border-white/10 px-1 rounded">CHECK</span>}
-        </div>
-    );
-}

@@ -44,6 +44,20 @@ export async function POST(request: Request) {
             }
         });
 
+        // Save Lead to DB
+        await prisma.lead.create({
+            data: {
+                name,
+                email,
+                company: company || null,
+                message,
+                source: service === 'preventivo' ? 'wizard' : 'contact_form',
+                services: service,
+                ipAddress: ip,
+                status: 'new'
+            }
+        });
+
         // 1. Invio Email Admin (Notifica Interna)
         await transporter.sendMail({
             ...mailOptions,

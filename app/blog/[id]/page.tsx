@@ -9,8 +9,11 @@ import { prisma } from '@/lib/prisma';
 // Helper to get post
 const getPost = async (id: string) => {
     try {
-        return await prisma.blogPost.findUnique({
-            where: { id }
+        return await prisma.blogPost.findFirst({
+            where: {
+                id,
+                deleted: false
+            }
         });
     } catch { return null; }
 };

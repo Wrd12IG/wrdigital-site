@@ -43,6 +43,16 @@ export async function POST(request: Request) {
             }
         });
 
+        // Save Newsletter Lead
+        await prisma.lead.create({
+            data: {
+                email,
+                source: 'newsletter',
+                ipAddress: ip,
+                status: 'new'
+            }
+        });
+
         // Invio notifica via SMTP
         await transporter.sendMail({
             ...mailOptions,

@@ -6,6 +6,7 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
     try {
         const projects = await prisma.project.findMany({
+            where: { deleted: false },
             orderBy: { createdAt: 'desc' }
         });
 

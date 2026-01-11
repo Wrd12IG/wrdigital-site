@@ -49,15 +49,47 @@ export async function POST(request: Request) {
 
         if (type === 'blog-post') {
             try {
-                const result = await model.generateContent(`Scrivi un articolo blog su: "${topic}". Usa Markdown.`);
-                return NextResponse.json({
+                // 1. Generate Content with AI
+                const prompt = `Agisci come un blogger esperto. Scrivi un articolo approfondito in italiano su: "${topic}". 
+                Includi un titolo accattivante, un riassunto (excerpt) di max 2 righe, e il contenuto in Markdown con paragrafi ben strutturati, elenchi puntati e grasetti.
+                Formatta la risposta come JSON: { "title": "...", "excerpt": "...", "content": "..." }`;
+
+                const result = await model.generateContent(prompt);
+                const data = cleanAndParseJSON(result.response.text()) || {
                     title: `${topic}: Guida 2026`,
                     content: result.response.text(),
-                    excerpt: `Analisi su ${topic}.`,
-                    image: `https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=1024`
+                    excerpt: `Analisi approfondita su ${topic}.`
+                };
+
+                // 2. Try to get a real image from Freepik if configured
+                let imageUrl = `https://loremflickr.com/1024/600/${encodeURIComponent(topic.split(' ')[0])}`;
+
+                const freepikKey = process.env.FREEPIK_API_KEY;
+                if (freepikKey) {
+                    try {
+                        const freeres = await fetch(`https://api.freepik.com/v1/resources?term=${encodeURIComponent(topic)}&filters[content_type.photo]=1&limit=1`, {
+                            headers: { 'X-Freepik-API-Key': freepikKey }
+                        });
+                        if (freeres.ok) {
+                            const freedata = await freeres.json();
+                            if (freedata.data?.[0]?.image?.source?.url) {
+                                imageUrl = freedata.data[0].image.source.url;
+                            } else if (freedata.data?.[0]?.preview?.url) {
+                                imageUrl = freedata.data[0].preview.url;
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Freepik fetch error during AI generation:", e);
+                    }
+                }
+
+                return NextResponse.json({
+                    ...data,
+                    image: imageUrl
                 });
-            } catch {
-                return NextResponse.json({ error: "AI Error" }, { status: 500 });
+            } catch (e: any) {
+                console.error("AI Blog Generation Error:", e);
+                return NextResponse.json({ error: "AI Error", details: e.message }, { status: 500 });
             }
         }
 

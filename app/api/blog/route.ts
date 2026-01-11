@@ -6,7 +6,10 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
     try {
         const posts = await prisma.blogPost.findMany({
-            where: { published: true },
+            where: {
+                published: true,
+                deleted: false
+            },
             orderBy: { createdAt: 'desc' }
         });
 

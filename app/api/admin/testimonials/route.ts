@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma';
 export async function GET() {
     try {
         const testimonials = await prisma.testimonial.findMany({
+            where: { deleted: false },
             orderBy: { createdAt: 'desc' }
         });
         return NextResponse.json(testimonials);
@@ -40,7 +41,8 @@ export async function POST(request: Request) {
                         company: t.company,
                         rating: t.rating || 5,
                         result: t.result,
-                        service: t.service
+                        service: t.service,
+                        deleted: t.deleted !== undefined ? t.deleted : false
                     }))
                 })
             ]);
@@ -53,7 +55,8 @@ export async function POST(request: Request) {
                     company: data.company,
                     rating: data.rating || 5,
                     result: data.result,
-                    service: data.service
+                    service: data.service,
+                    deleted: data.deleted !== undefined ? data.deleted : false
                 }
             });
         }

@@ -57,8 +57,9 @@ export async function POST(req: Request) {
 
         if (action === 'delete') {
             if (!id) return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
-            await prisma.project.delete({
-                where: { id: id.toString() }
+            await prisma.project.update({
+                where: { id: id.toString() },
+                data: { deleted: true }
             });
             return NextResponse.json({ success: true });
         }
@@ -95,7 +96,10 @@ export async function POST(req: Request) {
         try {
             const fs = require('fs');
             const path = require('path');
-            const allProjects = await prisma.project.findMany({ orderBy: { createdAt: 'desc' } });
+            const allProjects = await prisma.project.findMany({
+                where: { deleted: false },
+                orderBy: { createdAt: 'desc' }
+            });
             // Parse JSON strings back to objects for the JSON file
             const forJson = allProjects.map(p => ({
                 ...p,
