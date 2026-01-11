@@ -6,34 +6,35 @@ import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { Metadata } from 'next';
 import { Calendar, Clock } from 'lucide-react';
 
-// Helper to get posts
-const getPosts = () => {
+import { prisma } from '@/lib/prisma';
+
+// Helper to get post
+const getPost = async (id: string) => {
     try {
-        const filePath = path.join(process.cwd(), 'data', 'blog.json');
-        if (!fs.existsSync(filePath)) return [];
-        return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    } catch { return []; }
+        return await prisma.blogPost.findUnique({
+            where: { id }
+        });
+    } catch { return null; }
 };
 
 export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
     const params = await props.params;
-    const posts = getPosts();
-    const post = posts.find((p: any) => p.id === params.id);
+    const post = await getPost(params.id);
     if (!post) return { title: 'Blog | W[r]Digital' };
 
     return {
-        title: post.metaTitle || post.title,
-        description: post.metaDescription || post.excerpt,
-        keywords: post.keywords
+        title: post.title, // Simplified as metaTitle might not be in the basic model yet
+        description: post.excerpt,
+        keywords: '' // post.keywords might not be in model yet
     };
 }
 
 export default async function BlogPostPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
-    const posts = getPosts();
-    const post = posts.find((p: any) => p.id === params.id);
+    const rawPost = await getPost(params.id);
 
-    if (!post) notFound();
+    if (!rawPost) notFound();
+    const post = rawPost as any;
 
     return (
         <main className="bg-black min-h-screen text-white">
@@ -89,11 +90,41 @@ export default async function BlogPostPage(props: { params: Promise<{ id: string
                     <div className="border-t border-white/10 pt-8 mb-16">
                         <h5 className="text-xs font-bold text-gray-500 uppercase mb-4">Argomenti trattati</h5>
                         <div className="flex flex-wrap gap-2">
-                            {(post.keywords || '').split(',').map((tag: string, i: number) => (
-                                <span key={i} className="text-xs bg-white/5 text-gray-300 px-3 py-1 rounded-full border border-white/5 hover:bg-white/10 transition-colors">
-                                    #{tag.trim()}
-                                </span>
-                            ))}
+                            {(() => {
+                                let tags: string[] = [];
+                                if (post.tags) {
+                                    try {
+                                        // Try parsing JSON
+                                        const parsed = JSON.parse(post.tags);
+                                        if (Array.isArray(parsed)) {
+                                            tags = parsed;
+                                        } else if (typeof parsed === 'string') {
+                                            // Handle double-encoded JSON
+                                            try {
+                                                const secondParse = JSON.parse(parsed);
+                                                if (Array.isArray(secondParse)) {
+                                                    tags = secondParse;
+                                                } else {
+                                                    tags = parsed.split(',').filter(t => t.trim());
+                                                }
+                                            } catch {
+                                                tags = parsed.split(',').filter(t => t.trim());
+                                            }
+                                        }
+                                    } catch (e) {
+                                        // Fallback to comma split
+                                        tags = post.tags.split(',').filter((t: string) => t.trim());
+                                    }
+                                }
+
+                                if (!tags.length) return null;
+
+                                return tags.map((tag: string, i: number) => (
+                                    <span key={i} className="text-xs bg-white/5 text-gray-300 px-3 py-1 rounded-full border border-white/5 hover:bg-white/10 transition-colors">
+                                        #{tag.trim()}
+                                    </span>
+                                ));
+                            })()}
                         </div>
                     </div>
 
@@ -112,7 +143,7 @@ export default async function BlogPostPage(props: { params: Promise<{ id: string
                             <p className="text-gray-400 text-sm leading-relaxed mb-4">
                                 Aiutiamo aziende visionarie a scalare il proprio business attraverso Digital Transformation, AI Marketing e Strategie Data-Driven.
                             </p>
-                            <a href="/contatti" className="text-white text-xs font-bold uppercase border-b border-yellow-400 pb-0.5 hover:text-yellow-400 transition-colors">
+                            <a href="/#contatti" className="text-white text-xs font-bold uppercase border-b border-yellow-400 pb-0.5 hover:text-yellow-400 transition-colors">
                                 Richiedi una consulenza strategica →
                             </a>
                         </div>

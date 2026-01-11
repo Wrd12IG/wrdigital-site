@@ -11,8 +11,18 @@ export default function NotFound() {
 
     const [windowSize, setWindowSize] = useState({ width: 1920, height: 1080 }); // Default for SSR
 
+    const [particles, setParticles] = useState<any[]>([]);
+
     useEffect(() => {
         setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+
+        // Generate particles only on client side to avoid hydration mismatch
+        setParticles([...Array(20)].map(() => ({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            duration: Math.random() * 5 + 5,
+            targetY: Math.random() * window.innerHeight
+        })));
 
         const handleResize = () => {
             setWindowSize({ width: window.innerWidth, height: window.innerHeight });
@@ -55,21 +65,21 @@ export default function NotFound() {
 
             {/* Floating Particles */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {[...Array(20)].map((_, i) => (
+                {particles.map((p, i) => (
                     <motion.div
                         key={i}
                         className="absolute w-1 h-1 bg-[#FACC15] rounded-full"
                         initial={{
-                            x: Math.random() * windowSize.width,
-                            y: Math.random() * windowSize.height,
+                            x: p.x,
+                            y: p.y,
                             opacity: 0,
                         }}
                         animate={{
-                            y: [null, Math.random() * windowSize.height],
+                            y: [null, p.targetY],
                             opacity: [0, 1, 0],
                         }}
                         transition={{
-                            duration: Math.random() * 5 + 5,
+                            duration: p.duration,
                             repeat: Infinity,
                             ease: 'linear',
                         }}

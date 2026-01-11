@@ -9,7 +9,10 @@
     "lint": "eslint",
     "seo:monitor": "node scripts/seo-guardian.js"
   },
-   "prisma": { "seed": "npx tsx prisma/seed.ts" }, "dependencies": {
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
+  },
+  "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^5.22.0",
     "@react-three/drei": "^10.7.7",
@@ -29,6 +32,8 @@
     "next-auth": "^4.24.13",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "resend": "^6.6.0",
     "sharp": "^0.34.5",
     "three": "^0.182.0"

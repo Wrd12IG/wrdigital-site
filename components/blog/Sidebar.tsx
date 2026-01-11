@@ -62,11 +62,11 @@ export default function Sidebar() {
                 </p>
                 <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-xs text-white">
-                        M
+                        N
                     </div>
                     <div>
-                        <div className="text-white text-xs font-bold">Marco Rossi</div>
-                        <div className="text-gray-500 text-[10px]">CEO, TechStart</div>
+                        <div className="text-white text-xs font-bold">Niccolò Ammaniti</div>
+                        <div className="text-gray-500 text-[10px]">Autore & Scrittore</div>
                     </div>
                 </div>
             </motion.div>

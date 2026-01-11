@@ -5,10 +5,11 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        const posts = await (prisma as any).blogPost.findMany({
+        const posts = await prisma.blogPost.findMany({
             where: { published: true },
             orderBy: { createdAt: 'desc' }
         });
+
         return NextResponse.json(posts);
     } catch (error: any) {
         console.error('Public Blog API Error:', error);

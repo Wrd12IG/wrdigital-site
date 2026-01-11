@@ -1,68 +1,110 @@
 [
   {
-    "name": "City Motors",
-    "logo": "https://cdnwp.dealerk.com/a7243f12/uploads/sites/6/2024/12/logo-sito-1.jpg",
-    "url": "https://www.citymotors.it/https://netflix.com",
-    "description": "Stai cercando una concessionaria e centro assistenza Toyota a Monza e Bellusco? Vieni da City Motors e scopri le nostre auto nuove, usate e km0 e officina Chevrolet.",
-    "socials": {
-      "facebook": "https://www.facebook.com/citymotorsmonza",
-      "instagram": "https://www.instagram.com/toyotacitymotors",
-      "linkedin": "https://www.linkedin.com/company/city-motors-srl",
-      "youtube": "https://www.youtube.com/channel/UCeh0oV_lLDn4_80bip0ZEQQ"
-    },
-    "showInSuccessStories": true
-  },
-  {
-    "name": "netflix",
-    "logo": "https://assets.nflxext.com/us/ffe/siteui/common/icons/nficon2016.png",
-    "url": "https://netflix.com",
-    "description": "Guarda film e programmi TV su Netflix online o direttamente su smart TV, console per videogiochi, PC, Mac, cellulare, tablet e molti altri dispositivi.",
-    "socials": {
-      "twitter": "x.com/log"
-    },
-    "selectedSocials": [
-      "twitter"
-    ],
-    "showInSuccessStories": true
-  },
-  {
-    "name": "BlueSky Ventures",
-    "logo": ""
-  },
-  {
-    "name": "NovaDesign",
-    "logo": ""
-  },
-  {
-    "name": "Quantum Labs",
-    "logo": ""
-  },
-  {
-    "name": "Alpine Solutions",
-    "logo": ""
-  },
-  {
-    "name": "Urban Dynamics",
-    "logo": ""
-  },
-  {
-    "name": "Stellar Media",
-    "logo": ""
-  },
-  {
-    "name": "Forge Industries",
-    "logo": ""
-  },
-  {
-    "name": "Nexus Partners",
-    "logo": ""
-  },
-  {
-    "name": "",
+    "id": "cmk9pj7df001aiv56kiatn65c",
+    "name": "Brianza Serramenti",
     "logo": "",
     "url": "",
+    "description": "",
     "socials": {},
-    "selectedSocials": [],
-    "showInSuccessStories": false
+    "showInSuccessStories": false,
+    "order": 0,
+    "createdAt": "2026-01-11T12:25:38.836Z",
+    "updatedAt": "2026-01-11T12:25:38.836Z"
+  },
+  {
+    "id": "cmk9pj7dg001biv56lyjjy85y",
+    "name": "Rovi Sposi",
+    "logo": "",
+    "url": "",
+    "description": "",
+    "socials": {},
+    "showInSuccessStories": false,
+    "order": 1,
+    "createdAt": "2026-01-11T12:25:38.836Z",
+    "updatedAt": "2026-01-11T12:25:38.836Z"
+  },
+  {
+    "id": "cmk9n08d00013iv5607hml4t0",
+    "name": "Yeppon.it",
+    "logo": "",
+    "url": "",
+    "description": "",
+    "socials": "\"{}\"",
+    "showInSuccessStories": false,
+    "order": 2,
+    "createdAt": "2026-01-11T12:25:38.836Z",
+    "updatedAt": "2026-01-11T12:25:38.836Z"
+  },
+  {
+    "id": "cmk9n08d00014iv5611gvmckg",
+    "name": "Toyota",
+    "logo": "",
+    "url": "",
+    "description": "",
+    "socials": "\"{}\"",
+    "showInSuccessStories": false,
+    "order": 3,
+    "createdAt": "2026-01-11T12:25:38.836Z",
+    "updatedAt": "2026-01-11T12:25:38.836Z"
+  },
+  {
+    "id": "cmk9n08d00015iv568ai1di1p",
+    "name": "Volkswagen",
+    "logo": "",
+    "url": "",
+    "description": "",
+    "socials": "\"{}\"",
+    "showInSuccessStories": false,
+    "order": 4,
+    "createdAt": "2026-01-11T12:25:38.836Z",
+    "updatedAt": "2026-01-11T12:25:38.836Z"
+  },
+  {
+    "id": "cmk9n08d00016iv564nezh5rx",
+    "name": "Renault",
+    "logo": "",
+    "url": "",
+    "description": "",
+    "socials": "\"{}\"",
+    "showInSuccessStories": false,
+    "order": 5,
+    "createdAt": "2026-01-11T12:25:38.836Z",
+    "updatedAt": "2026-01-11T12:25:38.836Z"
+  },
+  {
+    "id": "cmk9n08d00017iv56l740z908",
+    "name": "Dacia",
+    "logo": "",
+    "url": "",
+    "description": "",
+    "socials": "\"{}\"",
+    "showInSuccessStories": false,
+    "order": 6,
+    "createdAt": "2026-01-11T12:25:38.836Z",
+    "updatedAt": "2026-01-11T12:25:38.836Z"
+  },
+  {
+    "id": "cmk9n08d00018iv56ky75l6bl",
+    "name": "Škoda",
+    "logo": "",
+    "url": "",
+    "description": "",
+    "socials": "\"{}\"",
+    "showInSuccessStories": false,
+    "order": 7,
+    "createdAt": "2026-01-11T12:25:38.836Z",
+    "updatedAt": "2026-01-11T12:25:38.836Z"
+  },
+  {
+    "id": "cmk9n08d00019iv569pmjr323",
+    "name": "Brevi S.p.A.",
+    "logo": "",
+    "url": "",
+    "description": "",
+    "socials": "\"{}\"",
+    "showInSuccessStories": false,
+    "order": 8,
+    "createdAt": "2026-01-11T12:25:38.836Z",
+    "updatedAt": "2026-01-11T12:25:38.836Z"
   }
 ]

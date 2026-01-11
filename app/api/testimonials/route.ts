@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        const testimonials = await (prisma as any).testimonial.findMany({
+        const testimonials = await prisma.testimonial.findMany({
             orderBy: { createdAt: 'desc' }
         });
         return NextResponse.json(testimonials);

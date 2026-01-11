@@ -541,14 +541,7 @@ export default function ServicesManager() {
                         <div
                             role="button"
                             key={s.id || index}
-                            onClick={() => {
-                                if (selectedServiceId === s.id) return;
-                                setEditingService(null);
-                                setTimeout(() => {
-                                    setSelectedServiceId(s.id);
-                                    setActiveTab('content');
-                                }, 10);
-                            }}
+                            onClick={() => handleSelectService(s)}
                             className={`w-full text-left p-3 rounded-lg border transition-all flex items-center justify-between group relative ${selectedServiceId === s.id
                                 ? 'bg-purple-900/30 border-purple-500 text-white'
                                 : 'bg-white/5 border-white/5 text-gray-400 hover:bg-white/10 hover:text-white'

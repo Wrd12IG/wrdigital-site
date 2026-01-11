@@ -92,7 +92,7 @@ export default function FloatingCTA() {
                             </button>
 
                             <a
-                                href="https://wa.me/393333333333"
+                                href="https://wa.me/393401204651?text=Salve, vorrei maggiori informazioni sui servizi W[r]Digital."
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left group"
@@ -109,7 +109,7 @@ export default function FloatingCTA() {
                             </a>
 
                             <a
-                                href="tel:+393333333333"
+                                href="tel:+393401204651"
                                 className="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left group"
                             >
                                 <div className="w-10 h-10 rounded-full bg-blue-400/20 flex items-center justify-center group-hover:bg-blue-400/30 transition-colors">

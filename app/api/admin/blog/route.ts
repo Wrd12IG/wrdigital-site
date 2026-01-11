@@ -39,8 +39,11 @@ export async function POST(request: Request) {
                         date: post.date,
                         readTime: post.readTime,
                         image: post.image,
+                        published: post.published !== undefined ? post.published : false,
                         featured: post.featured || false,
-                        tags: post.tags ? JSON.stringify(post.tags) : '[]'
+                        tags: post.tags ? JSON.stringify(post.tags) : '[]',
+                        metaTitle: post.metaTitle,
+                        metaDescription: post.metaDescription
                     }))
                 })
             ]);
@@ -57,8 +60,11 @@ export async function POST(request: Request) {
                     date: data.date,
                     readTime: data.readTime,
                     image: data.image,
+                    published: data.published !== undefined ? data.published : false,
                     featured: data.featured,
-                    tags: JSON.stringify(data.tags || [])
+                    tags: JSON.stringify(data.tags || []),
+                    metaTitle: data.metaTitle,
+                    metaDescription: data.metaDescription
                 },
                 create: {
                     title: data.title,
@@ -69,8 +75,11 @@ export async function POST(request: Request) {
                     date: data.date,
                     readTime: data.readTime,
                     image: data.image,
+                    published: data.published !== undefined ? data.published : false,
                     featured: data.featured,
-                    tags: JSON.stringify(data.tags || [])
+                    tags: JSON.stringify(data.tags || []),
+                    metaTitle: data.metaTitle,
+                    metaDescription: data.metaDescription
                 }
             });
         }

@@ -16,6 +16,15 @@ export function ModalProvider({ children }: { children: ReactNode }) {
     const openContactModal = () => setIsContactOpen(true);
     const closeContactModal = () => setIsContactOpen(false);
 
+    // Check for hash on mount to open modal if needed
+    React.useEffect(() => {
+        if (typeof window !== 'undefined' && window.location.hash === '#contatti') {
+            setIsContactOpen(true);
+            // Optional: clear hash to avoid reopening on refresh? 
+            // window.history.replaceState(null, '', ' ');
+        }
+    }, []);
+
     return (
         <ModalContext.Provider value={{ isContactOpen, openContactModal, closeContactModal }}>
             {children}

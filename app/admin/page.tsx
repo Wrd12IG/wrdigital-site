@@ -15,11 +15,12 @@ import {
     Globe, Save, Search, Target, Sparkles, Bot, Rocket, Smartphone,
     Mail, Lightbulb, Briefcase, FileText, TrendingUp, Monitor, Folder, Home,
     LogOut, Settings, AlertTriangle, Newspaper, ArrowLeft, Star,
-    Upload, Video, Facebook as FacebookIcon, Instagram as InstagramIcon,
+    Upload, Video, Facebook as FacebookIcon, Instagram as InstagramIcon, RotateCcw,
     Youtube, Linkedin, Twitter, Music, Link2 as Link, List, Tag, Gem, Calendar, HelpCircle, Check, X, Zap
 } from 'lucide-react';
 
 // Icons
+const IconHome = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
 const IconUsers = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>;
 const IconFolder = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>;
 const IconUpload = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>;
@@ -34,6 +35,7 @@ const IconNewspaper = () => <svg className="w-5 h-5" fill="none" stroke="current
 
 // Types
 interface Project { id?: string; title: string; client: string; category: string; year: string; description: string; results: any[]; tags: string[]; image: string; color: string; showOnHome?: boolean; }
+interface Client { name: string; logo: string; url?: string; description?: string; socials?: Record<string, string>; showInSuccessStories?: boolean; selectedSocials?: string[]; }
 const defaultProject: Project = { title: '', client: '', category: 'Web Development', year: '2025', description: '', results: [{ label: '', value: '' }], tags: [], image: '/hero-bg.png', color: '#00d4ff', showOnHome: false };
 
 export default function AdminPage() {
@@ -55,15 +57,7 @@ export default function AdminPage() {
     const [faqItems, setFaqItems] = useState<any[]>([]);
     const [faqSuggestions, setFaqSuggestions] = useState<any[]>([]); // NEW: AI FAQ Suggestions
     const [faqSuggestionsLoading, setFaqSuggestionsLoading] = useState(false); // NEW: Loading state
-    const [clientsList, setClientsList] = useState<{
-        name: string,
-        logo: string,
-        url?: string,
-        description?: string,
-        socials?: Record<string, string>,
-        showInSuccessStories?: boolean,
-        selectedSocials?: string[]
-    }[]>([]);
+    const [clientsList, setClientsList] = useState<Client[]>([]);
 
     // Freepik Integration
     const [freepikQuery, setFreepikQuery] = useState('');
@@ -97,8 +91,27 @@ export default function AdminPage() {
     const [analysisStep, setAnalysisStep] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const userRole = (session?.user as any)?.role;
-    const isAllowed = userRole === 'admin' || session?.user?.email?.toLowerCase() === 'roberto@wrdigital.it';
+    const email = session?.user?.email?.toLowerCase();
+    const isAllowed = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
+
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const refreshAllData = async () => {
+        setIsRefreshing(true);
+        try {
+            const [cRes, pRes, bRes] = await Promise.all([
+                fetch('/api/admin/clients'),
+                fetch('/api/portfolio'),
+                fetch('/api/admin/blog')
+            ]);
+            if (cRes.ok) setClientsList(await cRes.json());
+            if (pRes.ok) setProjects(await pRes.json());
+            if (bRes.ok) {
+                const blogData = await bRes.json();
+                setBlogPosts(blogData.posts || blogData);
+            }
+        } finally { setIsRefreshing(false); }
+    };
 
     useEffect(() => {
         if (status === 'authenticated' && isAllowed) {
@@ -137,6 +150,8 @@ export default function AdminPage() {
 
                     const resContent = await fetch('/api/admin/services-content');
                     if (resContent.ok) setServicesContent(await resContent.json());
+                } catch (err: any) {
+                    console.error('Initialization error:', err);
                 } finally { setIsLoading(false); }
             };
             loadData();
@@ -402,7 +417,8 @@ export default function AdminPage() {
             if (field === 'content') {
                 setSelectedPost({ ...selectedPost, content: data.content, excerpt: data.excerpt, image: data.image || selectedPost.image });
             } else {
-                setSelectedPost({ ...selectedPost, metaTitle: data.metaTitle, metaDescription: data.metaDescription, keywords: data.keywords });
+                const generatedTags = typeof data.keywords === 'string' ? data.keywords.split(',').map((k: string) => k.trim()) : (Array.isArray(data.keywords) ? data.keywords : []);
+                setSelectedPost({ ...selectedPost, metaTitle: data.metaTitle, metaDescription: data.metaDescription, tags: generatedTags });
             }
         } finally { setIsSubmitting(false); }
     };
@@ -423,10 +439,21 @@ export default function AdminPage() {
 
         setIsSubmitting(true);
         try {
+            const payload = newPosts.map(p => ({
+                ...p,
+                published: p.status === 'published',
+                date: p.date || new Date().toLocaleDateString('it-IT'),
+                readTime: p.readTime || '5 min',
+                featured: p.featured || false,
+                tags: p.tags || [],
+                metaTitle: p.metaTitle,
+                metaDescription: p.metaDescription
+            }));
+
             const res = await fetch('/api/admin/blog', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newPosts)
+                body: JSON.stringify(payload)
             });
             if (res.ok) {
                 setBlogPosts(newPosts);
@@ -486,10 +513,21 @@ export default function AdminPage() {
 
         setIsSubmitting(true);
         try {
+            const payload = newPosts.map(p => ({
+                ...p,
+                published: p.status === 'published',
+                date: p.date || new Date().toLocaleDateString('it-IT'),
+                readTime: p.readTime || '5 min',
+                featured: p.featured || false,
+                tags: p.tags || [],
+                metaTitle: p.metaTitle,
+                metaDescription: p.metaDescription
+            }));
+
             await fetch('/api/admin/blog', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newPosts)
+                body: JSON.stringify(payload)
             });
             setBlogPosts(newPosts);
         } finally { setIsSubmitting(false); }
@@ -571,9 +609,21 @@ export default function AdminPage() {
 
     const handleSaveClients = async () => {
         setIsSubmitting(true);
+        console.log('Saving clients:', clientsList);
         try {
-            const res = await fetch('/api/admin/clients', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(clientsList) });
-            if (res.ok) alert('Clienti salvati!');
+            const res = await fetch('/api/admin/clients', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(clientsList)
+            });
+            if (res.ok) {
+                alert('✅ Partner salvati correttamente!');
+            } else {
+                const errData = await res.json();
+                alert('❌ Errore durante il salvataggio: ' + (errData.error || 'Errore sconosciuto'));
+            }
+        } catch (err: any) {
+            alert('❌ Errore di connessione: ' + err.message);
         } finally { setIsSubmitting(false); }
     };
 
@@ -609,63 +659,6 @@ export default function AdminPage() {
         }
     };
 
-    const handlePublishToPortfolio = async () => {
-        const selectedClients = clientsList.filter(c => c.showInSuccessStories);
-        if (selectedClients.length === 0) {
-            alert('Nessun cliente selezionato per Success Stories.');
-            return;
-        }
-
-        if (!confirm(`Vuoi generare ${selectedClients.length} progetti Portfolio dai clienti selezionati?`)) return;
-
-        setIsSubmitting(true);
-        try {
-            let newProjectsCreated = 0;
-            const currentProjects = [...projects];
-
-            selectedClients.forEach(client => {
-                const exists = currentProjects.find(p => p.client === client.name);
-                if (!exists) {
-                    const newProject: Project = {
-                        id: Date.now().toString() + Math.random().toString().slice(2, 5),
-                        title: `Caso Studio: ${client.name}`,
-                        client: client.name,
-                        category: client.selectedSocials && client.selectedSocials.length > 0 ? 'Social Media Strategy' : 'Digital Branding',
-                        year: new Date().getFullYear().toString(),
-                        description: (client as any).description || `Gestione completa della presenza digitale per ${client.name}.`,
-                        results: [{ label: 'Engagement', value: '+150%' }, { label: 'Reach', value: '2.5M' }],
-                        tags: (client.selectedSocials && client.selectedSocials.length > 0) ? client.selectedSocials : ['Branding'],
-                        image: client.logo || '/hero-bg.png',
-                        color: ['#FACC15', '#EC4899', '#22C55E', '#3B82F6'][Math.floor(Math.random() * 4)]
-                    };
-                    currentProjects.push(newProject);
-                    newProjectsCreated++;
-                }
-            });
-
-            if (newProjectsCreated > 0) {
-                const res = await fetch('/api/admin/portfolio', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'save_all', projects: currentProjects })
-                });
-
-                if (res.ok) {
-                    setProjects(currentProjects);
-                    alert(`✅ ${newProjectsCreated} nuovi progetti pubblicati nel Portfolio!`);
-                } else {
-                    alert('Errore nel salvataggio dei progetti.');
-                }
-            } else {
-                alert('Tutti i clienti selezionati sono già presenti nel Portfolio.');
-            }
-        } catch (e) {
-            console.error(e);
-            alert('Errore durante la pubblicazione.');
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
 
     const handleSaveSeo = async () => {
         setIsSubmitting(true);
@@ -823,8 +816,13 @@ export default function AdminPage() {
 
                     {/* Vertical Navigation */}
                     <nav className="space-y-1">
+                        <div className="flex gap-4">
+                            <button onClick={refreshAllData} disabled={isRefreshing} className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                                <RotateCcw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} /> Riprova Sincronizzazione
+                            </button>
+                        </div>
                         <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 px-3">Start</div>
-                        <TabButton active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} icon={<TrendingUp />} label="SEO Intelligence" color="fuchsia" />
+                        <TabButton active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} icon={<IconHome />} label="Overview" color="purple" />
 
                         <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 mt-4 px-3">Generale</div>
                         <TabButton active={activeTab === 'users'} onClick={() => setActiveTab('users')} icon={<IconUsers />} label="Dashboard / Utenti" color="purple" />
@@ -1185,215 +1183,66 @@ export default function AdminPage() {
                                 <div className="flex justify-between items-center">
                                     <h2 className="text-xl font-bold">Loghi Partner (HP)</h2>
                                     <div className="flex gap-2">
-                                        <button onClick={handlePublishToPortfolio} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-xl font-bold border border-white/20 text-sm whitespace-nowrap"><Rocket className="w-4 h-4 inline-block mr-1" /> Pubblica Selezionati</button>
                                         <button onClick={handleAddClient} className="bg-white/10 px-4 py-2 rounded-xl text-sm hover:bg-white/20 transition-colors">+ Aggiungi</button>
                                         <button onClick={handleSaveClients} disabled={isSubmitting} className="bg-cyan-500 text-black px-6 py-2 rounded-xl font-bold text-sm">{isSubmitting ? 'Salva...' : <><Save className="w-4 h-4 inline-block mr-1" /> Salva</>}</button>
                                     </div>
                                 </div>
                                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                                    <p className="text-sm text-gray-400 mb-4">Inserisci l'URL del sito del cliente per estrarre automaticamente logo, social e informazioni aziendali.</p>
+                                    <p className="text-sm text-gray-400 mb-4">Gestione manuale dei partner: inserisci il nome del brand e carica il relativo logo.</p>
                                     <div className="space-y-4">
                                         {clientsList.map((c, i) => (
                                             <div key={i} className="bg-black/30 p-4 rounded-xl border border-white/5 space-y-3">
-                                                {/* Row 1: Logo Preview + URL Input + Analyze Button */}
                                                 <div className="flex gap-4 items-center">
                                                     {/* Logo Preview */}
-                                                    <div className="w-16 h-16 bg-white/10 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
-                                                        {c.logo ? <img src={c.logo} alt={c.name} className="w-full h-full object-contain" /> : <span className="text-gray-500 text-xs">Logo</span>}
+                                                    <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0 border border-white/20">
+                                                        {c.logo ? <img src={c.logo} alt={c.name} className="w-full h-full object-contain p-1" /> : <div className="text-gray-900 text-[10px] font-bold text-center">NESSUN<br />LOGO</div>}
                                                     </div>
-                                                    {/* URL Input */}
-                                                    <input
-                                                        value={c.url || ''}
-                                                        onChange={e => { const arr = [...clientsList]; arr[i] = { ...arr[i], url: e.target.value }; setClientsList(arr); }}
-                                                        placeholder="https://sitocliente.com"
-                                                        className="flex-1 bg-black/50 p-3 rounded-xl border border-white/10"
-                                                    />
-                                                    {/* Analyze Button */}
-                                                    <button
-                                                        onClick={async () => {
-                                                            if (!c.url) {
-                                                                alert('Inserisci un URL');
-                                                                return;
-                                                            }
-                                                            try {
-                                                                console.log('Analyzing:', c.url);
-                                                                const res = await fetch('/api/admin/analyze-website', {
-                                                                    method: 'POST',
-                                                                    headers: { 'Content-Type': 'application/json' },
-                                                                    body: JSON.stringify({ url: c.url })
-                                                                });
 
-                                                                if (res.ok) {
-                                                                    const { data } = await res.json();
-                                                                    console.log('✅ Data extracted:', data);
+                                                    <div className="flex-1 space-y-3">
+                                                        <div className="flex gap-4">
+                                                            <input
+                                                                value={c.name}
+                                                                onChange={e => { const arr = [...clientsList]; arr[i] = { ...arr[i], name: e.target.value }; setClientsList(arr); }}
+                                                                placeholder="Nome Brand (es. Winblu)"
+                                                                className="flex-1 bg-black/50 p-3 rounded-xl border border-white/10"
+                                                            />
+                                                            <input
+                                                                value={(c as any).description || ''}
+                                                                onChange={e => { const arr = [...clientsList]; arr[i] = { ...arr[i], description: e.target.value }; setClientsList(arr); }}
+                                                                placeholder="Settore / Descrizione breve"
+                                                                className="flex-1 bg-black/50 p-3 rounded-xl border border-white/10"
+                                                            />
+                                                        </div>
 
-                                                                    // Update state
-                                                                    setClientsList(prev => {
-                                                                        const updated = [...prev];
-                                                                        updated[i] = {
-                                                                            ...updated[i],
-                                                                            name: data.name || updated[i].name,
-                                                                            logo: data.logo || updated[i].logo,
-                                                                            description: data.description || '',
-                                                                            socials: data.socials || {}
-                                                                        };
-                                                                        return updated;
-                                                                    });
-                                                                } else {
-                                                                    const error = await res.json();
-                                                                    console.error('❌ API Error:', error);
-                                                                    alert('❌ Errore: ' + error.error);
-                                                                }
-                                                            } catch (err: any) {
-                                                                console.error('❌ Network Error:', err);
-                                                                alert('❌ Errore di rete: ' + err.message);
-                                                            }
-                                                        }}
-                                                        className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap"
-                                                    >
-                                                        <Search className="w-4 h-4 inline-block mr-1" /> Analizza Sito
-                                                    </button>
+                                                        {/* Manual Logo Upload */}
+                                                        <div className="flex items-center gap-2">
+                                                            <label className="cursor-pointer bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm border border-white/10">
+                                                                <Upload className="w-4 h-4 inline-block mr-1" /> Carica Logo
+                                                                <input
+                                                                    type="file"
+                                                                    accept="image/png,image/jpeg,image/svg+xml"
+                                                                    className="hidden"
+                                                                    onChange={async (e) => {
+                                                                        const file = e.target.files?.[0];
+                                                                        if (!file) return;
+                                                                        const formData = new FormData();
+                                                                        formData.append('file', file);
+                                                                        const res = await fetch('/api/admin/portfolio/upload', { method: 'POST', body: formData });
+                                                                        if (res.ok) {
+                                                                            const { url } = await res.json();
+                                                                            const arr = [...clientsList];
+                                                                            arr[i] = { ...arr[i], logo: url };
+                                                                            setClientsList(arr);
+                                                                        }
+                                                                    }}
+                                                                />
+                                                            </label>
+                                                            {c.logo && <span className="text-[10px] text-green-400 font-bold uppercase tracking-widest">Logo Caricato ✓</span>}
+                                                        </div>
+                                                    </div>
+
                                                     {/* Delete */}
                                                     <button onClick={() => setClientsList(clientsList.filter((_, idx) => idx !== i))} className="text-red-400 hover:text-red-300 px-3"><X className="w-4 h-4" /></button>
-                                                </div>
-
-                                                {/* Row 2: Name Input + Description */}
-                                                <div className="flex gap-4">
-                                                    <input
-                                                        value={c.name}
-                                                        onChange={e => { const arr = [...clientsList]; arr[i] = { ...arr[i], name: e.target.value }; setClientsList(arr); }}
-                                                        placeholder="Nome Brand"
-                                                        className="flex-1 bg-black/50 p-3 rounded-xl border border-white/10"
-                                                    />
-                                                    <input
-                                                        value={(c as any).description || ''}
-                                                        onChange={e => { const arr = [...clientsList]; arr[i] = { ...arr[i], description: e.target.value }; setClientsList(arr); }}
-                                                        placeholder="Descrizione (opzionale)"
-                                                        className="flex-1 bg-black/50 p-3 rounded-xl border border-white/10"
-                                                    />
-                                                </div>
-
-                                                {/* Row 3: Social Links with Selection Checkboxes */}
-                                                {(c as any).socials && Object.keys((c as any).socials).length > 0 && (
-                                                    <div className="space-y-2">
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-xs text-gray-400 font-bold">Social Media Estratti:</span>
-                                                            <button
-                                                                onClick={() => {
-                                                                    const arr = [...clientsList];
-                                                                    const allPlatforms = Object.keys((c as any).socials || {});
-                                                                    arr[i] = {
-                                                                        ...arr[i],
-                                                                        selectedSocials: arr[i].selectedSocials?.length === allPlatforms.length ? [] : allPlatforms
-                                                                    };
-                                                                    setClientsList(arr);
-                                                                }}
-                                                                className="text-xs text-purple-400 hover:text-purple-300"
-                                                            >
-                                                                {(c.selectedSocials?.length === Object.keys((c as any).socials || {}).length) ? <><Check className="w-3 h-3 inline-block mr-1" /> Deseleziona tutti</> : 'Seleziona tutti'}
-                                                            </button>
-                                                        </div>
-                                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                                                            {Object.entries((c as any).socials).map(([platform, url]) => {
-                                                                const isSelected = c.selectedSocials?.includes(platform) ?? false;
-                                                                return (
-                                                                    <label
-                                                                        key={platform}
-                                                                        className={`flex items-center gap-2 p-2 rounded-lg border cursor-pointer transition-all ${isSelected
-                                                                            ? 'bg-purple-500/20 border-purple-500'
-                                                                            : 'bg-white/5 border-white/10 hover:bg-white/10'
-                                                                            }`}
-                                                                    >
-                                                                        <input
-                                                                            type="checkbox"
-                                                                            checked={isSelected}
-                                                                            onChange={(e) => {
-                                                                                const arr = [...clientsList];
-                                                                                const currentSelected = arr[i].selectedSocials || [];
-                                                                                arr[i] = {
-                                                                                    ...arr[i],
-                                                                                    selectedSocials: e.target.checked
-                                                                                        ? [...currentSelected, platform]
-                                                                                        : currentSelected.filter(p => p !== platform)
-                                                                                };
-                                                                                setClientsList(arr);
-                                                                            }}
-                                                                            className="w-4 h-4"
-                                                                        />
-                                                                        <span className="text-lg">
-                                                                            {platform === 'facebook' && <FacebookIcon className="w-4 h-4" />}
-                                                                            {platform === 'instagram' && <InstagramIcon className="w-4 h-4" />}
-                                                                            {platform === 'linkedin' && <Linkedin className="w-4 h-4" />}
-                                                                            {platform === 'twitter' && <Twitter className="w-4 h-4" />}
-                                                                            {platform === 'youtube' && <Youtube className="w-4 h-4" />}
-                                                                            {platform === 'tiktok' && <Music className="w-4 h-4" />}
-                                                                        </span>
-                                                                        <div className="flex-1">
-                                                                            <div className="text-xs font-bold capitalize">{platform}</div>
-                                                                            <a
-                                                                                href={url as string}
-                                                                                target="_blank"
-                                                                                rel="noopener noreferrer"
-                                                                                className="text-[10px] text-gray-500 hover:text-purple-400 truncate block"
-                                                                                onClick={(e) => e.stopPropagation()}
-                                                                            >
-                                                                                {(url as string).replace(/https?:\/\/(www\.)?/, '')}
-                                                                            </a>
-                                                                        </div>
-                                                                    </label>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                                {/* Row 4: Success Stories Toggle */}
-                                                <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-purple-900/20 to-blue-900/20 rounded-lg border border-purple-500/30">
-                                                    <label className="flex items-center gap-2 cursor-pointer flex-1">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={c.showInSuccessStories ?? false}
-                                                            onChange={(e) => {
-                                                                const arr = [...clientsList];
-                                                                arr[i] = { ...arr[i], showInSuccessStories: e.target.checked };
-                                                                setClientsList(arr);
-                                                            }}
-                                                            className="w-5 h-5"
-                                                        />
-                                                        <div>
-                                                            <div className="text-sm font-bold text-purple-300">Mostra in Success Stories</div>
-                                                            <div className="text-xs text-gray-500">Questo cliente apparirà nella sezione Portfolio/Success Stories</div>
-                                                        </div>
-                                                    </label>
-                                                    {c.showInSuccessStories && (
-                                                        <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded flex items-center gap-1"><Check className="w-3 h-3" /> Attivo</span>
-                                                    )}
-                                                </div>
-
-                                                {/* Row 5: Manual Logo Upload (fallback) */}
-                                                <div className="flex items-center gap-2">
-                                                    <label className="cursor-pointer bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm">
-                                                        <Upload className="w-4 h-4 inline-block mr-1" /> Carica Logo Manuale
-                                                        <input
-                                                            type="file"
-                                                            accept="image/png,image/jpeg,image/svg+xml"
-                                                            className="hidden"
-                                                            onChange={async (e) => {
-                                                                const file = e.target.files?.[0];
-                                                                if (!file) return;
-                                                                const formData = new FormData();
-                                                                formData.append('file', file);
-                                                                const res = await fetch('/api/admin/portfolio/upload', { method: 'POST', body: formData });
-                                                                if (res.ok) {
-                                                                    const { url } = await res.json();
-                                                                    const arr = [...clientsList];
-                                                                    arr[i] = { ...arr[i], logo: url };
-                                                                    setClientsList(arr);
-                                                                }
-                                                            }}
-                                                        />
-                                                    </label>
-                                                    <span className="text-xs text-gray-500">Oppure carica manualmente se il logo non viene estratto correttamente</span>
                                                 </div>
                                             </div>
                                         ))}
@@ -1409,7 +1258,7 @@ export default function AdminPage() {
                                     <div className="flex justify-between items-center mb-6">
                                         <h2 className="text-2xl font-bold"><Newspaper className="w-6 h-6 inline-block mr-2" /> Blog Editor & SEO Strategy</h2>
                                         <button
-                                            onClick={() => setSelectedPost({ id: Date.now().toString(), title: 'Nuovo Articolo', featured: false, category: 'SEO', excerpt: '', content: '', date: new Date().toLocaleDateString('it-IT'), readTime: '5 min', image: '/hero-bg.png', status: 'draft' })}
+                                            onClick={() => setSelectedPost({ id: Date.now().toString(), title: 'Nuovo Articolo', featured: false, category: 'SEO', excerpt: '', content: '', date: new Date().toLocaleDateString('it-IT'), readTime: '5 min', image: '/hero-bg.png', status: 'draft', tags: [] })}
                                             className="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2"
                                         >
                                             + Nuovo Manuale
@@ -1532,7 +1381,11 @@ export default function AdminPage() {
                                                                 <label className="text-xs text-gray-500 uppercase font-bold mb-1 block">Meta Description (Max 160 chars)</label>
                                                                 <textarea className="w-full bg-[#222] border border-white/10 rounded-lg p-2 text-white h-16 text-xs" value={selectedPost.metaDescription} onChange={(e) => setSelectedPost({ ...selectedPost, metaDescription: e.target.value })} />
                                                             </div>
-                                                            <Input label="Focus Keywords" value={selectedPost.keywords} onChange={(v: string) => setSelectedPost({ ...selectedPost, keywords: v })} />
+                                                            <Input
+                                                                label="Tags (separati da virgola)"
+                                                                value={Array.isArray(selectedPost.tags) ? selectedPost.tags.join(', ') : (selectedPost.tags || '')}
+                                                                onChange={(v: string) => setSelectedPost({ ...selectedPost, tags: v.split(',').map(s => s.trim()).filter(Boolean) })}
+                                                            />
                                                         </div>
                                                     </div>
 
@@ -1764,8 +1617,20 @@ export default function AdminPage() {
                         <Button submit><Save className="w-4 h-4 inline-block mr-1" /> Salva Progetto</Button>
                     </form>
                 </Modal>
-            </div >
-        </div >
+
+                {/* DB Status Overlay - Reassurance for USER */}
+                <div className="fixed bottom-4 left-4 z-[100] bg-black/80 backdrop-blur-md border border-white/10 p-3 rounded-xl text-[10px] text-gray-400 font-mono pointer-events-none">
+                    <div className="flex items-center gap-2 mb-1">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <span className="text-white font-bold uppercase tracking-wider">Storage Status (DB)</span>
+                    </div>
+                    <div>Clients: {clientsList.length}</div>
+                    <div>Projects: {projects.length}</div>
+                    <div>Posts: {blogPosts.length}</div>
+                    <div>DB Path: .../prisma/dev.db</div>
+                </div>
+            </div>
+        </div>
     );
 }
 

@@ -8,25 +8,17 @@ export const metadata: Metadata = {
     description: 'Approfondimenti tecnici, casi studio e guide per chi vuole dominare il mercato digitale. Risorse strategiche per SEO, Social e Web Design.',
 };
 
+import { prisma } from '@/lib/prisma';
+
 async function getPosts() {
-    // Simulator of fetching data consistently
     try {
-        const filePath = path.join(process.cwd(), 'data', 'blog.json');
-        const fileContents = fs.readFileSync(filePath, 'utf8');
-        const posts = JSON.parse(fileContents);
-
-        // Sort by date descending (simple parser as used in Blog.tsx)
-        const parseDate = (dateStr: string) => {
-            const months: Record<string, number> = { 'Gen': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'Mag': 4, 'Giu': 5, 'Lug': 6, 'Ago': 7, 'Set': 8, 'Ott': 9, 'Nov': 10, 'Dic': 11 };
-            const parts = dateStr.split(' ');
-            if (parts.length < 3) return new Date(0).getTime();
-            return new Date(parseInt(parts[2]), months[parts[1]] || 0, parseInt(parts[0])).getTime();
-        };
-
-        return posts.sort((a: any, b: any) => parseDate(b.date) - parseDate(a.date));
-
+        const posts = await prisma.blogPost.findMany({
+            where: { published: true },
+            orderBy: { createdAt: 'desc' }
+        });
+        return posts as any;
     } catch (e) {
-        console.error("Error reading blog posts:", e);
+        console.error("Error fetching blog posts from Prisma:", e);
         return [];
     }
 }
@@ -90,7 +82,7 @@ export default async function BlogPage() {
                         Lascia che sia il team di W[r]Digital a gestire la complessità per te. Costruiamo il tuo piano d'attacco in una call strategica.
                     </p>
 
-                    <a href="/contatti" className="inline-block bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-bold py-4 px-10 rounded-full text-sm md:text-lg shadow-xl shadow-yellow-500/20 hover:scale-105 transition-transform relative z-10">
+                    <a href="/#contatti" className="inline-block bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-bold py-4 px-10 rounded-full text-sm md:text-lg shadow-xl shadow-yellow-500/20 hover:scale-105 transition-transform relative z-10">
                         [ Attiva il tuo piano d'attacco ]
                     </a>
                 </div>

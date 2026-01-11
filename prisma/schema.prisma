@@ -266,6 +266,8 @@ model BlogPost {
   readTime  String?
   featured  Boolean  @default(false)
   tags      String?  // JSON string
+  metaTitle String?
+  metaDescription String?
   published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
