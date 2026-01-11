@@ -16,7 +16,8 @@ const streamPipeline = promisify(pipeline);
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
 
-    const isAdmin = session?.user?.role === 'admin' || session?.user?.email?.toLowerCase() === 'roberto@wrdigital.it';
+    const email = session?.user?.email?.toLowerCase();
+    const isAdmin = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
 
     if (!session || !isAdmin) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

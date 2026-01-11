@@ -24,7 +24,7 @@ const getDriveAuth = () => {
 // Helper: Check Admin Role
 const isAdmin = (session: any) => {
     const email = session?.user?.email?.toLowerCase();
-    return (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'admin@wrdigital.com';
+    return (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
 };
 
 // GET: Lista Utenti

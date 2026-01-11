@@ -18,7 +18,18 @@ export async function GET() {
     }
 }
 
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+
 export async function POST(request: Request) {
+    const session = await getServerSession(authOptions);
+    const email = session?.user?.email?.toLowerCase();
+    const isAdmin = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
+
+    if (!session || !isAdmin) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const body = await request.json();
 
