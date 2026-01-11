@@ -103,7 +103,7 @@ export default function Navbar({ isDarkMode }: NavbarProps) {
                         <a
                             key={item.href}
                             href={item.href}
-                            className={styles.navLink}
+                            className={`${styles.navLink} ${item.href === '/preventivo' ? styles.highlight : ''}`}
                             data-cursor={item.label}
                             style={{ animationDelay: `${index * 100}ms` }}
                             onClick={(e) => handleNavClick(e, item)}

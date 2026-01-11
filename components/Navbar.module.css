@@ -99,6 +99,21 @@
     width: 100%;
 }
 
+.navLink.highlight {
+    color: #FACC15;
+    font-weight: 700;
+}
+
+.navLink.highlight:hover {
+    color: #ffd700;
+    text-shadow: 0 0 25px rgba(250, 204, 21, 0.6);
+}
+
+.navLink.highlight::after {
+    background: linear-gradient(90deg, transparent, #FACC15, transparent);
+    height: 2px;
+}
+
 /* Action Buttons */
 .actions {
     display: flex;
