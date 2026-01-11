@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { transporter, mailOptions } from '@/lib/nodemailer';
-import { EmailTemplate } from '@/lib/email-template';
+import { EmailTemplate, ClientConfirmationTemplate } from '@/lib/email-template';
 
 export async function POST(request: Request) {
     try {
@@ -12,13 +12,21 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Campi obbligatori mancanti' }, { status: 400 });
         }
 
-        // Invio Email Admin
+        // 1. Invio Email Admin (Notifica Interna)
         await transporter.sendMail({
             ...mailOptions,
             to: 'info@wrdigital.it, roberto@wrdigital.it',
             replyTo: email,
             subject: `🔥 Lead: ${name} (${company || 'Privato'})`,
             html: EmailTemplate({ name, email, message, company, service })
+        });
+
+        // 2. Invio Email Cliente (Conferma Ricezione)
+        await transporter.sendMail({
+            ...mailOptions,
+            to: email, // Al cliente
+            subject: 'Abbiamo ricevuto la tua richiesta - W[r]Digital',
+            html: ClientConfirmationTemplate(name)
         });
 
         return NextResponse.json({ success: true, message: 'Messaggio inviato' });

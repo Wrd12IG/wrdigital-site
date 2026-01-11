@@ -94,3 +94,29 @@ export const NewsletterTemplate = (email: string) => `
 </body>
 </html>
 `;
+
+export const ClientConfirmationTemplate = (name: string) => `
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Ricevuta Richiesta Contatto</title>
+</head>
+<body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+    <div style="max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        <div style="background-color: #000000; padding: 30px; text-align: center; border-bottom: 3px solid #FACC15;">
+             <h1 style="color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 2px;">W[<span style="color: #FACC15;">r</span>]Digital</h1>
+        </div>
+        <div style="padding: 40px;">
+            <p style="font-size: 16px; margin-bottom: 20px;">Ciao <strong>${name}</strong>,</p>
+            <p style="font-size: 16px; line-height: 1.6; color: #555;">Abbiamo ricevuto la tua richiesta. Il nostro team sta già analizzando il tuo messaggio e ti risponderemo entro 24 ore lavorative.</p>
+            <p style="font-size: 16px; line-height: 1.6; color: #555;">Nel frattempo, se vuoi dare un'occhiata ai nostri ultimi lavori, visita il nostro <a href="https://wrdigital.it/#lavori" style="color: #FACC15; font-weight: bold; text-decoration: none;">Portfolio</a>.</p>
+            
+            <div style="margin-top: 40px; text-align: center; border-top: 1px solid #eee; padding-top: 30px;">
+                <p style="font-size: 12px; color: #999;">A presto,<br>Il team di W[r]Digital</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+`;
