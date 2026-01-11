@@ -282,3 +282,17 @@ model Faq {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model ConsentLog {
+  id        String   @id @default(cuid())
+  email     String
+  ipAddress String?
+  userAgent String?
+  consentType String // e.g., "contact_form", "newsletter"
+  consentVersion String // e.g., "v1.0" - important for legal tracking
+  consentText String // The exact text user agreed to
+  accepted  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}

@@ -58,7 +58,7 @@ export default function ContactModal() {
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formState),
+                body: JSON.stringify({ ...formState, privacyAccepted: true }),
             });
 
             const data = await response.json();
@@ -177,6 +177,19 @@ export default function ContactModal() {
                                         placeholder="Es: Aumentare le vendite, migliorare il posizionamento..."
                                     />
                                     {errors.message && <span className={styles.errorText}>{errors.message}</span>}
+                                </div>
+
+                                <div className={styles.formGroup} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: '10px' }}>
+                                    <input
+                                        type="checkbox"
+                                        id="privacy"
+                                        name="privacy"
+                                        required
+                                        style={{ marginTop: '4px' }}
+                                    />
+                                    <label htmlFor="privacy" style={{ fontSize: '12px', color: '#ccc', lineHeight: '1.4', cursor: 'pointer' }}>
+                                        Ho letto e accetto la <a href="/privacy-policy" style={{ color: '#FACC15', textDecoration: 'underline' }}>Privacy Policy</a> e acconsento al trattamento dei miei dati personali ai sensi del GDPR. *
+                                    </label>
                                 </div>
 
                                 <button

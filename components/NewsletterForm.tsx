@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 
 export default function NewsletterForm() {
     const [email, setEmail] = useState('');
+    const [privacy, setPrivacy] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -16,7 +17,7 @@ export default function NewsletterForm() {
             const res = await fetch('/api/newsletter', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
+                body: JSON.stringify({ email, privacyAccepted: true })
             });
 
             const data = await res.json();
@@ -37,27 +38,39 @@ export default function NewsletterForm() {
     return (
         <div className="max-w-md mx-auto relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-            <form onSubmit={handleSubmit} className="relative bg-[#0a0a0a] rounded-lg p-1 flex items-center border border-white/10">
-                <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="La tua email aziendale"
-                    className="bg-transparent text-white w-full px-4 py-3 outline-none text-sm placeholder-gray-600 font-mono"
-                    disabled={loading}
-                />
-                <button
-                    type="submit"
-                    className="bg-white text-black font-bold text-xs uppercase px-6 py-3 rounded hover:bg-gray-200 transition-colors whitespace-nowrap disabled:opacity-50"
-                    disabled={loading}
-                >
-                    {loading ? '...' : 'Iscriviti [r]'}
-                </button>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                <div className="relative bg-[#0a0a0a] rounded-lg p-1 flex items-center border border-white/10">
+                    <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="La tua email aziendale"
+                        className="bg-transparent text-white w-full px-4 py-3 outline-none text-sm placeholder-gray-600 font-mono"
+                        disabled={loading}
+                    />
+                    <button
+                        type="submit"
+                        className="bg-white text-black font-bold text-xs uppercase px-6 py-3 rounded hover:bg-gray-200 transition-colors whitespace-nowrap disabled:opacity-50"
+                        disabled={loading || !privacy}
+                    >
+                        {loading ? '...' : 'Iscriviti [r]'}
+                    </button>
+                </div>
+                <div className="flex items-start gap-2 px-1">
+                    <input
+                        type="checkbox"
+                        id="newsletter-privacy"
+                        checked={privacy}
+                        onChange={(e) => setPrivacy(e.target.checked)}
+                        className="mt-1"
+                        required
+                    />
+                    <label htmlFor="newsletter-privacy" className="text-[10px] text-gray-600 font-mono leading-tight">
+                        Accetto la <a href="/privacy-policy" className="underline hover:text-white">Privacy Policy</a> e l'iscrizione alla newsletter.
+                    </label>
+                </div>
             </form>
-            <p className="text-[10px] text-gray-600 mt-3 font-mono">
-                Ricevi i nostri report settimanali. No spam, solo valore.
-            </p>
         </div>
     );
 }

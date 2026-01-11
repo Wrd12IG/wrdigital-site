@@ -2,15 +2,39 @@ import { NextResponse } from 'next/server';
 import { transporter, mailOptions } from '@/lib/nodemailer';
 import { EmailTemplate, ClientConfirmationTemplate } from '@/lib/email-template';
 
+import { prisma } from '@/lib/prisma';
+import { headers } from 'next/headers';
+
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { name, email, message, company, service } = body;
+        const { name, email, message, company, service, privacyAccepted } = body;
 
         // Validazione
         if (!name || !email || !message) {
             return NextResponse.json({ error: 'Campi obbligatori mancanti' }, { status: 400 });
         }
+
+        if (!privacyAccepted) {
+            return NextResponse.json({ error: 'Devi accettare la privacy policy' }, { status: 400 });
+        }
+
+        // Log Consenso GDPR
+        const headersList = await headers();
+        const ip = headersList.get('x-forwarded-for') || 'unknown';
+        const userAgent = headersList.get('user-agent') || 'unknown';
+
+        await prisma.consentLog.create({
+            data: {
+                email,
+                ipAddress: ip,
+                userAgent,
+                consentType: 'contact_form',
+                consentVersion: 'v1.0',
+                consentText: 'Ho letto e accetto la Privacy Policy e acconsento al trattamento dei dati personali.',
+                accepted: true
+            }
+        });
 
         // 1. Invio Email Admin (Notifica Interna)
         await transporter.sendMail({
