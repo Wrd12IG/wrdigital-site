@@ -4,8 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 const isAdmin = (session: any) => {
-    const email = session?.user?.email?.toLowerCase();
-    return (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it';
+    return (session?.user as any)?.role === 'admin' || session?.user?.email === 'roberto@wrdigital.it' || session?.user?.email === 'admin@wrdigital.com' || session?.user?.email === 'info@wrdigital.it';
 };
 
 export async function GET() {

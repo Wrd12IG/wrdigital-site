@@ -1,6 +1,4 @@
 import { Metadata } from 'next';
-import fs from 'fs';
-import path from 'path';
 import BlogFeed from '@/components/blog/BlogFeed';
 
 export const metadata: Metadata = {

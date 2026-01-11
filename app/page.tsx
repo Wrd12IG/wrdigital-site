@@ -12,21 +12,22 @@ import Contact from '@/components/Contact';
 import DynamicSeoContent from '@/components/DynamicSeoContent';
 
 
-import path from 'path';
-import fs from 'fs';
+import { prisma } from '@/lib/prisma';
 
-export default function Home() {
-  const serverTimestamp = Date.now();
-
-  let seoData: any = {};
+async function getHomeData() {
   try {
-    const filePath = path.join(process.cwd(), 'data', 'seo-meta.json');
-    if (fs.existsSync(filePath)) {
-      seoData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const config = await prisma.siteConfig.findUnique({ where: { key: 'seo-meta' } });
+    if (config) {
+      const data = JSON.parse(config.value);
+      return data['home'] || {};
     }
   } catch (e) { }
+  return {};
+}
 
-  const homeData = seoData['home'] || {};
+export default async function Home() {
+  const serverTimestamp = Date.now();
+  const homeData = await getHomeData();
 
   return (
     <>

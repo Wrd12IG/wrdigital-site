@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,6 +52,14 @@ export async function GET(request: Request) {
 
 // POST: Crea o Aggiorna un servizio
 export async function POST(request: Request) {
+    const session = await getServerSession(authOptions);
+    const email = session?.user?.email?.toLowerCase();
+    const isAdmin = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
+
+    if (!session || !isAdmin) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const body = await request.json();
         const { id, slug, title, content, seo, originalSlug } = body;
@@ -131,6 +141,14 @@ export async function POST(request: Request) {
 
 // DELETE: Rimuove un servizio
 export async function DELETE(request: Request) {
+    const session = await getServerSession(authOptions);
+    const email = session?.user?.email?.toLowerCase();
+    const isAdmin = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
+
+    if (!session || !isAdmin) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         let id;
         try {

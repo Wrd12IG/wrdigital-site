@@ -249,8 +249,8 @@ export default function PillarPage() {
                             </div>
                             <div className={styles.resourceContent}>
                                 <h4>Resource: Le 5 Domande "Scomode"</h4>
-                                <p>Scarica la lista delle domande da fare a un'agenzia prima di firmare il contratto.</p>
-                                <a href="/downloads/checklist-agency-questions.pdf" download className="btn btn-secondary">Scarica Checklist</a>
+                                <p>Richiedi la lista delle domande da fare a un'agenzia prima di firmare il contratto.</p>
+                                <a href="mailto:info@wrdigital.it?subject=Richiesta Checklist Agenzia" className="btn btn-secondary">Richiedi Checklist via Email</a>
                             </div>
                         </div>
 

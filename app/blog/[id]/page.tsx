@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
@@ -132,10 +130,9 @@ export default async function BlogPostPage(props: { params: Promise<{ id: string
                     <div className="bg-[#111] border border-white/10 p-8 rounded-2xl flex flex-col md:flex-row items-center md:items-start gap-6 shadow-2xl relative overflow-hidden group hover:border-yellow-400/30 transition-all duration-500">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
-                        <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-400/50 flex-shrink-0 shadow-[0_0_20px_rgba(250,204,21,0.2)]">
-                            <Image src="/roberto-avatar.jpg" alt="Roberto" width={80} height={80} className="object-cover" />
-                            {/* Fallback if no image */}
-                            <div className="absolute inset-0 bg-gray-800 flex items-center justify-center text-3xl font-bold text-gray-600">WD</div>
+                        <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-400/50 flex-shrink-0 shadow-[0_0_20px_rgba(250,204,21,0.2)] flex items-center justify-center bg-gray-800">
+                            {/* Placeholder Avatar */}
+                            <span className="text-2xl font-bold text-gray-500">WD</span>
                         </div>
                         <div className="text-center md:text-left">
                             <p className="text-xs text-yellow-400 uppercase font-bold mb-2 tracking-widest">Autore & Strategist</p>
