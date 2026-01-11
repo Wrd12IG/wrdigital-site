@@ -116,8 +116,20 @@ async function main() {
         const clients = JSON.parse(fs.readFileSync(clientsPath, 'utf8'))
         for (const [index, c] of clients.entries()) {
             if (!c.name) continue;
-            await prisma.client.create({
-                data: {
+            // Use upsert to avoid duplicates by name
+            await prisma.client.upsert({
+                where: { id: c.id || `client-${index}` },
+                update: {
+                    name: c.name,
+                    logo: c.logo,
+                    url: c.url,
+                    description: c.description,
+                    socials: JSON.stringify(c.socials || {}),
+                    showInSuccessStories: c.showInSuccessStories || false,
+                    order: index
+                },
+                create: {
+                    id: c.id || `client-${index}`,
                     name: c.name,
                     logo: c.logo,
                     url: c.url,
@@ -199,7 +211,20 @@ async function main() {
         console.log('✅ Site Config seeded.')
     }
 
-    // 7. Blog
+    // 7. Global SEO Meta
+    const seoMetaPath = path.join(process.cwd(), 'data/seo-meta.json')
+    if (fs.existsSync(seoMetaPath)) {
+        const seoMeta = JSON.parse(fs.readFileSync(seoMetaPath, 'utf8'))
+        // Store as a special site config key
+        await prisma.siteConfig.upsert({
+            where: { key: 'seo-meta' },
+            update: { value: JSON.stringify(seoMeta) },
+            create: { key: 'seo-meta', value: JSON.stringify(seoMeta) }
+        })
+        console.log('✅ Global SEO Meta seeded.')
+    }
+
+    // 8. Blog
     const blogPath = path.join(process.cwd(), 'data/blog.json')
     if (fs.existsSync(blogPath)) {
         const posts = JSON.parse(fs.readFileSync(blogPath, 'utf8'))
@@ -231,32 +256,39 @@ async function main() {
         console.log('✅ Blog seeded.')
     }
 
-    // 8. FAQ
+    // 9. FAQ
     const faqPath = path.join(process.cwd(), 'data/faq.json')
     if (fs.existsSync(faqPath)) {
         const faqs = JSON.parse(fs.readFileSync(faqPath, 'utf8'))
         for (const [index, f] of faqs.entries()) {
-            await prisma.faq.create({
-                data: {
+            await prisma.faq.upsert({
+                where: { id: f.id || `faq-${index}` },
+                update: {
                     question: f.question,
                     answer: f.answer,
                     order: index,
-                    category: f.category
+                    category: f.category || 'General'
+                },
+                create: {
+                    id: f.id || `faq-${index}`,
+                    question: f.question,
+                    answer: f.answer,
+                    order: index,
+                    category: f.category || 'General'
                 }
             })
         }
         console.log('✅ FAQs seeded.')
     }
 
-    console.log('🏁 Seed completed successfully.')
+    console.log('✨ Seeding completed!')
 }
 
 main()
-    .then(async () => {
-        await prisma.$disconnect()
-    })
-    .catch(async (e) => {
+    .catch((e) => {
         console.error(e)
-        await prisma.$disconnect()
         process.exit(1)
+    })
+    .finally(async () => {
+        await prisma.$disconnect()
     })

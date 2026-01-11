@@ -48,7 +48,7 @@ function StarRating({ rating }: { rating: number }) {
                     width="16"
                     height="16"
                     viewBox="0 0 24 24"
-                    fill={i < rating ? 'currentColor' : 'none'}
+                    fill={i < (rating || 5) ? 'currentColor' : 'none'}
                     stroke="currentColor"
                     strokeWidth="2"
                 >
@@ -62,34 +62,49 @@ function StarRating({ rating }: { rating: number }) {
 export default function Testimonials() {
     const sectionRef = useRef<HTMLElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
-    const [list, setList] = useState<Testimonial[]>([]);
+    const [list, setList] = useState<Testimonial[]>(defaultTestimonials);
     const [config, setConfig] = useState({ title: 'Cosa dicono i nostri clienti.', subtitle: 'Testimonianze', description: '' });
 
     useEffect(() => {
-        const load = async () => {
+        const loadData = async () => {
+            // Load Testimonials
             try {
-                const [resT, resC] = await Promise.all([
-                    fetch('/api/admin/testimonials'),
-                    fetch('/api/site-config')
-                ]);
-                if (resT.ok) {
-                    const data = await resT.json();
-                    if (data && data.length > 0) setList(data);
-                    else setList(defaultTestimonials);
-                }
-                if (resC.ok) {
-                    const siteData = await resC.json();
-                    if (siteData.testimonials) setConfig(siteData.testimonials);
+                const res = await fetch('/api/testimonials');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        setList(data);
+                    }
                 }
             } catch (e) {
-                setList(defaultTestimonials);
+                console.error("Testimonials load failed:", e);
+            }
+
+            // Load Config
+            try {
+                const res = await fetch('/api/site-config');
+                if (res.ok) {
+                    const siteData = await res.json();
+                    if (siteData && siteData.testimonials) {
+                        setConfig({
+                            title: siteData.testimonials.title || 'Cosa dicono i nostri clienti.',
+                            subtitle: siteData.testimonials.subtitle || 'Testimonianze',
+                            description: siteData.testimonials.description || ''
+                        });
+                    }
+                }
+            } catch (e) {
+                console.error("Config load failed:", e);
             }
         };
-        load();
+
+        loadData();
     }, []);
 
+    const safeTitle = config.title || 'Cosa dicono i nostri clienti.';
+
     return (
-        <section ref={sectionRef} className={styles.section} id="testimonianze">
+        <section ref={sectionRef} className={styles.section} id="testimonianze" style={{ minHeight: '400px' }}>
             <div className={styles.container}>
                 {/* Section Header */}
                 <motion.div
@@ -100,9 +115,9 @@ export default function Testimonials() {
                 >
                     <span className={styles.label}>{config.subtitle}</span>
                     <h2 className={styles.title}>
-                        {config.title.split(' ').map((word, i, arr) => (
+                        {safeTitle.split(' ').map((word, i, arr) => (
                             <span key={i}>
-                                {i === arr.length - 1 || i === arr.length - 2 ? (
+                                {i >= arr.length - 2 ? (
                                     <span className="text-gradient">{word} </span>
                                 ) : (
                                     <>{word} </>
@@ -133,14 +148,14 @@ export default function Testimonials() {
                         visible: {
                             opacity: 1,
                             transition: {
-                                staggerChildren: 0.2
+                                staggerChildren: 0.1
                             }
                         }
                     }}
                 >
-                    {list.map((testimonial) => (
+                    {list.map((testimonial, idx) => (
                         <motion.div
-                            key={testimonial.id}
+                            key={testimonial.id || `fallback-${idx}`}
                             className={styles.testimonialCard}
                             variants={{
                                 hidden: { opacity: 0, y: 30 },
@@ -157,7 +172,7 @@ export default function Testimonials() {
                             {/* Header: Avatar + Info */}
                             <div className={styles.cardHeader}>
                                 <div className={styles.authorAvatar}>
-                                    {testimonial.author.charAt(0)}
+                                    {(testimonial.author || '?').charAt(0)}
                                 </div>
                                 <div className={styles.authorInfo}>
                                     <span className={styles.authorName}>
@@ -174,7 +189,7 @@ export default function Testimonials() {
                             </div>
 
                             {/* Rating */}
-                            <StarRating rating={testimonial.rating || 5} />
+                            <StarRating rating={testimonial.rating} />
 
                             {/* Quote */}
                             <blockquote className={styles.quote}>

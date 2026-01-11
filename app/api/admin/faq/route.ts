@@ -1,27 +1,62 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import fs from 'fs';
-import path from 'path';
-
-const DATA_FILE = path.join(process.cwd(), 'data', 'faq.json');
+import { prisma } from '@/lib/prisma';
 
 export async function GET() {
     try {
-        if (!fs.existsSync(DATA_FILE)) return NextResponse.json([]);
-        const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-        return NextResponse.json(data);
+        const faqs = await prisma.faq.findMany({
+            orderBy: { order: 'asc' }
+        });
+        return NextResponse.json(faqs);
     } catch { return NextResponse.json([]); }
 }
 
 export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user as any)?.role !== 'admin') {
+    const email = session?.user?.email?.toLowerCase();
+    const isAdmin = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it';
+
+    if (!session || !isAdmin) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
     try {
         const data = await request.json();
-        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+
+        if (Array.isArray(data)) {
+            // Bulk replace
+            await prisma.$transaction([
+                prisma.faq.deleteMany(),
+                prisma.faq.createMany({
+                    data: data.map((faq: any, index: number) => ({
+                        id: faq.id || undefined,
+                        question: faq.question,
+                        answer: faq.answer,
+                        category: faq.category || 'General',
+                        order: faq.order ?? index
+                    }))
+                })
+            ]);
+        } else {
+            // Individual upsert
+            await prisma.faq.upsert({
+                where: { id: data.id || 'new' },
+                update: {
+                    question: data.question,
+                    answer: data.answer,
+                    category: data.category,
+                    order: data.order
+                },
+                create: {
+                    question: data.question,
+                    answer: data.answer,
+                    category: data.category,
+                    order: data.order
+                }
+            });
+        }
+
         return NextResponse.json({ success: true });
     } catch (e: any) {
         return NextResponse.json({ error: e.message }, { status: 500 });

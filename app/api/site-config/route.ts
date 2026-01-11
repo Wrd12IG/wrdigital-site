@@ -1,22 +1,27 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DATA_FILE = path.join(process.cwd(), 'data', 'site-config.json');
+import { prisma } from '@/lib/prisma';
 
 export async function GET() {
-    if (!fs.existsSync(DATA_FILE)) {
-        return NextResponse.json({});
-    }
-
     try {
-        const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-        return NextResponse.json(data, {
+        const configs = await prisma.siteConfig.findMany();
+
+        // Transform the list of key-value pairs into a single object
+        const configObject = configs.reduce((acc, config) => {
+            try {
+                acc[config.key] = JSON.parse(config.value);
+            } catch (e) {
+                acc[config.key] = config.value;
+            }
+            return acc;
+        }, {} as Record<string, any>);
+
+        return NextResponse.json(configObject, {
             headers: {
                 'Cache-Control': 's-maxage=10, stale-while-revalidate=59',
             },
         });
-    } catch (e) {
+    } catch (e: any) {
+        console.error('Error fetching site config from Prisma:', e);
         return NextResponse.json({});
     }
 }

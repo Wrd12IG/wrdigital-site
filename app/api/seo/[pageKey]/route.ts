@@ -1,24 +1,30 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const dataPath = path.join(process.cwd(), 'data', 'seo-meta.json');
+import { prisma } from '@/lib/prisma';
 
 export async function GET(
     request: Request,
-    props: { params: Promise<{ pageKey: string }> }
+    { params }: { params: { pageKey: string } | Promise<{ pageKey: string }> }
 ) {
+    // Handling Next.js 15 async params
+    const resolvedParams = await params;
+    const { pageKey } = resolvedParams;
+
     try {
-        const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
-        const params = await props.params;
-        const pageKey = params.pageKey;
+        const config = await prisma.siteConfig.findUnique({
+            where: { key: 'seo-meta' }
+        });
 
-        if (data[pageKey]) {
-            return NextResponse.json(data[pageKey]);
-        }
+        if (!config) return NextResponse.json({});
 
-        return NextResponse.json({});
-    } catch {
+        const allMeta = JSON.parse(config.value);
+        const pageMeta = allMeta[pageKey] || {};
+
+        return NextResponse.json(pageMeta, {
+            headers: {
+                'Cache-Control': 's-maxage=10, stale-while-revalidate=59',
+            },
+        });
+    } catch (e) {
         return NextResponse.json({});
     }
 }

@@ -11,179 +11,6 @@ datasource db {
 
 // --- CORE CONTENT ---
 
-model Page {
-  id            String    @id @default(cuid())
-  slug          String    @unique // Indexed for ultra-fast lookups
-  title         String
-  content       String    // Stored as JSON string for flexible Block Editor structure
-  published     Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  // Performance & Relations
-  seo           SeoMetadata?
-  schemaMarkup  SchemaMarkup[]
-  pageBlocks    PageBlock[]    // Block editor content
-  
-  @@index([slug])
-}
-
-// --- SEO ENGINE ---
-
-model SeoMetadata {
-  id               String  @id @default(cuid())
-  metaTitle        String? // 60 chars max optimized
-  metaDescription  String? // 160 chars max optimized
-  canonicalUrl     String?
-  robotsIndex      Boolean @default(true)
-  robotsFollow     Boolean @default(true)
-  focusKeyword     String? // For internal SEO Score analysis
-  
-  // Social Sharing (Open Graph)
-  ogTitle          String?
-  ogDescription    String?
-  ogImage          String?
-
-  pageId           String  @unique
-  page             Page    @relation(fields: [pageId], references: [id], onDelete: Cascade)
-}
-
-// --- STRUCTURED DATA (JSON-LD) ---
-
-model SchemaMarkup {
-  id        String   @id @default(cuid())
-  type      String   // e.g., "FAQ", "Service", "LocalBusiness", "Article"
-  jsonData  String   // Stores the raw JSON-LD object for injection
-  
-  pageId    String
-  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
-}
-
-// --- TRAFFIC CONTROL ---
-
-model Redirect {
-  id          String   @id @default(cuid())
-  oldUrl      String   @unique // The trigger URL
-  newUrl      String   // The destination
-  statusCode  Int      @default(301) // 301 (Permanent) or 302 (Temp)
-  createdAt   DateTime @default(now())
-  active      Boolean  @default(true)
-
-  @@index([oldUrl])
-}
-
-// --- ASSET MANAGEMENT ---
-
-model Media {
-  id          String   @id @default(cuid())
-  filename    String
-  url         String
-  altText     String?  // Crucial for SEO
-  mimeType    String
-  size        Int
-  width       Int?
-  height      Int?
-  focalPoint  String?  // e.g., "{x: 0.5, y: 0.3}" for smart cropping
-  variants    String?  // JSON string storing paths to WebP/AVIF versions
-  createdAt   DateTime @default(now())
-}
-
-// --- BLOCK EDITOR SYSTEM ---
-
-model Block {
-  id          String      @id @default(cuid())
-  name        String      // Block name (e.g., "Hero Section")
-  type        String      // bento-grid, hero, text, image, cta, faq, etc.
-  content     String      // JSON structured content
-  styles      String?     // JSON styles config
-  isGlobal    Boolean     @default(false) // Reusable component across pages
-  category    String?     // For organization: "Layout", "Content", "CTA", etc.
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  
-  pageBlocks  PageBlock[]
-}
-
-model PageBlock {
-  id        String   @id @default(cuid())
-  pageId    String
-  blockId   String
-  order     Int      // Order in page layout
-  overrides String?  // JSON local overrides for global blocks
-  hidden    String?  // JSON: {"mobile": true, "tablet": false} for responsive visibility
-  
-  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
-  block     Block    @relation(fields: [blockId], references: [id], onDelete: Cascade)
-  
-  @@unique([pageId, blockId])
-  @@index([pageId])
-}
-
-// --- A/B TESTING ---
-
-model ABTest {
-  id          String    @id @default(cuid())
-  name        String
-  pageSlug    String    // Which page this test applies to
-  elementId   String?   // Specific element to test (null = whole page)
-  variantA    String    // JSON content for Variant A (Control)
-  variantB    String    // JSON content for Variant B (Challenger)
-  trafficB    Int       @default(50) // % of traffic to Variant B
-  goal        String?   // "click", "form_submit", "scroll_depth", etc.
-  goalTarget  String?   // CSS selector or event name for goal
-  status      String    @default("draft") // draft, running, paused, completed
-  startDate   DateTime?
-  endDate     DateTime?
-  results     String?   // JSON: { a: { views, conversions }, b: { views, conversions } }
-  winner      String?   // "A", "B", or null if no winner yet
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  
-  @@index([pageSlug, status])
-}
-
-// --- DYNAMIC VARIABLES ---
-
-model DynamicVariable {
-  id          String   @id @default(cuid())
-  key         String   @unique // {year}, {company_name}, {phone}, etc.
-  value       String   // Current value
-  autoUpdate  Boolean  @default(false) // Auto-recalculate on render
-  formula     String?  // JS expression for computed values, e.g., "new Date().getFullYear()"
-  description String?  // Admin helper text
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-// --- INTERLINK SUGGESTIONS ---
-
-model Interlink {
-  id            String   @id @default(cuid())
-  sourcePageId  String   // Page containing the link
-  targetPageId  String   // Page being linked to
-  anchorText    String   // Suggested anchor text
-  context       String?  // Surrounding text for context
-  score         Float    @default(0) // Relevance score 0-1
-  status        String   @default("suggested") // suggested, accepted, rejected
-  createdAt     DateTime @default(now())
-  
-  @@index([sourcePageId])
-  @@index([targetPageId])
-}
-
-// --- BUSINESS DATA (Newly Integrated) ---
-
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  password      String
-  role          String    @default("user") // admin, user
-  driveFolderId String?   // For Google Drive integration
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-}
-
 model Testimonial {
   id        String   @id @default(cuid())
   quote     String
@@ -196,6 +23,180 @@ model Testimonial {
   updatedAt DateTime @updatedAt
 }
 
+model Page {
+  id        String   @id @default(cuid())
+  slug      String   @unique // Indexed for ultra-fast lookups
+  title     String
+  content   String // Stored as JSON string for flexible Block Editor structure
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Performance & Relations
+  seo          SeoMetadata?
+  schemaMarkup SchemaMarkup[]
+  pageBlocks   PageBlock[] // Block editor content
+
+  @@index([slug])
+}
+
+// --- SEO ENGINE ---
+
+model SeoMetadata {
+  id              String  @id @default(cuid())
+  metaTitle       String? // 60 chars max optimized
+  metaDescription String? // 160 chars max optimized
+  canonicalUrl    String?
+  robotsIndex     Boolean @default(true)
+  robotsFollow    Boolean @default(true)
+  focusKeyword    String? // For internal SEO Score analysis
+
+  // Social Sharing (Open Graph)
+  ogTitle       String?
+  ogDescription String?
+  ogImage       String?
+
+  pageId String @unique
+  page   Page   @relation(fields: [pageId], references: [id], onDelete: Cascade)
+}
+
+// --- STRUCTURED DATA (JSON-LD) ---
+
+model SchemaMarkup {
+  id       String @id @default(cuid())
+  type     String // e.g., "FAQ", "Service", "LocalBusiness", "Article"
+  jsonData String // Stores the raw JSON-LD object for injection
+
+  pageId String
+  page   Page   @relation(fields: [pageId], references: [id], onDelete: Cascade)
+}
+
+// --- TRAFFIC CONTROL ---
+
+model Redirect {
+  id         String   @id @default(cuid())
+  oldUrl     String   @unique // The trigger URL
+  newUrl     String // The destination
+  statusCode Int      @default(301) // 301 (Permanent) or 302 (Temp)
+  createdAt  DateTime @default(now())
+  active     Boolean  @default(true)
+
+  @@index([oldUrl])
+}
+
+// --- ASSET MANAGEMENT ---
+
+model Media {
+  id         String   @id @default(cuid())
+  filename   String
+  url        String
+  altText    String? // Crucial for SEO
+  mimeType   String
+  size       Int
+  width      Int?
+  height     Int?
+  focalPoint String? // e.g., "{x: 0.5, y: 0.3}" for smart cropping
+  variants   String? // JSON string storing paths to WebP/AVIF versions
+  createdAt  DateTime @default(now())
+}
+
+// --- BLOCK EDITOR SYSTEM ---
+
+model Block {
+  id        String   @id @default(cuid())
+  name      String // Block name (e.g., "Hero Section")
+  type      String // bento-grid, hero, text, image, cta, faq, etc.
+  content   String // JSON structured content
+  styles    String? // JSON styles config
+  isGlobal  Boolean  @default(false) // Reusable component across pages
+  category  String? // For organization: "Layout", "Content", "CTA", etc.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  pageBlocks PageBlock[]
+}
+
+model PageBlock {
+  id        String  @id @default(cuid())
+  pageId    String
+  blockId   String
+  order     Int // Order in page layout
+  overrides String? // JSON local overrides for global blocks
+  hidden    String? // JSON: {"mobile": true, "tablet": false} for responsive visibility
+
+  page  Page  @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  block Block @relation(fields: [blockId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, blockId])
+  @@index([pageId])
+}
+
+// --- A/B TESTING ---
+
+model ABTest {
+  id         String    @id @default(cuid())
+  name       String
+  pageSlug   String // Which page this test applies to
+  elementId  String? // Specific element to test (null = whole page)
+  variantA   String // JSON content for Variant A (Control)
+  variantB   String // JSON content for Variant B (Challenger)
+  trafficB   Int       @default(50) // % of traffic to Variant B
+  goal       String? // "click", "form_submit", "scroll_depth", etc.
+  goalTarget String? // CSS selector or event name for goal
+  status     String    @default("draft") // draft, running, paused, completed
+  startDate  DateTime?
+  endDate    DateTime?
+  results    String? // JSON: { a: { views, conversions }, b: { views, conversions } }
+  winner     String? // "A", "B", or null if no winner yet
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([pageSlug, status])
+}
+
+// --- DYNAMIC VARIABLES ---
+
+model DynamicVariable {
+  id          String   @id @default(cuid())
+  key         String   @unique // {year}, {company_name}, {phone}, etc.
+  value       String // Current value
+  autoUpdate  Boolean  @default(false) // Auto-recalculate on render
+  formula     String? // JS expression for computed values, e.g., "new Date().getFullYear()"
+  description String? // Admin helper text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// --- INTERLINK SUGGESTIONS ---
+
+model Interlink {
+  id           String   @id @default(cuid())
+  sourcePageId String // Page containing the link
+  targetPageId String // Page being linked to
+  anchorText   String // Suggested anchor text
+  context      String? // Surrounding text for context
+  score        Float    @default(0) // Relevance score 0-1
+  status       String   @default("suggested") // suggested, accepted, rejected
+  createdAt    DateTime @default(now())
+
+  @@index([sourcePageId])
+  @@index([targetPageId])
+}
+
+// --- BUSINESS DATA (Newly Integrated) ---
+
+model User {
+  id            String   @id @default(cuid())
+  name          String?
+  email         String   @unique
+  password      String
+  role          String   @default("user") // admin, user
+  driveFolderId String? // For Google Drive integration
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+
 model Project {
   id          String   @id @default(cuid())
   title       String
@@ -203,8 +204,8 @@ model Project {
   category    String
   year        String
   description String
-  results     String   // JSON string: [{label: string, value: string}]
-  tags        String   // JSON string: [string]
+  results     String // JSON string: [{label: string, value: string}]
+  tags        String // JSON string: [string]
   image       String
   color       String   @default("#FACC15")
   showOnHome  Boolean  @default(false)
@@ -218,7 +219,7 @@ model Client {
   logo                 String?
   url                  String?
   description          String?
-  socials              String?  // JSON string
+  socials              String? // JSON string
   showInSuccessStories Boolean  @default(false)
   order                Int      @default(0)
   createdAt            DateTime @default(now())
@@ -226,28 +227,28 @@ model Client {
 }
 
 model Service {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  uvpTitle    String?
-  uvpSubtitle String?
-  ctaText     String?
-  description String
-  clientCount Int      @default(0)
-  stats       String?  // JSON string
-  benefits    String?  // JSON string
-  faq         String?  // JSON string
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  uvpTitle     String?
+  uvpSubtitle  String?
+  ctaText      String?
+  description  String
+  clientCount  Int      @default(0)
+  stats        String? // JSON string
+  benefits     String? // JSON string
+  faq          String? // JSON string
   testimonials String? // JSON string (embedded testimonials data)
-  comparison  String?  // JSON string
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  comparison   String? // JSON string
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model SiteConfig {
   id        String   @id @default(cuid())
   key       String   @unique
-  value     String   // JSON string
+  value     String // JSON string
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -256,7 +257,7 @@ model BlogPost {
   id        String   @id @default(cuid())
   slug      String   @unique
   title     String
-  content   String   // JSON content
+  content   String // JSON content
   excerpt   String?
   image     String?
   author    String?

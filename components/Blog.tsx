@@ -25,7 +25,7 @@ export default function Blog() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const res = await fetch('/api/admin/blog');
+                const res = await fetch('/api/blog');
                 if (res.ok) {
                     const data = await res.json();
                     setPosts(data);
@@ -38,10 +38,33 @@ export default function Blog() {
     }, []);
 
     const parseDate = (dateStr: string) => {
-        const months: Record<string, number> = { 'Gen': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'Mag': 4, 'Giu': 5, 'Lug': 6, 'Ago': 7, 'Set': 8, 'Ott': 9, 'Nov': 10, 'Dic': 11 };
+        if (!dateStr) return new Date();
+
+        // Handle ISO strings or already parsed dates
+        const tryDate = new Date(dateStr);
+        if (!isNaN(tryDate.getTime())) return tryDate;
+
+        // Handle DD/MM/YYYY
+        if (dateStr.includes('/')) {
+            const parts = dateStr.split('/');
+            if (parts.length === 3) {
+                return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+            }
+        }
+
+        // Handle DD MMM YYYY (e.g., 15 Gen 2026)
+        const months: Record<string, number> = {
+            'Gen': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'Mag': 4, 'Giu': 5,
+            'Lug': 6, 'Ago': 7, 'Set': 8, 'Ott': 9, 'Nov': 10, 'Dic': 11,
+            'Jan': 0, 'May': 4, 'Jun': 5, 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Dec': 11
+        };
         const parts = dateStr.split(' ');
-        if (parts.length < 3) return new Date();
-        return new Date(parseInt(parts[2]), months[parts[1]] || 0, parseInt(parts[0]));
+        if (parts.length === 3) {
+            const month = months[parts[1]] ?? (parseInt(parts[1]) - 1);
+            return new Date(parseInt(parts[2]), month, parseInt(parts[0]));
+        }
+
+        return new Date();
     };
 
     const sortedPosts = [...posts].sort((a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime());
