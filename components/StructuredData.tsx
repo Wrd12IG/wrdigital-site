@@ -264,7 +264,7 @@ export default function StructuredData() {
     const faqSchema = getFAQSchema();
 
     return (
-        <>
+        <div id="structured-data-container" style={{ display: 'none' }}>
             {/* Organization Schema */}
             <script
                 key="schema-org"
@@ -321,6 +321,6 @@ export default function StructuredData() {
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
                 />
             )}
-        </>
+        </div>
     );
 }

@@ -1,33 +1,28 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function DynamicFavicon() {
+    const [favicon, setFavicon] = useState<string | null>(null);
+
     useEffect(() => {
-        // Fetch site config to get favicon URL
         fetch('/api/site-config')
             .then(res => res.json())
             .then(data => {
-                console.log('🎯 Site config loaded:', data);
                 if (data.favicon) {
-                    console.log('📌 Setting favicon to:', data.favicon);
-                    
-                    // Remove existing favicon links
-                    const existingLinks = document.querySelectorAll("link[rel~='icon']");
-                    existingLinks.forEach(link => link.remove());
-                    
-                    // Create new favicon link with cache-busting
-                    const link = document.createElement('link');
-                    link.rel = 'icon';
-                    link.type = 'image/png';
-                    link.href = `${data.favicon}?t=${Date.now()}`; // Cache-busting
-                    document.head.appendChild(link);
-                    
-                    console.log('✅ Favicon updated successfully');
+                    setFavicon(data.favicon);
                 }
             })
-            .catch(err => console.error('❌ Failed to load favicon:', err));
+            .catch(() => { });
     }, []);
 
-    return null;
+    // Returning a hidden div and the link tag
+    // React 19 / Next.js 15 will hoist the link tag to the head
+    return (
+        <div style={{ display: 'none' }}>
+            {favicon && (
+                <link rel="icon" href={`${favicon}?t=${Date.now()}`} />
+            )}
+        </div>
+    );
 }

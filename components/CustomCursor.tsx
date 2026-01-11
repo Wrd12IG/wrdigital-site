@@ -27,7 +27,10 @@ export default function CustomCursor() {
 
     // Only show custom cursor on desktop
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) return;
+    if (isTouchDevice) {
+      setIsVisible(false);
+      return;
+    }
 
     setIsVisible(true);
 
@@ -51,7 +54,6 @@ export default function CustomCursor() {
     };
 
     const handleMouseLeave = (e: MouseEvent) => {
-      // Simple check to reset if not on interactive element
       setIsHovering(false);
     };
 
@@ -66,11 +68,10 @@ export default function CustomCursor() {
     };
   }, [isMounted, mouseX, mouseY]);
 
-  if (!isMounted || !isVisible) return null;
-
+  // Always render something to keep the tree stable
   return (
-    <>
-      {/* Precision Dot (Always follows mouse exactly) */}
+    <div id="cursor-portal" style={{ opacity: isMounted && isVisible ? 1 : 0, pointerEvents: 'none' }}>
+      {/* Precision Dot */}
       <motion.div
         className={styles.cursorDot}
         style={{
@@ -87,10 +88,9 @@ export default function CustomCursor() {
           y: smoothY,
         }}
       >
-        {/* Crosshair lines (visible only on hover) */}
         <div className={styles.crosshairVertical} />
         <div className={styles.crosshairHorizontal} />
       </motion.div>
-    </>
+    </div>
   );
 }

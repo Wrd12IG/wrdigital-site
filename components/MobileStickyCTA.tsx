@@ -55,13 +55,14 @@ export default function MobileStickyCTA() {
 
     return (
         <AnimatePresence>
-            {(isVisible && !isHiddenPath) && (
+            {isVisible && (
                 <motion.div
                     className="fixed bottom-8 right-4 z-50 flex flex-col gap-4 md:hidden"
                     initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
+                    animate={{ x: 0, opacity: isHiddenPath ? 0 : 1 }}
                     exit={{ x: 100, opacity: 0 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    style={{ pointerEvents: isHiddenPath ? 'none' : 'auto', visibility: isHiddenPath ? 'hidden' : 'visible' }}
                 >
                     {items.map((item, index) => (
                         <motion.button

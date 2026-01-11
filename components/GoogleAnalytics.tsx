@@ -9,14 +9,11 @@ export default function GoogleAnalytics() {
     const [consentGiven, setConsentGiven] = useState(false);
 
     useEffect(() => {
-        // Function to check consent
         const checkConsent = () => {
             const saved = localStorage.getItem('wrdigital-cookie-consent');
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
-                    // Check if 'statistics' or 'necessary' (which usually implies all if simple mode) is true.
-                    // But strictly looking for statistics
                     if (parsed.statistics === true) {
                         setConsentGiven(true);
                     } else {
@@ -26,38 +23,37 @@ export default function GoogleAnalytics() {
                     setConsentGiven(false);
                 }
             } else {
-                setConsentGiven(false); // No consent yet
+                setConsentGiven(false);
             }
         };
 
-        // Check initially
         checkConsent();
-
-        // Listen for updates from CookieBanner
         window.addEventListener('cookie-consent-update', checkConsent);
-
         return () => window.removeEventListener('cookie-consent-update', checkConsent);
     }, []);
 
-    if (!consentGiven) return null;
-
+    // Always render a container to keep DOM stable
     return (
-        <>
-            <Script
-                src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-                strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-                {`
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
+        <div id="ga-container" style={{ display: 'none' }}>
+            {consentGiven && (
+                <>
+                    <Script
+                        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+                        strategy="afterInteractive"
+                    />
+                    <Script id="google-analytics" strategy="afterInteractive">
+                        {`
+                            window.dataLayer = window.dataLayer || [];
+                            function gtag(){dataLayer.push(arguments);}
+                            gtag('js', new Date());
 
-                    gtag('config', '${GA_MEASUREMENT_ID}', {
-                        page_path: window.location.pathname,
-                    });
-                `}
-            </Script>
-        </>
+                            gtag('config', '${GA_MEASUREMENT_ID}', {
+                                page_path: window.location.pathname,
+                            });
+                        `}
+                    </Script>
+                </>
+            )}
+        </div>
     );
 }

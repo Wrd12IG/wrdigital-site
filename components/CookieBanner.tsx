@@ -16,32 +16,28 @@ interface CookieConsent {
 export default function CookieBanner() {
     const [isVisible, setIsVisible] = useState(false);
     const [showPreferences, setShowPreferences] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const [consent, setConsent] = useState({
         statistics: false,
         marketing: false
     });
 
     useEffect(() => {
-        // Check local storage
+        setIsMounted(true);
         const savedConsent = localStorage.getItem('wrdigital-cookie-consent');
         if (!savedConsent) {
-            // Show banner after short delay
             const timer = setTimeout(() => setIsVisible(true), 1000);
             return () => clearTimeout(timer);
         } else {
-            // Load saved preferences
             try {
                 const parsed = JSON.parse(savedConsent);
                 setConsent({
                     statistics: parsed.statistics || false,
                     marketing: parsed.marketing || false
                 });
-            } catch (e) {
-                // Invalid JSON, reset
-            }
+            } catch (e) { }
         }
 
-        // Custom event listener to re-open settings
         const handleOpenSettings = () => {
             setIsVisible(true);
             setShowPreferences(true);
@@ -89,8 +85,6 @@ export default function CookieBanner() {
         });
         setIsVisible(false);
         setShowPreferences(false);
-
-        // Notify other components (e.g. GoogleAnalytics)
         window.dispatchEvent(new Event('cookie-consent-update'));
     };
 
@@ -98,124 +92,119 @@ export default function CookieBanner() {
         setConsent(prev => ({ ...prev, [key]: !prev[key] }));
     };
 
+    // Keep tree stable
     return (
-        <AnimatePresence>
-            {isVisible && (
-                <>
-                    {/* Overlay for Modal Mode */}
-                    {showPreferences && (
-                        <motion.div
-                            className={styles.overlay}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setIsVisible(false)}
-                        />
-                    )}
-
-                    <motion.div
-                        layout
-                        className={`${styles.banner} ${showPreferences ? styles.modal : ''}`}
-                        initial={{ opacity: 0, y: 50, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        transition={{ duration: 0.3 }}
-                        role="dialog"
-                        aria-modal="true"
-                    >
-                        {/* Header */}
-                        <div className={styles.header}>
-                            <div className={styles.title}>
-                                {showPreferences ? 'Gestisci Consenso' : <><Cookie className="w-5 h-5 inline-block mr-2" /> Cookie & Privacy</>}
-                            </div>
-                            {showPreferences && (
-                                <button className={styles.closeButton} onClick={() => setIsVisible(false)}>
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M18 6L6 18M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            )}
-                        </div>
-
-                        {/* Content */}
-                        {!showPreferences ? (
-                            // Simple View
-                            <>
-                                <div className={styles.content}>
-                                    Utilizziamo cookie per migliorare la tua esperienza e analizzare il traffico.
-                                    Puoi decidere quali cookie accettare. Leggi la nostra <Link href="/cookie-policy" className={styles.link}>Cookie Policy</Link>.
-                                </div>
-                                <div className={styles.actions}>
-                                    <div className={styles.rowButtons}>
-                                        <button onClick={handleAcceptAll} className={styles.btnPrimary}>Accetta</button>
-                                        <button onClick={handleRejectAll} className={styles.btnSecondary}>Nega</button>
-                                    </div>
-                                    <button onClick={() => setShowPreferences(true)} className={styles.btnOutline}>
-                                        Visualizza le preferenze
-                                    </button>
-                                </div>
-                            </>
-                        ) : (
-                            // Preferences View
-                            <>
-                                <div className={styles.content}>
-                                    Gestisci le tue preferenze sui cookie. I cookie necessari sono sempre attivi per il funzionamento del sito.
-                                </div>
-
-                                <div className={styles.preferencesList}>
-                                    {/* Funzionale (Always On) */}
-                                    <div className={styles.preferenceItem}>
-                                        <div className={styles.preferenceHeader}>
-                                            <span className={styles.preferenceLabel}>Funzionale</span>
-                                            <span className={styles.preferenceStatus}>Sempre attivo</span>
-                                        </div>
-                                        <div className={styles.preferenceDescription}>Necessari per il funzionamento base del sito.</div>
-                                    </div>
-
-                                    {/* Statistiche */}
-                                    <div className={styles.preferenceItem}>
-                                        <div className={styles.preferenceHeader}>
-                                            <span className={styles.preferenceLabel}>Statistiche</span>
-                                            <label className={styles.toggle}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={consent.statistics}
-                                                    onChange={() => togglePreference('statistics')}
-                                                />
-                                                <span className={styles.slider}></span>
-                                            </label>
-                                        </div>
-                                        <div className={styles.preferenceDescription}>Ci aiutano a capire come gli utenti interagiscono col sito.</div>
-                                    </div>
-
-                                    {/* Marketing */}
-                                    <div className={styles.preferenceItem}>
-                                        <div className={styles.preferenceHeader}>
-                                            <span className={styles.preferenceLabel}>Marketing</span>
-                                            <label className={styles.toggle}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={consent.marketing}
-                                                    onChange={() => togglePreference('marketing')}
-                                                />
-                                                <span className={styles.slider}></span>
-                                            </label>
-                                        </div>
-                                        <div className={styles.preferenceDescription}>Utilizzati per inviare pubblicità mirata.</div>
-                                    </div>
-                                </div>
-
-                                <div className={styles.actions}>
-                                    <div className={styles.rowButtons}>
-                                        <button onClick={handleSavePreferences} className={styles.btnSecondary}>Salva Preferenze</button>
-                                        <button onClick={handleAcceptAll} className={styles.btnPrimary}>Accetta Tutti</button>
-                                    </div>
-                                </div>
-                            </>
+        <div id="cookie-banner-stable-root" style={{ position: 'relative', zIndex: 9999 }}>
+            <AnimatePresence>
+                {isVisible && isMounted && (
+                    <>
+                        {showPreferences && (
+                            <motion.div
+                                className={styles.overlay}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setIsVisible(false)}
+                            />
                         )}
-                    </motion.div>
-                </>
-            )}
-        </AnimatePresence>
+
+                        <motion.div
+                            layout
+                            className={`${styles.banner} ${showPreferences ? styles.modal : ''}`}
+                            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                            transition={{ duration: 0.3 }}
+                            role="dialog"
+                            aria-modal="true"
+                        >
+                            <div className={styles.header}>
+                                <div className={styles.title}>
+                                    {showPreferences ? 'Gestisci Consenso' : <><Cookie className="w-5 h-5 inline-block mr-2" /> Cookie & Privacy</>}
+                                </div>
+                                {showPreferences && (
+                                    <button className={styles.closeButton} onClick={() => setIsVisible(false)}>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <path d="M18 6L6 18M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                )}
+                            </div>
+
+                            {!showPreferences ? (
+                                <>
+                                    <div className={styles.content}>
+                                        Utilizziamo cookie per migliorare la tua esperienza e analizzare il traffico.
+                                        Puoi decidere quali cookie accettare. Leggi la nostra <Link href="/cookie-policy" className={styles.link}>Cookie Policy</Link>.
+                                    </div>
+                                    <div className={styles.actions}>
+                                        <div className={styles.rowButtons}>
+                                            <button onClick={handleAcceptAll} className={styles.btnPrimary}>Accetta</button>
+                                            <button onClick={handleRejectAll} className={styles.btnSecondary}>Nega</button>
+                                        </div>
+                                        <button onClick={() => setShowPreferences(true)} className={styles.btnOutline}>
+                                            Visualizza le preferenze
+                                        </button>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className={styles.content}>
+                                        Gestisci le tue preferenze sui cookie. I cookie necessari sono sempre attivi per il funzionamento del sito.
+                                    </div>
+
+                                    <div className={styles.preferencesList}>
+                                        <div className={styles.preferenceItem}>
+                                            <div className={styles.preferenceHeader}>
+                                                <span className={styles.preferenceLabel}>Funzionale</span>
+                                                <span className={styles.preferenceStatus}>Sempre attivo</span>
+                                            </div>
+                                            <div className={styles.preferenceDescription}>Necessari per il funzionamento base del sito.</div>
+                                        </div>
+
+                                        <div className={styles.preferenceItem}>
+                                            <div className={styles.preferenceHeader}>
+                                                <span className={styles.preferenceLabel}>Statistiche</span>
+                                                <label className={styles.toggle}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={consent.statistics}
+                                                        onChange={() => togglePreference('statistics')}
+                                                    />
+                                                    <span className={styles.slider}></span>
+                                                </label>
+                                            </div>
+                                            <div className={styles.preferenceDescription}>Ci aiutano a capire come gli utenti interagiscono col sito.</div>
+                                        </div>
+
+                                        <div className={styles.preferenceItem}>
+                                            <div className={styles.preferenceHeader}>
+                                                <span className={styles.preferenceLabel}>Marketing</span>
+                                                <label className={styles.toggle}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={consent.marketing}
+                                                        onChange={() => togglePreference('marketing')}
+                                                    />
+                                                    <span className={styles.slider}></span>
+                                                </label>
+                                            </div>
+                                            <div className={styles.preferenceDescription}>Utilizzati per inviare pubblicità mirata.</div>
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.actions}>
+                                        <div className={styles.rowButtons}>
+                                            <button onClick={handleSavePreferences} className={styles.btnSecondary}>Salva Preferenze</button>
+                                            <button onClick={handleAcceptAll} className={styles.btnPrimary}>Accetta Tutti</button>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+        </div>
     );
 }
