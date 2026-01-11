@@ -4,9 +4,19 @@ import { EmailTemplate, ClientConfirmationTemplate } from '@/lib/email-template'
 
 import { prisma } from '@/lib/prisma';
 import { headers } from 'next/headers';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
     try {
+        const headersList = await headers();
+        const ip = headersList.get('x-forwarded-for') || 'unknown';
+
+        // 1. Security: Rate Limiting
+        const rateLimit = await checkRateLimit(ip);
+        if (!rateLimit.allowed) {
+            return NextResponse.json({ error: 'Troppe richieste. Riprova tra un\'ora.' }, { status: 429 });
+        }
+
         const body = await request.json();
         const { name, email, message, company, service, privacyAccepted } = body;
 
@@ -20,8 +30,6 @@ export async function POST(request: Request) {
         }
 
         // Log Consenso GDPR
-        const headersList = await headers();
-        const ip = headersList.get('x-forwarded-for') || 'unknown';
         const userAgent = headersList.get('user-agent') || 'unknown';
 
         await prisma.consentLog.create({
