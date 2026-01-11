@@ -1,6 +1,8 @@
 
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
     try {
@@ -10,12 +12,14 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Email non valida' }, { status: 400 });
         }
 
-        // Qui potresti salvare nel DB o inviare a Mailchimp/Resend
-        // Per ora simuliamo successo e logghiamo
-        console.log('Nuovo iscritto newsletter:', email);
-
-        // Esempio salvataggio su un modello ipotetico (se esistesse)
-        // await prisma.newsletterSubscriber.create({ data: { email } });
+        if (process.env.RESEND_API_KEY) {
+            await resend.emails.send({
+                from: 'W[r]Digital Site <onboarding@resend.dev>',
+                to: ['info@wrdigital.it', 'roberto@wrdigital.it'],
+                subject: 'Nuova Iscrizione Newsletter',
+                html: `<p>Nuova iscrizione ricevuta: <strong>${email}</strong></p>`
+            });
+        }
 
         return NextResponse.json({ success: true, message: 'Iscrizione confermata' });
 
