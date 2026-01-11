@@ -44,14 +44,36 @@ export const EmailTemplate = (data: { name: string; email: string; message?: str
                 </table>
             </div>
 
-            ${data.message ? `
+            ${data.service === 'preventivo' ? (() => {
+        // Parse the message string to extract key-value pairs
+        const lines = data.message?.split('\n') || [];
+        const details: Record<string, string> = {};
+        lines.forEach(line => {
+            const [key, value] = line.split(': ').map(s => s.trim());
+            if (key && value) details[key.toLowerCase()] = value;
+        });
+
+        return `
+                <div style="margin-top: 30px;">
+                    <p style="color: #888; font-size: 12px; text-transform: uppercase; margin-bottom: 10px;">Dettagli Wizard:</p>
+                    <table style="width: 100%; border-collapse: collapse; background-color: #fff8f0; border-radius: 8px; border: 1px solid #ffe6b3;">
+                        ${Object.entries(details).filter(([k]) => k !== 'richiesta preventivo wizard' && !k.startsWith('---')).map(([key, value]) => `
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid #ffe6b3; font-weight: bold; color: #555; width: 35%; text-transform: capitalize;">${key}</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid #ffe6b3; color: #333;">${value}</td>
+                        </tr>
+                        `).join('')}
+                    </table>
+                </div>
+                `;
+    })() : `
             <div style="margin-top: 30px;">
                 <p style="color: #888; font-size: 12px; text-transform: uppercase; margin-bottom: 10px;">Messaggio:</p>
                 <div style="background-color: #fff8f0; border-left: 4px solid #FACC15; padding: 20px; font-style: italic; color: #555;">
                     "${data.message}"
                 </div>
             </div>
-            ` : ''}
+            `}
 
             <!-- Action Button -->
             <div style="margin-top: 40px; text-align: center;">
