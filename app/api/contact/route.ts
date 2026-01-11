@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { transporter, mailOptions } from '@/lib/nodemailer';
+import { EmailTemplate } from '@/lib/email-template';
 
 export async function POST(request: Request) {
     try {
@@ -16,19 +17,8 @@ export async function POST(request: Request) {
             ...mailOptions,
             to: 'info@wrdigital.it, roberto@wrdigital.it',
             replyTo: email,
-            subject: `Nuovo Contatto Web: ${name}`,
-            html: `
-                <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-                    <h2 style="color: #333;">Nuova richiesta dal sito web</h2>
-                    <p><strong>Nome:</strong> ${name}</p>
-                    <p><strong>Email:</strong> ${email}</p>
-                    <p><strong>Azienda:</strong> ${company || '-'}</p>
-                    <p><strong>Servizio:</strong> ${service || '-'}</p>
-                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;" />
-                    <p><strong>Messaggio:</strong></p>
-                    <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">${message}</p>
-                </div>
-            `
+            subject: `🔥 Lead: ${name} (${company || 'Privato'})`,
+            html: EmailTemplate({ name, email, message, company, service })
         });
 
         return NextResponse.json({ success: true, message: 'Messaggio inviato' });
