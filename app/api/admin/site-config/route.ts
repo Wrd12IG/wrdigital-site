@@ -1,26 +1,29 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import fs from 'fs';
-import path from 'path';
-
-const DATA_FILE = path.join(process.cwd(), 'data', 'site-config.json');
+import { prisma } from '@/lib/prisma';
 
 const isAdmin = (session: any) => {
     const email = session?.user?.email?.toLowerCase();
     return (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it';
 };
 
-// Helper to read data safely
-const readConfig = () => {
-    if (!fs.existsSync(DATA_FILE)) return {};
-    try {
-        return JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-    } catch { return {}; }
-};
-
 export async function GET() {
-    return NextResponse.json(readConfig());
+    try {
+        const configs = await prisma.siteConfig.findMany();
+        const aggregatedConfig = configs.reduce((acc, config) => {
+            try {
+                acc[config.key] = JSON.parse(config.value);
+            } catch (e) {
+                acc[config.key] = config.value;
+            }
+            return acc;
+        }, {} as any);
+
+        return NextResponse.json(aggregatedConfig);
+    } catch (error) {
+        return NextResponse.json({ error: 'Failed to fetch config' }, { status: 500 });
+    }
 }
 
 export async function POST(req: Request) {
@@ -30,12 +33,16 @@ export async function POST(req: Request) {
 
         const newConfig = await req.json();
 
-        // Ensure dir exists
-        const dir = path.dirname(DATA_FILE);
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        // Save each top-level key as a record in SiteConfig for better management
+        const operations = Object.entries(newConfig).map(([key, value]) => {
+            return prisma.siteConfig.upsert({
+                where: { key },
+                update: { value: JSON.stringify(value) },
+                create: { key, value: JSON.stringify(value) }
+            });
+        });
 
-        // Save
-        fs.writeFileSync(DATA_FILE, JSON.stringify(newConfig, null, 4));
+        await Promise.all(operations);
 
         return NextResponse.json({ success: true });
     } catch (error) {

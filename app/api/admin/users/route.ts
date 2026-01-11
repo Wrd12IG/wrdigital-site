@@ -1,24 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import fs from 'fs';
-import path from 'path';
+import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { google } from 'googleapis';
 
-const USERS_FILE = path.join(process.cwd(), 'data', 'users.json');
 const PARENT_FOLDER_ID = process.env.GOOGLE_DRIVE_FOLDER_ID || '1vbjUnaGvwKRZe7KwyQWLowdzhm5DRk5z';
-
-// Helper per leggere utenti
-const getUsers = () => {
-    if (!fs.existsSync(USERS_FILE)) return [];
-    return JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
-};
-
-// Helper per salvare utenti
-const saveUsers = (users: any[]) => {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-};
 
 // Helper Google Drive Authentication
 const getDriveAuth = () => {
@@ -49,11 +36,18 @@ export async function GET() {
             return NextResponse.json({ error: 'Non autorizzato' }, { status: 403 });
         }
 
-        const users = getUsers();
-        // Rimuovi password e dati sensibili
-        const safeUsers = users.map(({ password, ...user }: any) => user);
+        const users = await prisma.user.findMany({
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                driveFolderId: true,
+                createdAt: true
+            }
+        });
 
-        return NextResponse.json(safeUsers);
+        return NextResponse.json(users);
     } catch (error) {
         return NextResponse.json({ error: 'Errore server' }, { status: 500 });
     }
@@ -73,8 +67,11 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Dati mancanti' }, { status: 400 });
         }
 
-        const users = getUsers();
-        if (users.find((u: any) => u.email === email)) {
+        const existingUser = await prisma.user.findUnique({
+            where: { email: email.toLowerCase() }
+        });
+
+        if (existingUser) {
             return NextResponse.json({ error: 'Email già in uso' }, { status: 400 });
         }
 
@@ -115,20 +112,17 @@ export async function POST(req: Request) {
 
         } catch (driveError) {
             console.error('Errore creazione Drive:', driveError);
-            // Continua anche se fallisce Drive, ma segnalalo
         }
 
-        const newUser = {
-            id: Date.now().toString(),
-            name,
-            email,
-            password: hashedPassword,
-            role: 'user',
-            driveFolderId
-        };
-
-        users.push(newUser);
-        saveUsers(users);
+        const newUser = await prisma.user.create({
+            data: {
+                name,
+                email: email.toLowerCase(),
+                password: hashedPassword,
+                role: 'user',
+                driveFolderId
+            }
+        });
 
         const { password: _, ...safeUser } = newUser;
         return NextResponse.json(safeUser);
@@ -153,18 +147,12 @@ export async function PUT(req: Request) {
             return NextResponse.json({ error: 'Dati mancanti' }, { status: 400 });
         }
 
-        const users = getUsers();
-        const userIndex = users.findIndex((u: any) => u.email.toLowerCase() === email.toLowerCase());
-
-        if (userIndex === -1) {
-            return NextResponse.json({ error: 'Utente non trovato' }, { status: 404 });
-        }
-
-        // Cripta nuova password
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        users[userIndex].password = hashedPassword;
 
-        saveUsers(users);
+        await prisma.user.update({
+            where: { email: email.toLowerCase() },
+            data: { password: hashedPassword }
+        });
 
         return NextResponse.json({ success: true, message: 'Password aggiornata' });
 
@@ -188,14 +176,9 @@ export async function DELETE(req: Request) {
             return NextResponse.json({ error: 'Email mancante' }, { status: 400 });
         }
 
-        const users = getUsers();
-        const newUsers = users.filter((u: any) => u.email.toLowerCase() !== email.toLowerCase());
-
-        if (users.length === newUsers.length) {
-            return NextResponse.json({ error: 'Utente non trovato' }, { status: 404 });
-        }
-
-        saveUsers(newUsers);
+        await prisma.user.delete({
+            where: { email: email.toLowerCase() }
+        });
 
         return NextResponse.json({ success: true, message: 'Utente eliminato' });
 

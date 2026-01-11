@@ -171,3 +171,107 @@ model Interlink {
   @@index([targetPageId])
 }
 
+// --- BUSINESS DATA (Newly Integrated) ---
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String
+  role          String    @default("user") // admin, user
+  driveFolderId String?   // For Google Drive integration
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  quote     String
+  author    String
+  company   String?
+  rating    Int      @default(5)
+  result    String?  // e.g., "+150% Leads"
+  service   String   // e.g., "web", "seo", "social", "ads"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  client      String
+  category    String
+  year        String
+  description String
+  results     String   // JSON string: [{label: string, value: string}]
+  tags        String   // JSON string: [string]
+  image       String
+  color       String   @default("#FACC15")
+  showOnHome  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Client {
+  id                   String   @id @default(cuid())
+  name                 String
+  logo                 String?
+  url                  String?
+  description          String?
+  socials              String?  // JSON string
+  showInSuccessStories Boolean  @default(false)
+  order                Int      @default(0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  uvpTitle    String?
+  uvpSubtitle String?
+  ctaText     String?
+  description String
+  clientCount Int      @default(0)
+  stats       String?  // JSON string
+  benefits    String?  // JSON string
+  faq         String?  // JSON string
+  testimonials String? // JSON string (embedded testimonials data)
+  comparison  String?  // JSON string
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteConfig {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   // JSON string
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  content   String   // JSON content
+  excerpt   String?
+  image     String?
+  author    String?
+  category  String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  order     Int      @default(0)
+  category  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

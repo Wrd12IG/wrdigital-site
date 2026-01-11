@@ -1,16 +1,14 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import fs from 'fs';
-import path from 'path';
-
-const DATA_FILE = path.join(process.cwd(), 'data', 'clients-marquee.json');
+import { prisma } from '@/lib/prisma';
 
 export async function GET() {
     try {
-        if (!fs.existsSync(DATA_FILE)) return NextResponse.json([]);
-        const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-        return NextResponse.json(data);
+        const clients = await prisma.client.findMany({
+            orderBy: { order: 'asc' }
+        });
+        return NextResponse.json(clients);
     } catch { return NextResponse.json([]); }
 }
 
@@ -21,7 +19,24 @@ export async function POST(request: Request) {
     }
     try {
         const data = await request.json();
-        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+
+        if (Array.isArray(data)) {
+            await prisma.$transaction([
+                prisma.client.deleteMany(),
+                prisma.client.createMany({
+                    data: data.map((c: any, index: number) => ({
+                        name: c.name || '',
+                        logo: c.logo || '',
+                        url: c.url || '',
+                        description: c.description || '',
+                        socials: JSON.stringify(c.socials || {}),
+                        showInSuccessStories: c.showInSuccessStories || false,
+                        order: index
+                    }))
+                })
+            ]);
+        }
+
         return NextResponse.json({ success: true });
     } catch (e: any) {
         return NextResponse.json({ error: e.message }, { status: 500 });

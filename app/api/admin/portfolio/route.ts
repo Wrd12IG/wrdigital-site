@@ -1,28 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import fs from 'fs';
-import path from 'path';
+import { prisma } from '@/lib/prisma';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'portfolio.json');
-
-// Helper Auth
 const isAdmin = (session: any) => {
     return (session?.user as any)?.role === 'admin' || session?.user?.email === 'roberto@wrdigital.it';
-};
-
-// Helper Read/Write
-const getProjects = () => {
-    if (!fs.existsSync(DATA_FILE)) return [];
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-};
-
-const saveProjects = (projects: any[]) => {
-    // Assicura che la dir esista
-    const dir = path.dirname(DATA_FILE);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-
-    fs.writeFileSync(DATA_FILE, JSON.stringify(projects, null, 4));
 };
 
 export async function POST(req: Request) {
@@ -33,35 +15,61 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { action, project, id } = body;
 
-        let projects = getProjects();
-
         if (action === 'create' || action === 'update') {
             if (!project) return NextResponse.json({ error: 'Missing project data' }, { status: 400 });
 
-            // Se update, rimuovi vecchio
-            if (action === 'update') {
-                projects = projects.filter((p: any) => p.id !== project.id);
-            } else {
-                // Se create, genera ID se non c'è (o usiamo timestamp)
-                if (!project.id) project.id = Date.now().toString();
-            }
+            const data = {
+                title: project.title,
+                client: project.client,
+                category: project.category,
+                year: project.year,
+                description: project.description,
+                results: typeof project.results === 'string' ? project.results : JSON.stringify(project.results),
+                tags: typeof project.tags === 'string' ? project.tags : JSON.stringify(project.tags),
+                image: project.image,
+                color: project.color || '#FACC15',
+                showOnHome: project.showOnHome || false
+            };
 
-            // Aggiungi in cima
-            projects.unshift(project);
-            saveProjects(projects);
-            return NextResponse.json({ success: true, project });
+            const upsertedProject = await prisma.project.upsert({
+                where: { id: project.id?.toString() || 'new' },
+                update: data,
+                create: { ...data, id: project.id?.toString() }
+            });
+
+            return NextResponse.json({ success: true, project: upsertedProject });
         }
 
         if (action === 'delete') {
             if (!id) return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
-            projects = projects.filter((p: any) => p.id !== id);
-            saveProjects(projects);
+            await prisma.project.delete({
+                where: { id: id.toString() }
+            });
             return NextResponse.json({ success: true });
         }
 
         if (action === 'save_all') {
             if (!body.projects || !Array.isArray(body.projects)) return NextResponse.json({ error: 'Missing projects array' }, { status: 400 });
-            saveProjects(body.projects);
+
+            await prisma.$transaction([
+                prisma.project.deleteMany(),
+                prisma.project.createMany({
+                    data: body.projects.map((p: any) => ({
+                        id: p.id?.toString(),
+                        title: p.title,
+                        client: p.client,
+                        category: p.category,
+                        year: p.year,
+                        description: p.description,
+                        results: JSON.stringify(p.results),
+                        tags: JSON.stringify(p.tags),
+                        image: p.image,
+                        color: p.color || '#FACC15',
+                        showOnHome: p.showOnHome || false
+                    }))
+                })
+            ]);
+
             return NextResponse.json({ success: true });
         }
 
