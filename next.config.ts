@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
         hostname: 'img.freepik.com',
       },
     ],
+    qualities: [75, 90],
   },
 };
 

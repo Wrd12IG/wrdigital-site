@@ -1,30 +1,35 @@
-
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'services-content.json');
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        if (!fs.existsSync(DATA_FILE)) {
-            return NextResponse.json({});
-        }
-        const data = fs.readFileSync(DATA_FILE, 'utf8');
-        return NextResponse.json(JSON.parse(data));
+        const pages = await prisma.page.findMany();
+
+        const contentMap: Record<string, any> = {};
+
+        pages.forEach(page => {
+            try {
+                const parsedContent = JSON.parse(page.content);
+                contentMap[page.slug] = parsedContent;
+            } catch (e) {
+                // If content is not valid JSON, we might want to skip or provide simple object
+                contentMap[page.slug] = { title: page.title };
+            }
+        });
+
+        return NextResponse.json(contentMap);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to load content' }, { status: 500 });
     }
 }
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-
 export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
-    const email = session?.user?.email?.toLowerCase();
-    const isAdmin = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
+    const isAdmin = session?.user?.role === 'admin';
 
     if (!session || !isAdmin) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -33,13 +38,11 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
 
-        // 1. Save to file (Legacy/Backup)
-        fs.writeFileSync(DATA_FILE, JSON.stringify(body, null, 2));
-
-        // 2. Sync to Prisma Database (Production)
+        // Sync to Prisma Database (Production)
         // Body is { [slug]: { title, description, ... } }
         const updatePromises = Object.entries(body).map(async ([slug, content]: [string, any]) => {
             // Ensure title exists from content or fallback
+            // If the key is e.g. "web-design", we use it as slug.
             const title = content.title || slug;
 
             await prisma.page.upsert({

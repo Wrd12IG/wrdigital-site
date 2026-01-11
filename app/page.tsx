@@ -16,12 +16,30 @@ import { prisma } from '@/lib/prisma';
 
 async function getHomeData() {
   try {
-    const config = await prisma.siteConfig.findUnique({ where: { key: 'seo-meta' } });
-    if (config) {
-      const data = JSON.parse(config.value);
-      return data['home'] || {};
+    const [seoConfig, homePage] = await Promise.all([
+      prisma.siteConfig.findUnique({ where: { key: 'seo-meta' } }),
+      prisma.page.findUnique({ where: { slug: 'home' } })
+    ]);
+
+    let data: any = {};
+    let contentOverrides: any = {};
+
+    if (seoConfig) {
+      const parsed = JSON.parse(seoConfig.value);
+      data = parsed['home'] || {};
     }
-  } catch (e) { }
+
+    if (homePage) {
+      try {
+        const parsedContent = JSON.parse(homePage.content);
+        contentOverrides['home'] = parsedContent;
+      } catch (e) { }
+    }
+
+    return { ...data, contentOverrides };
+  } catch (e) {
+    console.error('Error fetching home data:', e);
+  }
   return {};
 }
 
@@ -53,9 +71,6 @@ export default async function Home() {
         {/* Services -> Landing Pages */}
         <Services />
 
-        {/* Portfolio - Integreted in Case Studies */}
-        {/* <Portfolio /> */}
-
         {/* Chi Siamo / Team */}
         <TeamSection />
 
@@ -66,7 +81,12 @@ export default async function Home() {
         <Blog />
 
         {/* Dynamic SEO Content (FAQ, Video, Links from Admin) */}
-        <DynamicSeoContent pageKey="home" accentColor="#FACC15" />
+        <DynamicSeoContent
+          pageKey="home"
+          accentColor="#FACC15"
+          initialSeoData={homeData}
+          initialContentOverrides={homeData.contentOverrides || {}}
+        />
 
         {/* Contact */}
         <Contact />

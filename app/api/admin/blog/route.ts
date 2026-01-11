@@ -46,8 +46,7 @@ const processPost = (post: any) => {
 
 export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
-    const email = session?.user?.email?.toLowerCase();
-    const isAdmin = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
+    const isAdmin = session?.user?.role === 'admin';
 
     if (!session || !isAdmin) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -104,8 +103,7 @@ export async function POST(request: Request) {
 // Keep DELETE for standard REST, but POST is our primary backup now
 export async function DELETE(request: Request) {
     const session = await getServerSession(authOptions);
-    const email = session?.user?.email?.toLowerCase();
-    const isAdmin = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
+    const isAdmin = session?.user?.role === 'admin';
 
     if (!session || !isAdmin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 

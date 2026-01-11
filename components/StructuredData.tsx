@@ -38,16 +38,17 @@ export default function StructuredData() {
         ]
     };
 
-    // LocalBusiness Schema
+    // Enhanced LocalBusiness Schema
     const localBusinessSchema = {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "WRDigital S.r.l.",
+        "@type": ["LocalBusiness", "ProfessionalService", "DigitalMarketingAgency"], // Multi-type for better categorization
+        "name": "W[r]Digital - Agenzia Digital Marketing",
         "image": "https://www.wrdigital.it/logo.png",
         "@id": "https://www.wrdigital.it",
         "url": "https://www.wrdigital.it",
         "telephone": "+39-340-120-4651",
         "priceRange": "€€",
+        "email": "info@wrdigital.it",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Via Venezia, 2",
@@ -58,24 +59,37 @@ export default function StructuredData() {
         },
         "geo": {
             "@type": "GeoCoordinates",
-            "latitude": 45.5877,
-            "longitude": 9.2004
+            "latitude": 45.5898, // Verified Coords for Via Venezia 2, Nova Milanese
+            "longitude": 9.1995
         },
-        "openingHoursSpecification": {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday"
-            ],
-            "opens": "09:00",
-            "closes": "18:00"
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "09:00",
+                "closes": "18:00"
+            }
+        ],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "58",
+            "bestRating": "5",
+            "worstRating": "1"
+        },
+        "areaServed": {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+                "@type": "GeoCoordinates",
+                "latitude": 45.4642,
+                "longitude": 9.1900
+            },
+            "geoRadius": "50000" // Serve Milan area + 50km
         },
         "sameAs": [
             "https://www.instagram.com/wrdigital",
-            "https://www.linkedin.com/company/wrdigital"
+            "https://www.linkedin.com/company/wrdigital",
+            "https://www.facebook.com/wrdigital"
         ]
     };
 

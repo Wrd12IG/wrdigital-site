@@ -7,6 +7,7 @@ declare module 'next-auth' {
             name?: string | null;
             email?: string | null;
             driveFolderId?: string;
+            role?: string;
         };
     }
 
@@ -15,12 +16,14 @@ declare module 'next-auth' {
         name?: string | null;
         email?: string | null;
         driveFolderId?: string;
+        role?: string;
     }
 }
 
 declare module 'next-auth/jwt' {
     interface JWT {
-        id?: string;
+        id?: string; // Change to string to match User.id
         driveFolderId?: string;
+        role?: string;
     }
 }

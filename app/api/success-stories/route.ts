@@ -1,41 +1,29 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { prisma } from '@/lib/prisma';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'clients-marquee.json');
+export const dynamic = 'force-dynamic';
 
-/**
- * GET /api/success-stories
- * Returns only clients marked as showInSuccessStories with their selected social media
- */
 export async function GET() {
     try {
-        // Read clients data
-        const fileContents = await fs.readFile(DATA_FILE, 'utf-8');
-        const allClients = JSON.parse(fileContents);
+        const clients = await prisma.client.findMany({
+            where: { showInSuccessStories: true, deleted: false },
+            orderBy: { order: 'asc' }
+        });
 
-        // Filter only clients that should appear in success stories
-        const successStoriesClients = allClients
-            .filter((client: any) => client.showInSuccessStories === true)
-            .map((client: any) => {
-                // Filter socials to only include selected ones
-                let filteredSocials: Record<string, string> = {};
-                if (client.socials && client.selectedSocials) {
-                    filteredSocials = Object.fromEntries(
-                        Object.entries(client.socials).filter(([platform]) =>
-                            client.selectedSocials.includes(platform)
-                        )
-                    ) as Record<string, string>;
-                }
+        const successStoriesClients = clients.map(client => {
+            let parsedSocials = {};
+            try {
+                parsedSocials = client.socials ? JSON.parse(client.socials) : {};
+            } catch (e) { }
 
-                return {
-                    name: client.name,
-                    logo: client.logo,
-                    url: client.url,
-                    description: client.description,
-                    socials: filteredSocials
-                };
-            });
+            return {
+                name: client.name,
+                logo: client.logo,
+                url: client.url,
+                description: client.description,
+                socials: parsedSocials
+            };
+        });
 
         return NextResponse.json({
             success: true,
@@ -43,15 +31,6 @@ export async function GET() {
             clients: successStoriesClients
         });
     } catch (error) {
-        // If file doesn't exist, return empty array
-        if ((error as any).code === 'ENOENT') {
-            return NextResponse.json({
-                success: true,
-                count: 0,
-                clients: []
-            });
-        }
-
         console.error('Success Stories Fetch Error:', error);
         return NextResponse.json({
             error: 'Errore durante il recupero delle success stories'

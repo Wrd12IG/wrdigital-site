@@ -136,7 +136,7 @@ export default function Services() {
             <div className={styles.container}>
                 {/* Section Header */}
                 <motion.div
-                    className={styles.header}
+                    className={`${styles.header} text-center mb-16`}
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}

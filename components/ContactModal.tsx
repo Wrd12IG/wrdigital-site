@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from './ModalContext';
 import { useToast } from './ToastContext';
@@ -48,6 +49,8 @@ export default function ContactModal() {
         return Object.keys(newErrors).length === 0;
     };
 
+    const router = useRouter();
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validateForm()) return;
@@ -65,9 +68,10 @@ export default function ContactModal() {
 
             if (!response.ok) throw new Error(data.error);
 
-            addToast('Messaggio inviato! Ti contatteremo presto.', 'success');
             closeContactModal();
             setFormState({ name: '', email: '', company: '', message: '', service: '', website: '' });
+            router.push(`/grazie?name=${encodeURIComponent(formState.name)}`);
+
         } catch (error) {
             console.error(error);
             addToast('Errore durante l\'invio. Riprova.', 'error');

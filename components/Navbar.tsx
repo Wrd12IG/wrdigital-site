@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useModal } from './ModalContext'; // Import Modal Hook
@@ -13,7 +13,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-    { label: 'Lavori', href: '/#lavori' },
+    { label: 'Lavori', href: '/portfolio' },
     { label: 'Servizi', href: '/#servizi' },
     { label: 'Preventivo', href: '/preventivo' },
     { label: 'Chi Siamo', href: '/#chi-siamo' },
@@ -29,26 +29,40 @@ export default function Navbar({ isDarkMode }: NavbarProps) {
     const { openContactModal } = useModal();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
-    const [lastScrollY, setLastScrollY] = useState(0);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const scrollYRef = useRef(0);
 
     const isAdmin = pathname?.startsWith('/admin');
 
     useEffect(() => {
+        let ticking = false;
+
         const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-            if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                setIsHidden(true);
-            } else {
-                setIsHidden(false);
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const currentScrollY = window.scrollY;
+                    const prevScrollY = scrollYRef.current;
+
+                    setIsHidden(prev => {
+                        const shouldHide = currentScrollY > prevScrollY && currentScrollY > 100;
+                        return shouldHide !== prev ? shouldHide : prev;
+                    });
+
+                    setIsScrolled(prev => {
+                        const shouldScroll = currentScrollY > 50;
+                        return shouldScroll !== prev ? shouldScroll : prev;
+                    });
+
+                    scrollYRef.current = currentScrollY;
+                    ticking = false;
+                });
+                ticking = true;
             }
-            setIsScrolled(currentScrollY > 50);
-            setLastScrollY(currentScrollY);
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [lastScrollY]);
+    }, []);
 
 
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: NavItem) => {

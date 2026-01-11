@@ -35,7 +35,7 @@ export default function Portfolio() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const res = await fetch('/api/portfolio');
+                const res = await fetch(`/api/portfolio?t=${new Date().getTime()}`);
                 if (res.ok) {
                     const data = await res.json();
                     setProjects(data);

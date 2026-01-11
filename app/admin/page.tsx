@@ -101,7 +101,7 @@ export default function AdminPage() {
     const [modalLead, setModalLead] = useState(false);
 
     const email = session?.user?.email?.toLowerCase();
-    const isAllowed = (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
+    const isAllowed = (session?.user as any)?.role === 'admin';
 
     // 2. DATA FETCHING
     const fetchDashboardStats = async () => {
@@ -1992,18 +1992,7 @@ export default function AdminPage() {
                 )
             }
 
-            {/* DB Status Overlay - Bottom Left */}
-            <div className="fixed bottom-4 left-4 z-[100] bg-black/80 backdrop-blur-md border border-white/10 p-3 rounded-xl text-[10px] text-gray-400 font-mono pointer-events-none">
-                <div className="flex items-center gap-2 mb-1">
-                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                    <span className="text-white font-bold uppercase tracking-wider">Storage Status (DB)</span>
-                </div>
-                <div className="flex gap-4">
-                    <div>Clients: {clientsList.length}</div>
-                    <div>Projects: {projects.length}</div>
-                    <div>Posts: {blogPosts.length}</div>
-                </div>
-            </div>
+
         </div >
     );
 }

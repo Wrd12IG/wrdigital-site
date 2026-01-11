@@ -10,23 +10,35 @@ import MarkdownRenderer from '@/components/MarkdownRenderer';
 interface DynamicSeoContentProps {
     pageKey: string;
     accentColor?: string;
+    initialSeoData?: any;
+    initialContentOverrides?: any;
 }
 
-export default function DynamicSeoContent({ pageKey, accentColor = '#FACC15' }: DynamicSeoContentProps) {
-    const [seoData, setSeoData] = useState<any>(null);
-    const [contentOverrides, setContentOverrides] = useState<any>({});
+export default function DynamicSeoContent({
+    pageKey,
+    accentColor = '#FACC15',
+    initialSeoData = null,
+    initialContentOverrides = {}
+}: DynamicSeoContentProps) {
+    const [seoData, setSeoData] = useState<any>(initialSeoData);
+    const [contentOverrides, setContentOverrides] = useState<any>(initialContentOverrides);
 
     useEffect(() => {
-        fetch(`/api/seo/${pageKey}`)
-            .then(res => res.ok ? res.json() : null)
-            .then(data => setSeoData(data))
-            .catch(() => { });
+        // Only fetch if not provided initially
+        if (!initialSeoData) {
+            fetch(`/api/seo/${pageKey}`)
+                .then(res => res.ok ? res.json() : null)
+                .then(data => setSeoData(data))
+                .catch(() => { });
+        }
 
-        fetch(`/api/admin/services-content`)
-            .then(res => res.ok ? res.json() : {})
-            .then(data => setContentOverrides(data))
-            .catch(() => { });
-    }, [pageKey]);
+        if (Object.keys(initialContentOverrides).length === 0) {
+            fetch(`/api/admin/services-content`)
+                .then(res => res.ok ? res.json() : {})
+                .then(data => setContentOverrides(data))
+                .catch(() => { });
+        }
+    }, [pageKey, initialSeoData, initialContentOverrides]);
 
     const hasContent = (seoData && (seoData.hasVideo || seoData.hasFaq || seoData.hasInternalLinks)) || contentOverrides[pageKey]?.extendedDescription;
 

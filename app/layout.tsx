@@ -53,10 +53,15 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL('https://www.wrdigital.it'),
     title: "Agenzia Digital Marketing Milano | ROI Garantito | W[r]Digital",
     description: "Agenzia Digital Marketing a Milano: SEO, SEM, Social Media e Web Development. +300% traffico organico garantito. Consulenza gratuita.",
-    keywords: "agenzia digital marketing milano, web agency milano, SEO milano, social media marketing, consulenza digital marketing, agenzia seo milano",
-    authors: [{ name: "WR Digital" }],
+    keywords: "agenzia digital marketing milano, web agency milano, SEO milano, consulenza SEO, realizzazione siti web milano, social media marketing, pubblicità online, google ads milano, lead generation, crescita aziendale",
+    authors: [{ name: "WR Digital Team", url: "https://www.wrdigital.it" }],
+    creator: "WR Digital",
+    publisher: "WR Digital",
     alternates: {
       canonical: '/',
+      languages: {
+        'it-IT': 'https://www.wrdigital.it',
+      },
     },
     openGraph: {
       type: "website",

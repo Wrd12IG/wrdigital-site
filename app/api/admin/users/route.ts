@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { google } from 'googleapis';
 
-const PARENT_FOLDER_ID = process.env.GOOGLE_DRIVE_FOLDER_ID || '1vbjUnaGvwKRZe7KwyQWLowdzhm5DRk5z';
+const PARENT_FOLDER_ID = process.env.GOOGLE_DRIVE_FOLDER_ID || '';
 
 // Helper Google Drive Authentication
 const getDriveAuth = () => {
@@ -23,8 +23,7 @@ const getDriveAuth = () => {
 
 // Helper: Check Admin Role
 const isAdmin = (session: any) => {
-    const email = session?.user?.email?.toLowerCase();
-    return (session?.user as any)?.role === 'admin' || email === 'roberto@wrdigital.it' || email === 'info@wrdigital.it';
+    return session?.user?.role === 'admin';
 };
 
 // GET: Lista Utenti

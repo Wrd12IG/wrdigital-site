@@ -1,0 +1,1 @@
+import { prisma } from './lib/prisma'; async function main() { console.log('--- TESTIMONIALS ---'); const ts = await prisma.testimonial.findMany({ where: { deleted: false } }); ts.forEach(t => console.log('ID: '+t.id+' | Author: '+t.author)); } main().catch(e => console.error(e)).finally(async () => await prisma.$disconnect());

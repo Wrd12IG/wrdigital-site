@@ -21,7 +21,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
-    const isAdmin = (session?.user as any)?.role === 'admin' || session?.user?.email?.toLowerCase() === 'roberto@wrdigital.it';
+    const isAdmin = session?.user?.role === 'admin';
 
     if (!session || !isAdmin) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -48,23 +48,7 @@ export async function POST(request: Request) {
                 })
             ]);
 
-            // Sync with JSON file to prevent loss during seed/reset
-            try {
-                const fs = require('fs');
-                const path = require('path');
-                const filePath = path.join(process.cwd(), 'data/clients.json');
 
-                // Fetch latest from DB to get the correct IDs and structure
-                const latestClients = await prisma.client.findMany({ orderBy: { order: 'asc' } });
-                const forJson = latestClients.map(c => ({
-                    ...c,
-                    socials: JSON.parse(c.socials || '{}')
-                }));
-
-                fs.writeFileSync(filePath, JSON.stringify(forJson, null, 2));
-            } catch (err) {
-                console.error('Failed to sync clients JSON:', err);
-            }
         }
 
         return NextResponse.json({ success: true });

@@ -23,10 +23,40 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
     const post = await getPost(params.id);
     if (!post) return { title: 'Blog | W[r]Digital' };
 
+    const pageTitle = post.title;
+    const pageDesc = post.excerpt || `Leggi l'articolo completo su ${post.title}`;
+    const pageImage = post.image || '/og-default.jpg';
+
     return {
-        title: post.title, // Simplified as metaTitle might not be in the basic model yet
-        description: post.excerpt,
-        keywords: '' // post.keywords might not be in model yet
+        title: pageTitle,
+        description: pageDesc,
+        openGraph: {
+            title: pageTitle,
+            description: pageDesc,
+            url: `https://www.wrdigital.it/blog/${post.id}`,
+            siteName: 'W[r]Digital Blog',
+            locale: 'it_IT',
+            type: 'article',
+            publishedTime: post.date || undefined, // Fix for null check
+            authors: ['W[r]Digital Team'],
+            images: [
+                {
+                    url: pageImage,
+                    width: 1200,
+                    height: 630,
+                    alt: pageTitle,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: pageTitle,
+            description: pageDesc,
+            images: [pageImage],
+        },
+        alternates: {
+            canonical: `https://www.wrdigital.it/blog/${post.id}`,
+        }
     };
 }
 

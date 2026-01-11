@@ -4,6 +4,16 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Calcola Preventivo Online - W[r]Digital',
     description: 'Ottieni una stima gratuita per il tuo progetto digitale. SEO, Web Design, Advertising e Social Media. Risposta in 24h.',
+    alternates: {
+        canonical: 'https://www.wrdigital.it/preventivo',
+    },
+    openGraph: {
+        title: 'Calcola il tuo Preventivo Digitale | W[r]Digital',
+        description: 'Configura il tuo successo. Rispondi a poche domande e ricevi una strategia su misura.',
+        url: 'https://www.wrdigital.it/preventivo',
+        type: 'website',
+        images: [{ url: '/og-preventivo.jpg', width: 1200, height: 630, alt: 'Preventivo W[r]Digital' }],
+    },
 };
 
 export default function PreventivoPage() {

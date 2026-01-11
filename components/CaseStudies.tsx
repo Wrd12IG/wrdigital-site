@@ -34,7 +34,7 @@ export default function CaseStudies() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const res = await fetch('/api/portfolio');
+                const res = await fetch(`/api/portfolio?t=${new Date().getTime()}`);
                 if (res.ok) {
                     const data = await res.json();
                     setProjects(data);
@@ -63,7 +63,7 @@ export default function CaseStudies() {
             <div className={styles.container}>
                 {/* Section Header */}
                 <motion.div
-                    className={styles.header}
+                    className={`${styles.header} text-center mb-16`}
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
@@ -78,10 +78,10 @@ export default function CaseStudies() {
                 <div className={styles.mainLayout} style={{ display: 'block' }}>
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full max-w-[1400px] mx-auto">
                         {displayedProjects.map((project, index) => {
-                            // Logic for alternating layout:
-                            // Row 1: Narrow (5) - Wide (7)
-                            // Row 2: Wide (7) - Narrow (5)
-                            const isWide = index === 1 || index === 2;
+                            // Logic for alternating layout requested by user:
+                            // Row 1: Wide (7) - Narrow (5)
+                            // Row 2: Narrow (5) - Wide (7)
+                            const isWide = index === 0 || index === 3;
                             const colSpanClass = isWide ? "md:col-span-7" : "md:col-span-5";
 
                             return (
@@ -130,6 +130,17 @@ export default function CaseStudies() {
                             );
                         })}
                     </div>
+                </div>
+
+                {/* View All CTA */}
+                <div className="flex justify-center mt-12">
+                    <a
+                        href="/portfolio"
+                        className="btn btn-secondary text-sm font-bold uppercase tracking-widest px-8 py-4 border border-white/20 hover:bg-white/10 hover:border-yellow-400 transition-all flex items-center gap-2 group"
+                    >
+                        Vedi tutti i progetti
+                        <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
                 </div>
 
                 {/* Project Modal (Copied/Adapted from Portfolio.tsx) */}

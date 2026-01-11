@@ -1,24 +1,30 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET() {
     try {
         const projects = await prisma.project.findMany({
-            where: { deleted: false },
-            orderBy: { createdAt: 'desc' }
+            where: {
+                deleted: false
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
         });
 
-        const transformed = projects.map(p => ({
-            ...p,
-            results: p.results ? JSON.parse(p.results as string) : [],
-            tags: p.tags ? JSON.parse(p.tags as string) : []
+        const parsedProjects = projects.map(project => ({
+            ...project,
+            results: typeof project.results === 'string' ? JSON.parse(project.results) : project.results,
+            tags: typeof project.tags === 'string' ? JSON.parse(project.tags) : project.tags
         }));
 
-        return NextResponse.json(transformed);
-    } catch (e: any) {
-        console.error('Error fetching portfolio:', e);
-        return NextResponse.json([]);
+        return NextResponse.json(parsedProjects, {
+            headers: {
+                'Cache-Control': 'no-store, max-age=0',
+            },
+        });
+    } catch (error) {
+        console.error('Error fetching portfolio:', error);
+        return NextResponse.json({ error: 'Failed to fetch portfolio' }, { status: 500 });
     }
 }

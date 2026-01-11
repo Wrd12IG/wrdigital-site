@@ -72,6 +72,7 @@ export default function Testimonials() {
                 const res = await fetch(`/api/testimonials?t=${Date.now()}`);
                 if (res.ok) {
                     const data = await res.json();
+                    console.log('Testimonials fetch result:', data);
                     if (Array.isArray(data) && data.length > 0) {
                         setList(data);
                     }
@@ -138,29 +139,16 @@ export default function Testimonials() {
                     )}
                 </motion.div>
 
-                {/* Grid Layout */}
-                <motion.div
-                    className={styles.grid}
-                    initial="hidden"
-                    animate={isInView ? "visible" : "hidden"}
-                    variants={{
-                        hidden: { opacity: 0 },
-                        visible: {
-                            opacity: 1,
-                            transition: {
-                                staggerChildren: 0.1
-                            }
-                        }
-                    }}
-                >
+                {/* Grid Layout - Flexbox */}
+                <div className={styles.grid}>
                     {list.map((testimonial, idx) => (
                         <motion.div
                             key={testimonial.id || `fallback-${idx}`}
                             className={styles.testimonialCard}
-                            variants={{
-                                hidden: { opacity: 0, y: 30 },
-                                visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-                            }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: idx * 0.1 }}
                         >
                             {/* Decorative Quote Icon */}
                             <div className={styles.quoteIcon}>
@@ -198,7 +186,7 @@ export default function Testimonials() {
 
                         </motion.div>
                     ))}
-                </motion.div>
+                </div>
             </div>
         </section>
     );

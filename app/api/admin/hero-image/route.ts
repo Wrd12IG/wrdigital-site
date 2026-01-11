@@ -17,7 +17,7 @@ const PUBLIC_HERO_PATH = path.join(process.cwd(), 'public', 'hero-bg.png');
 
 // Helper per verificare se admin
 const isAdmin = (session: any) => {
-    return (session?.user as any)?.role === 'admin' || session?.user?.email === 'roberto@wrdigital.it' || session?.user?.email === 'admin@wrdigital.com';
+    return session?.user?.role === 'admin';
 };
 
 export async function POST(req: Request) {

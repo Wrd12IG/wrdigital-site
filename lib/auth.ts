@@ -1,32 +1,7 @@
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
-import fs from 'fs';
-import path from 'path';
-
-// Tipo per l'utente, esteso con role
-export interface User {
-    id: string;
-    email: string;
-    password: string;
-    name: string;
-    driveFolderId: string;
-    role?: string;
-}
-
-// Funzione per caricare gli utenti dal file JSON
-export function getUsers(): User[] {
-    const filePath = path.join(process.cwd(), 'data', 'users.json');
-    if (!fs.existsSync(filePath)) {
-        return [];
-    }
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    try {
-        return JSON.parse(fileContent);
-    } catch {
-        return [];
-    }
-}
+import { prisma } from '@/lib/prisma';
 
 export const authOptions: AuthOptions = {
     providers: [
@@ -41,8 +16,10 @@ export const authOptions: AuthOptions = {
                     return null;
                 }
 
-                const users = getUsers();
-                const user = users.find(u => u.email.toLowerCase() === credentials.email.toLowerCase());
+                // Fetch user from Database instead of JSON file
+                const user = await prisma.user.findUnique({
+                    where: { email: credentials.email.toLowerCase() }
+                });
 
                 if (!user) {
                     return null;
@@ -57,9 +34,9 @@ export const authOptions: AuthOptions = {
                 return {
                     id: user.id,
                     email: user.email,
-                    name: user.name,
-                    driveFolderId: user.driveFolderId,
-                    role: user.role || 'user'
+                    name: user.name || '',
+                    driveFolderId: user.driveFolderId || '',
+                    role: user.role
                 };
             }
         })

@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || '');
@@ -22,6 +24,11 @@ function cleanAndParseJSON(text: string) {
 }
 
 export async function POST(request: Request) {
+    const session = await getServerSession(authOptions);
+    if (!session || (session.user as any)?.role !== 'admin') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const { type, topic, pageKey } = await request.json();
 

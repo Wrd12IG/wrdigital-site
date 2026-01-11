@@ -3,6 +3,30 @@ import BlogFeed from '@/components/blog/BlogFeed';
 import NewsletterForm from '@/components/NewsletterForm';
 import { prisma } from '@/lib/prisma';
 
+export const metadata: Metadata = {
+    title: 'Blog & Insights | W[r]Digital',
+    description: 'Esplora le ultime tendenze su Digital Marketing, SEO, AI e Crescita Aziendale. Risorse strategiche per imprenditori visionari.',
+    openGraph: {
+        title: 'W[r]Digital Blog - Strategie di Marketing e Innovazione',
+        description: 'Guide, Analisi e Case Studies per dominare il mercato digitale.',
+        url: 'https://www.wrdigital.it/blog',
+        siteName: 'W[r]Digital',
+        locale: 'it_IT',
+        type: 'website',
+        images: [
+            {
+                url: '/og-blog.jpg', // Ensure this image exists eventually, or fallback
+                width: 1200,
+                height: 630,
+                alt: 'W[r]Digital Blog',
+            },
+        ],
+    },
+    alternates: {
+        canonical: 'https://www.wrdigital.it/blog',
+    }
+};
+
 async function getPosts() {
     try {
         const posts = await prisma.blogPost.findMany({

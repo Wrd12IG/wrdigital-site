@@ -148,27 +148,42 @@ export default function NotFound() {
                     </p>
                 </motion.div>
 
-                {/* CTA Buttons */}
+                {/* Quick Service Links */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.6 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                    className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 w-full"
+                >
+                    {[
+                        { label: 'SEO & Content', href: '/servizi/seo', icon: '🔍' },
+                        { label: 'Web Design', href: '/servizi/web', icon: '💻' },
+                        { label: 'Social Media', href: '/servizi/social', icon: '📱' },
+                        { label: 'Advertising', href: '/servizi/ads', icon: '📢' },
+                    ].map((service) => (
+                        <Link
+                            key={service.label}
+                            href={service.href}
+                            className="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#FACC15] hover:bg-white/10 transition-all group"
+                        >
+                            <span className="text-2xl group-hover:scale-110 transition-transform">{service.icon}</span>
+                            <span className="text-sm font-bold text-gray-300 group-hover:text-white">{service.label}</span>
+                        </Link>
+                    ))}
+                </motion.div>
+
+                {/* Primary Action */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.8 }}
                 >
                     <Link
                         href="/"
-                        className="group flex items-center gap-3 bg-[#FACC15] text-black px-8 py-4 rounded-xl font-bold text-lg hover:bg-yellow-300 transition-all shadow-[0_0_30px_rgba(250,204,21,0.3)] hover:shadow-[0_0_50px_rgba(250,204,21,0.5)] hover:scale-105 transform"
+                        className="inline-flex items-center gap-3 bg-[#FACC15] text-black px-8 py-4 rounded-xl font-bold text-lg hover:bg-yellow-300 transition-all shadow-[0_0_30px_rgba(250,204,21,0.3)] hover:shadow-[0_0_50px_rgba(250,204,21,0.5)] hover:scale-105 transform"
                     >
                         <Home size={20} />
-                        Torna alla Home
-                    </Link>
-
-                    <Link
-                        href="/"
-                        className="group flex items-center gap-3 bg-white/10 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all border border-white/20 hover:border-[#FACC15]/50"
-                    >
-                        <Search size={20} />
-                        Esplora i Servizi
+                        Torna alla Home Page
                     </Link>
                 </motion.div>
 

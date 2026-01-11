@@ -8,7 +8,7 @@ import path from 'path';
 const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'portfolio');
 
 const isAdmin = (session: any) => {
-    return (session?.user as any)?.role === 'admin' || session?.user?.email === 'roberto@wrdigital.it';
+    return session?.user?.role === 'admin';
 };
 
 export async function POST(req: Request) {

@@ -17,18 +17,19 @@
 }
 
 .label {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    color: var(--color-accent-primary);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    margin-bottom: var(--spacing-sm);
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
     display: block;
 }
 
 .title {
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 900;
-    letter-spacing: -0.02em;
+    font-size: var(--font-size-4xl);
+    font-weight: 800;
+    line-height: 1.2;
     text-transform: uppercase;
 }
 
