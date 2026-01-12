@@ -1410,20 +1410,20 @@ export default function AdminPage() {
                                 <h3 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-wider">Elenco Testimonianze ({testimonials.length})</h3>
                                 {testimonials.filter(t => !t.deleted).map((t, i) => (
                                     <div key={t.id || i} className="bg-white/5 border border-white/10 rounded-2xl p-6 relative">
-                                        <button onClick={() => { const arr = [...testimonials]; arr[i].deleted = true; setTestimonials(arr); }} className="absolute top-4 right-4 text-gray-500 hover:text-white" title="Rimuovi/Annulla"><Archive className="w-4 h-4" /></button>
+                                        <button onClick={() => setTestimonials(testimonials.map(item => item.id === t.id ? { ...item, deleted: true } : item))} className="absolute top-4 right-4 text-gray-500 hover:text-white" title="Rimuovi/Annulla"><Archive className="w-4 h-4" /></button>
                                         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                                            <Input label="Autore" value={t.author || ''} onChange={(v: string) => { const arr = [...testimonials]; arr[i].author = v; setTestimonials(arr); }} />
-                                            <Input label="Azienda" value={t.company || ''} onChange={(v: string) => { const arr = [...testimonials]; arr[i].company = v; setTestimonials(arr); }} />
-                                            <Input label="Risultato" value={t.result || ''} onChange={(v: string) => { const arr = [...testimonials]; arr[i].result = v; setTestimonials(arr); }} />
+                                            <Input label="Autore" value={t.author || ''} onChange={(v: string) => setTestimonials(testimonials.map(item => item.id === t.id ? { ...item, author: v } : item))} />
+                                            <Input label="Azienda" value={t.company || ''} onChange={(v: string) => setTestimonials(testimonials.map(item => item.id === t.id ? { ...item, company: v } : item))} />
+                                            <Input label="Risultato" value={t.result || ''} onChange={(v: string) => setTestimonials(testimonials.map(item => item.id === t.id ? { ...item, result: v } : item))} />
                                             <div>
                                                 <label className="block text-xs font-semibold text-gray-500 mb-2">Rating</label>
-                                                <select value={t.rating || 5} onChange={e => { const arr = [...testimonials]; arr[i].rating = parseInt(e.target.value); setTestimonials(arr); }} className="w-full bg-black/50 p-3 rounded-xl border border-white/10 text-sm">
+                                                <select value={t.rating || 5} onChange={e => setTestimonials(testimonials.map(item => item.id === t.id ? { ...item, rating: parseInt(e.target.value) } : item))} className="w-full bg-black/50 p-3 rounded-xl border border-white/10 text-sm">
                                                     {[5, 4, 3, 2, 1].map(n => <option key={n} value={n}>{n} Stelle</option>)}
                                                 </select>
                                             </div>
-                                            <div><label className="block text-xs font-semibold text-gray-500 mb-2">Servizio</label><select value={t.service || 'seo'} onChange={e => { const arr = [...testimonials]; arr[i].service = e.target.value; setTestimonials(arr); }} className="w-full bg-black/50 p-3 rounded-xl border border-white/10 text-sm"><option value="seo">SEO</option><option value="social">Social</option><option value="ads">Ads</option><option value="web">Web</option></select></div>
+                                            <div><label className="block text-xs font-semibold text-gray-500 mb-2">Servizio</label><select value={t.service || 'seo'} onChange={e => setTestimonials(testimonials.map(item => item.id === t.id ? { ...item, service: e.target.value } : item))} className="w-full bg-black/50 p-3 rounded-xl border border-white/10 text-sm"><option value="seo">SEO</option><option value="social">Social</option><option value="ads">Ads</option><option value="web">Web</option></select></div>
                                         </div>
-                                        <div className="mt-4"><Input label="Citazione" value={t.quote || ''} onChange={(v: string) => { const arr = [...testimonials]; arr[i].quote = v; setTestimonials(arr); }} /></div>
+                                        <div className="mt-4"><Input label="Citazione" value={t.quote || ''} onChange={(v: string) => setTestimonials(testimonials.map(item => item.id === t.id ? { ...item, quote: v } : item))} /></div>
                                     </div>
                                 ))}
                             </motion.div>

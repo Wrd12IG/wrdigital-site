@@ -77,9 +77,11 @@ export async function POST(request: Request) {
             const results = [];
             for (const postData of data) {
                 const post = processPost(postData);
+                const { id, ...postDataWithoutId } = post;
+
                 const result = await prisma.blogPost.upsert({
-                    where: { id: post.id || 'new-post' },
-                    update: post,
+                    where: { id: id || 'new-post' },
+                    update: postDataWithoutId,
                     create: post
                 });
                 results.push(result);
@@ -87,9 +89,11 @@ export async function POST(request: Request) {
             return NextResponse.json({ success: true, count: results.length });
         } else {
             const post = processPost(data);
+            const { id, ...postDataWithoutId } = post;
+
             const result = await prisma.blogPost.upsert({
-                where: { id: post.id || 'new-post' },
-                update: post,
+                where: { id: id || 'new-post' },
+                update: postDataWithoutId,
                 create: post
             });
             return NextResponse.json({ success: true, post: result });

@@ -113,15 +113,24 @@ function EditorContent() {
 
     const getInitialBlocks = () => {
         if (!pageData?.content) return [];
+
+        // If it's already an array, use it
         if (Array.isArray(pageData.content)) return pageData.content;
-        try {
-            return typeof pageData.content === 'string'
-                ? JSON.parse(pageData.content)
-                : [];
-        } catch (e) {
-            console.error('Failed to parse blocks:', e);
-            return [];
+
+        // If it's a string, try to parse it
+        if (typeof pageData.content === 'string') {
+            try {
+                const parsed = JSON.parse(pageData.content);
+                // Ensure the parsed result is an array
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                console.error('Failed to parse blocks:', e);
+                return [];
+            }
         }
+
+        // If it's an object but not an array (legacy format), return empty array for the block editor
+        return [];
     };
 
     return (
