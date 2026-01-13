@@ -2,21 +2,42 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import staticClients from '@/data/clients.json';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        const clients = await prisma.client.findMany({
+        let clients = await prisma.client.findMany({
+            where: { deleted: false },
             orderBy: { order: 'asc' }
         });
 
+        if (!clients || clients.length === 0) {
+            console.log('Database empty, using static fallback for Clients');
+            clients = (staticClients as any[]).filter(c => !c.deleted);
+        }
+
         // Parse the 'socials' string back into an object for the frontend
-        const parsedClients = clients.map(client => ({
+        const parsedClients = clients.map((client: any) => ({
             ...client,
-            socials: client.socials ? JSON.parse(client.socials) : {}
+            socials: typeof client.socials === 'string' ? JSON.parse(client.socials || '{}') : (client.socials || {})
         }));
 
         return NextResponse.json(parsedClients);
-    } catch { return NextResponse.json([]); }
+    } catch (e) {
+        console.error('Clients API Error:', e);
+        // Fallback on error
+        try {
+            const fallback = (staticClients as any[]).filter(c => !c.deleted).map((client: any) => ({
+                ...client,
+                socials: typeof client.socials === 'string' ? JSON.parse(client.socials || '{}') : (client.socials || {})
+            }));
+            return NextResponse.json(fallback);
+        } catch {
+            return NextResponse.json([]);
+        }
+    }
 }
 
 export async function POST(request: Request) {
@@ -36,9 +57,10 @@ export async function POST(request: Request) {
                 logo: c.logo || '',
                 url: c.url || '',
                 description: c.description || '',
-                socials: JSON.stringify(c.socials || {}),
+                socials: typeof c.socials === 'object' ? JSON.stringify(c.socials) : (c.socials || '{}'),
                 showInSuccessStories: c.showInSuccessStories || false,
-                order: index
+                order: index,
+                deleted: false
             }));
 
             await prisma.$transaction([
@@ -47,8 +69,6 @@ export async function POST(request: Request) {
                     data: mappedData
                 })
             ]);
-
-
         }
 
         return NextResponse.json({ success: true });
