@@ -204,6 +204,7 @@ export default function ThreeScene() {
             zIndex: 1,
         }}>
             <Canvas
+                dpr={[1, 1.5]}
                 camera={{ position: [0, 0, 8], fov: 45 }}
                 style={{ background: 'transparent' }}
                 gl={{ alpha: true, antialias: true }}
