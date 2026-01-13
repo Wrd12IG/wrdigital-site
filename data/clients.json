@@ -5,11 +5,12 @@
     "logo": "",
     "url": "",
     "description": "",
-    "socials": {},
+    "socials": "{}",
     "showInSuccessStories": false,
+    "deleted": false,
     "order": 0,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-01-11T12:25:38.836Z"
+    "updatedAt": "2026-01-11T13:33:55.310Z"
   },
   {
     "id": "cmk9pj7dg001biv56lyjjy85y",
@@ -17,11 +18,12 @@
     "logo": "",
     "url": "",
     "description": "",
-    "socials": {},
+    "socials": "{}",
     "showInSuccessStories": false,
+    "deleted": false,
     "order": 1,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-01-11T12:25:38.836Z"
+    "updatedAt": "2026-01-11T13:33:55.311Z"
   },
   {
     "id": "cmk9n08d00013iv5607hml4t0",
@@ -29,11 +31,12 @@
     "logo": "",
     "url": "",
     "description": "",
-    "socials": "\"{}\"",
+    "socials": "\"\\\"{}\\\"\"",
     "showInSuccessStories": false,
+    "deleted": false,
     "order": 2,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-01-11T12:25:38.836Z"
+    "updatedAt": "2026-01-11T13:33:55.312Z"
   },
   {
     "id": "cmk9n08d00014iv5611gvmckg",
@@ -41,11 +44,12 @@
     "logo": "",
     "url": "",
     "description": "",
-    "socials": "\"{}\"",
+    "socials": "\"\\\"{}\\\"\"",
     "showInSuccessStories": false,
+    "deleted": false,
     "order": 3,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-01-11T12:25:38.836Z"
+    "updatedAt": "2026-01-11T13:33:55.312Z"
   },
   {
     "id": "cmk9n08d00015iv568ai1di1p",
@@ -53,11 +57,12 @@
     "logo": "",
     "url": "",
     "description": "",
-    "socials": "\"{}\"",
+    "socials": "\"\\\"{}\\\"\"",
     "showInSuccessStories": false,
+    "deleted": false,
     "order": 4,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-01-11T12:25:38.836Z"
+    "updatedAt": "2026-01-11T13:33:55.313Z"
   },
   {
     "id": "cmk9n08d00016iv564nezh5rx",
@@ -65,11 +70,12 @@
     "logo": "",
     "url": "",
     "description": "",
-    "socials": "\"{}\"",
+    "socials": "\"\\\"{}\\\"\"",
     "showInSuccessStories": false,
+    "deleted": false,
     "order": 5,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-01-11T12:25:38.836Z"
+    "updatedAt": "2026-01-11T13:33:55.313Z"
   },
   {
     "id": "cmk9n08d00017iv56l740z908",
@@ -77,11 +83,12 @@
     "logo": "",
     "url": "",
     "description": "",
-    "socials": "\"{}\"",
+    "socials": "\"\\\"{}\\\"\"",
     "showInSuccessStories": false,
+    "deleted": false,
     "order": 6,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-01-11T12:25:38.836Z"
+    "updatedAt": "2026-01-11T13:33:55.313Z"
   },
   {
     "id": "cmk9n08d00018iv56ky75l6bl",
@@ -89,11 +96,12 @@
     "logo": "",
     "url": "",
     "description": "",
-    "socials": "\"{}\"",
+    "socials": "\"\\\"{}\\\"\"",
     "showInSuccessStories": false,
+    "deleted": false,
     "order": 7,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-01-11T12:25:38.836Z"
+    "updatedAt": "2026-01-11T13:33:55.314Z"
   },
   {
     "id": "cmk9n08d00019iv569pmjr323",
@@ -101,10 +109,11 @@
     "logo": "",
     "url": "",
     "description": "",
-    "socials": "\"{}\"",
+    "socials": "\"\\\"{}\\\"\"",
     "showInSuccessStories": false,
+    "deleted": false,
     "order": 8,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-01-11T12:25:38.836Z"
+    "updatedAt": "2026-01-11T13:33:55.314Z"
   }
 ]
