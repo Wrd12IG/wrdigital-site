@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import staticPosts from '@/data/blog.json';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        const posts = await prisma.blogPost.findMany({
+        let posts = await prisma.blogPost.findMany({
             where: {
                 published: true,
                 deleted: false
@@ -13,9 +14,16 @@ export async function GET() {
             orderBy: { createdAt: 'desc' }
         });
 
+        if (!posts || posts.length === 0) {
+            console.log('Database empty, using static fallback for Blog');
+            posts = (staticPosts as any[]).filter(p => p.published && !p.deleted);
+        }
+
         return NextResponse.json(posts);
     } catch (error: any) {
         console.error('Public Blog API Error:', error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        // Fallback on error
+        const fallback = (staticPosts as any[]).filter(p => p.published && !p.deleted);
+        return NextResponse.json(fallback);
     }
 }
