@@ -193,6 +193,11 @@ function Loader() {
 
 // Exported Component
 export default function ThreeScene() {
+    // Disable 3D scene on mobile for performance
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        return null;
+    }
+
     return (
         <div style={{
             position: 'absolute',
