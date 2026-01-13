@@ -1,3 +1,4 @@
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import "./globals.css";
 import { ToastProvider } from '@/components/ToastContext';
@@ -139,6 +140,7 @@ export default function RootLayout({
               <CookieBanner />
               <GoogleAnalytics />
               <MicrosoftClarity />
+              <SpeedInsights />
             </ModalProvider>
           </ToastProvider>
         </Providers>
