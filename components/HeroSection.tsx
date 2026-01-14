@@ -287,7 +287,6 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         priority
                         quality={90}
                         sizes="(max-width: 768px) 100vw, 100vw"
-                        priority
                         unoptimized
                         className={styles.backgroundImage}
                     />
