@@ -223,16 +223,13 @@ export default function ThreeScene() {
         return () => clearTimeout(timer);
     }, []);
 
-    // Don't render on mobile
+    // Don't render anything on mobile
     if (isMobile) {
         return null;
     }
 
-    // Don't render until delayed load is complete
-    if (!isReady) {
-        return null;
-    }
-
+    // ALWAYS render a fixed container to prevent CLS
+    // Only the Canvas content changes, not the container dimensions
     return (
         <div style={{
             position: 'absolute',
@@ -242,17 +239,21 @@ export default function ThreeScene() {
             height: '100%',
             pointerEvents: 'none',
             zIndex: 1,
+            // Reserve the space even when canvas is not yet loaded
+            contain: 'layout style paint',
         }}>
-            <Canvas
-                dpr={[1, 1.5]}
-                camera={{ position: [0, 0, 8], fov: 45 }}
-                style={{ background: 'transparent' }}
-                gl={{ alpha: true, antialias: true }}
-            >
-                <Suspense fallback={<Loader />}>
-                    <Scene />
-                </Suspense>
-            </Canvas>
+            {isReady && (
+                <Canvas
+                    dpr={[1, 1.5]}
+                    camera={{ position: [0, 0, 8], fov: 45 }}
+                    style={{ background: 'transparent' }}
+                    gl={{ alpha: true, antialias: true }}
+                >
+                    <Suspense fallback={<Loader />}>
+                        <Scene />
+                    </Suspense>
+                </Canvas>
+            )}
         </div>
     );
 }
