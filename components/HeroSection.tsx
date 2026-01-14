@@ -177,6 +177,13 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
         offset: ['start start', 'end start'],
     });
 
+    // Mobile detection for lighter background
+    const [isMobile, setIsMobile] = useState(true); // Default true to prevent flash
+
+    useEffect(() => {
+        setIsMobile(window.innerWidth < 768);
+    }, []);
+
     // Configuration State
     const [config, setConfig] = useState<any>({
         title: "W[r]Digital",
@@ -277,8 +284,46 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
 
     return (
         <section ref={containerRef} className={styles.hero} style={heroStyles}>
-            {/* Background Image with parallax - Only if type is image */}
-            {bgType === 'image' && (
+            {/* Mobile: Premium gradient background instead of heavy image */}
+            {isMobile && bgType === 'image' && (
+                <div
+                    className={styles.background}
+                    style={{
+                        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                    }}
+                >
+                    <div className={styles.overlay} />
+                    {/* Decorative gradient orbs for mobile */}
+                    <div style={{
+                        position: 'absolute',
+                        top: '10%',
+                        right: '10%',
+                        width: '300px',
+                        height: '300px',
+                        background: 'radial-gradient(circle, rgba(245, 223, 74, 0.15) 0%, transparent 70%)',
+                        borderRadius: '50%',
+                        filter: 'blur(40px)',
+                    }} />
+                    <div style={{
+                        position: 'absolute',
+                        bottom: '20%',
+                        left: '5%',
+                        width: '200px',
+                        height: '200px',
+                        background: 'radial-gradient(circle, rgba(212, 192, 58, 0.1) 0%, transparent 70%)',
+                        borderRadius: '50%',
+                        filter: 'blur(30px)',
+                    }} />
+                </div>
+            )}
+
+            {/* Desktop: Full Background Image with parallax */}
+            {!isMobile && bgType === 'image' && (
                 <motion.div className={styles.background} style={{ y: backgroundY }}>
                     <Image
                         src={config.backgroundImage || `/api/hero-image${timeParam}`}
@@ -286,7 +331,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         fill
                         priority
                         quality={90}
-                        sizes="(max-width: 768px) 100vw, 100vw"
+                        sizes="100vw"
                         unoptimized
                         className={styles.backgroundImage}
                     />
@@ -298,7 +343,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
             {/* If Type is Color, we still might want the ThreeScene or a subtle overlay */}
             {bgType === 'color' && (
                 <div className={styles.background} style={{ opacity: 0.4, pointerEvents: 'none' }}>
-                    <ThreeScene />
+                    {!isMobile && <ThreeScene />}
                 </div>
             )}
 
