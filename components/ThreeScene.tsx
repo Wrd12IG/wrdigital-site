@@ -1,9 +1,12 @@
 'use client';
 
-import { useRef, useMemo, Suspense } from 'react';
+import { useRef, useMemo, Suspense, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, MeshDistortMaterial, Sphere, Box, Torus, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
+
+// Delay in ms before loading the 3D scene (allows critical rendering to complete)
+const SCENE_LOAD_DELAY = 3000;
 
 // Animated floating sphere with distortion
 function AnimatedSphere({ position, color, speed = 1, distort = 0.3 }: {
@@ -193,8 +196,40 @@ function Loader() {
 
 // Exported Component
 export default function ThreeScene() {
-    // Disable 3D scene on mobile for performance
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    const [isReady, setIsReady] = useState(false);
+    const [isMobile, setIsMobile] = useState(true); // Default to mobile to prevent SSR flash
+
+    useEffect(() => {
+        // Check if mobile
+        const checkMobile = window.innerWidth < 768;
+        setIsMobile(checkMobile);
+
+        if (checkMobile) return; // Don't set timer if mobile
+
+        // Use requestIdleCallback if available, otherwise setTimeout
+        const loadScene = () => {
+            setIsReady(true);
+        };
+
+        // Delay the 3D scene loading to allow critical rendering to complete
+        const timer = setTimeout(() => {
+            if ('requestIdleCallback' in window) {
+                (window as any).requestIdleCallback(loadScene, { timeout: 1000 });
+            } else {
+                loadScene();
+            }
+        }, SCENE_LOAD_DELAY);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    // Don't render on mobile
+    if (isMobile) {
+        return null;
+    }
+
+    // Don't render until delayed load is complete
+    if (!isReady) {
         return null;
     }
 
