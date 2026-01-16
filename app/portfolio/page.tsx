@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import PortfolioPageClient from '@/components/PortfolioPage';
 import { prisma } from '@/lib/prisma';
+import staticProjects from '@/data/portfolio.json';
 
 export const metadata: Metadata = {
     title: 'Portfolio & Case Studies | W[r]Digital',
@@ -16,16 +17,31 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function Page() {
-    const projects = await prisma.project.findMany({
-        where: { deleted: false },
-        orderBy: { createdAt: 'desc' }
-    });
+    let projects: any[] = [];
+
+    try {
+        // Try to get projects from database
+        projects = await prisma.project.findMany({
+            where: { deleted: false },
+            orderBy: { createdAt: 'desc' }
+        });
+
+        // If database is empty, use static fallback
+        if (!projects || projects.length === 0) {
+            console.log('Database empty, using static portfolio data');
+            projects = (staticProjects as any[]).filter(p => !p.deleted);
+        }
+    } catch (error) {
+        // On database error, use static fallback
+        console.error('Database error, using static fallback:', error);
+        projects = (staticProjects as any[]).filter(p => !p.deleted);
+    }
 
     // Parse JSON fields
     const formattedProjects = projects.map(p => ({
         ...p,
-        results: p.results ? JSON.parse(p.results as string) : [],
-        tags: p.tags ? JSON.parse(p.tags as string) : []
+        results: typeof p.results === 'string' ? JSON.parse(p.results) : (p.results || []),
+        tags: typeof p.tags === 'string' ? JSON.parse(p.tags) : (p.tags || [])
     }));
 
     return <PortfolioPageClient projects={formattedProjects} />;
