@@ -88,9 +88,9 @@
   --z-base: 1;
   --z-dropdown: 100;
   --z-sticky: 200;
-  --z-modal: 300;
-  --z-tooltip: 400;
-  --z-cursor: 500;
+  --z-modal: 50000;  /* Increased to appear above navbar, cookie banner, etc */
+  --z-tooltip: 50100;
+  --z-cursor: 60000;
 }
 
 /* Light Theme */
