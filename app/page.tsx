@@ -1,7 +1,7 @@
 // Server Component
 import HeroSection from '@/components/HeroSection';
 import ParticlesWrapper from '@/components/ParticlesWrapper'; // Wrapper for client-side particles
-import ClientsMarquee from '@/components/ClientsMarquee';
+import FloatingLogos from '@/components/FloatingLogos';
 import CaseStudies from '@/components/CaseStudies';
 import Services from '@/components/Services';
 import Portfolio from '@/components/Portfolio';
@@ -63,7 +63,7 @@ export default async function Home() {
         />
 
         {/* Hanno Scelto W[r]Digital - Marquee */}
-        <ClientsMarquee />
+        <FloatingLogos />
 
         {/* Case Studies / Storie di Successo */}
         <CaseStudies />
