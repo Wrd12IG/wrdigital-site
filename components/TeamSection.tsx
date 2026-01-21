@@ -5,9 +5,9 @@ import Image from 'next/image';
 import styles from './TeamSection.module.css';
 
 const staticTeam = [
-    { name: 'Valentina Dell\'Orto', role: 'CEO & Founder | Digital Marketing Manager', color: '#FACC15' },
-    { name: 'Roberto Solano', role: 'CEO & Founder | Google Specialist', color: '#FACC15' },
-    { name: 'Giuseppe Savino', role: 'CEO & Founder | Business Developer', color: '#FACC15' },
+    { name: 'Valentina Dell\'Orto', role: 'CEO & Founder | Digital Marketing Manager', color: '#FACC15', avatar: '/images/team/valentina.png' },
+    { name: 'Roberto Solano', role: 'CEO & Founder | Google Specialist', color: '#FACC15', avatar: '/images/team/roberto.png' },
+    { name: 'Giuseppe Savino', role: 'CEO & Founder | Business Developer', color: '#FACC15', avatar: '/images/team/giuseppe.png' },
     { name: 'Bassetto Eleonora', role: 'Social Manager Senior | Account', color: '#ef4444' },
     { name: 'Gatto Rebecca', role: 'Social Manager Senior | Account', color: '#ef4444' },
     { name: 'Messinese Valeria', role: 'Social Manager Senior | Account', color: '#ef4444' },
@@ -58,8 +58,12 @@ export default function TeamSection() {
                 <div className={styles.grid}>
                     {staticTeam.map((member, index) => (
                         <motion.div key={index} className={styles.card} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} viewport={{ once: true }} whileHover={{ y: -10 }}>
-                            <div className={styles.imagePlaceholder} style={{ background: `linear-gradient(135deg, #1a1a1a 0%, ${member.color}15 100%)` }}>
-                                <span style={{ color: member.color, fontSize: '2rem', fontWeight: 700 }}>{member.name.split(' ').map(n => n[0]).join('')}</span>
+                            <div className={styles.imagePlaceholder} style={{ background: member.avatar ? 'transparent' : `linear-gradient(135deg, #1a1a1a 0%, ${member.color}15 100%)` }}>
+                                {member.avatar ? (
+                                    <Image src={member.avatar} alt={member.name} fill style={{ objectFit: 'cover' }} />
+                                ) : (
+                                    <span style={{ color: member.color, fontSize: '2rem', fontWeight: 700 }}>{member.name.split(' ').map(n => n[0]).join('')}</span>
+                                )}
                             </div>
                             <div className={styles.info}>
                                 <h3 className={styles.name}>{member.name}</h3>
