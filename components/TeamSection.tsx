@@ -8,13 +8,13 @@ const staticTeam = [
     { name: 'Valentina Dell\'Orto', role: 'CEO & Founder | Digital Marketing Manager', color: '#FACC15', avatar: '/images/team/valentina.png' },
     { name: 'Roberto Solano', role: 'CEO & Founder | Google Specialist', color: '#FACC15', avatar: '/images/team/roberto.png' },
     { name: 'Giuseppe Savino', role: 'CEO & Founder | Business Developer', color: '#FACC15', avatar: '/images/team/giuseppe.png' },
-    { name: 'Bassetto Eleonora', role: 'Social Manager Senior | Account', color: '#ef4444' },
-    { name: 'Gatto Rebecca', role: 'Social Manager Senior | Account', color: '#ef4444' },
-    { name: 'Messinese Valeria', role: 'Social Manager Senior | Account', color: '#ef4444' },
-    { name: 'Fallara Daniela', role: 'Graphic Designer', color: '#3b82f6' },
-    { name: 'Francesconi Lorenzo', role: 'Graphic Designer', color: '#3b82f6' },
-    { name: 'Gjashta Enxhi', role: 'Graphic Designer', color: '#3b82f6' },
-    { name: 'Tarricone Giulia', role: 'Social Manager Junior', color: '#22c55e' },
+    { name: 'Bassetto Eleonora', role: 'Social Manager Senior | Account', color: '#ef4444', avatar: '/images/team/eleonora.png' },
+    { name: 'Gatto Rebecca', role: 'Social Manager Senior | Account', color: '#ef4444', avatar: '/images/team/rebecca.png' },
+    { name: 'Messinese Valeria', role: 'Social Manager Senior | Account', color: '#ef4444', avatar: '/images/team/valeria.png' },
+    { name: 'Fallara Daniela', role: 'Graphic Designer', color: '#3b82f6', avatar: '/images/team/daniela.png' },
+    { name: 'Francesconi Lorenzo', role: 'Graphic Designer', color: '#3b82f6', avatar: '/images/team/lorenzo.png' },
+    { name: 'Gjashta Enxhi', role: 'Graphic Designer', color: '#3b82f6', avatar: '/images/team/enxhi.png' },
+    { name: 'Tarricone Giulia', role: 'Social Manager Junior', color: '#22c55e', avatar: '/images/team/giulia.png' },
 ];
 
 export default function TeamSection() {
