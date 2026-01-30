@@ -454,5 +454,119 @@
                 "wrdigital": "24/7 Dedicato"
             }
         ]
+    },
+    "strategy": {
+        "title": "Marketing Strategy",
+        "uvpTitle": "Marketing Strategy: Il tuo vantaggio competitivo inizia da qui.",
+        "uvpSubtitle": "Senza strategia, stai spendendo. Con la strategia, stai investendo.",
+        "ctaText": "Richiedi analisi strategica",
+        "clientCount": 34,
+        "description": "Progettiamo piani di marketing data-driven che trasformano obiettivi aziendali in risultati misurabili. Dalla ricerca di mercato all'execution, costruiamo strategie che generano vantaggio competitivo sostenibile.",
+        "stats": [
+            {
+                "value": "280%",
+                "label": "ROI Medio Strategia"
+            },
+            {
+                "value": "6",
+                "label": "Settimane per Piano"
+            },
+            {
+                "value": "+125%",
+                "label": "Market Share Avg"
+            }
+        ],
+        "benefits": [
+            {
+                "title": "Analisi Competitiva Avanzata",
+                "description": "Deep dive su competitor, posizionamento e gap di mercato con metodologia proprietaria."
+            },
+            {
+                "title": "Customer Journey Mapping",
+                "description": "Mappatura completa del percorso d'acquisto con touchpoint ottimizzati per ogni fase."
+            },
+            {
+                "title": "Go-to-Market Strategy",
+                "description": "Piano di lancio prodotto/servizio con timeline, budget allocato e KPI misurabili."
+            },
+            {
+                "title": "Budget Intelligence",
+                "description": "Ottimizzazione spesa marketing con modelli predittivi e scenario planning."
+            },
+            {
+                "title": "Quarterly Business Review",
+                "description": "Sessioni trimestrali di revisione strategica con C-level e aggiustamenti data-backed."
+            }
+        ],
+        "faq": [
+            {
+                "question": "Quanto dura un progetto di strategia?",
+                "answer": "La fase di analisi e sviluppo strategico richiede 4-6 settimane. L'implementazione e il monitoraggio sono continuativi nel tempo."
+            },
+            {
+                "question": "Cosa include il piano strategico?",
+                "answer": "Analisi di mercato, positioning, buyer personas, customer journey, obiettivi SMART, mix canali, budget allocation, KPI e roadmap 12 mesi."
+            },
+            {
+                "question": "Posso implementare la strategia internamente?",
+                "answer": "Assolutamente. Forniamo il piano completo con playbook esecutivi. Oppure possiamo gestire l'implementation con i nostri team."
+            },
+            {
+                "question": "Come misurate il successo della strategia?",
+                "answer": "KPI definiti insieme: acquisizione clienti, CAC, LTV, market share, brand awareness, revenue growth. Dashboard personalizzata con tracking real-time."
+            }
+        ],
+        "testimonials": [
+            {
+                "quote": "La loro strategia ci ha fatto conquistare il 35% di market share in 9 mesi.",
+                "author": "Simone L.",
+                "company": "TechStartup SRL",
+                "result": "+35% Market Share"
+            },
+            {
+                "quote": "ROI del 320% sul primo anno. Investimento migliore per la nostra crescita.",
+                "author": "Francesca D.",
+                "company": "E-commerce Fashion",
+                "result": "ROI 3.2x"
+            },
+            {
+                "quote": "Finalmente un piano chiaro, eseguibile e con risultati tracciabili.",
+                "author": "Paolo M.",
+                "company": "ConsultingGroup",
+                "result": "+180% Lead"
+            }
+        ],
+        "comparison": [
+            {
+                "feature": "Market Research",
+                "diy": "Base",
+                "agency": "Standard",
+                "wrdigital": "Proprietaria"
+            },
+            {
+                "feature": "Customer Analysis",
+                "diy": "Assumption",
+                "agency": "Surveys",
+                "wrdigital": "Data + AI"
+            },
+            {
+                "feature": "Implementation",
+                "diy": "Fai da te",
+                "agency": "Solo piano",
+                "wrdigital": "Full Service"
+            },
+            {
+                "feature": "Monitoring",
+                "diy": "Sporadico",
+                "agency": "Mensile",
+                "wrdigital": "Real-time"
+            },
+            {
+                "feature": "C-Level Access",
+                "diy": "No",
+                "agency": "Extra",
+                "wrdigital": "Incluso"
+            }
+        ]
     }
 }
