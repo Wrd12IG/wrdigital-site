@@ -2,7 +2,7 @@
   {
     "id": "admin",
     "email": "roberto@wrdigital.it",
-    "password": "$2b$10$PwiPL5ETQRjSPoAVkYdt4eq8cuIswt5mTP92quqsSbmtgsXVqNBqy",
+    "password": "$2b$10$rWiFTN6YgHGcXLKtDFae7.wJUv3Qyejsc.ESLhH2VAMDMxiwY7j62",
     "name": "Roberto Admin",
     "role": "admin"
   },
@@ -10,7 +10,7 @@
     "id": "1767568852714",
     "name": "Wrdigital",
     "email": "info@wrdigital.it",
-    "password": "$2b$10$jChT.CWzQz55eJLkP6vg0eRs3fMc4v9ZOftn1UQ4aDahSbtICg6ra",
+    "password": "$2b$10$rWiFTN6YgHGcXLKtDFae7.wJUv3Qyejsc.ESLhH2VAMDMxiwY7j62",
     "role": "user",
     "driveFolderId": "12aDx8pf5e8K9_Zj--2XidorVDzHlkDRK"
   }
