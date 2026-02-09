@@ -21,7 +21,7 @@ export default function SeoSchema({ type, data }: SeoSchemaProps) {
             "provider": {
                 "@type": "LocalBusiness",
                 "name": "W[r]Digital",
-                "image": "https://www.wrdigital.it/logo-wrdigital.png", // Ensure this image exists
+                "image": "https://www.wrdigital.it/logo.png", // Ensure this image exists
                 "priceRange": "€€€",
                 "address": {
                     "@type": "PostalAddress",
@@ -49,14 +49,14 @@ export default function SeoSchema({ type, data }: SeoSchemaProps) {
             "@type": "Organization",
             "name": "W[r]Digital",
             "url": "https://www.wrdigital.it",
-            "logo": "https://www.wrdigital.it/logo-wrdigital.png",
+            "logo": "https://www.wrdigital.it/logo.png",
             "sameAs": [
                 "https://instagram.com/wrdigital",
                 "https://linkedin.com/company/wrdigital"
             ],
             "contactPoint": {
                 "@type": "ContactPoint",
-                "telephone": "+39-02-0000000", // Replace with actual number if available
+                "telephone": "+39-340-120-4651", // Actual number
                 "contactType": "customer service",
                 "areaServed": "IT",
                 "availableLanguage": "Italian"

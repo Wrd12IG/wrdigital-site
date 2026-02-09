@@ -118,7 +118,7 @@ export default function CaseStudies() {
 
                                         {/* Results Snippet */}
                                         <div className="flex gap-6 border-t border-white/10 pt-4 w-full">
-                                            {project.results.slice(0, 2).map((r, i) => (
+                                            {(project.results || []).slice(0, 2).map((r, i) => (
                                                 <div key={i}>
                                                     <div className="text-xl font-bold text-white leading-none">{r.value}</div>
                                                     <div className="text-[10px] text-gray-500 uppercase tracking-wider">{r.label}</div>
@@ -189,7 +189,7 @@ export default function CaseStudies() {
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4 mb-8 bg-white/5 p-4 rounded-xl border border-white/5">
-                                        {selectedProject.results.map((result, i) => (
+                                        {(selectedProject.results || []).map((result, i) => (
                                             <div key={i}>
                                                 <div className="text-2xl font-bold text-white">{result.value}</div>
                                                 <div className="text-xs text-gray-500 uppercase">{result.label}</div>

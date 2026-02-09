@@ -71,7 +71,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: "Trasformiamo il tuo business con strategie digitali ad alto ROI: SEO, SEM, Social Media e Web Design. +300% traffico organico garantito.",
       siteName: "W[r]Digital",
       images: [{
-        url: "/og-image.jpg",
+        url: config.ogImage || "/og-image.png",
         width: 1200,
         height: 630,
         alt: "W[r]Digital - Agenzia Digital Marketing Milano",
@@ -82,7 +82,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: "W[r]Digital | Agenzia Digital Marketing Milano",
       description: "Strategie digitali ad alto ROI: SEO, SEM, Social Media. +300% traffico organico. Consulenza gratuita.",
-      images: ["/og-image.jpg"],
+      images: [config.ogImage || "/og-image.png"],
     },
     robots: {
       index: true,
@@ -117,24 +117,26 @@ const outfit = Outfit({
   display: 'swap',
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const config = await getSiteConfig();
+
   return (
     <html lang="it" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`}>
       <head />
       <body suppressHydrationWarning>
         <DynamicSiteConfig />
-        <StructuredData />
+        <StructuredData config={config} />
         <Providers>
           <ToastProvider>
             <ModalProvider>
               <CustomCursor />
-              <Navbar isDarkMode={true} />
+              <Navbar isDarkMode={true} logo={config.logo} />
               {children}
-              <Footer isDarkMode={true} />
+              <Footer isDarkMode={true} logo={config.logo} />
               <ContactModal />
               <FloatingCTA />
               <CookieBanner />

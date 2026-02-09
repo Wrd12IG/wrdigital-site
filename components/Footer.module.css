@@ -139,6 +139,103 @@
     line-height: 1.6;
 }
 
+/* Certifications Section */
+.certificationsSection {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 80px auto 0;
+    padding: 0 40px;
+}
+
+.certificationsContainer {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle gradient overlay */
+.certificationsContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    pointer-events: none;
+}
+
+.certificationsHeader {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.certificationsTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+}
+
+.certificationsSubtitle {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #a1a1aa;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.certificationsGrid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 56px;
+    flex-wrap: wrap;
+}
+
+.badgeWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.badgeWrapper:hover {
+    transform: translateY(-8px);
+}
+
+.certificationBadge {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.badgeWrapper:hover .certificationBadge {
+    filter: drop-shadow(0 8px 24px rgba(139, 92, 246, 0.4));
+    transform: scale(1.08);
+}
+
+.badgeLabel {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #71717a;
+    text-align: center;
+    letter-spacing: 0.03em;
+    transition: color 0.3s ease;
+}
+
+.badgeWrapper:hover .badgeLabel {
+    color: #FACC15;
+}
+
 /* Bottom Bar */
 .bottomBar {
     position: relative;
@@ -210,5 +307,40 @@
     .legalLinks {
         flex-direction: column;
         gap: 16px;
+    }
+
+    .certificationsSection {
+        padding: 0 24px;
+        margin: 60px auto 0;
+    }
+
+    .certificationsContainer {
+        padding: 32px 24px;
+        border-radius: 16px;
+    }
+
+    .certificationsHeader {
+        margin-bottom: 32px;
+    }
+
+    .certificationsTitle {
+        font-size: 1.25rem;
+    }
+
+    .certificationsSubtitle {
+        font-size: 0.9rem;
+    }
+
+    .certificationsGrid {
+        gap: 40px;
+    }
+
+    .certificationBadge {
+        width: 90px;
+        height: 90px;
+    }
+
+    .badgeLabel {
+        font-size: 0.8rem;
     }
 }

@@ -1261,6 +1261,77 @@ export default function AdminPage() {
                                             </div>
                                         </div>
                                     </div>
+                                    {/* Branding & Social Preview */}
+                                    <div className="border-t border-white/10 pt-8">
+                                        <h3 className="text-lg font-bold mb-4 text-blue-400">Branding & Social Preview</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            {/* Logo Ufficiale */}
+                                            <div>
+                                                <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Logo Ufficiale (Global)</label>
+                                                <div className="flex gap-4 items-center">
+                                                    <div className="w-20 h-20 bg-white/5 rounded-xl flex items-center justify-center overflow-hidden border border-white/10 p-3">
+                                                        {siteConfig.logo ? (
+                                                            <img src={siteConfig.logo} alt="Site Logo" className="w-full h-full object-contain" />
+                                                        ) : (
+                                                            <IconImage />
+                                                        )}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            onChange={async (e) => {
+                                                                const file = e.target.files?.[0];
+                                                                if (!file) return;
+                                                                const formData = new FormData();
+                                                                formData.append('file', file);
+                                                                const res = await fetch('/api/admin/portfolio/upload', { method: 'POST', body: formData });
+                                                                if (res.ok) {
+                                                                    const { url } = await res.json();
+                                                                    setSiteConfig({ ...siteConfig, logo: url });
+                                                                }
+                                                            }}
+                                                            className="w-full bg-black/50 p-2 rounded-lg border border-white/10 text-xs"
+                                                        />
+                                                        <p className="text-[10px] text-gray-500 mt-1">Sostituisce il logo in Header, Footer e Schema.org.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Open Graph Image */}
+                                            <div>
+                                                <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Open Graph Image (Social Cover)</label>
+                                                <div className="flex gap-4 items-center">
+                                                    <div className="w-20 h-20 bg-white/5 rounded-xl flex items-center justify-center overflow-hidden border border-white/10">
+                                                        {siteConfig.ogImage ? (
+                                                            <img src={siteConfig.ogImage} alt="OG Preview" className="w-full h-full object-cover" />
+                                                        ) : (
+                                                            <IconImage />
+                                                        )}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            onChange={async (e) => {
+                                                                const file = e.target.files?.[0];
+                                                                if (!file) return;
+                                                                const formData = new FormData();
+                                                                formData.append('file', file);
+                                                                const res = await fetch('/api/admin/portfolio/upload', { method: 'POST', body: formData });
+                                                                if (res.ok) {
+                                                                    const { url } = await res.json();
+                                                                    setSiteConfig({ ...siteConfig, ogImage: url });
+                                                                }
+                                                            }}
+                                                            className="w-full bg-black/50 p-2 rounded-lg border border-white/10 text-xs"
+                                                        />
+                                                        <p className="text-[10px] text-gray-500 mt-1">Immagine mostrata quando il sito viene condiviso sui social.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
 

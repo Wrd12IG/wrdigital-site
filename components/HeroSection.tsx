@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useModal } from './ModalContext';
 import styles from './HeroSection.module.css';
 
@@ -215,7 +216,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
 
                     {/* Description */}
                     <p style={{ maxWidth: '600px', margin: '1rem auto 0', color: 'var(--color-text-secondary)', fontSize: '1.1rem', lineHeight: 1.6 }}>
-                        {displayDescription}
+                        Non vendiamo fumo, ma strategie scalabili. Dalla <Link href="/servizi/seo" className="text-yellow-400 hover:underline">SEO</Link> al <Link href="/servizi/web" className="text-yellow-400 hover:underline">Web Design</Link>, portiamo il tuo brand dove i tuoi clienti lo stanno già cercando.
                     </p>
 
                     {/* CTA Button */}

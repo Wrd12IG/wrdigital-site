@@ -3,8 +3,16 @@
 import { usePathname } from 'next/navigation';
 import { servicesData } from '@/data/services';
 
-export default function StructuredData() {
+interface StructuredDataProps {
+    config?: {
+        logo?: string;
+        [key: string]: any;
+    };
+}
+
+export default function StructuredData({ config }: StructuredDataProps) {
     const pathname = usePathname();
+    const logoUrl = config?.logo || "https://www.wrdigital.it/logo.png";
 
     // Organization Schema (Global)
     const organizationSchema = {
@@ -13,7 +21,7 @@ export default function StructuredData() {
         "name": "WRDigital S.r.l.",
         "alternateName": "W[r]Digital",
         "url": "https://www.wrdigital.it",
-        "logo": "https://www.wrdigital.it/logo.png",
+        "logo": logoUrl,
         "description": "Digital agency specializzata in SEO, Social Media Marketing, Web Development e Advertising a Milano",
         "address": {
             "@type": "PostalAddress",
@@ -43,7 +51,7 @@ export default function StructuredData() {
         "@context": "https://schema.org",
         "@type": ["LocalBusiness", "ProfessionalService", "DigitalMarketingAgency"], // Multi-type for better categorization
         "name": "W[r]Digital - Agenzia Digital Marketing",
-        "image": "https://www.wrdigital.it/logo.png",
+        "image": logoUrl,
         "@id": "https://www.wrdigital.it",
         "url": "https://www.wrdigital.it",
         "telephone": "+39-340-120-4651",
@@ -141,53 +149,7 @@ export default function StructuredData() {
         }
     };
 
-    // Homepage FAQ Schema
-    const homepageFaqSchema = pathname === '/' ? {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "Quali servizi offre W[r]Digital?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "W[r]Digital offre servizi completi di digital marketing: SEO (ottimizzazione per motori di ricerca), Social Media Marketing, Web Development, Advertising (Google Ads, Meta Ads), Content Marketing e Branding. Ogni strategia è personalizzata e data-driven per massimizzare il ROI."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Dove si trova W[r]Digital?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "W[r]Digital ha sede a Nova Milanese (MB), in Via Venezia 2. Operiamo principalmente nell'area di Milano e provincia, ma serviamo clienti in tutta Italia grazie al nostro approccio digitale."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Quanto costa una consulenza SEO?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "I costi variano in base alle esigenze specifiche del progetto. Offriamo pacchetti SEO a partire da €500/mese per PMI e soluzioni enterprise personalizzate. La prima consulenza strategica è gratuita e senza impegno."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "In quanto tempo si vedono i risultati SEO?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "I primi risultati SEO sono tipicamente visibili dopo 3-6 mesi, con miglioramenti significativi entro 6-12 mesi. Forniamo report mensili dettagliati per monitorare i progressi e ottimizzare la strategia."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "W[r]Digital lavora con startup e PMI?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Assolutamente sì! Lavoriamo con aziende di ogni dimensione, dalle startup innovative alle PMI e grandi aziende. Adattiamo le nostre strategie e i budget alle specifiche esigenze di ogni cliente."
-                }
-            }
-        ]
-    } : null;
+    const homepageFaqSchema = null;
 
     const breadcrumbSchema = getBreadcrumbSchema();
 
@@ -207,7 +169,7 @@ export default function StructuredData() {
             "provider": {
                 "@type": "LocalBusiness",
                 "name": "WRDigital S.r.l.",
-                "image": "https://www.wrdigital.it/logo.png",
+                "image": logoUrl,
                 "address": {
                     "@type": "PostalAddress",
                     "streetAddress": "Via Venezia, 2",

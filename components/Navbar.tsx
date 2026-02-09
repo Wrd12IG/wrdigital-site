@@ -23,9 +23,10 @@ const navItems: NavItem[] = [
 
 interface NavbarProps {
     isDarkMode: boolean;
+    logo?: string;
 }
 
-export default function Navbar({ isDarkMode }: NavbarProps) {
+export default function Navbar({ isDarkMode, logo }: NavbarProps) {
     const pathname = usePathname();
     const { openContactModal } = useModal();
     const [isScrolled, setIsScrolled] = useState(false);
@@ -96,20 +97,26 @@ export default function Navbar({ isDarkMode }: NavbarProps) {
                     whileHover="hover"
                     animate="rest"
                 >
-                    <span className={styles.logoText}>W</span>
-                    <motion.span
-                        className={styles.logoBracket}
-                        variants={{ rest: { x: 0 }, hover: { x: -3 } }}
-                    >[</motion.span>
-                    <motion.span
-                        className={styles.logoR}
-                        variants={{ rest: { opacity: 1, scale: 1 }, hover: { opacity: 0.8, scale: 1.1, color: '#FACC15' } }}
-                    >r</motion.span>
-                    <motion.span
-                        className={styles.logoBracket}
-                        variants={{ rest: { x: 0 }, hover: { x: 3 } }}
-                    >]</motion.span>
-                    <span className={styles.logoText}>Digital</span>
+                    {logo ? (
+                        <img src={logo} alt="W[r]Digital" className="h-8 w-auto object-contain" />
+                    ) : (
+                        <>
+                            <span className={styles.logoText}>W</span>
+                            <motion.span
+                                className={styles.logoBracket}
+                                variants={{ rest: { x: 0 }, hover: { x: -3 } }}
+                            >[</motion.span>
+                            <motion.span
+                                className={styles.logoR}
+                                variants={{ rest: { opacity: 1, scale: 1 }, hover: { opacity: 0.8, scale: 1.1, color: '#FACC15' } }}
+                            >r</motion.span>
+                            <motion.span
+                                className={styles.logoBracket}
+                                variants={{ rest: { x: 0 }, hover: { x: 3 } }}
+                            >]</motion.span>
+                            <span className={styles.logoText}>Digital</span>
+                        </>
+                    )}
                 </motion.a>
 
                 {/* Desktop Navigation */}
