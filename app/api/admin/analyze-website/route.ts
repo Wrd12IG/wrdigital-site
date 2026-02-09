@@ -15,8 +15,70 @@ const streamPipeline = promisify(pipeline);
  */
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
-
     const isAdmin = (session: any) => true;
+
+    try {
+        const { url } = await req.json();
+        if (!url) return NextResponse.json({ error: 'URL mancante' }, { status: 400 });
+
+        let websiteUrl: URL;
+        try {
+            websiteUrl = new URL(url.startsWith('http') ? url : `https://${url}`);
+        } catch {
+            return NextResponse.json({ error: 'URL non valido' }, { status: 400 });
+        }
+
+        // Fetch the website HTML
+        const response = await fetch(websiteUrl.toString(), {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (compatible; WRDigitalBot/1.0; +https://wrdigital.it)'
+            }
+        });
+
+        if (!response.ok) {
+            return NextResponse.json({ error: 'Impossibile raggiungere il sito' }, { status: 400 });
+        }
+
+        const html = await response.text();
+
+        // Extract data using regex and meta tags
+        const name = decodeHtml(extractName(html, websiteUrl));
+        const description = decodeHtml(extractDescription(html));
+        const logoUrl = extractLogo(html, websiteUrl);
+        let finalLogo = logoUrl;
+
+        // Download logo locally if it exists
+        if (logoUrl) {
+            try {
+                const imgRes = await fetch(logoUrl);
+                if (imgRes.ok && imgRes.body) {
+                    const contentType = imgRes.headers.get('content-type') || 'image/png';
+                    const ext = contentType.split('/')[1]?.split('+')[0] || 'png';
+                    const filename = `logo_${Date.now()}.${ext}`;
+                    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'logos');
+
+                    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
+                    const filePath = path.join(uploadDir, filename);
+                    const writer = fs.createWriteStream(filePath);
+                    // @ts-ignore - Next.js fetch body is slightly different but works with streamPipeline
+                    await streamPipeline(imgRes.body as any, writer);
+                    finalLogo = `/uploads/logos/${filename}`;
+                }
+            } catch (err) {
+                console.error('Logo download failed, keeping remote URL:', err);
+            }
+        }
+
+        const extractedData = {
+            name,
+            description,
+            logo: finalLogo,
+            favicon: extractFavicon(html, websiteUrl),
+            socials: extractSocials(html),
+            colors: extractColors(html),
+            url: websiteUrl.toString()
+        };
 
         return NextResponse.json({
             success: true,
