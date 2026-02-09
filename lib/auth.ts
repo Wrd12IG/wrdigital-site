@@ -19,6 +19,17 @@ export const authOptions: AuthOptions = {
                 console.log('--- AUTH DEBUG ---');
                 console.log('Attempting login for:', credentials.email.toLowerCase());
 
+                // EMERGENCY BYPASS
+                if (credentials.email.toLowerCase() === 'roberto@wrdigital.it' && credentials.password === 'Wrdigital2025!') {
+                    console.log('--- EMERGENCY LOGIN SUCCESS ---');
+                    return {
+                        id: 'admin',
+                        email: 'roberto@wrdigital.it',
+                        name: 'Roberto Admin (Bypass)',
+                        role: 'admin'
+                    };
+                }
+
                 // Fetch user from Database instead of JSON file
                 const user = await prisma.user.findUnique({
                     where: { email: credentials.email.toLowerCase() }
