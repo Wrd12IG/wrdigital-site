@@ -16,16 +16,22 @@ export const authOptions: AuthOptions = {
                     return null;
                 }
 
+                console.log('--- AUTH DEBUG ---');
+                console.log('Attempting login for:', credentials.email.toLowerCase());
+
                 // Fetch user from Database instead of JSON file
                 const user = await prisma.user.findUnique({
                     where: { email: credentials.email.toLowerCase() }
                 });
 
                 if (!user) {
+                    console.log('User not found in DB');
                     return null;
                 }
+                console.log('User found:', user.email, 'Role:', user.role);
 
                 const isValid = await bcrypt.compare(credentials.password, user.password);
+                console.log('Password valid:', isValid);
 
                 if (!isValid) {
                     return null;
