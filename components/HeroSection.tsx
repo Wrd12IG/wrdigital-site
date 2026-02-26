@@ -186,9 +186,8 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         sizes="100vw"
                         unoptimized
                         className={styles.backgroundImage}
-                        style={{ opacity: 0.85 }}
                     />
-                    <div className={styles.overlayLight} />
+                    <div className={styles.overlay} />
                 </div>
             )}
 
