@@ -5,15 +5,18 @@ import path from 'path';
 export async function GET() {
     // Percorsi
     const DATA_DIR = path.join(process.cwd(), 'data');
-    const CUSTOM_HERO_PATH = path.join(DATA_DIR, 'hero-bg-custom.png');
+    const CUSTOM_HERO_PNG = path.join(DATA_DIR, 'hero-bg-custom.png');
+    const CUSTOM_HERO_JPG = path.join(DATA_DIR, 'hero-bg-custom.jpg');
     // Fallback all'immagine originale in public se non c'è quella custom
     const DEFAULT_HERO_PATH = path.join(process.cwd(), 'public', 'hero-bg.png');
 
     let imagePath = DEFAULT_HERO_PATH;
 
-    // Se c'è un'immagine custom, usiamo quella
-    if (fs.existsSync(CUSTOM_HERO_PATH)) {
-        imagePath = CUSTOM_HERO_PATH;
+    // Se c'è un'immagine custom, usiamo quella (priorità al JPG se appena caricato)
+    if (fs.existsSync(CUSTOM_HERO_JPG)) {
+        imagePath = CUSTOM_HERO_JPG;
+    } else if (fs.existsSync(CUSTOM_HERO_PNG)) {
+        imagePath = CUSTOM_HERO_PNG;
     }
 
     try {
