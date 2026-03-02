@@ -89,6 +89,21 @@ export default function MarkdownRenderer({ content, className = "" }: MarkdownRe
                         <a href={href} className="text-yellow-400 hover:text-yellow-300 underline underline-offset-4 decoration-yellow-400/30 transition-colors">
                             {children}
                         </a>
+                    ),
+                    // Images
+                    img: ({ src, alt }) => (
+                        <span className="block my-12 relative group">
+                            <img
+                                src={src}
+                                alt={alt || ""}
+                                className="w-full h-auto rounded-2xl border border-white/10 shadow-2xl group-hover:border-yellow-400/20 transition-all duration-500"
+                            />
+                            {alt && (
+                                <span className="block text-center text-xs text-gray-500 mt-4 font-mono uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">
+                                    // {alt}
+                                </span>
+                            )}
+                        </span>
                     )
                 }}
             >

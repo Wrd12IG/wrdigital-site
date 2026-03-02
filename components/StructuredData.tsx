@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { servicesData } from '@/data/services';
+import blogPosts from '@/data/blog.json';
 
 interface StructuredDataProps {
     config?: {
@@ -236,8 +237,46 @@ export default function StructuredData({ config }: StructuredDataProps) {
         };
     };
 
+    const getArticleSchema = () => {
+        if (!pathname.startsWith('/blog/')) return null;
+
+        const slug = pathname.split('/').pop();
+        const post = blogPosts.find(p => p.slug === slug);
+
+        if (!post) return null;
+
+        return {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "description": post.excerpt || post.metaDescription,
+            "image": post.image,
+            "author": {
+                "@type": "Organization",
+                "name": "Team Strategy W[r]Digital",
+                "url": "https://www.wrdigital.it"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "W[r]Digital",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": logoUrl
+                }
+            },
+            "datePublished": post.createdAt || "2026-01-01",
+            "dateModified": post.updatedAt || post.createdAt || "2026-01-01",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `https://www.wrdigital.it${pathname}`
+            },
+            "keywords": Array.isArray(post.tags) ? post.tags.join(', ') : post.tags
+        };
+    };
+
     const serviceSchema = getServiceSchema();
     const faqSchema = getFAQSchema();
+    const articleSchema = getArticleSchema();
 
     return (
         <div id="structured-data-container" style={{ display: 'none' }}>
@@ -295,6 +334,15 @@ export default function StructuredData({ config }: StructuredDataProps) {
                     key="schema-faq-service"
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+                />
+            )}
+
+            {/* Article Schema (Blog Posts) */}
+            {articleSchema && (
+                <script
+                    key="schema-article"
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
                 />
             )}
         </div>

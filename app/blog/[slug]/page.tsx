@@ -27,11 +27,11 @@ const getPost = async (slug: string) => {
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const params = await props.params;
-    const post = await getPost(params.slug);
+    const post = await getPost(params.slug) as any;
     if (!post) return { title: 'Blog | W[r]Digital' };
 
-    const pageTitle = post.title;
-    const pageDesc = post.excerpt || `Leggi l'articolo completo su ${post.title}`;
+    const pageTitle = post.metaTitle || post.title;
+    const pageDesc = post.metaDescription || post.excerpt || `Leggi l'articolo completo su ${post.title}`;
     const pageImage = post.image || '/og-default.jpg';
 
     return {
