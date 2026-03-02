@@ -33,6 +33,7 @@ export default function CustomCursor() {
     }
 
     setIsVisible(true);
+    document.body.classList.add('custom-cursor-active');
 
     const moveCursor = (e: MouseEvent) => {
       mouseX.set(e.clientX);
@@ -62,6 +63,7 @@ export default function CustomCursor() {
     document.addEventListener('mouseout', handleMouseLeave);
 
     return () => {
+      document.body.classList.remove('custom-cursor-active');
       window.removeEventListener('mousemove', moveCursor);
       document.removeEventListener('mouseover', handleMouseEnter);
       document.removeEventListener('mouseout', handleMouseLeave);

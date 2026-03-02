@@ -74,17 +74,17 @@
     transform: scale(1);
 }
 
-/* Hide default cursor globally on desktop */
-:global(body) {
+/* Hide default cursor only when custom cursor is active */
+:global(body.custom-cursor-active) {
     cursor: none !important;
 }
 
-:global(a),
-:global(button),
-:global([data-cursor]),
-:global(input),
-:global(textarea),
-:global(select) {
+:global(body.custom-cursor-active) a,
+:global(body.custom-cursor-active) button,
+:global(body.custom-cursor-active) [data-cursor],
+:global(body.custom-cursor-active) input,
+:global(body.custom-cursor-active) textarea,
+:global(body.custom-cursor-active) select {
     cursor: none !important;
 }
 
@@ -96,13 +96,13 @@
         display: none !important;
     }
 
-    :global(body),
-    :global(a),
-    :global(button),
-    :global([data-cursor]),
-    :global(input),
-    :global(textarea),
-    :global(select) {
+    :global(body.custom-cursor-active),
+    :global(body.custom-cursor-active) a,
+    :global(body.custom-cursor-active) button,
+    :global(body.custom-cursor-active) [data-cursor],
+    :global(body.custom-cursor-active) input,
+    :global(body.custom-cursor-active) textarea,
+    :global(body.custom-cursor-active) select {
         cursor: auto !important;
     }
 }
