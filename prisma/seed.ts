@@ -234,7 +234,7 @@ async function main() {
                 where: { slug },
                 update: {
                     title: post.title,
-                    content: JSON.stringify(post.content || post.description),
+                    content: post.content || post.description,
                     excerpt: post.excerpt || post.description,
                     image: post.image,
                     author: post.author,
@@ -249,7 +249,7 @@ async function main() {
                     id: post.id,
                     slug,
                     title: post.title,
-                    content: JSON.stringify(post.content || post.description),
+                    content: post.content || post.description,
                     excerpt: post.excerpt || post.description,
                     image: post.image,
                     author: post.author,

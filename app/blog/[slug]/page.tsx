@@ -3,19 +3,26 @@ import { notFound } from 'next/navigation';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { Metadata } from 'next';
 import { Calendar, Clock } from 'lucide-react';
+import staticPosts from '@/data/blog.json';
 
 import { prisma } from '@/lib/prisma';
 
 // Helper to get post
 const getPost = async (slug: string) => {
     try {
-        return await prisma.blogPost.findFirst({
-            where: {
-                slug,
-                deleted: false
-            }
+        // 1. Try DB
+        const dbPost = await prisma.blogPost.findFirst({
+            where: { slug, deleted: false }
         });
-    } catch { return null; }
+        if (dbPost) return dbPost;
+
+        // 2. Try static fallback
+        const staticPost = (staticPosts as any[]).find(p => p.slug === slug && !p.deleted);
+        return staticPost || null;
+    } catch (e) {
+        // Fallback on DB error
+        return (staticPosts as any[]).find(p => p.slug === slug && !p.deleted) || null;
+    }
 };
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
