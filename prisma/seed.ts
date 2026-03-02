@@ -246,6 +246,7 @@ async function main() {
                     tags: post.tags ? JSON.stringify(post.tags) : '[]'
                 },
                 create: {
+                    id: post.id,
                     slug,
                     title: post.title,
                     content: JSON.stringify(post.content || post.description),
