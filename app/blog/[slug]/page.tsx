@@ -7,20 +7,20 @@ import { Calendar, Clock } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
 
 // Helper to get post
-const getPost = async (id: string) => {
+const getPost = async (slug: string) => {
     try {
         return await prisma.blogPost.findFirst({
             where: {
-                id,
+                slug,
                 deleted: false
             }
         });
     } catch { return null; }
 };
 
-export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const params = await props.params;
-    const post = await getPost(params.id);
+    const post = await getPost(params.slug);
     if (!post) return { title: 'Blog | W[r]Digital' };
 
     const pageTitle = post.title;
@@ -33,7 +33,7 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
         openGraph: {
             title: pageTitle,
             description: pageDesc,
-            url: `https://www.wrdigital.it/blog/${post.id}`,
+            url: `https://www.wrdigital.it/blog/${post.slug}`,
             siteName: 'W[r]Digital Blog',
             locale: 'it_IT',
             type: 'article',
@@ -55,14 +55,14 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
             images: [pageImage],
         },
         alternates: {
-            canonical: `https://www.wrdigital.it/blog/${post.id}`,
+            canonical: `https://www.wrdigital.it/blog/${post.slug}`,
         }
     };
 }
 
-export default async function BlogPostPage(props: { params: Promise<{ id: string }> }) {
+export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
     const params = await props.params;
-    const rawPost = await getPost(params.id);
+    const rawPost = await getPost(params.slug);
 
     if (!rawPost) notFound();
     const post = rawPost as any;

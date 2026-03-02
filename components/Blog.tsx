@@ -8,6 +8,7 @@ import styles from './Blog.module.css';
 
 interface BlogPost {
     id: string;
+    slug: string;
     title: string;
     excerpt: string;
     category: string;
@@ -105,7 +106,7 @@ export default function Blog() {
                 ) : (
                     <div className={styles.blogLayout}>
                         {featuredPost && (
-                            <Link href={`/blog/${featuredPost.id}`} className="block w-full h-full group">
+                            <Link href={`/blog/${featuredPost.slug}`} className="block w-full h-full group">
                                 <motion.article
                                     className={styles.featuredCard}
                                     initial={{ opacity: 0, y: 40 }}
@@ -139,7 +140,7 @@ export default function Blog() {
 
                         <div className={styles.postsGrid}>
                             {regularPosts.map((post, index) => (
-                                <Link href={`/blog/${post.id}`} key={post.id} className="block w-full h-full group">
+                                <Link href={`/blog/${post.slug}`} key={post.id} className="block w-full h-full group">
                                     <motion.article
                                         className={styles.postCard}
                                         initial={{ opacity: 0, y: 40 }}

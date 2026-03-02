@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 interface BlogPost {
     id: string;
+    slug: string;
     title: string;
     excerpt: string;
     category: string;
@@ -56,7 +57,7 @@ export default function BlogCard({ post, index }: { post: BlogPost; index: numbe
             onMouseLeave={handleMouseLeave}
             className="group relative w-full h-full rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-colors duration-300"
         >
-            <Link href={`/blog/${post.id}`} className="block h-full flex flex-col">
+            <Link href={`/blog/${post.slug}`} className="block h-full flex flex-col">
                 {/* 1. VISUAL (Image) */}
                 <div
                     className="relative w-full aspect-video overflow-hidden rounded-t-2xl"

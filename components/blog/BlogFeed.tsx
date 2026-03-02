@@ -2,11 +2,13 @@
 
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import BlogCard from './BlogCard';
 import Sidebar from './Sidebar';
 
 interface BlogPost {
     id: string;
+    slug: string;
     title: string;
     excerpt: string;
     category: string;
@@ -97,26 +99,28 @@ export default function BlogFeed({ posts }: { posts: BlogPost[] }) {
 
                     {/* FEATURED POST (Only if All and exists) */}
                     {selectedCategory === 'All' && featuredPost && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="mb-16 group cursor-pointer"
-                        >
-                            <div className="relative w-full aspect-[21/9] rounded-3xl overflow-hidden mb-6 border border-white/10">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={featuredPost.image} alt={featuredPost.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-                                <div className="absolute bottom-0 left-0 p-8 md:p-12">
-                                    <span className="text-yellow-400 font-bold uppercase tracking-widest text-xs mb-2 block">{featuredPost.category}</span>
-                                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 max-w-2xl leading-tight group-hover:text-yellow-400 transition-colors">
-                                        {featuredPost.title}
-                                    </h2>
-                                    <p className="text-gray-300 text-lg max-w-xl line-clamp-2 md:line-clamp-none">
-                                        {featuredPost.excerpt}
-                                    </p>
+                        <Link href={`/blog/${featuredPost.slug}`}>
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mb-16 group cursor-pointer"
+                            >
+                                <div className="relative w-full aspect-[21/9] rounded-3xl overflow-hidden mb-6 border border-white/10">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img src={featuredPost.image} alt={featuredPost.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                                    <div className="absolute bottom-0 left-0 p-8 md:p-12">
+                                        <span className="text-yellow-400 font-bold uppercase tracking-widest text-xs mb-2 block">{featuredPost.category}</span>
+                                        <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 max-w-2xl leading-tight group-hover:text-yellow-400 transition-colors">
+                                            {featuredPost.title}
+                                        </h2>
+                                        <p className="text-gray-300 text-lg max-w-xl line-clamp-2 md:line-clamp-none">
+                                            {featuredPost.excerpt}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </motion.div>
+                            </motion.div>
+                        </Link>
                     )}
 
                     {/* GRID */}
