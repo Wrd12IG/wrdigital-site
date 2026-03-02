@@ -131,27 +131,28 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                             {(() => {
                                 let tags: string[] = [];
                                 if (post.tags) {
-                                    try {
-                                        // Try parsing JSON
-                                        const parsed = JSON.parse(post.tags);
-                                        if (Array.isArray(parsed)) {
-                                            tags = parsed;
-                                        } else if (typeof parsed === 'string') {
-                                            // Handle double-encoded JSON
-                                            try {
-                                                const secondParse = JSON.parse(parsed);
-                                                if (Array.isArray(secondParse)) {
-                                                    tags = secondParse;
-                                                } else {
+                                    if (Array.isArray(post.tags)) {
+                                        tags = post.tags;
+                                    } else {
+                                        try {
+                                            const parsed = JSON.parse(post.tags);
+                                            if (Array.isArray(parsed)) {
+                                                tags = parsed;
+                                            } else if (typeof parsed === 'string') {
+                                                try {
+                                                    const secondParse = JSON.parse(parsed);
+                                                    if (Array.isArray(secondParse)) {
+                                                        tags = secondParse;
+                                                    } else {
+                                                        tags = parsed.split(',').filter(t => t.trim());
+                                                    }
+                                                } catch {
                                                     tags = parsed.split(',').filter(t => t.trim());
                                                 }
-                                            } catch {
-                                                tags = parsed.split(',').filter(t => t.trim());
                                             }
+                                        } catch (e) {
+                                            tags = String(post.tags).split(',').filter((t: string) => t.trim());
                                         }
-                                    } catch (e) {
-                                        // Fallback to comma split
-                                        tags = post.tags.split(',').filter((t: string) => t.trim());
                                     }
                                 }
 
