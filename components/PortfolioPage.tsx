@@ -7,6 +7,7 @@ import { ArrowRight, Trophy, BarChart3, Rocket, X } from 'lucide-react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useModal } from './ModalContext';
 
 interface Project {
     id: string;
@@ -26,6 +27,7 @@ interface PortfolioPageProps {
 export default function PortfolioPage({ projects }: PortfolioPageProps) {
     const [filter, setFilter] = useState('All');
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const { openContactModal } = useModal();
 
     const categories = ['All', ...Array.from(new Set(projects.map(p => p.category)))];
 
@@ -64,8 +66,8 @@ export default function PortfolioPage({ projects }: PortfolioPageProps) {
                             key={cat}
                             onClick={() => setFilter(cat)}
                             className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border border-transparent ${filter === cat
-                                    ? 'bg-yellow-500 text-black shadow-[0_0_20px_rgba(234,179,8,0.4)]'
-                                    : 'bg-white/5 text-gray-400 border-white/10 hover:border-yellow-500/50 hover:text-white'
+                                ? 'bg-yellow-500 text-black shadow-[0_0_20px_rgba(234,179,8,0.4)]'
+                                : 'bg-white/5 text-gray-400 border-white/10 hover:border-yellow-500/50 hover:text-white'
                                 }`}
                         >
                             {cat}
@@ -203,7 +205,10 @@ export default function PortfolioPage({ projects }: PortfolioPageProps) {
                                     </div>
 
                                     <button
-                                        onClick={() => setSelectedProject(null)}
+                                        onClick={() => {
+                                            setSelectedProject(null);
+                                            openContactModal();
+                                        }}
                                         className="w-full bg-yellow-500 text-black font-bold py-4 rounded-xl hover:bg-yellow-400 transition-colors flex items-center justify-center gap-2"
                                     >
                                         Richiedi Progetto Simile <ArrowRight size={20} />
