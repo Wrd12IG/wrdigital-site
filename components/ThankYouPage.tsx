@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import { CheckCircle, ArrowRight, Video, Calendar, MapPin } from 'lucide-react';
 import ReactConfetti from 'react-confetti';
 
@@ -46,8 +44,6 @@ export default function ThankYouPage() {
     return (
         <div className="min-h-screen bg-black text-white font-sans selection:bg-yellow-500/30 overflow-hidden">
             {showConfetti && <ReactConfetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={500} />}
-
-            <Navbar isDarkMode={true} />
 
             <main className="relative pt-32 pb-20 px-6">
                 {/* Background Glow */}
@@ -127,8 +123,6 @@ export default function ThankYouPage() {
                     </div>
                 </div>
             </main>
-
-            <Footer isDarkMode={true} />
         </div>
     );
 }
