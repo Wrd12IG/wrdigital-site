@@ -29,6 +29,7 @@ export default function ContactModal() {
         message: '',
         service: '',
         website: '',
+        privacyAccepted: false,
     });
 
     const [errors, setErrors] = useState<FormErrors>({});
@@ -44,6 +45,11 @@ export default function ContactModal() {
             newErrors.email = 'Email non valida';
         }
         if (!formState.message.trim()) newErrors.message = 'Il messaggio è obbligatorio';
+
+        if (!formState.privacyAccepted) {
+            addToast('Devi accettare la Privacy Policy', 'error');
+            return false;
+        }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -61,7 +67,7 @@ export default function ContactModal() {
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...formState, privacyAccepted: true }),
+                body: JSON.stringify(formState),
             });
 
             const data = await response.json();
@@ -69,7 +75,7 @@ export default function ContactModal() {
             if (!response.ok) throw new Error(data.error);
 
             closeContactModal();
-            setFormState({ name: '', email: '', company: '', message: '', service: '', website: '' });
+            setFormState({ name: '', email: '', company: '', message: '', service: '', website: '', privacyAccepted: false });
             router.push(`/grazie?name=${encodeURIComponent(formState.name)}`);
 
         } catch (error) {
@@ -186,12 +192,14 @@ export default function ContactModal() {
                                 <div className={styles.formGroup} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: '10px' }}>
                                     <input
                                         type="checkbox"
-                                        id="privacy"
-                                        name="privacy"
+                                        id="privacy-modal"
+                                        name="privacyAccepted"
+                                        checked={formState.privacyAccepted}
+                                        onChange={(e) => setFormState(prev => ({ ...prev, privacyAccepted: e.target.checked }))}
                                         required
-                                        style={{ marginTop: '4px' }}
+                                        style={{ marginTop: '4px', cursor: 'pointer' }}
                                     />
-                                    <label htmlFor="privacy" style={{ fontSize: '12px', color: '#ccc', lineHeight: '1.4', cursor: 'pointer' }}>
+                                    <label htmlFor="privacy-modal" style={{ fontSize: '12px', color: '#ccc', lineHeight: '1.4', cursor: 'pointer' }}>
                                         Ho letto e accetto la <a href="/privacy-policy" style={{ color: '#FACC15', textDecoration: 'underline' }}>Privacy Policy</a> e acconsento al trattamento dei miei dati personali ai sensi del GDPR. *
                                     </label>
                                 </div>

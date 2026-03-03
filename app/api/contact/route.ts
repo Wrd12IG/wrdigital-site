@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { name, email, message, company, service, privacyAccepted } = body;
+        console.log('--- API CONTACT BODY ---', body);
+        const { name, email, message, company, service, website, privacyAccepted } = body;
 
         // Validazione base
         if (!name || !email || !message) {
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
                     name,
                     email,
                     company: company || null,
+                    website: website || null,
                     message,
                     source: service === 'preventivo' ? 'wizard' : 'contact_form',
                     services: service,
