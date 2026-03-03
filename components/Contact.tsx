@@ -21,6 +21,7 @@ export default function Contact() {
         company: '',
         message: '',
         service: '',
+        privacyAccepted: false,
     });
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,6 +44,11 @@ export default function Contact() {
             newErrors.message = 'Il messaggio è obbligatorio';
         } else if (formState.message.trim().length < 10) {
             newErrors.message = 'Il messaggio deve essere di almeno 10 caratteri';
+        }
+
+        if (!formState.privacyAccepted) {
+            addToast('Devi accettare la Privacy Policy per continuare.', 'error');
+            return false;
         }
 
         setErrors(newErrors);
@@ -80,6 +86,7 @@ export default function Contact() {
                 company: '',
                 message: '',
                 service: '',
+                privacyAccepted: false,
             });
         } catch (error) {
             console.error('Form submission error:', error);
@@ -310,8 +317,20 @@ export default function Contact() {
                                         </motion.span>
                                     )}
                                 </div>
-
-
+                                <div className={styles.formGroup} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: '10px', marginTop: '10px' }}>
+                                    <input
+                                        type="checkbox"
+                                        id="privacy-hp"
+                                        name="privacyAccepted"
+                                        checked={formState.privacyAccepted}
+                                        onChange={(e) => setFormState(prev => ({ ...prev, privacyAccepted: e.target.checked }))}
+                                        required
+                                        style={{ marginTop: '4px', cursor: 'pointer' }}
+                                    />
+                                    <label htmlFor="privacy-hp" style={{ fontSize: '11px', color: '#999', lineHeight: '1.4', cursor: 'pointer' }}>
+                                        Ho letto e accetto la <a href="/privacy-policy" style={{ color: '#FACC15', textDecoration: 'underline' }}>Privacy Policy</a> e acconsento al trattamento dei dati personali. *
+                                    </label>
+                                </div>
 
                                 <button
                                     type="submit"
