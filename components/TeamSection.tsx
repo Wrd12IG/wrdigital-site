@@ -15,8 +15,8 @@ const staticTeam = [
     { name: 'Lorenzo Francesconi', role: 'Graphic Designer', color: '#3b82f6', avatar: '/images/team/lorenzo.jpg' },
     { name: 'Enxhi Gjashta', role: 'Graphic Designer', color: '#3b82f6', avatar: '/images/team/enxhi.jpg' },
     { name: 'Giulia Tarricone', role: 'Social Manager Junior', color: '#22c55e', avatar: '/images/team/giulia.jpg' },
-    { name: 'Denise Cianflone', role: 'Junior Social Manager', color: '#22c55e', avatar: '/images/team/denise.jpg' },
-    { name: 'Giada Morena', role: 'Junior Social Manager', color: '#22c55e', avatar: '/images/team/giada.jpg' },
+    { name: 'Denise Cianflone', role: 'Social Manager Junior', color: '#22c55e', avatar: '/images/team/denise.jpg' },
+    { name: 'Giada Morena', role: 'Social Manager Junior', color: '#22c55e', avatar: '/images/team/giada.jpg' },
     { name: 'Luca Ena', role: 'Web Developer Manager', color: '#3b82f6', avatar: '/images/team/luca.jpg' },
 ];
 
