@@ -22,10 +22,14 @@ const staticTeam = [
 
 export default function TeamSection({ initialBio, initialImage }: { initialBio?: string, initialImage?: string }) {
     const [bio, setBio] = useState(initialBio || "Siamo un collettivo di creativi, sviluppatori e strategist. Non seguiamo i trend, li anticipiamo.");
-    const [teamImage, setTeamImage] = useState<string | null>(initialImage || null);
+    // Filter out the placeholder that doesn't exist in production
+    const cleanInitialImage = (initialImage && initialImage !== '/team-placeholder.jpg') ? initialImage : null;
+    const [teamImage, setTeamImage] = useState<string | null>(cleanInitialImage);
 
     useEffect(() => {
-        if (initialBio && initialImage) return;
+        // Only skip fetch if we have a real image (not the placeholder that doesn't exist)
+        const hasRealImage = initialImage && initialImage !== '/team-placeholder.jpg';
+        if (initialBio && hasRealImage) return;
 
         const fetchConfig = async () => {
             try {
@@ -62,10 +66,10 @@ export default function TeamSection({ initialBio, initialImage }: { initialBio?:
 
                 <div className={styles.grid}>
                     {staticTeam.map((member, index) => (
-                        <motion.div key={index} className={styles.card} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} viewport={{ once: true }} whileHover={{ y: -10 }}>
-                            <div className={styles.imagePlaceholder} style={{ background: member.avatar ? 'transparent' : `linear-gradient(135deg, #1a1a1a 0%, ${member.color}15 100%)` }}>
+                        <motion.div key={index} className={styles.card} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(index * 0.07, 0.6) }} viewport={{ once: true }} whileHover={{ y: -8 }}>
+                            <div className={styles.imagePlaceholder} style={{ background: `linear-gradient(135deg, #1a1a1a 0%, ${member.color}20 100%)` }}>
                                 {member.avatar ? (
-                                    <Image src={member.avatar} alt={member.name} fill style={{ objectFit: 'cover' }} />
+                                    <Image src={member.avatar} alt={member.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
                                 ) : (
                                     <span style={{ color: member.color, fontSize: '2rem', fontWeight: 700 }}>{member.name.split(' ').map(n => n[0]).join('')}</span>
                                 )}
