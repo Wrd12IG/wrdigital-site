@@ -21,33 +21,28 @@ export async function GET() {
         }
 
         const parsedProjects = projects.map((project: any) => {
-            let results = project.results;
-            let tags = project.tags;
-
-            // Safe parsing for results
-            if (typeof project.results === 'string') {
-                try {
-                    results = JSON.parse(project.results);
-                } catch (e) {
-                    console.error('Failed to parse results for project:', project.id, e);
-                    results = [];
-                }
+            let resultsArr: any[] = [];
+            try {
+                let parsed = typeof project.results === 'string' ? JSON.parse(project.results) : project.results;
+                if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+                resultsArr = Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                resultsArr = [];
             }
 
-            // Safe parsing for tags
-            if (typeof project.tags === 'string') {
-                try {
-                    tags = JSON.parse(project.tags);
-                } catch (e) {
-                    console.error('Failed to parse tags for project:', project.id, e);
-                    tags = [];
-                }
+            let tagsArr: string[] = [];
+            try {
+                let parsed = typeof project.tags === 'string' ? JSON.parse(project.tags) : project.tags;
+                if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+                tagsArr = Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                tagsArr = [];
             }
 
             return {
                 ...project,
-                results: Array.isArray(results) ? results : [],
-                tags: Array.isArray(tags) ? tags : []
+                results: resultsArr,
+                tags: tagsArr
             };
         });
 

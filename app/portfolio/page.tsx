@@ -37,12 +37,32 @@ export default async function Page() {
         projects = (staticProjects as any[]).filter(p => !p.deleted);
     }
 
-    // Parse JSON fields
-    const formattedProjects = projects.map(p => ({
-        ...p,
-        results: typeof p.results === 'string' ? JSON.parse(p.results) : (p.results || []),
-        tags: typeof p.tags === 'string' ? JSON.parse(p.tags) : (p.tags || [])
-    }));
+    // Normalize projects with extra safety against double-stringification
+    const formattedProjects = projects.map(p => {
+        let resultsArr: any[] = [];
+        try {
+            let parsed = typeof p.results === 'string' ? JSON.parse(p.results) : p.results;
+            if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+            resultsArr = Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+            resultsArr = [];
+        }
+
+        let tagsArr: string[] = [];
+        try {
+            let parsed = typeof p.tags === 'string' ? JSON.parse(p.tags) : p.tags;
+            if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+            tagsArr = Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+            tagsArr = [];
+        }
+
+        return {
+            ...p,
+            results: resultsArr,
+            tags: tagsArr
+        };
+    });
 
     return <PortfolioPageClient projects={formattedProjects} />;
 }

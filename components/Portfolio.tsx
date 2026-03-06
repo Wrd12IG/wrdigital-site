@@ -131,7 +131,7 @@ export default function Portfolio() {
 
                                         {/* Results Preview */}
                                         <div className={styles.resultsPreview}>
-                                            {project.results.slice(0, 2).map((result, i) => (
+                                            {(Array.isArray(project.results) ? project.results : []).slice(0, 2).map((result, i) => (
                                                 <div key={i} className={styles.resultItem}>
                                                     <span className={styles.resultValue}>{result.value}</span>
                                                     <span className={styles.resultLabel}>{result.label}</span>
@@ -194,7 +194,7 @@ export default function Portfolio() {
                                         <div className={styles.modalResults}>
                                             <h4>Risultati</h4>
                                             <div className={styles.resultsGrid}>
-                                                {selectedProject.results.map((result, i) => (
+                                                {(Array.isArray(selectedProject.results) ? selectedProject.results : []).map((result, i) => (
                                                     <div key={i} className={styles.modalResultItem}>
                                                         <span className={styles.modalResultValue}>{result.value}</span>
                                                         <span className={styles.modalResultLabel}>{result.label}</span>

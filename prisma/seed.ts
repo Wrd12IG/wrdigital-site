@@ -16,6 +16,18 @@ function slugify(text: string) {
         .replace(/-+$/, '');         // Trim - from end of text
 }
 
+function ensureStringified(val: any) {
+    if (typeof val === 'string') {
+        try {
+            JSON.parse(val);
+            return val; // Already stringified JSON
+        } catch (e) {
+            return JSON.stringify(val);
+        }
+    }
+    return JSON.stringify(val || []);
+}
+
 async function main() {
     console.log('🚀 Starting Seeding database...')
 
@@ -86,8 +98,8 @@ async function main() {
                     category: p.category,
                     year: p.year,
                     description: p.description,
-                    results: JSON.stringify(p.results),
-                    tags: JSON.stringify(p.tags),
+                    results: ensureStringified(p.results),
+                    tags: ensureStringified(p.tags),
                     image: p.image,
                     color: p.color,
                     showOnHome: p.showOnHome
@@ -124,7 +136,7 @@ async function main() {
                     logo: c.logo,
                     url: c.url,
                     description: c.description,
-                    socials: JSON.stringify(c.socials || {}),
+                    socials: ensureStringified(c.socials || {}),
                     showInSuccessStories: c.showInSuccessStories || false,
                     order: index
                 },
@@ -158,11 +170,11 @@ async function main() {
                     ctaText: service.ctaText,
                     description: service.description,
                     clientCount: service.clientCount,
-                    stats: JSON.stringify(service.stats),
-                    benefits: JSON.stringify(service.benefits),
-                    faq: JSON.stringify(service.faq),
-                    testimonials: JSON.stringify(service.testimonials),
-                    comparison: JSON.stringify(service.comparison)
+                    stats: ensureStringified(service.stats),
+                    benefits: ensureStringified(service.benefits),
+                    faq: ensureStringified(service.faq),
+                    testimonials: ensureStringified(service.testimonials),
+                    comparison: ensureStringified(service.comparison)
                 },
                 create: {
                     slug,
@@ -172,11 +184,11 @@ async function main() {
                     ctaText: service.ctaText,
                     description: service.description,
                     clientCount: service.clientCount,
-                    stats: JSON.stringify(service.stats),
-                    benefits: JSON.stringify(service.benefits),
-                    faq: JSON.stringify(service.faq),
-                    testimonials: JSON.stringify(service.testimonials),
-                    comparison: JSON.stringify(service.comparison)
+                    stats: ensureStringified(service.stats),
+                    benefits: ensureStringified(service.benefits),
+                    faq: ensureStringified(service.faq),
+                    testimonials: ensureStringified(service.testimonials),
+                    comparison: ensureStringified(service.comparison)
                 }
             })
 
@@ -184,12 +196,12 @@ async function main() {
                 where: { slug },
                 update: {
                     title: service.title,
-                    content: JSON.stringify(service)
+                    content: ensureStringified(service)
                 },
                 create: {
                     slug,
                     title: service.title,
-                    content: JSON.stringify(service),
+                    content: ensureStringified(service),
                     published: true
                 }
             })
@@ -204,8 +216,8 @@ async function main() {
         for (const [key, value] of Object.entries(config)) {
             await prisma.siteConfig.upsert({
                 where: { key },
-                update: { value: JSON.stringify(value) },
-                create: { key, value: JSON.stringify(value) }
+                update: { value: ensureStringified(value) },
+                create: { key, value: ensureStringified(value) }
             })
         }
         console.log('✅ Site Config seeded.')
@@ -218,8 +230,8 @@ async function main() {
         // Store as a special site config key
         await prisma.siteConfig.upsert({
             where: { key: 'seo-meta' },
-            update: { value: JSON.stringify(seoMeta) },
-            create: { key: 'seo-meta', value: JSON.stringify(seoMeta) }
+            update: { value: ensureStringified(seoMeta) },
+            create: { key: 'seo-meta', value: ensureStringified(seoMeta) }
         })
         console.log('✅ Global SEO Meta seeded.')
     }
@@ -243,7 +255,7 @@ async function main() {
                     date: post.date,
                     readTime: post.readTime,
                     featured: post.featured || false,
-                    tags: post.tags ? JSON.stringify(post.tags) : '[]'
+                    tags: post.tags ? ensureStringified(post.tags) : '[]'
                 },
                 create: {
                     id: post.id,

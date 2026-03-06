@@ -6,8 +6,19 @@
     "category": "Digital Branding",
     "year": "2026",
     "description": "Su Yeppon trovi le migliori offerte su Elettrodomestici, TV, Notebook, Smartphone, Acquista online",
-    "results": "[{\"label\":\"Vendite\",\"value\":\"+150%\"},{\"label\":\"Fatturato\",\"value\":\"2 M\"}]",
-    "tags": "[\"E-commerce\"]",
+    "results": [
+      {
+        "label": "Vendite",
+        "value": "+150%"
+      },
+      {
+        "label": "Fatturato",
+        "value": "2 M"
+      }
+    ],
+    "tags": [
+      "E-commerce"
+    ],
     "image": "/images/projects/yeppon.jpg",
     "color": "#FACC15",
     "showOnHome": true,
@@ -22,8 +33,25 @@
     "category": "SEO & Content",
     "year": "2025",
     "description": "Strategia SEO completa con content marketing integrato che ha portato a una crescita organica record.",
-    "results": "[{\"label\":\"Traffico Organico\",\"value\":\"+380%\"},{\"label\":\"Keyword Top 10\",\"value\":\"145\"},{\"label\":\"Lead Qualificati\",\"value\":\"+250%\"}]",
-    "tags": "[\"SEO\",\"Content Strategy\",\"Link Building\"]",
+    "results": [
+      {
+        "label": "Traffico Organico",
+        "value": "+380%"
+      },
+      {
+        "label": "Keyword Top 10",
+        "value": "145"
+      },
+      {
+        "label": "Lead Qualificati",
+        "value": "+250%"
+      }
+    ],
+    "tags": [
+      "SEO",
+      "Content Strategy",
+      "Link Building"
+    ],
     "image": "/images/projects/riposizionamento_digitale.jpg",
     "color": "#00d4ff",
     "showOnHome": true,
@@ -38,8 +66,25 @@
     "category": "Advertising",
     "year": "2025",
     "description": "Campagne Google Ads e Meta Ads con ottimizzazione ROAS e scaling progressivo.",
-    "results": "[{\"label\":\"ROAS\",\"value\":\"5.2x\"},{\"label\":\"Conversioni\",\"value\":\"+180%\"},{\"label\":\"CPA\",\"value\":\"-45%\"}]",
-    "tags": "[\"Google Ads\",\"Meta Ads\",\"Conversion Tracking\"]",
+    "results": [
+      {
+        "label": "ROAS",
+        "value": "5.2x"
+      },
+      {
+        "label": "Conversioni",
+        "value": "+180%"
+      },
+      {
+        "label": "CPA",
+        "value": "-45%"
+      }
+    ],
+    "tags": [
+      "Google Ads",
+      "Meta Ads",
+      "Conversion Tracking"
+    ],
     "image": "/images/projects/performance_campaign.jpg",
     "color": "#ef4444",
     "showOnHome": true,
@@ -54,8 +99,25 @@
     "category": "Social Media",
     "year": "2025",
     "description": "Creazione e gestione community su Instagram e TikTok con focus su engagement e brand awareness.",
-    "results": "[{\"label\":\"Follower\",\"value\":\"+85K\"},{\"label\":\"Engagement Rate\",\"value\":\"8.5%\"},{\"label\":\"User Generated Content\",\"value\":\"+340%\"}]",
-    "tags": "[\"Instagram\",\"TikTok\",\"Influencer Marketing\"]",
+    "results": [
+      {
+        "label": "Follower",
+        "value": "+85K"
+      },
+      {
+        "label": "Engagement Rate",
+        "value": "8.5%"
+      },
+      {
+        "label": "User Generated Content",
+        "value": "+340%"
+      }
+    ],
+    "tags": [
+      "Instagram",
+      "TikTok",
+      "Influencer Marketing"
+    ],
     "image": "/images/projects/community_building.jpg",
     "color": "#7c3aed",
     "showOnHome": true,
@@ -70,8 +132,25 @@
     "category": "Web Development",
     "year": "2024",
     "description": "Sviluppo e-commerce headless con Next.js, Shopify backend e design premium.",
-    "results": "[{\"label\":\"Performance Score\",\"value\":\"98/100\"},{\"label\":\"Conversion Rate\",\"value\":\"+65%\"},{\"label\":\"Page Speed\",\"value\":\"-60%\"}]",
-    "tags": "[\"Next.js\",\"Shopify\",\"Headless CMS\"]",
+    "results": [
+      {
+        "label": "Performance Score",
+        "value": "98/100"
+      },
+      {
+        "label": "Conversion Rate",
+        "value": "+65%"
+      },
+      {
+        "label": "Page Speed",
+        "value": "-60%"
+      }
+    ],
+    "tags": [
+      "Next.js",
+      "Shopify",
+      "Headless CMS"
+    ],
     "image": "/images/projects/ecommerce.jpg",
     "color": "#06b6d4",
     "showOnHome": false,

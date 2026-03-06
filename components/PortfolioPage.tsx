@@ -119,7 +119,7 @@ export default function PortfolioPage({ projects }: PortfolioPageProps) {
 
                                     {/* Mini Results */}
                                     <div className="flex gap-4">
-                                        {project.results.slice(0, 2).map((res, i) => (
+                                        {(Array.isArray(project.results) ? project.results : []).slice(0, 2).map((res, i) => (
                                             <div key={i} className="flex flex-col">
                                                 <span className="text-yellow-500 font-bold text-lg">{res.value}</span>
                                                 <span className="text-[10px] text-gray-500 uppercase tracking-wider">{res.label}</span>
@@ -193,7 +193,7 @@ export default function PortfolioPage({ projects }: PortfolioPageProps) {
 
                                     {/* Results Grid */}
                                     <div className="grid grid-cols-2 gap-6 mb-12">
-                                        {selectedProject.results.map((res, i) => (
+                                        {(Array.isArray(selectedProject.results) ? selectedProject.results : []).map((res, i) => (
                                             <div key={i} className="bg-white/5 p-6 rounded-2xl border border-white/5">
                                                 <div className="flex items-center gap-2 mb-2 text-yellow-500/80">
                                                     {i === 0 ? <Trophy size={18} /> : i === 1 ? <BarChart3 size={18} /> : <Rocket size={18} />}

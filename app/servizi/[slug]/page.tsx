@@ -96,7 +96,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
     let content: any = {};
     try {
-        content = JSON.parse(page.content);
+        let parsed = JSON.parse(page.content);
+        if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+        content = parsed;
     } catch (e) { console.error('JSON parse error', e); }
 
     // Costruzione Dati Strutturati (JSON-LD) Server-Side

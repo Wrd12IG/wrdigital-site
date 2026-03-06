@@ -29,19 +29,41 @@ async function getHomeData() {
 
     const siteConfig = configs.reduce((acc: Record<string, any>, config: { key: string, value: string }) => {
       try {
-        acc[config.key] = JSON.parse(config.value);
+        let parsed = JSON.parse(config.value);
+        if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+        acc[config.key] = parsed;
       } catch (e) {
         acc[config.key] = config.value;
       }
       return acc;
     }, {} as Record<string, any>);
 
-    // Normalize projects
-    const projects = dbProjects.map(p => ({
-      ...p,
-      results: typeof p.results === 'string' ? JSON.parse(p.results) : p.results || [],
-      tags: typeof p.tags === 'string' ? JSON.parse(p.tags) : p.tags || []
-    }));
+    // Normalize projects with extra safety against double-stringification
+    const projects = dbProjects.map(p => {
+      let resultsArr: any[] = [];
+      try {
+        let parsed = typeof p.results === 'string' ? JSON.parse(p.results) : p.results;
+        if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+        resultsArr = Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        resultsArr = [];
+      }
+
+      let tagsArr: string[] = [];
+      try {
+        let parsed = typeof p.tags === 'string' ? JSON.parse(p.tags) : p.tags;
+        if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+        tagsArr = Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        tagsArr = [];
+      }
+
+      return {
+        ...p,
+        results: resultsArr,
+        tags: tagsArr
+      };
+    });
 
     let data: any = {};
     let contentOverrides: any = {};
@@ -53,9 +75,12 @@ async function getHomeData() {
 
     if (homePage) {
       try {
-        const parsedContent = JSON.parse(homePage.content);
+        let parsedContent = JSON.parse(homePage.content);
+        if (typeof parsedContent === 'string') parsedContent = JSON.parse(parsedContent); // Handle double-stringification
         contentOverrides['home'] = parsedContent;
-      } catch (e) { }
+      } catch (e) {
+        console.error('Error parsing homePage content:', e);
+      }
     }
 
     return { ...data, contentOverrides, clients, siteConfig, projects, testimonials, blogPosts };
