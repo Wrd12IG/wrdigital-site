@@ -213,12 +213,24 @@ async function main() {
     const configPath = path.join(process.cwd(), 'data/site-config.json')
     if (fs.existsSync(configPath)) {
         const config = JSON.parse(fs.readFileSync(configPath, 'utf8'))
-        for (const [key, value] of Object.entries(config)) {
-            await prisma.siteConfig.upsert({
-                where: { key },
-                update: { value: ensureStringified(value) },
-                create: { key, value: ensureStringified(value) }
-            })
+        if (Array.isArray(config)) {
+            for (const item of config) {
+                if (!item.key) continue;
+                // Since the original backup might have already stringified strings, we just use item.value
+                await prisma.siteConfig.upsert({
+                    where: { key: item.key },
+                    update: { value: item.value },
+                    create: { key: item.key, value: item.value }
+                })
+            }
+        } else {
+            for (const [key, value] of Object.entries(config)) {
+                await prisma.siteConfig.upsert({
+                    where: { key },
+                    update: { value: ensureStringified(value) },
+                    create: { key, value: ensureStringified(value) }
+                })
+            }
         }
         console.log('✅ Site Config seeded.')
     }
