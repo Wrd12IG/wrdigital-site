@@ -21,17 +21,19 @@ interface Project {
     showOnHome?: boolean;
 }
 
-export default function CaseStudies() {
+export default function CaseStudies({ initialProjects }: { initialProjects?: Project[] }) {
     const sectionRef = useRef<HTMLElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
     const { openContactModal } = useModal();
 
     // State
-    const [projects, setProjects] = useState<Project[]>([]);
+    const [projects, setProjects] = useState<Project[]>(initialProjects || []);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
     // Fetch Data
     useEffect(() => {
+        if (initialProjects && initialProjects.length > 0) return;
+
         const fetchProjects = async () => {
             try {
                 const res = await fetch(`/api/portfolio?t=${new Date().getTime()}`);
@@ -44,7 +46,7 @@ export default function CaseStudies() {
             }
         };
         fetchProjects();
-    }, []);
+    }, [initialProjects]);
 
     // Priority Logic: Show projects explicitly marked for Homepage. 
     // If none are marked, fallback to default categories to prevent empty section.

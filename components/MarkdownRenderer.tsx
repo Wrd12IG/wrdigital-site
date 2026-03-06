@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import Image from 'next/image';
 import remarkGfm from 'remark-gfm';
 
 interface MarkdownRendererProps {
@@ -91,20 +92,25 @@ export default function MarkdownRenderer({ content, className = "" }: MarkdownRe
                         </a>
                     ),
                     // Images
-                    img: ({ src, alt }) => (
-                        <span className="block my-12 relative group">
-                            <img
-                                src={src}
-                                alt={alt || ""}
-                                className="w-full h-auto rounded-2xl border border-white/10 shadow-2xl group-hover:border-yellow-400/20 transition-all duration-500"
-                            />
-                            {alt && (
-                                <span className="block text-center text-xs text-gray-500 mt-4 font-mono uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">
-                                    // {alt}
-                                </span>
-                            )}
-                        </span>
-                    )
+                    img: ({ src, alt }) => {
+                        if (!src) return null;
+                        return (
+                            <span className="block my-12 relative group w-full aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                                <Image
+                                    src={src as string}
+                                    alt={alt || "W[r]Digital Blog Image"}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                    sizes="(max-width: 768px) 100vw, 800px"
+                                />
+                                {alt && (
+                                    <span className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1 text-[10px] text-gray-300 font-mono uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity rounded">
+                                        // {alt}
+                                    </span>
+                                )}
+                            </span>
+                        );
+                    }
                 }}
             >
                 {content}

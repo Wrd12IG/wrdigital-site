@@ -18,12 +18,14 @@ interface BlogPost {
     featured?: boolean;
 }
 
-export default function Blog() {
+export default function Blog({ initialPosts }: { initialPosts?: BlogPost[] }) {
     const sectionRef = useRef<HTMLElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
-    const [posts, setPosts] = useState<BlogPost[]>([]);
+    const [posts, setPosts] = useState<BlogPost[]>(initialPosts || []);
 
     useEffect(() => {
+        if (initialPosts && initialPosts.length > 0) return;
+
         const fetchPosts = async () => {
             try {
                 const res = await fetch('/api/blog');
@@ -36,7 +38,7 @@ export default function Blog() {
             }
         };
         fetchPosts();
-    }, []);
+    }, [initialPosts]);
 
     const parseDate = (dateStr: string) => {
         try {

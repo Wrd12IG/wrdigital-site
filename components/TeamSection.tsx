@@ -20,11 +20,13 @@ const staticTeam = [
     { name: 'Luca Ena', role: 'Web Developer Manager', color: '#3b82f6', avatar: '/images/team/luca.jpg' },
 ];
 
-export default function TeamSection() {
-    const [bio, setBio] = useState("Siamo un collettivo di creativi, sviluppatori e strategist. Non seguiamo i trend, li anticipiamo.");
-    const [teamImage, setTeamImage] = useState<string | null>(null);
+export default function TeamSection({ initialBio, initialImage }: { initialBio?: string, initialImage?: string }) {
+    const [bio, setBio] = useState(initialBio || "Siamo un collettivo di creativi, sviluppatori e strategist. Non seguiamo i trend, li anticipiamo.");
+    const [teamImage, setTeamImage] = useState<string | null>(initialImage || null);
 
     useEffect(() => {
+        if (initialBio && initialImage) return;
+
         const fetchConfig = async () => {
             try {
                 const res = await fetch('/api/site-config');
@@ -36,7 +38,7 @@ export default function TeamSection() {
             } catch (e) { console.error(e); }
         };
         fetchConfig();
-    }, []);
+    }, [initialBio, initialImage]);
 
     return (
         <section id="chi-siamo" className={styles.section}>

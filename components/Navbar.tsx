@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useModal } from './ModalContext'; // Import Modal Hook
 import styles from './Navbar.module.css';
@@ -98,7 +99,14 @@ export default function Navbar({ isDarkMode, logo }: NavbarProps) {
                     animate="rest"
                 >
                     {logo ? (
-                        <img src={logo} alt="W[r]Digital" className="h-8 w-auto object-contain" />
+                        <div className="relative h-8 w-32 ml-2">
+                            <Image
+                                src={logo}
+                                alt="W[r]Digital"
+                                fill
+                                style={{ objectFit: 'contain', objectPosition: 'left' }}
+                            />
+                        </div>
                     ) : (
                         <>
                             <span className={styles.logoText}>W</span>

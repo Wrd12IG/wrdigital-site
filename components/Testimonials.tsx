@@ -59,48 +59,57 @@ function StarRating({ rating }: { rating: number }) {
     );
 }
 
-export default function Testimonials() {
+export default function Testimonials({ initialTestimonials, initialConfig }: { initialTestimonials?: Testimonial[], initialConfig?: any }) {
     const sectionRef = useRef<HTMLElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
-    const [list, setList] = useState<Testimonial[]>(defaultTestimonials);
-    const [config, setConfig] = useState({ title: 'Cosa dicono i nostri clienti.', subtitle: 'Testimonianze', description: '' });
+    const [list, setList] = useState<Testimonial[]>(initialTestimonials || defaultTestimonials);
+    const [config, setConfig] = useState(initialConfig ? {
+        title: initialConfig.title || 'Cosa dicono i nostri clienti.',
+        subtitle: initialConfig.subtitle || 'Testimonianze',
+        description: initialConfig.description || ''
+    } : { title: 'Cosa dicono i nostri clienti.', subtitle: 'Testimonianze', description: '' });
 
     useEffect(() => {
+        if (initialTestimonials && initialConfig) return;
+
         const loadData = async () => {
             // Load Testimonials
-            try {
-                const res = await fetch(`/api/testimonials?t=${Date.now()}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    console.log('Testimonials fetch result:', data);
-                    if (Array.isArray(data) && data.length > 0) {
-                        setList(data);
+            if (!initialTestimonials) {
+                try {
+                    const res = await fetch(`/api/testimonials?t=${Date.now()}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (Array.isArray(data) && data.length > 0) {
+                            setList(data);
+                        }
                     }
+                } catch (e) {
+                    console.error("Testimonials load failed:", e);
                 }
-            } catch (e) {
-                console.error("Testimonials load failed:", e);
             }
 
             // Load Config
-            try {
-                const res = await fetch('/api/site-config');
-                if (res.ok) {
-                    const siteData = await res.json();
-                    if (siteData && siteData.testimonials) {
-                        setConfig({
-                            title: siteData.testimonials.title || 'Cosa dicono i nostri clienti.',
-                            subtitle: siteData.testimonials.subtitle || 'Testimonianze',
-                            description: siteData.testimonials.description || ''
-                        });
+            if (!initialConfig) {
+                try {
+                    const res = await fetch('/api/site-config');
+                    if (res.ok) {
+                        const siteData = await res.json();
+                        if (siteData && siteData.testimonials) {
+                            setConfig({
+                                title: siteData.testimonials.title || 'Cosa dicono i nostri clienti.',
+                                subtitle: siteData.testimonials.subtitle || 'Testimonianze',
+                                description: siteData.testimonials.description || ''
+                            });
+                        }
                     }
+                } catch (e) {
+                    console.error("Config load failed:", e);
                 }
-            } catch (e) {
-                console.error("Config load failed:", e);
             }
         };
 
         loadData();
-    }, []);
+    }, [initialTestimonials, initialConfig]);
 
     const safeTitle = config.title || 'Cosa dicono i nostri clienti.';
 
@@ -116,7 +125,7 @@ export default function Testimonials() {
                 >
                     <span className={styles.label}>{config.subtitle}</span>
                     <h2 className={styles.title}>
-                        {safeTitle.split(' ').map((word, i, arr) => (
+                        {safeTitle.split(' ').map((word: string, i: number, arr: string[]) => (
                             <span key={i}>
                                 {i >= arr.length - 2 ? (
                                     <span className="text-gradient">{word} </span>

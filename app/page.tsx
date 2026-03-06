@@ -16,10 +16,31 @@ import { prisma } from '@/lib/prisma';
 
 async function getHomeData() {
   try {
-    const [seoConfig, homePage] = await Promise.all([
+    const [seoConfig, homePage, clients, configs, dbProjects, testimonials, blogPosts] = await Promise.all([
       prisma.siteConfig.findUnique({ where: { key: 'seo-meta' } }),
-      prisma.page.findUnique({ where: { slug: 'home' } })
+      prisma.page.findUnique({ where: { slug: 'home' } }),
+      prisma.client.findMany({ where: { deleted: false }, orderBy: { order: 'asc' } }),
+      prisma.siteConfig.findMany(),
+      prisma.project.findMany({ where: { deleted: false }, orderBy: { createdAt: 'desc' } }),
+      prisma.testimonial.findMany({ where: { deleted: false }, orderBy: { createdAt: 'desc' } }),
+      prisma.blogPost.findMany({ where: { deleted: false, published: true }, orderBy: { createdAt: 'desc' }, take: 4 })
     ]);
+
+    const siteConfig = configs.reduce((acc: Record<string, any>, config: { key: string, value: string }) => {
+      try {
+        acc[config.key] = JSON.parse(config.value);
+      } catch (e) {
+        acc[config.key] = config.value;
+      }
+      return acc;
+    }, {} as Record<string, any>);
+
+    // Normalize projects
+    const projects = dbProjects.map(p => ({
+      ...p,
+      results: typeof p.results === 'string' ? JSON.parse(p.results) : p.results || [],
+      tags: typeof p.tags === 'string' ? JSON.parse(p.tags) : p.tags || []
+    }));
 
     let data: any = {};
     let contentOverrides: any = {};
@@ -36,11 +57,11 @@ async function getHomeData() {
       } catch (e) { }
     }
 
-    return { ...data, contentOverrides };
+    return { ...data, contentOverrides, clients, siteConfig, projects, testimonials, blogPosts };
   } catch (e) {
     console.error('Error fetching home data:', e);
   }
-  return {};
+  return { clients: [], siteConfig: {}, projects: [], testimonials: [], blogPosts: [] };
 }
 
 export default async function Home() {
@@ -60,25 +81,32 @@ export default async function Home() {
           customTitle={homeData.h1}
           customSubtitle={homeData.h2_intro}
           customAlt={homeData.alt_hero}
+          initialConfig={homeData.siteConfig.hero}
         />
 
         {/* Hanno Scelto W[r]Digital - Marquee */}
-        <FloatingLogos />
+        <FloatingLogos initialClients={homeData.clients} />
 
         {/* Case Studies / Storie di Successo */}
-        <CaseStudies />
+        <CaseStudies initialProjects={homeData.projects} />
 
         {/* Services -> Landing Pages */}
         <Services />
 
         {/* Chi Siamo / Team */}
-        <TeamSection />
+        <TeamSection
+          initialBio={homeData.siteConfig.team?.bio}
+          initialImage={homeData.siteConfig.team?.image}
+        />
 
         {/* Testimonials */}
-        <Testimonials />
+        <Testimonials
+          initialTestimonials={homeData.testimonials}
+          initialConfig={homeData.siteConfig.testimonials}
+        />
 
         {/* Blog */}
-        <Blog />
+        <Blog initialPosts={homeData.blogPosts} />
 
         {/* Dynamic SEO Content (FAQ, Video, Links from Admin) */}
         <DynamicSeoContent

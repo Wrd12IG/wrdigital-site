@@ -23,9 +23,10 @@ interface HeroSectionProps {
     customSubtitle?: string;
     customDescription?: string;
     customAlt?: string;
+    initialConfig?: any;
 }
 
-export default function HeroSection({ timestamp, customTitle, customSubtitle, customDescription, customAlt }: HeroSectionProps) {
+export default function HeroSection({ timestamp, customTitle, customSubtitle, customDescription, customAlt, initialConfig }: HeroSectionProps) {
     const { openContactModal } = useModal();
     const router = useRouter();
     const timeParam = timestamp ? `?t=${timestamp}` : '';
@@ -39,7 +40,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
     }, []);
 
     // Configuration State
-    const [config, setConfig] = useState<any>({
+    const [config, setConfig] = useState<any>(initialConfig || {
         title: "W[r]Digital",
         subtitle: "Trasformiamo la tua presenza online in un generatore di profitti.",
         description: "Non vendiamo fumo, ma strategie scalabili. Dalla SEO al Web Design, portiamo il tuo brand dove i tuoi clienti lo stanno già cercando.",
@@ -83,6 +84,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
     }, []);
 
     useEffect(() => {
+        if (initialConfig) return;
         const fetchConfig = async () => {
             try {
                 const res = await fetch('/api/site-config');
@@ -184,7 +186,6 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         priority
                         quality={85}
                         sizes="100vw"
-                        unoptimized
                         className={styles.backgroundImage}
                     />
                     <div className={styles.overlay} />

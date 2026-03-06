@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import styles from './FloatingLogos.module.css';
 
 interface Client {
@@ -31,10 +32,12 @@ const PlaceholderIcon = ({ name }: { name: string }) => {
     );
 };
 
-export default function FloatingLogos() {
-    const [clients, setClients] = useState<Client[]>(defaultClients);
+export default function FloatingLogos({ initialClients }: { initialClients?: Client[] }) {
+    const [clients, setClients] = useState<Client[]>(initialClients || defaultClients);
 
     useEffect(() => {
+        if (initialClients) return;
+
         fetch('/api/admin/clients')
             .then(res => res.ok ? res.json() : defaultClients)
             .then(data => {
@@ -46,7 +49,7 @@ export default function FloatingLogos() {
                 }
             })
             .catch(() => { });
-    }, []);
+    }, [initialClients]);
 
     // Split clients into 3 rows for the marquee effect
     const third = Math.ceil(clients.length / 3);
@@ -58,11 +61,15 @@ export default function FloatingLogos() {
         <div key={`${client.name}-${index}`} className={styles.logoPill}>
             <div className={styles.logoIconWrapper}>
                 {client.logo ? (
-                    <img
-                        src={client.logo}
-                        alt={client.name}
-                        className={styles.logoImage}
-                    />
+                    <div className={styles.logoImageWrapper}>
+                        <Image
+                            src={client.logo}
+                            alt={client.name}
+                            width={40}
+                            height={40}
+                            className={styles.logoImage}
+                        />
+                    </div>
                 ) : (
                     <PlaceholderIcon name={client.name} />
                 )}
