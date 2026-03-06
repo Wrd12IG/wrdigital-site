@@ -2,14 +2,15 @@
 import HeroSection from '@/components/HeroSection';
 import ParticlesWrapper from '@/components/ParticlesWrapper'; // Wrapper for client-side particles
 import FloatingLogos from '@/components/FloatingLogos';
-import CaseStudies from '@/components/CaseStudies';
-import Services from '@/components/Services';
-import Portfolio from '@/components/Portfolio';
-import TeamSection from '@/components/TeamSection';
-import Testimonials from '@/components/Testimonials';
-import Blog from '@/components/Blog';
-import Contact from '@/components/Contact';
-import DynamicSeoContent from '@/components/DynamicSeoContent';
+import dynamic from 'next/dynamic';
+
+const CaseStudies = dynamic(() => import('@/components/CaseStudies'));
+const Services = dynamic(() => import('@/components/Services'));
+const TeamSection = dynamic(() => import('@/components/TeamSection'));
+const Testimonials = dynamic(() => import('@/components/Testimonials'));
+const Blog = dynamic(() => import('@/components/Blog'));
+const DynamicSeoContent = dynamic(() => import('@/components/DynamicSeoContent'));
+const Contact = dynamic(() => import('@/components/Contact'));
 
 
 import { prisma } from '@/lib/prisma';

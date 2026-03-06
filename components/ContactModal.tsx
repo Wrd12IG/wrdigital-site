@@ -103,19 +103,22 @@ export default function ContactModal() {
                     }}>
                         <motion.div
                             className={styles.modal}
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="modal-title"
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
                             transition={{ duration: 0.2 }}
                         >
-                            <button className={styles.closeButton} onClick={closeContactModal}>
+                            <button className={styles.closeButton} onClick={closeContactModal} aria-label="Chiudi">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <line x1="18" y1="6" x2="6" y2="18" />
                                     <line x1="6" y1="6" x2="18" y2="18" />
                                 </svg>
                             </button>
 
-                            <h2 className={styles.title}>Pronto a scalare?</h2>
+                            <h2 id="modal-title" className={styles.title}>Pronto a scalare?</h2>
                             <p className={styles.subtitle}>Lascia i tuoi dati per ricevere un'analisi preliminare della tua presenza online. Nessun impegno, solo valore reale.</p>
 
                             <form onSubmit={handleSubmit} className={styles.form}>

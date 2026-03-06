@@ -104,6 +104,8 @@ export default function Navbar({ isDarkMode, logo }: NavbarProps) {
                                 src={logo}
                                 alt="W[r]Digital"
                                 fill
+                                priority
+                                fetchPriority="high"
                                 style={{ objectFit: 'contain', objectPosition: 'left' }}
                             />
                         </div>

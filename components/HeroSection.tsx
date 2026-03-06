@@ -138,7 +138,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
 
     return (
         <section ref={containerRef} className={styles.hero} style={heroStyles}>
-            {/* Mobile: Premium gradient background instead of heavy image */}
+            {/* Mobile: Premium linear gradient background instead of heavy image/filters */}
             {isMobile && bgType === 'image' && (
                 <div
                     className={styles.background}
@@ -152,27 +152,6 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                     }}
                 >
                     <div className={styles.overlay} />
-                    {/* Decorative gradient orbs for mobile */}
-                    <div style={{
-                        position: 'absolute',
-                        top: '10%',
-                        right: '10%',
-                        width: '300px',
-                        height: '300px',
-                        background: 'radial-gradient(circle, rgba(245, 223, 74, 0.15) 0%, transparent 70%)',
-                        borderRadius: '50%',
-                        filter: 'blur(40px)',
-                    }} />
-                    <div style={{
-                        position: 'absolute',
-                        bottom: '20%',
-                        left: '5%',
-                        width: '200px',
-                        height: '200px',
-                        background: 'radial-gradient(circle, rgba(212, 192, 58, 0.1) 0%, transparent 70%)',
-                        borderRadius: '50%',
-                        filter: 'blur(30px)',
-                    }} />
                 </div>
             )}
 

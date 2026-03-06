@@ -157,6 +157,8 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
                         >
                             <motion.div
                                 className="bg-[#111] border border-white/10 rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row shadow-2xl relative"
+                                role="dialog"
+                                aria-modal="true"
                                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -165,6 +167,7 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
                                 <button
                                     className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-white text-white hover:text-black w-10 h-10 rounded-full flex items-center justify-center transition-all border border-white/10"
                                     onClick={() => setSelectedProject(null)}
+                                    aria-label="Chiudi"
                                 >
                                     ✕
                                 </button>

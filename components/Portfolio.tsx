@@ -157,6 +157,8 @@ export default function Portfolio() {
                         >
                             <motion.div
                                 className={styles.modal}
+                                role="dialog"
+                                aria-modal="true"
                                 initial={{ opacity: 0, scale: 0.9, y: 40 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.9, y: 40 }}
@@ -165,6 +167,7 @@ export default function Portfolio() {
                                 <button
                                     className={styles.closeButton}
                                     onClick={() => setSelectedProject(null)}
+                                    aria-label="Chiudi"
                                 >
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                         <path d="M18 6L6 18M6 6l12 12" />

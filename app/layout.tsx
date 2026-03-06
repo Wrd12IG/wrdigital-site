@@ -3,26 +3,24 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ToastProvider } from '@/components/ToastContext';
 import { ModalProvider } from '@/components/ModalContext';
-import ContactModal from '@/components/ContactModal';
-import CookieBanner from '@/components/CookieBanner';
 import dynamic from 'next/dynamic';
+
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
+const CookieBanner = dynamic(() => import('@/components/CookieBanner'), { ssr: false });
+const FloatingCTA = dynamic(() => import('@/components/FloatingCTA'), { ssr: false });
+const ContactModal = dynamic(() => import('@/components/ContactModal'), { ssr: false });
+
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import MicrosoftClarity from '@/components/MicrosoftClarity';
 import { Providers } from '@/components/Providers';
 import DynamicSiteConfig from '@/components/DynamicSiteConfig';
-import MobileStickyCTA from '@/components/MobileStickyCTA';
-import FloatingCTA from '@/components/FloatingCTA';
 import DynamicFavicon from '@/components/DynamicFavicon';
 import StructuredData from '@/components/StructuredData';
 
-
-
 import fs from 'fs';
 import path from 'path';
-
 import { prisma } from '@/lib/prisma';
 
 async function getSiteConfig() {
@@ -102,7 +100,6 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   };
 }
-
 
 import { Inter, Outfit } from 'next/font/google';
 
