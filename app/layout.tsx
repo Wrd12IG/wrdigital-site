@@ -5,10 +5,10 @@ import { ToastProvider } from '@/components/ToastContext';
 import { ModalProvider } from '@/components/ModalContext';
 import dynamic from 'next/dynamic';
 
-const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
-const CookieBanner = dynamic(() => import('@/components/CookieBanner'), { ssr: false });
-const FloatingCTA = dynamic(() => import('@/components/FloatingCTA'), { ssr: false });
-const ContactModal = dynamic(() => import('@/components/ContactModal'), { ssr: false });
+const CustomCursor = dynamic(() => import('@/components/CustomCursor'));
+const CookieBanner = dynamic(() => import('@/components/CookieBanner'));
+const FloatingCTA = dynamic(() => import('@/components/FloatingCTA'));
+const ContactModal = dynamic(() => import('@/components/ContactModal'));
 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
