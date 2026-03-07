@@ -48,6 +48,19 @@ export default function GoogleAnalytics() {
                             gtag('js', new Date());
 
                             ${GA_IDS.map(id => `gtag('config', '${id}', { page_path: window.location.pathname });`).join('\n')}
+
+                            window.gtagSendEvent = function(url) {
+                                var callback = function () {
+                                    if (typeof url === 'string') {
+                                        window.location = url;
+                                    }
+                                };
+                                gtag('event', 'conversion_event_contact', {
+                                    'event_callback': callback,
+                                    'event_timeout': 2000
+                                });
+                                return false;
+                            }
                         `}
                     </Script>
                 </>
