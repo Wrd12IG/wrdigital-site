@@ -146,9 +146,12 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         alt={customAlt || config.backgroundImageAlt || "Agenzia Digital Marketing Milano"}
                         fill
                         priority
-                        quality={isMobile ? 70 : 85}
-                        sizes="100vw"
+                        fetchPriority="high"
+                        loading="eager"
+                        quality={isMobile ? 45 : 85}
+                        sizes="(max-width: 768px) 768px, 100vw"
                         className={styles.backgroundImage}
+                        style={{ objectFit: 'cover' }}
                     />
                     <div className={styles.overlay} />
                 </div>

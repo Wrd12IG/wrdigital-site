@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
 
-const GA_MEASUREMENT_ID = 'G-9S4Q8TPFDS';
+const GA_MEASUREMENT_ID = 'G-YTDQN2FZZ4';
 
 export default function GoogleAnalytics() {
     const [consentGiven, setConsentGiven] = useState(false);

@@ -124,7 +124,10 @@ export default async function RootLayout({
 
   return (
     <html lang="it" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`}>
-      <head />
+      <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.clarity.ms" />
+      </head>
       <body suppressHydrationWarning>
         <DynamicSiteConfig />
         <StructuredData config={config} />
