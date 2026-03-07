@@ -172,7 +172,7 @@ export default function PillarPage() {
                         <h3><span className={styles.brandedText}><span className={styles.bracket}>[</span><span className={styles.letterR}>r</span><span className={styles.bracket}>]</span>ealizzazione</span> Tecnica</h3>
                         <p>Un sito lento uccide le conversioni. La nostra infrastruttura Next.js garantisce caricamenti istantanei.</p>
                         <p style={{ marginTop: '1rem', fontStyle: 'italic', borderLeft: '3px solid #10b981', paddingLeft: '1rem', color: '#ccc' }}>
-                            La tua infrastruttura digitale è pronta per il 2026? <Link href="/servizi/web" className="text-green-400 font-bold hover:underline">[Richiedi un'audit per il tuo nuovo sito web].</Link>
+                            La tua infrastruttura digitale è pronta per il 2026? <Link href="/servizi/realizzazione-siti-web" className="text-green-400 font-bold hover:underline">[Richiedi un'audit per il tuo nuovo sito web].</Link>
                         </p>
                     </section>
 

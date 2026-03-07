@@ -110,7 +110,7 @@ function getMockData() {
             { keys: ['agenzia digitale'], position: 11.5, clicks: 30, impressions: 6000, ctr: 0.005 },
         ],
         opportunities: [
-            { keys: ['/servizi/web', 'web design luxury'], position: 9.5, clicks: 12, impressions: 2800, ctr: 0.004 },
+            { keys: ['/servizi/realizzazione-siti-web', 'web design luxury'], position: 9.5, clicks: 12, impressions: 2800, ctr: 0.004 },
             { keys: ['/blog/seo-2026', 'trend seo futuri'], position: 12.1, clicks: 8, impressions: 1900, ctr: 0.004 }
         ]
     };

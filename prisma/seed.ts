@@ -314,6 +314,22 @@ async function main() {
         console.log('✅ FAQs seeded.')
     }
 
+    // 10. Redirects (Slug Lock)
+    await prisma.redirect.upsert({
+        where: { oldUrl: '/servizi/web' },
+        update: {
+            newUrl: '/servizi/realizzazione-siti-web',
+            active: true
+        },
+        create: {
+            oldUrl: '/servizi/web',
+            newUrl: '/servizi/realizzazione-siti-web',
+            statusCode: 301,
+            active: true
+        }
+    })
+    console.log('✅ Redirects seeded.')
+
     console.log('✨ Seeding completed!')
 }
 

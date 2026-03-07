@@ -20,7 +20,7 @@ const services = {
     web: {
         title: "Sviluppo [r]esponsive",
         desc: "Siti ultra-veloci pronti per il 2026.",
-        link: "/servizi/web-design",
+        link: "/servizi/realizzazione-siti-web",
         cta: "Richiedi preventivo",
         triggerId: "scelta" // Maps to 'Realizzazione Tecnica' or general choice
     },

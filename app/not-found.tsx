@@ -157,7 +157,7 @@ export default function NotFound() {
                 >
                     {[
                         { label: 'SEO & Content', href: '/servizi/seo', icon: '🔍' },
-                        { label: 'Web Design', href: '/servizi/web', icon: '💻' },
+                        { label: 'Web Design', href: '/servizi/realizzazione-siti-web', icon: '💻' },
                         { label: 'Social Media', href: '/servizi/social', icon: '📱' },
                         { label: 'Advertising', href: '/servizi/ads', icon: '📢' },
                     ].map((service) => (

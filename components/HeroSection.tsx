@@ -181,7 +181,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
 
                     {/* Description */}
                     <p style={{ maxWidth: '600px', margin: '1rem auto 0', color: 'var(--color-text-secondary)', fontSize: '1.1rem', lineHeight: 1.6 }}>
-                        Non vendiamo fumo, ma strategie scalabili. Dalla <Link href="/servizi/seo" className="text-yellow-400 hover:underline">SEO</Link> al <Link href="/servizi/web" className="text-yellow-400 hover:underline">Web Design</Link>, portiamo il tuo brand dove i tuoi clienti lo stanno già cercando.
+                        Non vendiamo fumo, ma strategie scalabili. Dalla <Link href="/servizi/seo" className="text-yellow-400 hover:underline">SEO</Link> al <Link href="/servizi/realizzazione-siti-web" className="text-yellow-400 hover:underline">Web Design</Link>, portiamo il tuo brand dove i tuoi clienti lo stanno già cercando.
                     </p>
 
                     {/* CTA Button */}
