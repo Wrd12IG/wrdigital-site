@@ -142,7 +142,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
             {bgType === 'image' && (
                 <div className={styles.background}>
                     <Image
-                        src={config.backgroundImage || `/hero-bg.png`}
+                        src={config.backgroundImage || `/hero-custom.jpg`}
                         alt={customAlt || config.backgroundImageAlt || "Agenzia Digital Marketing Milano"}
                         fill
                         priority
