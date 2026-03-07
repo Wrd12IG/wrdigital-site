@@ -138,32 +138,15 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
 
     return (
         <section ref={containerRef} className={styles.hero} style={heroStyles}>
-            {/* Mobile: Premium linear gradient background instead of heavy image/filters */}
-            {isMobile && bgType === 'image' && (
-                <div
-                    className={styles.background}
-                    style={{
-                        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                    }}
-                >
-                    <div className={styles.overlay} />
-                </div>
-            )}
-
-            {/* Desktop: Clean Background Image - no 3D scene for performance */}
-            {!isMobile && bgType === 'image' && (
+            {/* Background Image (Mobile & Desktop) */}
+            {bgType === 'image' && (
                 <div className={styles.background}>
                     <Image
-                        src={config.backgroundImage || `/api/hero-image${timeParam}`}
+                        src={config.backgroundImage || `/hero-bg.png`}
                         alt={customAlt || config.backgroundImageAlt || "Agenzia Digital Marketing Milano"}
                         fill
                         priority
-                        quality={85}
+                        quality={isMobile ? 70 : 85}
                         sizes="100vw"
                         className={styles.backgroundImage}
                     />
