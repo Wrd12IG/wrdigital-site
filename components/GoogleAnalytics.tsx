@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
 
-const GA_MEASUREMENT_ID = 'G-YTDQN2FZZ4';
+const GA_IDS = ['G-YTDQN2FZZ4', 'G-9S4Q8TPFDS', 'GT-TWTRG3B'];
 
 export default function GoogleAnalytics() {
     const [consentGiven, setConsentGiven] = useState(false);
@@ -38,7 +38,7 @@ export default function GoogleAnalytics() {
             {consentGiven && (
                 <>
                     <Script
-                        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+                        src={`https://www.googletagmanager.com/gtag/js?id=${GA_IDS[0]}`}
                         strategy="afterInteractive"
                     />
                     <Script id="google-analytics" strategy="lazyOnload">
@@ -47,9 +47,7 @@ export default function GoogleAnalytics() {
                             function gtag(){dataLayer.push(arguments);}
                             gtag('js', new Date());
 
-                            gtag('config', '${GA_MEASUREMENT_ID}', {
-                                page_path: window.location.pathname,
-                            });
+                            ${GA_IDS.map(id => `gtag('config', '${id}', { page_path: window.location.pathname });`).join('\n')}
                         `}
                     </Script>
                 </>
