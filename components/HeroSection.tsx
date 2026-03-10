@@ -149,7 +149,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         fetchPriority="high"
                         loading="eager"
                         quality={60}
-                        sizes="100vw"
+                        sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
                         className={styles.backgroundImage}
                         style={{ objectFit: 'cover' }}
                     />
