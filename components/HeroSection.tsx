@@ -148,8 +148,8 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         priority
                         fetchPriority="high"
                         loading="eager"
-                        quality={isMobile ? 45 : 85}
-                        sizes="(max-width: 768px) 768px, 100vw"
+                        quality={60}
+                        sizes="100vw"
                         className={styles.backgroundImage}
                         style={{ objectFit: 'cover' }}
                     />
