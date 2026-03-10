@@ -142,14 +142,14 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
             {bgType === 'image' && (
                 <div className={styles.background}>
                     <Image
-                        src={config.backgroundImage || `/hero-custom.jpg`}
+                        src={config.backgroundImage || `/hero-custom.webp`}
                         alt={customAlt || config.backgroundImageAlt || "Agenzia Digital Marketing Milano"}
                         fill
                         priority
                         fetchPriority="high"
                         loading="eager"
-                        quality={60}
-                        sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
+                        quality={50}
+                        sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1920px"
                         className={styles.backgroundImage}
                         style={{ objectFit: 'cover' }}
                     />
