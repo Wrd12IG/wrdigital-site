@@ -117,9 +117,10 @@ export default function CookieBanner() {
                             transition={{ duration: 0.3 }}
                             role="dialog"
                             aria-modal="true"
+                            aria-labelledby="cookie-banner-title"
                         >
                             <div className={styles.header}>
-                                <div className={styles.title}>
+                                <div id="cookie-banner-title" className={styles.title}>
                                     {showPreferences ? 'Gestisci Consenso' : <><Cookie className="w-5 h-5 inline-block mr-2" /> Cookie & Privacy</>}
                                 </div>
                                 {showPreferences && (

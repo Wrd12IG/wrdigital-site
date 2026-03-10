@@ -33,9 +33,10 @@ export default function DynamicSeoContent({
         }
 
         if (Object.keys(initialContentOverrides).length === 0) {
-            fetch(`/api/admin/services-content`)
+            // Fetch public page metadata instead of admin endpoints which are restricted and fail with 500 without valid cookies
+            fetch(`/api/seo/${pageKey}`)
                 .then(res => res.ok ? res.json() : {})
-                .then(data => setContentOverrides(data))
+                .then(data => setContentOverrides((prev: any) => ({ ...prev, [pageKey]: data })))
                 .catch(() => { });
         }
     }, [pageKey, initialSeoData, initialContentOverrides]);

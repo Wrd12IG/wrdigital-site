@@ -25,6 +25,7 @@ export default function FloatingCTA() {
             {/* Floating Button */}
             <motion.button
                 onClick={() => setIsOpen(!isOpen)}
+                aria-label={isOpen ? "Chiudi menu contatti" : "Apri menu contatti"}
                 className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-2xl flex items-center justify-center hover:scale-110 transition-transform group"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}

@@ -16,7 +16,6 @@ import Footer from '@/components/Footer';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import MicrosoftClarity from '@/components/MicrosoftClarity';
 import { Providers } from '@/components/Providers';
-import DynamicSiteConfig from '@/components/DynamicSiteConfig';
 import DynamicFavicon from '@/components/DynamicFavicon';
 import StructuredData from '@/components/StructuredData';
 
@@ -124,10 +123,8 @@ export default async function RootLayout({
   const config = await getSiteConfig();
 
   return (
-    <html lang="it" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`}>
+    <html lang="it" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`} style={{ '--icon-color': config?.iconColor || '#eab308' } as React.CSSProperties}>
       <head>
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.clarity.ms" />
       </head>
       <body suppressHydrationWarning>
         <noscript>
@@ -149,7 +146,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TTFQPZFF');`
           }}
         />
-        <DynamicSiteConfig />
         <StructuredData config={config} />
         <Providers>
           <ToastProvider>
