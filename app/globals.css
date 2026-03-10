@@ -45,7 +45,7 @@
 
   /* Typography */
   --font-family-primary: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-family-display: var(--font-outfit), var(--font-inter), sans-serif;
+  --font-family-display: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Font Sizes */
   --font-size-xs: 0.75rem;
@@ -88,7 +88,8 @@
   --z-base: 1;
   --z-dropdown: 100;
   --z-sticky: 200;
-  --z-modal: 50000;  /* Increased to appear above navbar, cookie banner, etc */
+  --z-modal: 50000;
+  /* Increased to appear above navbar, cookie banner, etc */
   --z-tooltip: 50100;
   --z-cursor: 60000;
 }

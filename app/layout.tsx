@@ -101,18 +101,12 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-import { Inter, Outfit } from 'next/font/google';
+import { Inter } from 'next/font/google';
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
-  display: 'swap',
-});
-
-const outfit = Outfit({
-  subsets: ['latin'],
-  variable: '--font-outfit',
-  display: 'swap',
+  display: 'optional',
 });
 
 export default async function RootLayout({
@@ -123,7 +117,7 @@ export default async function RootLayout({
   const config = await getSiteConfig();
 
   return (
-    <html lang="it" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`} style={{ '--icon-color': config?.iconColor || '#eab308' } as React.CSSProperties}>
+    <html lang="it" suppressHydrationWarning className={inter.variable} style={{ '--icon-color': config?.iconColor || '#eab308' } as React.CSSProperties}>
       <head>
       </head>
       <body suppressHydrationWarning>
