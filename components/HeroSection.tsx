@@ -110,7 +110,26 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
     const renderTitle = () => {
         if (displayTitle.includes('[r]')) {
             const parts = displayTitle.split('[r]');
-            return <>{parts[0]}<span className={styles.titleLine}><span className={styles.titleBracket}>[</span><span className={styles.titleR}>r</span><span className={styles.titleBracket}>]</span></span>{parts[1]}</>;
+            // Wrap the [r] symbol and the following characters in a no-wrap span to prevent word-splitting
+            const afterText = parts[1] || '';
+            const firstWordMatch = afterText.match(/^\S+/);
+            const firstWordPart = firstWordMatch ? firstWordMatch[0] : '';
+            const restOfAfterText = afterText.substring(firstWordPart.length);
+
+            return (
+                <>
+                    {parts[0]}
+                    <span style={{ whiteSpace: 'nowrap', display: 'inline-block' }}>
+                        <span className={styles.titleLine}>
+                            <span className={styles.titleBracket}>[</span>
+                            <span className={styles.titleR}>r</span>
+                            <span className={styles.titleBracket}>]</span>
+                        </span>
+                        {firstWordPart}
+                    </span>
+                    {restOfAfterText}
+                </>
+            );
         }
 
         if (displayTitle === "W[r]Digital") {

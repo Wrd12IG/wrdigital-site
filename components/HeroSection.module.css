@@ -71,11 +71,11 @@
 
 /* W[r]Digital */
 .title {
-    font-size: clamp(3rem, 7.5vw, 7.5rem);
+    font-size: clamp(2.5rem, 7vw, 7rem);
     /* Slightly reduced to prevent overflow */
     font-weight: 800;
     letter-spacing: -0.04em;
-    line-height: 1.25;
+    line-height: 1.2;
     margin-bottom: var(--spacing-lg);
     padding: 0.1em 0;
     /* Space for descenders and ascenders */
@@ -85,9 +85,6 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    overflow-wrap: break-word;
-    /* Safety for long words */
-    word-wrap: break-word;
 }
 
 /* Bracket Styling */
