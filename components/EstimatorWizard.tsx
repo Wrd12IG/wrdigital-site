@@ -29,6 +29,7 @@ interface FormData {
     budget: string;
     name: string;
     email: string;
+    phone: string;
     company: string;
     website: string;
     socials: string[];
@@ -76,6 +77,7 @@ export default function EstimatorWizard() {
         budget: '',
         name: '',
         email: '',
+        phone: '',
         company: '',
         website: '',
         socials: [],
@@ -157,6 +159,7 @@ Obiettivo: ${goals.find(g => g.id === data.goal)?.label}
 Servizi: ${data.services.map(s => services.find(srv => srv.id === s)?.label).join(', ')}
 Budget: ${budgets.find(b => b.id === data.budget)?.label}
 Sito Web: ${data.website || 'Non specificato'}
+Telefono: ${data.phone}
 Social: ${data.socials.length > 0 ? data.socials.join(', ') : 'Nessuno selezionato'}
         `.trim();
 
@@ -167,6 +170,7 @@ Social: ${data.socials.length > 0 ? data.socials.join(', ') : 'Nessuno seleziona
                 body: JSON.stringify({
                     name: data.name,
                     email: data.email,
+                    phone: data.phone,
                     company: data.company,
                     service: 'preventivo',
                     message: messageText,
@@ -300,6 +304,10 @@ Social: ${data.socials.length > 0 ? data.socials.join(', ') : 'Nessuno seleziona
                                 <span className={styles.summaryLabel}>Budget</span>
                                 <span className={styles.summaryValue}>{budgets.find(b => b.id === data.budget)?.label}</span>
                             </div>
+                            <div className={styles.summaryRow}>
+                                <span className={styles.summaryLabel}>Telefono</span>
+                                <span className={styles.summaryValue}>{data.phone || 'Non inserito'}</span>
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -324,6 +332,14 @@ Social: ${data.socials.length > 0 ? data.socials.join(', ') : 'Nessuno seleziona
                                 className={styles.input}
                                 value={data.email}
                                 onChange={e => setData({ ...data, email: e.target.value })}
+                                required
+                            />
+                            <input
+                                type="tel"
+                                placeholder="Telefono *"
+                                className={styles.input}
+                                value={data.phone}
+                                onChange={e => setData({ ...data, phone: e.target.value })}
                                 required
                             />
                             <div className="flex items-center gap-2 p-3 bg-white/5 border border-white/10 rounded-lg text-xs text-gray-400 opacity-60">
@@ -409,7 +425,7 @@ Social: ${data.socials.length > 0 ? data.socials.join(', ') : 'Nessuno seleziona
                         <button
                             className="btn btn-primary"
                             onClick={handleSubmit}
-                            disabled={!data.name || !data.email || !data.privacy || isSubmitting}
+                            disabled={!data.name || !data.email || !data.phone || !data.privacy || isSubmitting}
                         >
                             {isSubmitting ? 'Invio in corso...' : 'Invia Richiesta'}
                         </button>

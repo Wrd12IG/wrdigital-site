@@ -4,10 +4,10 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         console.log('--- API CONTACT BODY ---', body);
-        const { name, email, message, company, service, website, privacyAccepted } = body;
+        const { name, email, phone, message, company, service, website, privacyAccepted } = body;
 
         // Validazione base
-        if (!name || !email || !message) {
+        if (!name || !email || !phone || !message) {
             return NextResponse.json({ error: 'Campi obbligatori mancanti' }, { status: 400 });
         }
 
@@ -40,6 +40,7 @@ export async function POST(request: Request) {
                 data: {
                     name,
                     email,
+                    phone: phone || null,
                     company: company || null,
                     website: website || null,
                     message,
@@ -66,7 +67,7 @@ export async function POST(request: Request) {
                 to: 'info@wrdigital.it, roberto@wrdigital.it',
                 replyTo: email,
                 subject: `🔥 Lead: ${name} (${company || 'Privato'})`,
-                html: EmailTemplate({ name, email, message, company, service })
+                html: EmailTemplate({ name, email, phone, message, company, service })
             });
 
             // Email to client

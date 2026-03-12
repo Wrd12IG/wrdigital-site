@@ -18,10 +18,14 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Troppe richieste. Riprova tra un\'ora.' }, { status: 429 });
         }
 
-        const { email, privacyAccepted } = await request.json();
+        const { email, phone, privacyAccepted } = await request.json();
 
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             return NextResponse.json({ error: 'Email non valida' }, { status: 400 });
+        }
+
+        if (!phone) {
+            return NextResponse.json({ error: 'Telefono obbligatorio' }, { status: 400 });
         }
 
         if (!privacyAccepted) {
@@ -47,6 +51,7 @@ export async function POST(request: Request) {
         await prisma.lead.create({
             data: {
                 email,
+                phone: phone || null,
                 source: 'newsletter',
                 ipAddress: ip,
                 status: 'new'
@@ -58,7 +63,7 @@ export async function POST(request: Request) {
             ...mailOptions,
             to: 'info@wrdigital.it, roberto@wrdigital.it',
             subject: '💚 Nuova Iscrizione Newsletter',
-            html: NewsletterTemplate(email)
+            html: NewsletterTemplate(email, phone)
         });
 
         return NextResponse.json({ success: true, message: 'Iscrizione confermata' });

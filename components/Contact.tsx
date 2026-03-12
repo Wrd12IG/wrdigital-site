@@ -8,6 +8,7 @@ import styles from './Contact.module.css';
 interface FormErrors {
     name?: string;
     email?: string;
+    phone?: string;
     message?: string;
 }
 
@@ -18,6 +19,7 @@ export default function Contact() {
     const [formState, setFormState] = useState({
         name: '',
         email: '',
+        phone: '',
         company: '',
         message: '',
         service: '',
@@ -38,6 +40,10 @@ export default function Contact() {
             newErrors.email = 'L\'email è obbligatoria';
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email)) {
             newErrors.email = 'Inserisci un\'email valida';
+        }
+
+        if (!formState.phone.trim()) {
+            newErrors.phone = 'Il telefono è obbligatorio';
         }
 
         if (!formState.message.trim()) {
@@ -83,6 +89,7 @@ export default function Contact() {
             setFormState({
                 name: '',
                 email: '',
+                phone: '',
                 company: '',
                 message: '',
                 service: '',
@@ -264,17 +271,41 @@ export default function Contact() {
                                     </div>
                                 </div>
 
-                                <div className={styles.formGroup}>
-                                    <label htmlFor="company" className={styles.formLabel}>Azienda</label>
-                                    <input
-                                        type="text"
-                                        id="company"
-                                        name="company"
-                                        value={formState.company}
-                                        onChange={handleChange}
-                                        className={styles.formInput}
-                                        placeholder="Nome della tua azienda"
-                                    />
+                                <div className={styles.formGrid}>
+                                    <div className={styles.formGroup}>
+                                        <label htmlFor="phone" className={styles.formLabel}>Telefono *</label>
+                                        <input
+                                            type="tel"
+                                            id="phone"
+                                            name="phone"
+                                            value={formState.phone}
+                                            onChange={handleChange}
+                                            className={`${styles.formInput} ${errors.phone ? styles.inputError : ''}`}
+                                            placeholder="+39 333 1234567"
+                                        />
+                                        {errors.phone && (
+                                            <motion.span
+                                                className={styles.errorText}
+                                                initial={{ opacity: 0, y: -10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                            >
+                                                {errors.phone}
+                                            </motion.span>
+                                        )}
+                                    </div>
+
+                                    <div className={styles.formGroup}>
+                                        <label htmlFor="company" className={styles.formLabel}>Azienda</label>
+                                        <input
+                                            type="text"
+                                            id="company"
+                                            name="company"
+                                            value={formState.company}
+                                            onChange={handleChange}
+                                            className={styles.formInput}
+                                            placeholder="Nome aziendale"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className={styles.formGroup}>

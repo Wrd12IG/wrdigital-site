@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 
 export default function NewsletterForm() {
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [privacy, setPrivacy] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -17,7 +18,7 @@ export default function NewsletterForm() {
             const res = await fetch('/api/newsletter', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, privacyAccepted: true })
+                body: JSON.stringify({ email, phone, privacyAccepted: true })
             });
 
             const data = await res.json();
@@ -25,6 +26,7 @@ export default function NewsletterForm() {
             if (res.ok) {
                 toast.success('Iscrizione completata!');
                 setEmail('');
+                setPhone('');
             } else {
                 toast.error(data.error || 'Errore durante l\'iscrizione');
             }
@@ -39,20 +41,29 @@ export default function NewsletterForm() {
         <div className="max-w-md mx-auto relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-                <div className="relative bg-[#0a0a0a] rounded-lg p-1 flex items-center border border-white/10">
+                <div className="relative bg-[#0a0a0a] rounded-lg p-1 flex flex-col md:flex-row items-stretch md:items-center border border-white/10 gap-1">
                     <input
                         type="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="La tua email aziendale"
-                        className="bg-transparent text-white w-full px-4 py-3 outline-none text-sm placeholder-gray-600 font-mono"
+                        placeholder="Email aziendale"
+                        className="bg-transparent text-white flex-1 px-4 py-3 outline-none text-sm placeholder-gray-600 font-mono"
+                        disabled={loading}
+                    />
+                    <input
+                        type="tel"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="Telefono"
+                        className="bg-transparent text-white flex-1 px-4 py-3 outline-none text-sm placeholder-gray-600 font-mono border-t md:border-t-0 md:border-l border-white/10"
                         disabled={loading}
                     />
                     <button
                         type="submit"
                         className="bg-white text-black font-bold text-xs uppercase px-6 py-3 rounded hover:bg-gray-200 transition-colors whitespace-nowrap disabled:opacity-50"
-                        disabled={loading || !privacy}
+                        disabled={loading || !privacy || !phone || !email}
                     >
                         {loading ? '...' : 'Iscriviti [r]'}
                     </button>

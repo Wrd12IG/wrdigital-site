@@ -1,5 +1,5 @@
 
-export const EmailTemplate = (data: { name: string; email: string; message?: string; service?: string; company?: string }) => `
+export const EmailTemplate = (data: { name: string; email: string; phone?: string; message?: string; service?: string; company?: string }) => `
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -31,6 +31,12 @@ export const EmailTemplate = (data: { name: string; email: string; message?: str
                         <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888; font-size: 12px; text-transform: uppercase;">Email</td>
                         <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; font-size: 15px;">
                             <a href="mailto:${data.email}" style="color: #2563EB; text-decoration: none;">${data.email}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888; font-size: 12px; text-transform: uppercase;">Telefono</td>
+                        <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; font-size: 15px;">
+                            <a href="tel:${data.phone}" style="color: #2563EB; text-decoration: none;">${data.phone || '-'}</a>
                         </td>
                     </tr>
                     <tr>
@@ -93,7 +99,7 @@ export const EmailTemplate = (data: { name: string; email: string; message?: str
 </html>
 `;
 
-export const NewsletterTemplate = (email: string) => `
+export const NewsletterTemplate = (email: string, phone?: string) => `
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -109,6 +115,7 @@ export const NewsletterTemplate = (email: string) => `
         <div style="padding: 50px 30px; text-align: center;">
             <div style="background-color: #f0fdf4; border: 1px dashed #22C55E; padding: 20px; border-radius: 10px; display: inline-block; margin-bottom: 20px;">
                 <p style="margin: 0; font-size: 18px; font-weight: bold; color: #15803d;">${email}</p>
+                ${phone ? `<p style="margin: 5px 0 0 0; font-size: 14px; color: #15803d;">Tel: ${phone}</p>` : ''}
             </div>
             <p style="color: #666; margin: 0;">si è appena iscritto alla newsletter.</p>
         </div>

@@ -10,6 +10,7 @@ import styles from './ContactModal.module.css';
 interface FormErrors {
     name?: string;
     email?: string;
+    phone?: string;
     message?: string;
 }
 
@@ -25,6 +26,7 @@ export default function ContactModal() {
     const [formState, setFormState] = useState({
         name: '',
         email: '',
+        phone: '',
         company: '',
         message: '',
         service: '',
@@ -44,6 +46,7 @@ export default function ContactModal() {
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email)) {
             newErrors.email = 'Email non valida';
         }
+        if (!formState.phone.trim()) newErrors.phone = 'Il telefono è obbligatorio';
         if (!formState.message.trim()) newErrors.message = 'Il messaggio è obbligatorio';
 
         if (!formState.privacyAccepted) {
@@ -75,7 +78,7 @@ export default function ContactModal() {
             if (!response.ok) throw new Error(data.error);
 
             closeContactModal();
-            setFormState({ name: '', email: '', company: '', message: '', service: '', website: '', privacyAccepted: false });
+            setFormState({ name: '', email: '', phone: '', company: '', message: '', service: '', website: '', privacyAccepted: false });
             router.push(`/grazie?name=${encodeURIComponent(formState.name)}`);
 
         } catch (error) {
@@ -150,16 +153,31 @@ export default function ContactModal() {
                                     </div>
                                 </div>
 
-                                <div className={styles.formGroup}>
-                                    <label className={styles.formLabel}>URL del tuo sito (Così lo studiamo prima di chiamarti)</label>
-                                    <input
-                                        type="url"
-                                        name="website"
-                                        value={formState.website || ''}
-                                        onChange={handleChange}
-                                        className={styles.formInput}
-                                        placeholder="https://"
-                                    />
+                                <div className={styles.row}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.formLabel}>Telefono *</label>
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            value={formState.phone}
+                                            onChange={handleChange}
+                                            className={`${styles.formInput} ${errors.phone ? styles.inputError : ''}`}
+                                            placeholder="+39 ..."
+                                        />
+                                        {errors.phone && <span className={styles.errorText}>{errors.phone}</span>}
+                                    </div>
+
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.formLabel}>Sito Web</label>
+                                        <input
+                                            type="url"
+                                            name="website"
+                                            value={formState.website}
+                                            onChange={handleChange}
+                                            className={styles.formInput}
+                                            placeholder="https://..."
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className={styles.formGroup}>
