@@ -29,7 +29,7 @@ async function checkDb(dbPath: string, label: string) {
             console.log('TARGET LEAD FOUND!');
             console.log(JSON.stringify(target, null, 2));
         }
-    } catch (e) {
+    } catch (e: any) {
         console.log(`Error checking ${label}: ${e.message}`);
     } finally {
         await prisma.$disconnect();
