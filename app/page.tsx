@@ -1,4 +1,5 @@
 // Server Component
+export const revalidate = 0;
 import HeroSection from '@/components/HeroSection';
 import ParticlesWrapper from '@/components/ParticlesWrapper'; // Wrapper for client-side particles
 import FloatingLogos from '@/components/FloatingLogos';
@@ -24,7 +25,7 @@ async function getHomeData() {
       prisma.siteConfig.findMany(),
       prisma.project.findMany({ where: { deleted: false }, orderBy: { createdAt: 'desc' } }),
       prisma.testimonial.findMany({ where: { deleted: false }, orderBy: { createdAt: 'desc' } }),
-      prisma.blogPost.findMany({ where: { deleted: false, published: true }, orderBy: { createdAt: 'desc' }, take: 4 })
+      prisma.blogPost.findMany({ where: { deleted: false, published: true }, orderBy: { createdAt: 'desc' }, take: 10 })
     ]);
 
     const siteConfig = configs.reduce((acc: Record<string, any>, config: { key: string, value: string }) => {

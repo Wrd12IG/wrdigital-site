@@ -3,15 +3,41 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     background: var(--color-accent-primary);
     border-radius: 50%;
     pointer-events: none;
     z-index: 2000000;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 6px rgba(250, 204, 21, 0.8);
     mix-blend-mode: normal;
+}
+
+/* Trailing Blob — lagged behind the ring for depth */
+.cursorBlob {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(250, 204, 21, 0.12) 0%,
+        rgba(250, 204, 21, 0.04) 50%,
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 1999998;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: normal;
+    transition: width 0.5s ease, height 0.5s ease;
+}
+
+.cursorBlob.hovering {
+    width: 100px;
+    height: 100px;
 }
 
 /* Fluid Ring */

@@ -119,7 +119,7 @@ export default function Blog({ initialPosts }: { initialPosts?: BlogPost[] }) {
                                 >
                                     <div className={styles.featuredImage}>
                                         <Image
-                                            src={featuredPost.image}
+                                            src={featuredPost.image || '/hero-custom.webp'}
                                             alt={featuredPost.title}
                                             fill
                                             style={{ objectFit: 'cover' }}
@@ -153,7 +153,7 @@ export default function Blog({ initialPosts }: { initialPosts?: BlogPost[] }) {
                                     >
                                         <div className={styles.postImage}>
                                             <Image
-                                                src={post.image}
+                                                src={post.image || '/hero-custom.webp'}
                                                 alt={post.title}
                                                 fill
                                                 style={{ objectFit: 'cover' }}

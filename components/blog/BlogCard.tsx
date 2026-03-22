@@ -64,7 +64,7 @@ export default function BlogCard({ post, index }: { post: BlogPost; index: numbe
                     style={{ transform: "translateZ(20px)" }}
                 >
                     <Image
-                        src={post.image}
+                        src={post.image || '/hero-custom.webp'}
                         alt={post.title}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"

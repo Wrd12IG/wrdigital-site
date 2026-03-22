@@ -148,53 +148,50 @@ export default function Testimonials({ initialTestimonials, initialConfig }: { i
                     )}
                 </motion.div>
 
-                {/* Grid Layout - Flexbox */}
-                <div className={styles.grid}>
-                    {list.map((testimonial, idx) => (
-                        <motion.div
-                            key={testimonial.id || `fallback-${idx}`}
-                            className={styles.testimonialCard}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: idx * 0.1 }}
-                        >
-                            {/* Decorative Quote Icon */}
-                            <div className={styles.quoteIcon}>
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                                </svg>
-                            </div>
-
-                            {/* Header: Avatar + Info */}
-                            <div className={styles.cardHeader}>
-                                <div className={styles.authorAvatar}>
-                                    {(testimonial.author || '?').charAt(0)}
+                {/* Infinite Marquee Layout */}
+                <div className={styles.marqueeContainer}>
+                    <div className={styles.marqueeTrack}>
+                        {[...list, ...list, ...list].map((testimonial, idx) => (
+                            <div
+                                key={`${testimonial.id || 'fb'}-${idx}`}
+                                className={styles.testimonialCard}
+                            >
+                                {/* Decorative Quote Icon */}
+                                <div className={styles.quoteIcon}>
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                                    </svg>
                                 </div>
-                                <div className={styles.authorInfo}>
-                                    <span className={styles.authorName}>
-                                        {testimonial.author}
-                                    </span>
-                                    <span className={styles.authorRole}>
-                                        {testimonial.company}{testimonial.result && (
-                                            <span style={{ color: 'var(--color-accent-primary)', marginLeft: '4px', fontWeight: 600 }}>
-                                                • {testimonial.result}
-                                            </span>
-                                        )}
-                                    </span>
+
+                                {/* Header: Avatar + Info */}
+                                <div className={styles.cardHeader}>
+                                    <div className={styles.authorAvatar}>
+                                        {(testimonial.author || '?').charAt(0)}
+                                    </div>
+                                    <div className={styles.authorInfo}>
+                                        <span className={styles.authorName}>
+                                            {testimonial.author}
+                                        </span>
+                                        <span className={styles.authorRole}>
+                                            {testimonial.company}{testimonial.result && (
+                                                <span style={{ color: 'var(--color-accent-primary)', marginLeft: '4px', fontWeight: 600 }}>
+                                                    • {testimonial.result}
+                                                </span>
+                                            )}
+                                        </span>
+                                    </div>
                                 </div>
+
+                                {/* Rating */}
+                                <StarRating rating={testimonial.rating} />
+
+                                {/* Quote */}
+                                <blockquote className={styles.quote}>
+                                    "{testimonial.quote}"
+                                </blockquote>
                             </div>
-
-                            {/* Rating */}
-                            <StarRating rating={testimonial.rating} />
-
-                            {/* Quote */}
-                            <blockquote className={styles.quote}>
-                                "{testimonial.quote}"
-                            </blockquote>
-
-                        </motion.div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

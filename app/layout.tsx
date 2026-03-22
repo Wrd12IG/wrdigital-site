@@ -10,6 +10,7 @@ const CustomCursor = dynamic(() => import('@/components/CustomCursor'));
 const CookieBanner = dynamic(() => import('@/components/CookieBanner'));
 const FloatingCTA = dynamic(() => import('@/components/FloatingCTA'));
 const ContactModal = dynamic(() => import('@/components/ContactModal'));
+const ScrollProgress = dynamic(() => import('@/components/ScrollProgress'));
 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -121,6 +122,7 @@ export default async function RootLayout({
       <head>
       </head>
       <body suppressHydrationWarning>
+        <ScrollProgress />
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-TTFQPZFF"

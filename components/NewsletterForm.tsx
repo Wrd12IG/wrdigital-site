@@ -38,7 +38,7 @@ export default function NewsletterForm() {
     };
 
     return (
-        <div className="max-w-md mx-auto relative group">
+        <div className="max-w-2xl mx-auto w-full relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-2">
                 <div className="relative bg-[#0a0a0a] rounded-lg p-1 flex flex-col md:flex-row items-stretch md:items-center border border-white/10 gap-1">
@@ -48,7 +48,7 @@ export default function NewsletterForm() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email aziendale"
-                        className="bg-transparent text-white flex-1 px-4 py-3 outline-none text-sm placeholder-gray-600 font-mono"
+                        className="bg-transparent text-white flex-1 px-4 py-3 outline-none text-sm placeholder-gray-600 font-mono min-w-0"
                         disabled={loading}
                     />
                     <input
@@ -57,12 +57,12 @@ export default function NewsletterForm() {
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="Telefono"
-                        className="bg-transparent text-white flex-1 px-4 py-3 outline-none text-sm placeholder-gray-600 font-mono border-t md:border-t-0 md:border-l border-white/10"
+                        className="bg-transparent text-white flex-1 px-4 py-3 outline-none text-sm placeholder-gray-600 font-mono border-t md:border-t-0 md:border-l border-white/10 min-w-0"
                         disabled={loading}
                     />
                     <button
                         type="submit"
-                        className="bg-white text-black font-bold text-xs uppercase px-6 py-3 rounded hover:bg-gray-200 transition-colors whitespace-nowrap disabled:opacity-50"
+                        className="bg-white text-black font-bold text-xs uppercase px-6 py-3 rounded hover:bg-gray-200 transition-colors whitespace-nowrap shrink-0 disabled:opacity-50"
                         disabled={loading || !privacy || !phone || !email}
                     >
                         {loading ? '...' : 'Iscriviti [r]'}

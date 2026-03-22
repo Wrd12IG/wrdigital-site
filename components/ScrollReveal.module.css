@@ -1,0 +1,54 @@
+/* ScrollReveal base — hidden until [data-revealed] */
+.reveal {
+    will-change: transform, opacity, clip-path;
+}
+
+/* ============ WIPE FROM LEFT (clip-path) ============ */
+.revealLeft {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+    transition:
+        clip-path 0.85s cubic-bezier(0.77, 0, 0.175, 1) var(--reveal-delay, 0s),
+        opacity 0.5s ease var(--reveal-delay, 0s);
+}
+
+.revealLeft[data-revealed='true'] {
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
+}
+
+/* ============ SLIDE UP ============ */
+.revealUp {
+    opacity: 0;
+    transform: translateY(48px);
+    transition:
+        opacity 0.7s ease var(--reveal-delay, 0s),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+}
+
+.revealUp[data-revealed='true'] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============ FADE ONLY ============ */
+.revealFade {
+    opacity: 0;
+    transition: opacity 0.8s ease var(--reveal-delay, 0s);
+}
+
+.revealFade[data-revealed='true'] {
+    opacity: 1;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .revealLeft,
+    .revealUp,
+    .revealFade {
+        transition: none;
+        clip-path: none;
+        opacity: 1;
+        transform: none;
+    }
+}

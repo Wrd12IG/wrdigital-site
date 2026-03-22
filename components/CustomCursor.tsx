@@ -13,10 +13,15 @@ export default function CustomCursor() {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Smooth mouse position for flow (ring)
+  // Smooth mouse position for ring (medium lag)
   const springConfig = { damping: 25, stiffness: 150, mass: 0.5 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
+
+  // Very lagged blob (gelatinous trailing effect)
+  const blobConfig = { damping: 35, stiffness: 80, mass: 1.2 };
+  const blobX = useSpring(mouseX, blobConfig);
+  const blobY = useSpring(mouseY, blobConfig);
 
   useEffect(() => {
     setIsMounted(true);
@@ -73,6 +78,15 @@ export default function CustomCursor() {
   // Always render something to keep the tree stable
   return (
     <div id="cursor-portal" style={{ opacity: isMounted && isVisible ? 1 : 0, pointerEvents: 'none' }}>
+      {/* Trailing Blob (most lagged, behind everything) */}
+      <motion.div
+        className={`${styles.cursorBlob} ${isHovering ? styles.hovering : ''}`}
+        style={{
+          x: blobX,
+          y: blobY,
+        }}
+      />
+
       {/* Precision Dot */}
       <motion.div
         className={styles.cursorDot}

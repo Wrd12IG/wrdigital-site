@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import BlogCard from './BlogCard';
 import Sidebar from './Sidebar';
+import { useModal } from '@/components/ModalContext';
 
 interface BlogPost {
     id: string;
@@ -21,23 +22,27 @@ interface BlogPost {
 
 const CATEGORIES = ['All', 'SEO', 'Web Design', 'Social Media', 'Advertising', 'Strategy'];
 
-const InFeedAd = () => (
-    <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        className="col-span-1 md:col-span-2 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-2xl relative overflow-hidden"
-    >
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-10" />
-        <h3 className="text-2xl font-bold text-black mb-2 relative z-10">Vuoi saltare la teoria e passare alla pratica?</h3>
-        <p className="text-black/80 mb-6 max-w-lg relative z-10">
-            I nostri strategist possono applicare questo metodo al tuo business in 48 ore.
-        </p>
-        <button className="bg-black text-white font-bold py-3 px-8 rounded-full hover:scale-105 transition-transform relative z-10 shadow-lg">
-            Prenota una Consulenza Strategica
-        </button>
-    </motion.div>
-);
+const InFeedAd = () => {
+    const { openContactModal } = useModal();
+    
+    return (
+        <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="col-span-1 md:col-span-2 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-2xl relative overflow-hidden"
+        >
+            <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-10" />
+            <h3 className="text-2xl font-bold text-black mb-2 relative z-10">Vuoi saltare la teoria e passare alla pratica?</h3>
+            <p className="text-black/80 mb-6 max-w-lg relative z-10">
+                I nostri strategist possono applicare questo metodo al tuo business in 48 ore.
+            </p>
+            <button onClick={openContactModal} className="bg-black text-white font-bold py-3 px-8 rounded-full hover:scale-105 transition-transform shadow-lg cursor-pointer relative z-10">
+                Prenota una Consulenza Strategica
+            </button>
+        </motion.div>
+    );
+};
 
 export default function BlogFeed({ posts }: { posts: BlogPost[] }) {
     const [selectedCategory, setSelectedCategory] = useState('All');

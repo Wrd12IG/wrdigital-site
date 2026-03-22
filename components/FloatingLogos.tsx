@@ -20,17 +20,48 @@ const defaultClients: Client[] = [
     { name: 'DigitalPro', logo: '' },
 ];
 
-// Placeholder icon for clients without logo - uses brand colors
+// Color palettes for placeholder icons — cycles based on name hash
+const ICON_PALETTES = [
+    { bg: 'linear-gradient(135deg, #1e1b4b 0%, #4c1d95 100%)', border: 'rgba(139, 92, 246, 0.5)', text: '#c4b5fd' },  // violet
+    { bg: 'linear-gradient(135deg, #0c1445 0%, #1e40af 100%)', border: 'rgba(59, 130, 246, 0.5)', text: '#93c5fd' },   // blue
+    { bg: 'linear-gradient(135deg, #022c22 0%, #065f46 100%)', border: 'rgba(16, 185, 129, 0.5)', text: '#6ee7b7' },   // emerald
+    { bg: 'linear-gradient(135deg, #451a03 0%, #92400e 100%)', border: 'rgba(245, 158, 11, 0.5)', text: '#fcd34d' },   // amber
+    { bg: 'linear-gradient(135deg, #4a044e 0%, #86198f 100%)', border: 'rgba(217, 70, 239, 0.5)', text: '#f0abfc' },  // fuchsia
+    { bg: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', border: 'rgba(56, 189, 248, 0.5)', text: '#7dd3fc' },  // sky
+    { bg: 'linear-gradient(135deg, #1a0a00 0%, #7c2d12 100%)', border: 'rgba(249, 115, 22, 0.5)', text: '#fdba74' },  // orange
+    { bg: 'linear-gradient(135deg, #0a0a28 0%, #1a1a5e 100%)', border: 'rgba(99, 102, 241, 0.5)', text: '#a5b4fc' },  // indigo
+];
+
+function nameToColorIndex(name: string): number {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = (hash << 5) - hash + name.charCodeAt(i);
+        hash |= 0;
+    }
+    return Math.abs(hash) % ICON_PALETTES.length;
+}
+
+// Placeholder icon for clients without logo — unique color per client
 const PlaceholderIcon = ({ name }: { name: string }) => {
-    // Get first letter of client name
     const initial = name.charAt(0).toUpperCase();
+    const palette = ICON_PALETTES[nameToColorIndex(name)];
 
     return (
-        <div className={styles.placeholderIcon}>
-            <span className={styles.placeholderInitial}>{initial}</span>
+        <div
+            className={styles.placeholderIcon}
+            style={{
+                background: palette.bg,
+                border: `1.5px solid ${palette.border}`,
+                boxShadow: `0 0 10px ${palette.border}`,
+            }}
+        >
+            <span className={styles.placeholderInitial} style={{ color: palette.text }}>
+                {initial}
+            </span>
         </div>
     );
 };
+
 
 export default function FloatingLogos({ initialClients }: { initialClients?: Client[] }) {
     const [clients, setClients] = useState<Client[]>(initialClients || defaultClients);

@@ -1,8 +1,27 @@
+/* =============================================
+   FLOATING LOGOS SECTION — Premium 2026 Style
+   ============================================= */
+
 .section {
-    padding: var(--spacing-4xl) 0;
+    padding: var(--spacing-xl) 0 var(--spacing-3xl);
     background: var(--color-bg-primary);
     position: relative;
     overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Wider golden glow */
+.section::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 300px;
+    background: radial-gradient(ellipse at center, rgba(250, 204, 21, 0.06) 0%, rgba(99, 61, 246, 0.04) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .container {
@@ -13,34 +32,58 @@
     z-index: 1;
 }
 
+/* ── TITLE ── */
 .title {
-    font-size: var(--font-size-sm);
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--color-text-muted);
-    margin-bottom: var(--spacing-3xl);
+    margin-bottom: var(--spacing-2xl);
     position: relative;
     z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.title::before,
+.title::after {
+    content: '';
+    flex: 1;
+    max-width: 160px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(250, 204, 21, 0.35));
+}
+
+.title::after {
+    background: linear-gradient(270deg, transparent, rgba(250, 204, 21, 0.35));
 }
 
 .brand {
     color: var(--color-text-primary);
-    font-weight: 800;
+    font-weight: 900;
     text-transform: none;
+    font-size: clamp(0.8rem, 1.4vw, 1rem);
+    background: linear-gradient(135deg, #ffffff 0%, #f5df4a 50%, #ffffff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
 }
 
 .bracket {
-    color: var(--color-accent-primary);
+    -webkit-text-fill-color: var(--color-accent-primary);
     font-weight: 400;
 }
 
-/* Marquee Container */
+/* ── MARQUEE ── */
 .marqueeContainer {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-lg);
-    padding: var(--spacing-xl) 0;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg) 0;
     mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
     -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
 }
@@ -52,13 +95,13 @@
 
 .marqueeTrack {
     display: flex;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
     width: max-content;
 }
 
 /* Scroll animations */
 .scrollLeft {
-    animation: scrollLeft 40s linear infinite;
+    animation: scrollLeft 38s linear infinite;
 }
 
 .scrollRight {
@@ -66,133 +109,139 @@
 }
 
 .scrollLeftSlow {
-    animation: scrollLeft 55s linear infinite;
+    animation: scrollLeft 52s linear infinite;
 }
 
 @keyframes scrollLeft {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-33.33%);
-    }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-33.33%); }
 }
 
 @keyframes scrollRight {
-    0% {
-        transform: translateX(-33.33%);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
+    0% { transform: translateX(-33.33%); }
+    100% { transform: translateX(0); }
 }
 
-/* Logo Pill - SimilarWeb style */
+/* ── LOGO PILL — Premium glassmorphism ── */
 .logoPill {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
-    padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-sm) var(--spacing-sm);
-    background: rgba(20, 20, 30, 0.8);
-    border: 1px solid rgba(100, 150, 255, 0.2);
+    gap: 12px;
+    padding: 8px 18px 8px 8px;
+    background: rgba(16, 16, 24, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 100px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     white-space: nowrap;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .logoPill:hover {
-    border-color: rgba(255, 200, 50, 0.6);
-    box-shadow: 0 0 20px rgba(255, 200, 50, 0.25);
-    transform: scale(1.02);
+    border-color: rgba(245, 223, 74, 0.4);
+    box-shadow:
+        0 0 24px rgba(245, 223, 74, 0.15),
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px) scale(1.03);
+    background: rgba(22, 22, 34, 0.9);
 }
 
-/* Logo icon wrapper */
+/* ── LOGO ICON WRAPPER ── */
 .logoIconWrapper {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-md);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
+}
+
+.logoImageWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logoImage {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: brightness(1);
 }
 
-/* Placeholder icon when no logo - brand colors */
+/* ── PLACEHOLDER INITIAL — each letter gets a unique gradient via nth rules ── */
 .placeholderIcon {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-sm);
-    background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%);
-    border: 1px solid rgba(255, 200, 50, 0.3);
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    border: 1.5px solid rgba(99, 61, 246, 0.4);
+    box-shadow: 0 0 12px rgba(99, 61, 246, 0.2);
 }
 
 .placeholderInitial {
-    font-size: var(--font-size-lg);
-    font-weight: 700;
-    color: #FFC832;
-    text-shadow: 0 0 8px rgba(255, 200, 50, 0.4);
+    font-size: 1rem;
+    font-weight: 800;
+    color: #c4b5fd;
+    letter-spacing: -0.02em;
 }
 
-/* Client name */
+/* ── LOGO NAME ── */
 .logoName {
     font-family: var(--font-family-display);
-    font-size: var(--font-size-sm);
+    font-size: 0.8rem;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: rgba(255, 255, 255, 0.85);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.07em;
 }
 
-/* Arrow icon */
+/* ── ARROW ICON ── */
 .arrowIcon {
-    width: 14px;
-    height: 14px;
-    color: var(--color-text-muted);
-    opacity: 0.5;
+    width: 12px;
+    height: 12px;
+    color: rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
     flex-shrink: 0;
 }
 
 .logoPill:hover .arrowIcon {
     opacity: 1;
-    color: #FFC832;
+    color: var(--color-accent-primary);
     transform: translate(2px, -2px);
 }
 
+/* ── SUBTITLE ── */
 .subtitle {
-    font-size: var(--font-size-base);
-    color: var(--color-text-muted);
-    margin-top: var(--spacing-3xl);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: var(--spacing-xl);
     position: relative;
     z-index: 10;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 
-/* Pause animation on hover */
+/* ── PAUSE ON HOVER ── */
 .marqueeRow:hover .marqueeTrack {
     animation-play-state: paused;
 }
 
-/* Responsive adjustments */
+/* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
     .logoPill {
-        padding: var(--spacing-xs) var(--spacing-md) var(--spacing-xs) var(--spacing-xs);
+        padding: 6px 14px 6px 6px;
+        gap: 10px;
     }
 
     .logoIconWrapper {
@@ -201,20 +250,16 @@
     }
 
     .logoName {
-        font-size: var(--font-size-xs);
+        font-size: 0.72rem;
     }
 }
 
 @media (max-width: 768px) {
     .section {
-        padding: var(--spacing-2xl) 0;
+        padding: var(--spacing-lg) 0 var(--spacing-2xl);
     }
 
     .marqueeContainer {
-        gap: var(--spacing-md);
-    }
-
-    .logoPill {
         gap: var(--spacing-sm);
     }
 
@@ -227,22 +272,15 @@
         display: none;
     }
 
-    .scrollLeft {
-        animation-duration: 25s;
-    }
-
-    .scrollRight {
-        animation-duration: 30s;
-    }
-
-    .scrollLeftSlow {
-        animation-duration: 35s;
-    }
+    .scrollLeft { animation-duration: 24s; }
+    .scrollRight { animation-duration: 30s; }
+    .scrollLeftSlow { animation-duration: 36s; }
 }
 
 @media (max-width: 480px) {
     .logoPill {
-        padding: 6px 12px 6px 6px;
+        padding: 5px 11px 5px 5px;
+        gap: 8px;
     }
 
     .logoIconWrapper {
@@ -251,6 +289,10 @@
     }
 
     .placeholderInitial {
-        font-size: var(--font-size-sm);
+        font-size: 0.8rem;
+    }
+
+    .logoName {
+        font-size: 0.65rem;
     }
 }

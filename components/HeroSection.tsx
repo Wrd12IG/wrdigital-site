@@ -1,11 +1,42 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useModal } from './ModalContext';
 import styles from './HeroSection.module.css';
+
+// Animated counter hook
+function useAnimatedCounter(target: number, duration = 1800, delay = 1200) {
+    const [count, setCount] = useState(0);
+    const [started, setStarted] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setStarted(true);
+        }, delay);
+        return () => clearTimeout(timer);
+    }, [delay]);
+
+    useEffect(() => {
+        if (!started) return;
+        let start = 0;
+        const step = Math.ceil(target / (duration / 16));
+        const interval = setInterval(() => {
+            start += step;
+            if (start >= target) {
+                setCount(target);
+                clearInterval(interval);
+            } else {
+                setCount(start);
+            }
+        }, 16);
+        return () => clearInterval(interval);
+    }, [started, target, duration]);
+
+    return count;
+}
 
 // Removed ThreeScene import - no more 3D for performance
 
@@ -33,10 +64,25 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Mobile detection for lighter background
-    const [isMobile, setIsMobile] = useState(true); // Default true to prevent flash
+    const [isMobile, setIsMobile] = useState(true);
 
     useEffect(() => {
         setIsMobile(window.innerWidth < 768);
+    }, []);
+
+    // ✨ Aurora gradient: track mouse position as CSS custom props
+    useEffect(() => {
+        const hero = containerRef.current;
+        if (!hero) return;
+        const handleMouseMove = (e: MouseEvent) => {
+            const rect = hero.getBoundingClientRect();
+            const mx = ((e.clientX - rect.left) / rect.width) * 100;
+            const my = ((e.clientY - rect.top) / rect.height) * 100;
+            hero.style.setProperty('--mx', `${mx}%`);
+            hero.style.setProperty('--my', `${my}%`);
+        };
+        hero.addEventListener('mousemove', handleMouseMove, { passive: true });
+        return () => hero.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
     // Configuration State
@@ -155,6 +201,15 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
         }
     }
 
+    const trafficCount = useAnimatedCounter(380, 1600, 1300);
+    const roiCount = useAnimatedCounter(250, 1400, 1500);
+    const [barWidth, setBarWidth] = useState(0);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setBarWidth(78), 1800);
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
         <section ref={containerRef} className={styles.hero} style={heroStyles}>
             {/* Background Image (Mobile & Desktop) */}
@@ -181,40 +236,74 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                 <div className={styles.background} style={{ opacity: 0.4, pointerEvents: 'none' }} />
             )}
 
-            {/* Content - Simplified without heavy animations */}
+            {/* ✨ Floating Stats Widget (desktop only) */}
+            <div className={styles.floatingStats}>
+                <div className={styles.statsHeader}>
+                    <div className={styles.statsHeaderDot} />
+                    <span className={styles.statsHeaderLabel}>Risultati Reali</span>
+                </div>
+                <div className={styles.statsRow}>
+                    <div className={styles.statItem}>
+                        <div className={styles.statValue}>+{trafficCount}%</div>
+                        <div className={styles.statLabel}>Traffico Organico</div>
+                    </div>
+                    <div className={styles.statItem}>
+                        <div className={styles.statValue}>{(roiCount / 100).toFixed(1)}x</div>
+                        <div className={styles.statLabel}>ROI Medio</div>
+                    </div>
+                </div>
+                <div className={styles.statsBarWrapper}>
+                    <div className={styles.statsBarLabel}>
+                        <span>Performance Score</span>
+                        <span>{barWidth}%</span>
+                    </div>
+                    <div className={styles.statsBar}>
+                        <div
+                            className={styles.statsBarFill}
+                            style={{ width: `${barWidth}%` }}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Content */}
             <div className={styles.content}>
                 <div className={styles.textContainer}>
-                    {/* Main Title */}
-                    <h1 id="main-h1" className={styles.title}>
-                        {renderTitle()}
-                    </h1>
+                {/* Main Title — brutalista stack */}
+                    <div className={styles.titleStack}>
+                        {/* Ghost outline layer (aria-hidden, purely decorative) */}
+                        <span className={styles.titleOutline} aria-hidden="true">
+                            {displayTitle.replace('[r]', '[r]')}
+                        </span>
+                        <h1 id="main-h1" className={`${styles.title} ${styles.animTitle}`}>
+                            {renderTitle()}
+                        </h1>
+                    </div>
 
                     {/* Subtitle */}
                     <h2
                         id="main-sub"
-                        className={styles.subtitle}
+                        className={`${styles.subtitle} ${styles.animSubtitle}`}
                         style={{ textTransform: 'none', letterSpacing: 'normal', fontSize: '1.5rem', fontWeight: 600, marginTop: '1rem', color: '#fff' }}
                     >
                         {displaySubtitle}
                     </h2>
 
                     {/* Description */}
-                    <p style={{ maxWidth: '600px', margin: '1rem auto 0', color: 'var(--color-text-secondary)', fontSize: '1.1rem', lineHeight: 1.6 }}>
+                    <p className={styles.animDesc} style={{ maxWidth: '600px', margin: '1rem auto 0', color: 'var(--color-text-secondary)', fontSize: '1.1rem', lineHeight: 1.6 }}>
                         Non vendiamo fumo, ma strategie scalabili. Dalla <Link href="/servizi/seo" className="text-yellow-400 hover:underline">SEO</Link> al <Link href="/servizi/realizzazione-siti-web" className="text-yellow-400 hover:underline">Web Design</Link>, portiamo il tuo brand dove i tuoi clienti lo stanno già cercando.
                     </p>
 
                     {/* CTA Button */}
-                    <div style={{ marginTop: '3rem', display: 'flex', justifyContent: 'center' }}>
+                    <div className={styles.animCta} style={{ marginTop: '3rem', display: 'flex', justifyContent: 'center' }}>
                         <button className="btn btn-primary" onClick={openContactModal} data-cursor="Start" style={{ padding: '1rem 3rem', fontSize: '1.1rem' }}>
                             Inizia la tua scalata
                         </button>
                     </div>
                 </div>
 
-                {/* Removed FloatingChart and CursorIcon for performance */}
-
-                {/* Services Bento Grid - Static, no animations */}
-                <div className={styles.servicesGrid}>
+                {/* Services Bento Grid */}
+                <div className={`${styles.servicesGrid} ${styles.animGrid}`}>
                     {services.map((service) => (
                         <div
                             key={service.id}

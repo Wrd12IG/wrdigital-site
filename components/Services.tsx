@@ -1,11 +1,12 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useModal } from './ModalContext';
 import styles from './Services.module.css';
+import ScrollReveal from './ScrollReveal';
 
 interface Service {
     id: string;
@@ -101,7 +102,29 @@ export default function Services() {
     const router = useRouter();
     const { openContactModal } = useModal();
     const sectionRef = useRef<HTMLElement>(null);
+    const gridRef = useRef<HTMLDivElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+
+    // Spotlight effect: update --mouse-x / --mouse-y on each card
+    useEffect(() => {
+        const grid = gridRef.current;
+        if (!grid) return;
+
+        const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-spotlight]'));
+
+        const handleMouseMove = (e: MouseEvent) => {
+            cards.forEach((card) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--mouse-x', `${x}%`);
+                card.style.setProperty('--mouse-y', `${y}%`);
+            });
+        };
+
+        grid.addEventListener('mousemove', handleMouseMove);
+        return () => grid.removeEventListener('mousemove', handleMouseMove);
+    }, []);
 
     // Helper to render branded text
     const renderBrandedText = (text: string) => {
@@ -134,7 +157,8 @@ export default function Services() {
     return (
         <section id="servizi" ref={sectionRef} className={styles.section}>
             <div className={styles.container}>
-                {/* Section Header */}
+                {/* Section Header — wipe from left */}
+                <ScrollReveal direction="left">
                 <motion.div
                     className={`${styles.header} text-center mb-16`}
                     initial={{ opacity: 0, y: 30 }}
@@ -147,14 +171,19 @@ export default function Services() {
                         per <span className="text-gradient">dominare online.</span>
                     </h2>
                 </motion.div>
+                </ScrollReveal>
 
-                {/* Services Grid */}
-                <div className={styles.grid}>
-                    {services.map((service, index) => (
+                {/* Services Bento Grid */}
+                <div className={styles.grid} ref={gridRef}>
+                    {services.map((service, index) => {
+                        const bentoSize = index === 0 ? 'large' : index === 1 ? 'medium' : 'small';
+                        return (
+                        <ScrollReveal key={service.id} direction="up" delay={index * 0.08}>
                         <div
-                            key={service.id}
                             className={styles.card}
-                            style={{ '--service-accent': service.accent, cursor: 'default' } as React.CSSProperties}
+                            data-spotlight
+                            data-bento-size={bentoSize}
+                            style={{ '--service-accent': service.accent, cursor: 'default', height: '100%' } as React.CSSProperties}
                         >
                             <motion.div
                                 className="h-full w-full flex flex-col"
@@ -206,18 +235,19 @@ export default function Services() {
                                 {/* Secondary Pillar Link */}
                                 <div className="mt-6 pt-4 border-t border-white/10 text-sm text-gray-400 relative z-10">
                                     <Link href={service.pillarLink} className="hover:text-yellow-400 transition-colors duration-300">
-                                        {/* We do a raw HTML replacement for [r] to match brand style if it appears in text */}
                                         <span dangerouslySetInnerHTML={{
                                             __html: service.pillarText
-                                                .replace(/\[r\]/g, '<span style="color:#FACC15; font-weight:700">W[r]</span>'.replace('W', '')) // Quick hack to get the bracket style? No, let's just use simple brackets. 
-                                                .replace(/\[/g, '<span style="color:#FACC15; font-weight:700">[</span><span style="color:white">')
-                                                .replace(/\]/g, '</span><span style="color:#FACC15; font-weight:700">]</span>')
+                                                .replace(/\[r\]/g, '<span style="color:#FACC15; font-weight:700">[r]</span>')
+                                                .replace(/\[(?!r\])/g, '<span style="color:#FACC15; font-weight:700">[</span><span style="color:white">')
+                                                .replace(/(?<!\[r)\]/g, '</span><span style="color:#FACC15; font-weight:700">]</span>')
                                         }} />
                                     </Link>
                                 </div>
                             </motion.div>
                         </div>
-                    ))}
+                        </ScrollReveal>
+                        );
+                    })}
                 </div>
 
                 {/* Bottom CTA */}

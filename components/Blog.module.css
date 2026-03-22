@@ -53,6 +53,7 @@
     overflow: hidden;
     cursor: pointer;
     min-height: 500px;
+    height: 100%;
 }
 
 .featuredImage {
@@ -93,6 +94,11 @@
     color: white;
     margin-bottom: var(--spacing-md);
     line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .excerpt {
@@ -152,11 +158,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-width: 0;
 }
 
 .postContent .category {
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: 10px;
+    align-self: flex-start;
 }
 
 .postTitle {
@@ -165,6 +173,12 @@
     color: var(--color-text-primary);
     margin-bottom: var(--spacing-sm);
     line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .postExcerpt {
