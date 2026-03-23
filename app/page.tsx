@@ -15,6 +15,7 @@ const Contact = dynamic(() => import('@/components/Contact'));
 
 
 import { prisma } from '@/lib/prisma';
+import staticTestimonials from '@/data/testimonials.json';
 
 async function getHomeData() {
   try {
@@ -84,11 +85,18 @@ async function getHomeData() {
       }
     }
 
-    return { ...data, contentOverrides, clients, siteConfig, projects, testimonials, blogPosts };
+    // Fallback to static testimonials if DB is empty (e.g. production with no DB access)
+    const finalTestimonials = testimonials.length > 0
+      ? testimonials
+      : (staticTestimonials as any[]).filter((t: any) => !t.deleted);
+
+    return { ...data, contentOverrides, clients, siteConfig, projects, testimonials: finalTestimonials, blogPosts };
   } catch (e) {
     console.error('Error fetching home data:', e);
   }
-  return { clients: [], siteConfig: {}, projects: [], testimonials: [], blogPosts: [] };
+  // On complete DB failure, use static testimonials as fallback
+  const fallbackTestimonials = (staticTestimonials as any[]).filter((t: any) => !t.deleted);
+  return { clients: [], siteConfig: {}, projects: [], testimonials: fallbackTestimonials, blogPosts: [] };
 }
 
 export default async function Home() {

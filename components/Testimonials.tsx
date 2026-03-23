@@ -62,7 +62,9 @@ function StarRating({ rating }: { rating: number }) {
 export default function Testimonials({ initialTestimonials, initialConfig }: { initialTestimonials?: Testimonial[], initialConfig?: any }) {
     const sectionRef = useRef<HTMLElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
-    const [list, setList] = useState<Testimonial[]>(initialTestimonials || defaultTestimonials);
+    const [list, setList] = useState<Testimonial[]>(
+        (initialTestimonials && initialTestimonials.length > 0) ? initialTestimonials : defaultTestimonials
+    );
     const [config, setConfig] = useState(initialConfig ? {
         title: initialConfig.title || 'Cosa dicono i nostri clienti.',
         subtitle: initialConfig.subtitle || 'Testimonianze',
@@ -70,7 +72,7 @@ export default function Testimonials({ initialTestimonials, initialConfig }: { i
     } : { title: 'Cosa dicono i nostri clienti.', subtitle: 'Testimonianze', description: '' });
 
     useEffect(() => {
-        if (initialTestimonials && initialConfig) return;
+        if (initialTestimonials && initialTestimonials.length > 0 && initialConfig) return;
 
         const loadData = async () => {
             // Load Testimonials
