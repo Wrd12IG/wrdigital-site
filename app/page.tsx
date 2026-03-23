@@ -16,6 +16,7 @@ const Contact = dynamic(() => import('@/components/Contact'));
 
 import { prisma } from '@/lib/prisma';
 import staticTestimonials from '@/data/testimonials.json';
+import staticClients from '@/data/clients.json';
 
 async function getHomeData() {
   try {
@@ -85,18 +86,22 @@ async function getHomeData() {
       }
     }
 
-    // Fallback to static testimonials if DB is empty (e.g. production with no DB access)
+    // Fallback to static data if DB is empty (e.g. production with no DB access)
     const finalTestimonials = testimonials.length > 0
       ? testimonials
       : (staticTestimonials as any[]).filter((t: any) => !t.deleted);
+    const finalClients = clients.length > 0
+      ? clients
+      : (staticClients as any[]).filter((c: any) => !c.deleted);
 
-    return { ...data, contentOverrides, clients, siteConfig, projects, testimonials: finalTestimonials, blogPosts };
+    return { ...data, contentOverrides, clients: finalClients, siteConfig, projects, testimonials: finalTestimonials, blogPosts };
   } catch (e) {
     console.error('Error fetching home data:', e);
   }
-  // On complete DB failure, use static testimonials as fallback
+  // On complete DB failure, use static data as fallback
   const fallbackTestimonials = (staticTestimonials as any[]).filter((t: any) => !t.deleted);
-  return { clients: [], siteConfig: {}, projects: [], testimonials: fallbackTestimonials, blogPosts: [] };
+  const fallbackClients = (staticClients as any[]).filter((c: any) => !c.deleted);
+  return { clients: fallbackClients, siteConfig: {}, projects: [], testimonials: fallbackTestimonials, blogPosts: [] };
 }
 
 export default async function Home() {
