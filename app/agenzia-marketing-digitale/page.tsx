@@ -6,13 +6,13 @@ import PillarServiceWidget from '@/components/PillarServiceWidget';
 import styles from './PillarPage.module.css';
 
 export const metadata: Metadata = {
-    title: 'Agenzia Marketing Digitale: La Guida Completa 2026 | W[r]Digital',
-    description: 'Scopri come scegliere la giusta agenzia di marketing digitale nel 2026. Guida strategica su SEO, AI Search, e metriche reali. Evita le vanity metrics.',
+    title: 'Agenzia Marketing Digitale Milano e Monza Brianza: La Guida Completa 2026 | W[r]Digital',
+    description: 'Scopri come scegliere la giusta agenzia di marketing digitale a Milano e Monza Brianza nel 2026. Guida strategica su SEO, AI Search, e metriche reali.',
     alternates: {
         canonical: '/agenzia-marketing-digitale',
     },
     openGraph: {
-        title: 'Agenzia Marketing Digitale: La Guida Strategica 2026',
+        title: 'Agenzia Marketing Digitale Milano e Monza Brianza: La Guida Strategica 2026',
         description: 'Non sprecare budget. Ecco come distinguere un\'agenzia seria da una fabbrica di fumo. La guida definitiva di W[r]Digital.',
         url: 'https://www.wrdigital.it/agenzia-marketing-digitale',
         type: 'article',
@@ -27,7 +27,7 @@ const jsonLd = {
     "@graph": [
         {
             "@type": "Article",
-            "headline": "Agenzia Marketing Digitale: La Guida Completa alla Strategia [r]eale 2026",
+            "headline": "Agenzia Marketing Digitale Milano e Monza Brianza: La Guida Completa alla Strategia [r]eale 2026",
             "image": "https://www.wrdigital.it/og-pillar-marketing.jpg",
             "author": {
                 "@type": "Organization",
@@ -79,7 +79,7 @@ export default function PillarPage() {
             <header className={styles.hero}>
                 <span className={styles.heroLabel}>Pillar Page 2026</span>
                 <h1 className={styles.title}>
-                    Agenzia Marketing Digitale: <br />
+                    Agenzia Marketing Digitale a Milano e Monza Brianza: <br />
                     La Guida Completa alla Strategia <span className={styles.brandedText}><span className={styles.bracket}>[</span><span className={styles.letterR}>r</span><span className={styles.bracket}>]</span>eale</span> 2026
                 </h1>
                 <p className={styles.subtitle}>

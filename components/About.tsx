@@ -56,8 +56,8 @@ export default function About() {
                             Un team di <span className="text-gradient">appassionati</span> del digitale.
                         </h2>
                         <p className={styles.description}>
-                            Siamo WR Digital, una digital agency con sede a Milano che aiuta brand
-                            ambiziosi a raggiungere risultati straordinari nel mondo digitale.
+                            Siamo WR Digital, una digital agency basata a Milano, che supporta brand
+                            ambiziosi a raggiungere risultati straordinari nell'area di Milano, Monza Brianza e non solo.
                         </p>
                         <p className={styles.description}>
                             Il nostro approccio combina creatività, tecnologia e strategia
@@ -119,7 +119,7 @@ export default function About() {
                     <div className={styles.logos}>
                         <Image
                             src="/client-logos.png"
-                            alt="Loghi dei clienti partner di W[r]Digital - Agenzia Digital Marketing Milano"
+                            alt="Loghi dei clienti partner di W[r]Digital - Agenzia Digital Marketing Milano e Monza Brianza"
                             width={800}
                             height={100}
                             className={styles.logosImage}

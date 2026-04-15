@@ -23,7 +23,7 @@ export default function StructuredData({ config }: StructuredDataProps) {
         "alternateName": "W[r]Digital",
         "url": "https://www.wrdigital.it",
         "logo": logoUrl,
-        "description": "Digital agency specializzata in SEO, Social Media Marketing, Web Development e Advertising a Milano",
+        "description": "Digital agency specializzata in SEO, Social Media Marketing, Web Development e Advertising a Milano e Monza Brianza",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Via Venezia, 2",
@@ -138,7 +138,7 @@ export default function StructuredData({ config }: StructuredDataProps) {
     const websiteSchema = {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "W[r]Digital - Agenzia Digital Marketing Milano",
+        "name": "W[r]Digital - Agenzia Digital Marketing Milano e Monza Brianza",
         "url": "https://www.wrdigital.it",
         "potentialAction": {
             "@type": "SearchAction",

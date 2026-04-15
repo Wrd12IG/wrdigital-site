@@ -217,7 +217,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                 <div className={styles.background}>
                     <Image
                         src={config.backgroundImage || `/hero-custom.webp`}
-                        alt={customAlt || config.backgroundImageAlt || "Agenzia Digital Marketing Milano"}
+                        alt={customAlt || config.backgroundImageAlt || "Agenzia Digital Marketing Milano e Monza Brianza"}
                         fill
                         priority
                         fetchPriority="high"
