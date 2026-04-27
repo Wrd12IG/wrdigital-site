@@ -105,11 +105,23 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-import { Inter } from 'next/font/google';
+import { Space_Grotesk, JetBrains_Mono, Manrope } from 'next/font/google';
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-space-grotesk',
+  display: 'swap',
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+});
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
   display: 'swap',
 });
 
@@ -121,10 +133,12 @@ export default async function RootLayout({
   const config = await getSiteConfig();
 
   return (
-    <html lang="it" suppressHydrationWarning className={inter.variable} style={{ '--icon-color': config?.iconColor || '#eab308' } as React.CSSProperties}>
+    <html lang="it" suppressHydrationWarning className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} ${manrope.variable}`} style={{ '--icon-color': config?.iconColor || '#eab308' } as React.CSSProperties}>
       <head>
       </head>
-      <body suppressHydrationWarning>
+      <body suppressHydrationWarning className="relative antialiased selection:bg-yellow-400 selection:text-black">
+        {/* Global Noise Overlay */}
+        <div className="pointer-events-none fixed inset-0 z-50 h-full w-full opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
         <ScrollProgress />
         <noscript>
           <iframe
