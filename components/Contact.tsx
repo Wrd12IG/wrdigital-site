@@ -176,12 +176,53 @@ export default function Contact() {
                                         <circle cx="12" cy="10" r="3" />
                                     </svg>
                                 </div>
-                                <div>
-                                    <span className={styles.methodLabel}>Sede</span>
+                                <div className="w-full">
+                                    <span className={styles.methodLabel}>Sede Operativa</span>
                                     <span className={styles.methodValue}>
                                         Via Venezia, 2<br />
                                         20834 Nova Milanese (MB)
                                     </span>
+                                    
+                                    {/* Google Maps Embed & Local SEO CTAs */}
+                                    <div className="mt-4 w-full rounded-xl overflow-hidden border border-white/10 relative group">
+                                        <div className="absolute inset-0 bg-yellow-400/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10" />
+                                        <iframe 
+                                            src="https://maps.google.com/maps?q=WRDigital%20Via%20Venezia%202%20Nova%20Milanese&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                            width="100%" 
+                                            height="200" 
+                                            style={{border:0, display: 'block'}} 
+                                            allowFullScreen 
+                                            loading="lazy" 
+                                            referrerPolicy="no-referrer-when-downgrade"
+                                            title="Mappa WRDigital Nova Milanese"
+                                        ></iframe>
+                                    </div>
+                                    
+                                    <div className="flex flex-col sm:flex-row gap-2 mt-3">
+                                        <a 
+                                            href="https://www.google.com/maps/dir/?api=1&destination=WRDigital,+Via+Venezia,+2,+20834+Nova+Milanese+MB" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="text-xs font-bold text-black bg-yellow-400 hover:bg-yellow-300 py-2 px-3 rounded-md text-center transition-colors flex-1 flex items-center justify-center gap-1"
+                                        >
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                            </svg>
+                                            Ottieni Indicazioni
+                                        </a>
+                                        <a 
+                                            href="https://search.google.com/local/writereview?placeid=ChIJr-R-nQG3hkcRFM-b_8g21C0" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="text-xs font-bold text-white bg-white/10 hover:bg-white/20 border border-white/10 py-2 px-3 rounded-md text-center transition-colors flex-1 flex items-center justify-center gap-1"
+                                        >
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-yellow-400">
+                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                            </svg>
+                                            Lascia una Recensione
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
