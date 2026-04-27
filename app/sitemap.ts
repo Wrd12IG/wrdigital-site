@@ -9,6 +9,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         { route: '', priority: 1.0, changeFreq: 'weekly' as const },
         { route: '/preventivo', priority: 0.8, changeFreq: 'weekly' as const },
         { route: '/agenzia-marketing-digitale', priority: 0.9, changeFreq: 'weekly' as const },
+        { route: '/agenzia-digital-marketing-monza-brianza', priority: 0.85, changeFreq: 'weekly' as const },
+        { route: '/consulenza-seo-monza', priority: 0.8, changeFreq: 'weekly' as const },
         { route: '/blog', priority: 0.8, changeFreq: 'weekly' as const },
         { route: '/portfolio', priority: 0.8, changeFreq: 'weekly' as const },
         { route: '/incentivi-2026', priority: 0.7, changeFreq: 'monthly' as const },

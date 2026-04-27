@@ -1,10 +1,10 @@
 {
   "home": {
-    "title": "Digital Agency Milano: SEO, Social & Web | W[r]Digital",
-    "description": "Trasforma il tuo brand con W[r]Digital. Strategie SEO, Social Media e Sviluppo Web che portano risultati misurabili. Richiedi la tua audit gratuita oggi.",
-    "keywords": "digital agency milano, agenzia seo, social media marketing, sviluppo web, crescita organica",
-    "ogTitle": "W[r]Digital | L'Agenzia che scala il tuo business",
-    "ogDescription": "Non la solita agenzia. Un partner strategico per la tua crescita digitale.",
+    "title": "Agenzia Digital Marketing Milano e Monza Brianza | W[r]Digital",
+    "description": "W[r]Digital — agenzia marketing digitale a Milano e Monza Brianza. SEO, Social Media, Google Ads e Web Design con ROI misurabile. Audit gratuita.",
+    "keywords": "digital agency milano, agenzia marketing digitale monza brianza, agenzia seo, social media marketing, sviluppo web",
+    "ogTitle": "W[r]Digital | Agenzia Digital Marketing Milano e Monza Brianza",
+    "ogDescription": "Non la solita agenzia. Un partner strategico per la tua crescita digitale a Milano, Monza e tutta la Brianza.",
     "ogImage": "/og-image.png",
     "schemaType": "Organization",
     "hasFaq": true,
@@ -26,10 +26,10 @@
     "videoUrl": ""
   },
   "seo": {
-    "title": "Agenzia SEO Milano: Posizionamento Google Garantito | W[r]Digital",
-    "description": "Scala la SERP con W[r]Digital. Strategie SEO data-driven, Link Building e Ottimizzazione Tecnica per dominare il tuo mercato. Inizia la scalata ora.",
-    "keywords": "agenzia seo milano, consulenza seo, posizionamento siti web, link building, audit seo tecnica",
-    "ogTitle": "Domina la prima pagina di Google | SEO W[r]Digital",
+    "title": "Agenzia SEO Milano e Monza Brianza: Prima Pagina Google | W[r]Digital",
+    "description": "Scala la SERP con W[r]Digital. Strategie SEO data-driven per Milano e Monza Brianza: Link Building, Ottimizzazione Tecnica e Content Strategy. Audit gratuita.",
+    "keywords": "agenzia seo milano, agenzia seo monza, consulenza seo brianza, posizionamento siti web, link building, audit seo tecnica",
+    "ogTitle": "Domina la prima pagina di Google | SEO W[r]Digital Milano",
     "ogDescription": "Essere in seconda pagina significa essere invisibili. Cambia le regole del gioco.",
     "ogImage": "/og-seo.png",
     "schemaType": "Service",
@@ -46,14 +46,18 @@
       {
         "q": "Garantite la prima posizione?",
         "a": "Nessuno può garantire la #1 (mentirebbe). Noi garantiamo un metodo scientifico e trasparente che ha portato il 95% dei nostri clienti in prima pagina."
+      },
+      {
+        "q": "Servite solo Milano o anche Monza e la Brianza?",
+        "a": "Operiamo attivamente in tutta la Provincia di Milano, Monza e Brianza e il resto della Lombardia. Il team è basato a Nova Milanese, a pochi minuti da Monza."
       }
     ],
     "hasInternalLinks": true
   },
   "social": {
-    "title": "Social Media Agency: Strategie che Convertono | W[r]Digital",
-    "description": "Più che like, creiamo clienti. Gestione professionale Instagram, TikTok e LinkedIn con focus su E-E-A-T e conversioni. Scopri la nostra strategia social.",
-    "keywords": "social media agency, gestione instagram, tiktok marketing, social media manager milano, content creation",
+    "title": "Social Media Agency Milano e Monza: Strategie che Convertono | W[r]Digital",
+    "description": "Più che like, creiamo clienti. Gestione professionale Instagram, TikTok e LinkedIn a Milano e Monza Brianza con focus su conversioni. Scopri la nostra strategia.",
+    "keywords": "social media agency milano, gestione instagram monza, tiktok marketing brianza, social media manager, content creation",
     "ogTitle": "Trasforma i Follower in Clienti | Social W[r]Digital",
     "ogDescription": "Smetti di postare a caso. Inizia a costruire una community fedele.",
     "ogImage": "/og-social.png",
@@ -72,9 +76,9 @@
     "hasInternalLinks": true
   },
   "ads": {
-    "title": "Google Ads & Meta Advertising: Campagne ROI+ | W[r]Digital",
-    "description": "Smetti di bruciare budget. Campagne PPC mirate su Google e Social che massimizzano il tuo ritorno sull'investimento. Richiedi un'analisi gratuita.",
-    "keywords": "google ads agency, meta ads, pubblicità online, ppc management, lead generation",
+    "title": "Google Ads e Meta Advertising Milano e Monza | Campagne ROI+ | W[r]Digital",
+    "description": "Smetti di bruciare budget. Campagne PPC mirate su Google e Social a Milano e Monza Brianza che massimizzano il ROI. Richiedi un'analisi gratuita.",
+    "keywords": "google ads agency milano, meta ads monza, pubblicità online brianza, ppc management, lead generation",
     "ogTitle": "Advertising che Ripaga l'Investimento | Ads W[r]Digital",
     "ogDescription": "Ogni euro speso deve portarne indietro almeno due. Questa è la nostra filosofia.",
     "ogImage": "/og-ads.png",
@@ -93,10 +97,10 @@
     "hasInternalLinks": true
   },
   "web": {
-    "title": "Sviluppo Siti Web: Veloci, Moderni, Efficaci | W[r]Digital",
-    "description": "Il tuo sito è lento? Perdi clienti. Realizziamo siti web ultra-performanti, mobile-first e ottimizzati SEO. Il tuo miglior venditore, attivo 24/7.",
-    "keywords": "realizzazione siti web milano, web design, siti ecommerce, sviluppo web custom, restyling sito",
-    "ogTitle": "Siti Web Belli ma Soprattutto Veloci | Web W[r]Digital",
+    "title": "Realizzazione Siti Web Milano e Monza Brianza | Veloci e Ottimizzati SEO | W[r]Digital",
+    "description": "Il tuo sito è lento? Perdi clienti. Realizziamo siti web ultra-performanti a Milano e Monza Brianza: mobile-first, PageSpeed 95+ e ottimizzati SEO. Preventivo in 24h.",
+    "keywords": "realizzazione siti web milano, web design monza brianza, siti ecommerce, sviluppo web custom, restyling sito",
+    "ogTitle": "Siti Web Veloci e Convertenti | Web W[r]Digital Milano",
     "ogDescription": "Design premium e performance da Formula 1. Il connubio perfetto.",
     "ogImage": "/og-web.png",
     "schemaType": "Service",
@@ -114,51 +118,33 @@
     "hasInternalLinks": true
   },
   "portfolio": {
-    "title": "Digital Agency Milano: SEO, Social & Web | W[r]Digital",
-    "description": "Trasforma il tuo brand con W[r]Digital. Strategie SEO, Social Media e Sviluppo Web che portano risultati misurabili. Richiedi la tua audit gratuita oggi.",
-    "keywords": "digital agency milano, agenzia seo, social media marketing, sviluppo web, crescita organica",
-    "ogTitle": "W[r]Digital | L'Agenzia che scala il tuo business",
-    "ogDescription": "Non la solita agenzia. Un partner strategico per la tua crescita digitale.",
+    "title": "Portfolio — Case Study di Digital Marketing | W[r]Digital Milano",
+    "description": "Scopri i risultati reali dei nostri clienti a Milano e Monza Brianza: +380% traffico organico, ROAS 5.2x e siti web con PageSpeed 98. Risultati verificabili.",
+    "keywords": "portfolio agenzia digital marketing, case study seo, risultati campagne google ads, esempi web design",
+    "ogTitle": "Case Study e Risultati Reali | Portfolio W[r]Digital",
+    "ogDescription": "I numeri parlano chiaro. Scopri cosa abbiamo fatto per i nostri clienti.",
     "ogImage": "/og-portfolio.png",
     "schemaType": "Service",
-    "hasFaq": true,
-    "pageFaqs": [
-      {
-        "q": "Perché scegliere W[r]Digital?",
-        "a": "Perché uniamo creatività e dati. Non seguiamo solo le tendenze, costruiamo strategie personalizzate basate su KPI reali e ROI misurabile."
-      },
-      {
-        "q": "Quali servizi offrite?",
-        "a": "Copriamo l'intero ecosistema digitale: SEO tecnica per scalare Google, Gestione Social per creare community, e Sviluppo Web performante."
-      },
-      {
-        "q": "Lavorate con piccole imprese?",
-        "a": "Sì, scaliamo le nostre strategie in base ai tuoi obiettivi, che tu sia una startup ambiziosa o un brand consolidato."
-      }
-    ],
-    "hasInternalLinks": true
+    "hasFaq": false,
+    "pageFaqs": []
   },
   "contatti": {
-    "title": "Digital Agency Milano: SEO, Social & Web | W[r]Digital",
-    "description": "Trasforma il tuo brand con W[r]Digital. Strategie SEO, Social Media e Sviluppo Web che portano risultati misurabili. Richiedi la tua audit gratuita oggi.",
-    "keywords": "digital agency milano, agenzia seo, social media marketing, sviluppo web, crescita organica",
-    "ogTitle": "Contattaci | WR Digital",
-    "ogDescription": "Parliamo del tuo progetto.",
+    "title": "Contattaci | Agenzia Digital Marketing Milano e Monza | W[r]Digital",
+    "description": "Hai un progetto? Parlaci. Siamo a Nova Milanese, a 5 minuti da Monza. Audit gratuita, risposta entro 24h. Il tuo percorso verso la crescita digitale inizia qui.",
+    "keywords": "contattare agenzia digital marketing, preventivo web design, consulenza seo gratis, agenzia monza brianza",
+    "ogTitle": "Parliamo del tuo Progetto | Contatti W[r]Digital",
+    "ogDescription": "Audit gratuita. Risposta in 24h. Nessun impegno.",
     "ogImage": "/og-image.png",
-    "schemaType": "Service",
+    "schemaType": "LocalBusiness",
     "hasFaq": true,
     "pageFaqs": [
       {
-        "q": "Perché scegliere W[r]Digital?",
-        "a": "Perché uniamo creatività e dati. Non seguiamo solo le tendenze, costruiamo strategie personalizzate basate su KPI reali e ROI misurabile."
+        "q": "Siete disponibili per incontri di persona?",
+        "a": "Certo! Il nostro ufficio è a Nova Milanese (MB), a pochi minuti da Monza e raggiungibile da tutta la Brianza e Milano in meno di 30 minuti."
       },
       {
-        "q": "Quali servizi offrite?",
-        "a": "Copriamo l'intero ecosistema digitale: SEO tecnica per scalare Google, Gestione Social per creare community, e Sviluppo Web performante."
-      },
-      {
-        "q": "Lavorate con piccole imprese?",
-        "a": "Sì, scaliamo le nostre strategie in base ai tuoi obiettivi, che tu sia una startup ambiziosa o un brand consolidato."
+        "q": "Come funziona la prima consulenza?",
+        "a": "La prima call è gratuita e dura circa 30 minuti. Analizziamo la tua situazione attuale e ti presentiamo le opportunità concrete per il tuo business."
       }
     ]
   }
