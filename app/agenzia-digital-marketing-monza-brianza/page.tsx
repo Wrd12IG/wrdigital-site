@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import comuniData from '@/data/comuni-mb.json';
 
 export const metadata: Metadata = {
     title: 'Agenzia Digital Marketing Monza Brianza | SEO, Ads e Web | W[r]Digital',
@@ -149,14 +150,13 @@ export default function MonzaBrianzaPage() {
             {/* TERRITORY SIGNAL */}
             <section className="py-12 border-y border-white/10 bg-white/2">
                 <div className="max-w-5xl mx-auto px-6">
-                    <p className="text-center text-gray-500 text-sm uppercase tracking-widest mb-6 font-mono">Operiamo in tutta la provincia di Monza e Brianza</p>
+                    <p className="text-center text-gray-500 text-sm uppercase tracking-widest mb-6 font-mono">Scegli il tuo comune in provincia di Monza e Brianza</p>
                     <div className="flex flex-wrap justify-center gap-3">
-                        {CITIES.map(city => (
-                            <span key={city} className="text-sm text-gray-300 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:border-yellow-400/30 hover:text-yellow-400 transition-colors">
-                                {city}
-                            </span>
+                        {comuniData.map(city => (
+                            <Link key={city.slug} href={`/zona/${city.slug}`} className="text-sm text-gray-300 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:border-yellow-400/50 hover:text-yellow-400 hover:shadow-[0_0_15px_rgba(250,204,21,0.2)] transition-all">
+                                {city.name}
+                            </Link>
                         ))}
-                        <span className="text-sm text-gray-500 bg-white/2 border border-white/5 px-4 py-1.5 rounded-full italic">e altri comuni...</span>
                     </div>
                 </div>
             </section>
