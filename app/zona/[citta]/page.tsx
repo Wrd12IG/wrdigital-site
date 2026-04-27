@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import comuniData from '@/data/comuni-mb.json';
 
+// Statically pre-render all zone pages at build time
+export const dynamicParams = false;
+
 type Comune = typeof comuniData[0];
 
 function getComune(slug: string): Comune | undefined {
