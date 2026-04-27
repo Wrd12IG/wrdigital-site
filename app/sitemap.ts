@@ -1,10 +1,11 @@
 import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/prisma';
+import comuniData from '@/data/comuni-mb.json';
 
 const baseUrl = 'https://www.wrdigital.it';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    // 1. Static Pages - with correct priorities
+    // 1. Static Pages
     const staticRoutes = [
         { route: '', priority: 1.0, changeFreq: 'weekly' as const },
         { route: '/preventivo', priority: 0.8, changeFreq: 'weekly' as const },
@@ -23,7 +24,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority,
     }));
 
-    // 2. Dynamic Services (from DB)
+    // 2. Geo zone pages — one per municipality, driven by comuni-mb.json
+    const zoneRoutes = comuniData.map(comune => ({
+        url: `${baseUrl}/zona/${comune.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+    }));
+
+    // 3. Dynamic Services (from DB)
     const services = await prisma.page.findMany({
         where: { published: true },
         select: { slug: true, updatedAt: true }
@@ -36,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.9,
     }));
 
-    // 3. Dynamic Blog Posts (from DB) - use slug for semantic SEO URLs (not random id)
+    // 4. Dynamic Blog Posts (from DB)
     const posts = await prisma.blogPost.findMany({
         where: { published: true, deleted: false },
         select: { slug: true, id: true, updatedAt: true }
@@ -45,12 +54,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const blogRoutes = posts
         .filter((post) => post.slug && post.slug.trim() !== '')
         .map((post) => ({
-            // Prefer semantic slug; fall back to id only if slug is unavailable
             url: `${baseUrl}/blog/${post.slug || post.id}`,
             lastModified: post.updatedAt,
             changeFrequency: 'daily' as const,
             priority: 0.7,
         }));
 
-    return [...staticRoutes, ...serviceRoutes, ...blogRoutes];
+    return [...staticRoutes, ...zoneRoutes, ...serviceRoutes, ...blogRoutes];
 }

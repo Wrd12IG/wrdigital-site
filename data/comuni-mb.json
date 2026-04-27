@@ -1,0 +1,342 @@
+[
+  {
+    "slug": "monza",
+    "name": "Monza",
+    "population": 120000,
+    "distanceKm": 5,
+    "cap": "20900",
+    "lat": 45.5845,
+    "lng": 9.2744,
+    "sectors": ["retail", "moda", "automotive", "servizi professionali"],
+    "economy": "capoluogo di provincia con forte presenza di PMI nel retail, moda e automotive. Il circuito di Formula 1 e il Parco della Reggia attirano flussi turistici e brand internazionali.",
+    "uniqueIntro": "Monza è il cuore economico e istituzionale della Brianza. Con 120.000 abitanti e un tessuto imprenditoriale denso, la competizione online per visibilità locale è alta: farsi trovare su Google prima dei competitor è una priorità per ogni negozio, studio e PMI monzese.",
+    "cityFaq": {
+      "q": "Fate SEO per negozi e studi professionali a Monza?",
+      "a": "Sì. A Monza gestiamo campagne SEO locali per retail, studi medici, legali, agenzie immobiliari e PMI. Ottimizziamo anche il profilo Google Business per apparire nelle ricerche 'vicino a me' nel territorio monzese."
+    },
+    "nearby": ["seregno", "lissone", "brugherio"]
+  },
+  {
+    "slug": "seregno",
+    "name": "Seregno",
+    "population": 44000,
+    "distanceKm": 10,
+    "cap": "20831",
+    "lat": 45.6497,
+    "lng": 9.2025,
+    "sectors": ["tessile", "industria manifatturiera", "commercio", "artigianato"],
+    "economy": "storico polo tessile e manifatturiero della Brianza, con un centro commerciale attivo e una forte presenza di aziende artigianali.",
+    "uniqueIntro": "Seregno è uno dei centri più attivi della Brianza, con una tradizione manifatturiera nel tessile e nell'artigianato. Le aziende seregnensi che vogliono crescere online devono competere sia sul mercato locale che su quello nazionale: serve una strategia SEO su misura.",
+    "cityFaq": {
+      "q": "Supportate aziende manifatturiere e tessili di Seregno nel digital marketing?",
+      "a": "Assolutamente. Abbiamo esperienza con aziende B2B della Brianza che cercano visibilità su mercati nazionali e internazionali. Costruiamo strategie SEO e Ads orientate alla generazione di lead qualificati per il settore manifatturiero."
+    },
+    "nearby": ["carate-brianza", "meda", "desio"]
+  },
+  {
+    "slug": "desio",
+    "name": "Desio",
+    "population": 41000,
+    "distanceKm": 8,
+    "cap": "20832",
+    "lat": 45.6183,
+    "lng": 9.2142,
+    "sectors": ["automotive", "tecnologia", "commercio", "logistica"],
+    "economy": "importante polo industriale con presenza di aziende automotive e tecnologiche. Posizione strategica tra Milano e Monza.",
+    "uniqueIntro": "Desio è un comune in forte sviluppo, con un tessuto industriale orientato all'automotive e alla tecnologia. Le imprese desiensi che vogliono acquisire clienti online trovano in W[r]Digital un partner che conosce il territorio e le sue specificità di mercato.",
+    "cityFaq": {
+      "q": "Gestite campagne Google Ads per aziende automotive e tech a Desio?",
+      "a": "Sì. Abbiamo gestito campagne per aziende industriali e tech della zona di Desio, con focus su lead generation B2B e posizionamento su Google per keyword di settore specifiche."
+    },
+    "nearby": ["nova-milanese", "cesano-maderno", "seregno"]
+  },
+  {
+    "slug": "lissone",
+    "name": "Lissone",
+    "population": 44000,
+    "distanceKm": 7,
+    "cap": "20851",
+    "lat": 45.6108,
+    "lng": 9.2408,
+    "sectors": ["arredamento", "design", "showroom", "retail"],
+    "economy": "capitale italiana del mobile e dell'arredamento, con centinaia di showroom, mobilifici e aziende del design. L'identità commerciale è fortemente legata al settore furniture.",
+    "uniqueIntro": "Lissone è la capitale del mobile in Italia. Centinaia di showroom e mobilifici competono per la stessa clientela — chi non è visibile online semplicemente non esiste per il cliente che cerca su Google. W[r]Digital specializza campagne SEO e Ads per il settore arredamento lissonese.",
+    "cityFaq": {
+      "q": "Fate SEO e Ads per mobilifici e showroom a Lissone?",
+      "a": "È uno dei nostri settori di punta. A Lissone la concorrenza tra showroom è altissima: costruiamo campagne Google Shopping, SEO per categorie prodotto e strategie social per portare clienti fisici nello showroom."
+    },
+    "nearby": ["monza", "nova-milanese", "biassono"]
+  },
+  {
+    "slug": "cesano-maderno",
+    "name": "Cesano Maderno",
+    "population": 37000,
+    "distanceKm": 12,
+    "cap": "20811",
+    "lat": 45.6319,
+    "lng": 9.1503,
+    "sectors": ["chimica", "farmaceutica", "industria", "commercio"],
+    "economy": "polo chimico-farmaceutico di riferimento in Brianza, con importanti stabilimenti produttivi e un tessuto commerciale attivo.",
+    "uniqueIntro": "Cesano Maderno ospita alcune delle aziende chimiche e farmaceutiche più importanti della Brianza. Per le PMI locali che operano in questi settori, la visibilità digitale è cruciale per attrarre talent, partner e clienti B2B.",
+    "cityFaq": {
+      "q": "Lavorate con aziende farmaceutiche e chimiche di Cesano Maderno?",
+      "a": "Sì, gestiamo strategie di digital marketing B2B per aziende industriali di Cesano Maderno: SEO per keyword di settore, LinkedIn Ads per attrarre partner e campagne Google per il reclutamento."
+    },
+    "nearby": ["limbiate", "nova-milanese", "bovisio-masciago"]
+  },
+  {
+    "slug": "bovisio-masciago",
+    "name": "Bovisio Masciago",
+    "population": 17000,
+    "distanceKm": 11,
+    "cap": "20813",
+    "lat": 45.6275,
+    "lng": 9.1611,
+    "sectors": ["industria", "artigianato", "commercio locale"],
+    "economy": "comune a vocazione industriale e artigianale, con un tessuto di PMI locali nel manifatturiero e nei servizi.",
+    "uniqueIntro": "Bovisio Masciago è un comune con una solida base artigianale e manifatturiera. Le PMI locali che vogliono espandere il proprio mercato oltre i confini comunali trovano nella SEO locale e nel digital marketing gli strumenti più efficaci.",
+    "cityFaq": {
+      "q": "Aiutate PMI artigianali di Bovisio Masciago a crescere online?",
+      "a": "Sì. Progettiamo siti web professionali e campagne SEO per artigiani e piccole imprese di Bovisio, con focus su acquisizione clienti locali e nazionali."
+    },
+    "nearby": ["cesano-maderno", "varedo", "limbiate"]
+  },
+  {
+    "slug": "muggio",
+    "name": "Muggiò",
+    "population": 23000,
+    "distanceKm": 6,
+    "cap": "20835",
+    "lat": 45.5944,
+    "lng": 9.2261,
+    "sectors": ["industria", "residenziale", "commercio di prossimità"],
+    "economy": "comune in posizione strategica tra Monza e Sesto San Giovanni, con un tessuto misto di piccola industria e attività commerciali di prossimità.",
+    "uniqueIntro": "Muggiò si trova a pochi minuti da Monza e dall'area metropolitana milanese. Le attività commerciali e i professionisti muggionesi che vogliono farsi trovare online dai clienti della zona devono presidiare le ricerche locali in modo preciso.",
+    "cityFaq": {
+      "q": "Fate SEO locale per attività commerciali di Muggiò?",
+      "a": "Certamente. Ottimizziamo Google Business Profile, gestiamo le recensioni online e costruiamo campagne SEO locali per negozi, ristoranti e professionisti di Muggiò."
+    },
+    "nearby": ["monza", "brugherio", "nova-milanese"]
+  },
+  {
+    "slug": "brugherio",
+    "name": "Brugherio",
+    "population": 33000,
+    "distanceKm": 8,
+    "cap": "20861",
+    "lat": 45.5597,
+    "lng": 9.2892,
+    "sectors": ["logistica", "industria", "servizi", "e-commerce"],
+    "economy": "polo logistico e industriale alle porte di Milano, con una crescente presenza di aziende nel settore e-commerce e servizi.",
+    "uniqueIntro": "Brugherio è strategicamente posizionata tra Monza e Milano, con una forte vocazione logistica e industriale. Le aziende brugheresi che operano nell'e-commerce o nei servizi trovano in W[r]Digital il partner ideale per la crescita digitale.",
+    "cityFaq": {
+      "q": "Gestite SEO e Ads per e-commerce di Brugherio?",
+      "a": "Sì. Abbiamo expertise specifica in SEO per e-commerce (Google Shopping, SEO tecnica su Shopify/WooCommerce) e campagne Meta/Google Ads per aziende di Brugherio che vendono online."
+    },
+    "nearby": ["monza", "cologno-monzese", "sesto-san-giovanni"]
+  },
+  {
+    "slug": "arcore",
+    "name": "Arcore",
+    "population": 18000,
+    "distanceKm": 12,
+    "cap": "20862",
+    "lat": 45.6225,
+    "lng": 9.3194,
+    "sectors": ["residenziale", "commercio", "piccola industria"],
+    "economy": "comune residenziale di pregio con un tessuto commerciale attivo e alcune realtà industriali storiche.",
+    "uniqueIntro": "Arcore è una realtà residenziale di qualità nella Brianza orientale. Le attività commerciali e i professionisti arcorensi che vogliono attrarre clienti dal territorio circostante hanno bisogno di una presenza digitale forte e geolocalizzata.",
+    "cityFaq": {
+      "q": "Lavorate con professionisti e attività di Arcore?",
+      "a": "Sì. Gestiamo la presenza digitale di studi medici, legali, agenzie immobiliari e attività commerciali di Arcore, ottimizzando Google Business e costruendo campagne SEO locali."
+    },
+    "nearby": ["vimercate", "carate-brianza", "villasanta"]
+  },
+  {
+    "slug": "vimercate",
+    "name": "Vimercate",
+    "population": 27000,
+    "distanceKm": 15,
+    "cap": "20871",
+    "lat": 45.6133,
+    "lng": 9.3669,
+    "sectors": ["tecnologia", "IT", "healthcare", "industria"],
+    "economy": "storico polo tecnologico della Brianza, sede di grandi multinazionali IT come Nokia e Ospedale di Vimercate. Forte vocazione tech e healthcare.",
+    "uniqueIntro": "Vimercate è il polo tech della Brianza, con una storia industriale legata a Nokia e IBM e un distretto healthcare di eccellenza. Le aziende IT e i professionisti del settore medico di Vimercate trovano in W[r]Digital un partner che parla la loro lingua digitale.",
+    "cityFaq": {
+      "q": "Fate digital marketing per aziende IT e healthcare di Vimercate?",
+      "a": "Sì. Abbiamo esperienza con aziende tech e strutture sanitarie della zona: SEO per servizi medici, LinkedIn Ads per software house, e campagne Google per attrarre clienti enterprise."
+    },
+    "nearby": ["arcore", "concorezzo", "agrate-brianza"]
+  },
+  {
+    "slug": "giussano",
+    "name": "Giussano",
+    "population": 24000,
+    "distanceKm": 14,
+    "cap": "20833",
+    "lat": 45.6972,
+    "lng": 9.2136,
+    "sectors": ["arredamento", "legno", "artigianato", "manifatturiero"],
+    "economy": "comune brianzolo con forte tradizione nel settore legno-arredo, produzione di mobili e componentistica per l'industria del design.",
+    "uniqueIntro": "Giussano è un comune a forte vocazione manifatturiera nel settore legno-arredo. Le aziende giussanesi che producono mobili o componenti per il design cercano sempre più visibilità digitale per raggiungere buyer nazionali e internazionali.",
+    "cityFaq": {
+      "q": "Supportate aziende del legno-arredo di Giussano nel marketing digitale?",
+      "a": "Sì. Costruiamo strategie SEO e campagne digitali per produttori di mobili e componentistica di Giussano, con focus su visibilità B2B e presenza su marketplace specializzati."
+    },
+    "nearby": ["seregno", "carate-brianza", "meda"]
+  },
+  {
+    "slug": "meda",
+    "name": "Meda",
+    "population": 23000,
+    "distanceKm": 16,
+    "cap": "20821",
+    "lat": 45.6617,
+    "lng": 9.1525,
+    "sectors": ["mobile", "design", "artigianato", "commercio"],
+    "economy": "comune del distretto del mobile brianzolo, con presenza significativa di aziende nel design e nell'arredamento di qualità.",
+    "uniqueIntro": "Meda fa parte del distretto del mobile più famoso d'Italia. Le aziende medesi del design e dell'arredamento hanno bisogno di una presenza digitale all'altezza della qualità dei loro prodotti, per raggiungere clienti in tutta Italia e all'estero.",
+    "cityFaq": {
+      "q": "Fate SEO e siti web per aziende del mobile di Meda?",
+      "a": "Sì. Realizziamo siti web premium per aziende del design e dell'arredamento di Meda, con fotografia professionale, SEO per keyword di settore e campagne Instagram per raggiungere il pubblico giusto."
+    },
+    "nearby": ["seregno", "giussano", "lentate-sul-seveso"]
+  },
+  {
+    "slug": "limbiate",
+    "name": "Limbiate",
+    "population": 35000,
+    "distanceKm": 13,
+    "cap": "20812",
+    "lat": 45.6061,
+    "lng": 9.1317,
+    "sectors": ["healthcare", "industria", "residenziale", "servizi"],
+    "economy": "comune con una presenza storica nel settore sanitario e riabilitativo, oltre a un tessuto industriale e commerciale attivo.",
+    "uniqueIntro": "Limbiate è nota per la sua tradizione nel settore sanitario e riabilitativo, oltre a ospitare importanti realtà industriali. Professionisti del settore salute e PMI locali trovano in W[r]Digital il partner per costruire visibilità digitale credibile.",
+    "cityFaq": {
+      "q": "Gestite il marketing digitale per strutture sanitarie di Limbiate?",
+      "a": "Sì. Abbiamo esperienza con cliniche, centri riabilitativi e professionisti della salute di Limbiate: SEO locale per ricerche mediche, gestione recensioni Google e campagne di acquisizione pazienti."
+    },
+    "nearby": ["cesano-maderno", "bovisio-masciago", "varedo"]
+  },
+  {
+    "slug": "varedo",
+    "name": "Varedo",
+    "population": 14000,
+    "distanceKm": 14,
+    "cap": "20814",
+    "lat": 45.6119,
+    "lng": 9.1517,
+    "sectors": ["industria", "artigianato", "commercio locale"],
+    "economy": "comune a vocazione industriale e artigianale nella Brianza occidentale, con PMI nei settori manifatturiero e dei servizi.",
+    "uniqueIntro": "Varedo è un comune della Brianza occidentale con un tessuto produttivo solido. Le PMI vareddesi che vogliono crescere oltre i confini locali trovano nelle strategie di digital marketing lo strumento più efficace.",
+    "cityFaq": {
+      "q": "Aiutate le imprese di Varedo a trovare nuovi clienti online?",
+      "a": "Sì. Costruiamo siti web professionali e campagne SEO/Ads per imprese di Varedo, con l'obiettivo di generare lead qualificati oltre il mercato locale."
+    },
+    "nearby": ["limbiate", "bovisio-masciago", "cesano-maderno"]
+  },
+  {
+    "slug": "concorezzo",
+    "name": "Concorezzo",
+    "population": 15000,
+    "distanceKm": 10,
+    "cap": "20863",
+    "lat": 45.5961,
+    "lng": 9.3239,
+    "sectors": ["industria", "residenziale", "commercio"],
+    "economy": "comune industriale nella Brianza orientale, con PMI nel manifatturiero e un tessuto residenziale in crescita.",
+    "uniqueIntro": "Concorezzo è una realtà della Brianza orientale con un tessuto industriale consolidato. Le imprese concorezzesi che cercano nuovi mercati trovano nel digital marketing un canale di acquisizione clienti efficace e misurabile.",
+    "cityFaq": {
+      "q": "Gestite campagne pubblicitarie per aziende di Concorezzo?",
+      "a": "Sì. Progettiamo campagne Google Ads e Meta Ads per PMI di Concorezzo, con tracciamento delle conversioni e reportistica mensile trasparente."
+    },
+    "nearby": ["vimercate", "brugherio", "monza"]
+  },
+  {
+    "slug": "villasanta",
+    "name": "Villasanta",
+    "population": 14000,
+    "distanceKm": 6,
+    "cap": "20852",
+    "lat": 45.5975,
+    "lng": 9.3019,
+    "sectors": ["residenziale", "commercio", "servizi professionali"],
+    "economy": "comune residenziale alle porte di Monza, con un tessuto commerciale e di servizi professionali orientato alla qualità della vita.",
+    "uniqueIntro": "Villasanta è una delle realtà residenziali più apprezzate della Brianza, a pochi minuti dal Parco di Monza. Professionisti e attività commerciali villasantesi che vogliono farsi trovare dai residenti del territorio trovano nella SEO locale lo strumento ideale.",
+    "cityFaq": {
+      "q": "Fate SEO locale per attività di Villasanta?",
+      "a": "Sì. Ottimizziamo la presenza online di professionisti e attività commerciali di Villasanta, con Google Business Profile e campagne SEO geo-targetizzate sul territorio di Monza e Brianza."
+    },
+    "nearby": ["monza", "brugherio", "arcore"]
+  },
+  {
+    "slug": "carate-brianza",
+    "name": "Carate Brianza",
+    "population": 18000,
+    "distanceKm": 16,
+    "cap": "20841",
+    "lat": 45.6808,
+    "lng": 9.2386,
+    "sectors": ["manifatturiero", "agricoltura", "artigianato", "servizi"],
+    "economy": "comune della Brianza alta con tradizione manifatturiera e agricola, in transizione verso servizi e commercio evoluto.",
+    "uniqueIntro": "Carate Brianza è un comune della Brianza alta che unisce tradizione manifatturiera e vocazione agricola. Le imprese e i professionisti caratensi che vogliono modernizzare la loro presenza digitale trovano in W[r]Digital un partner affidabile e vicino.",
+    "cityFaq": {
+      "q": "Lavorate con aziende agricole e artigianali di Carate Brianza?",
+      "a": "Sì. Abbiamo esperienza con aziende agricole e artigianali della Brianza alta che vogliono vendere online o attrarre clienti locali: e-commerce, SEO locale e social media per il territorio."
+    },
+    "nearby": ["seregno", "giussano", "arcore"]
+  },
+  {
+    "slug": "biassono",
+    "name": "Biassono",
+    "population": 12000,
+    "distanceKm": 7,
+    "cap": "20853",
+    "lat": 45.6278,
+    "lng": 9.2856,
+    "sectors": ["residenziale", "commercio", "industria leggera"],
+    "economy": "comune residenziale con piccole realtà industriali e commerciali, in posizione strategica tra Monza e Lissone.",
+    "uniqueIntro": "Biassono è un comune residenziale tra Monza e il cuore del distretto del mobile. Le attività locali che vogliono intercettare i flussi di clientela della zona trovano nella SEO locale uno strumento preciso ed efficace.",
+    "cityFaq": {
+      "q": "Aiutate i commercianti di Biassono a crescere online?",
+      "a": "Sì. Per i commercianti di Biassono costruiamo una presenza online forte: Google Business ottimizzato, sito web professionale e campagne pubblicitarie geolocalizzate."
+    },
+    "nearby": ["lissone", "monza", "carate-brianza"]
+  },
+  {
+    "slug": "agrate-brianza",
+    "name": "Agrate Brianza",
+    "population": 16000,
+    "distanceKm": 14,
+    "cap": "20864",
+    "lat": 45.5778,
+    "lng": 9.3536,
+    "sectors": ["tecnologia", "farmaceutica", "logistica", "industria"],
+    "economy": "polo industriale avanzato con presenza di grandi multinazionali tech e farmaceutiche, tra cui STMicroelectronics.",
+    "uniqueIntro": "Agrate Brianza ospita alcune delle aziende tecnologiche più importanti d'Italia, tra cui STMicroelectronics. Il tessuto industriale avanzato richiede una comunicazione digitale di alto livello per attrarre talenti, partner e clienti B2B.",
+    "cityFaq": {
+      "q": "Gestite il marketing digitale per aziende tech di Agrate Brianza?",
+      "a": "Sì. Costruiamo strategie digitali B2B per aziende tecnologiche di Agrate: employer branding su LinkedIn, SEO per keyword di settore e campagne Google per lead generation enterprise."
+    },
+    "nearby": ["vimercate", "concorezzo", "brugherio"]
+  },
+  {
+    "slug": "sovico",
+    "name": "Sovico",
+    "population": 8000,
+    "distanceKm": 9,
+    "cap": "20845",
+    "lat": 45.6406,
+    "lng": 9.2850,
+    "sectors": ["residenziale", "artigianato", "commercio locale"],
+    "economy": "comune residenziale della Brianza con un tessuto artigianale e commerciale radicato nella comunità locale.",
+    "uniqueIntro": "Sovico è una realtà residenziale e artigianale della Brianza, dove il legame con la comunità locale è forte. Le attività soviachesi che vogliono farsi trovare dai clienti del territorio trovano nella SEO locale lo strumento più diretto ed efficace.",
+    "cityFaq": {
+      "q": "Supportate gli artigiani e i commercianti di Sovico?",
+      "a": "Sì. Anche per le realtà più piccole costruiamo una presenza digitale professionale: Google Business, sito web e campagne pubblicitarie calibrate sul budget disponibile."
+    },
+    "nearby": ["lissone", "carate-brianza", "biassono"]
+  }
+]
