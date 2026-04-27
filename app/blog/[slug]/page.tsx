@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { Metadata } from 'next';
 import { Calendar, Clock } from 'lucide-react';
@@ -7,32 +7,54 @@ import staticPosts from '@/data/blog.json';
 
 import { prisma } from '@/lib/prisma';
 
-// Helper to get post
-const getPost = async (slug: string) => {
+// Helper to get post — supports both semantic slug and legacy ID
+const getPost = async (slugOrId: string) => {
     try {
-        // 1. Try DB
+        // 1. Try DB by slug
         const dbPost = await prisma.blogPost.findFirst({
-            where: { slug, deleted: false }
+            where: { slug: slugOrId, deleted: false }
         });
-        if (dbPost) return dbPost;
+        if (dbPost) return { post: dbPost, redirectTo: null };
 
-        // 2. Try static fallback
-        const staticPost = (staticPosts as any[]).find(p => p.slug === slug && !p.deleted);
-        return staticPost || null;
+        // 2. Try DB by ID (legacy URL like /blog/cmn0yll9d0000fp436ewl9713)
+        const dbPostById = await prisma.blogPost.findFirst({
+            where: { id: slugOrId, deleted: false, published: true }
+        });
+        if (dbPostById && dbPostById.slug && dbPostById.slug !== slugOrId) {
+            // Return redirect signal — the page will 308 redirect to canonical slug URL
+            return { post: dbPostById, redirectTo: `/blog/${dbPostById.slug}` };
+        }
+        if (dbPostById) return { post: dbPostById, redirectTo: null };
+
+        // 3. Try static fallback by slug
+        const staticPost = (staticPosts as any[]).find(p => p.slug === slugOrId && !p.deleted);
+        if (staticPost) return { post: staticPost, redirectTo: null };
+
+        // 4. Try static fallback by id
+        const staticById = (staticPosts as any[]).find(p => p.id === slugOrId && !p.deleted);
+        if (staticById && staticById.slug && staticById.slug !== slugOrId) {
+            return { post: staticById, redirectTo: `/blog/${staticById.slug}` };
+        }
+        if (staticById) return { post: staticById, redirectTo: null };
+
+        return null;
     } catch (e) {
         // Fallback on DB error
-        return (staticPosts as any[]).find(p => p.slug === slug && !p.deleted) || null;
+        const fallback = (staticPosts as any[]).find(p => p.slug === slugOrId && !p.deleted);
+        return fallback ? { post: fallback, redirectTo: null } : null;
     }
 };
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const params = await props.params;
-    const post = await getPost(params.slug) as any;
-    if (!post) return { title: 'Blog | W[r]Digital' };
+    const result = await getPost(params.slug) as any;
+    if (!result) return { title: 'Blog | W[r]Digital' };
+    const post = result.post;
 
     const pageTitle = post.metaTitle || post.title;
     const pageDesc = post.metaDescription || post.excerpt || `Leggi l'articolo completo su ${post.title}`;
     const pageImage = post.image || '/og-default.jpg';
+    const authorName = post.authorName || post.author || 'W[r]Digital Team';
 
     return {
         title: pageTitle,
@@ -44,8 +66,8 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
             siteName: 'W[r]Digital Blog',
             locale: 'it_IT',
             type: 'article',
-            publishedTime: post.date || undefined, // Fix for null check
-            authors: ['W[r]Digital Team'],
+            publishedTime: post.date || undefined,
+            authors: [authorName],
             images: [
                 {
                     url: pageImage,
@@ -69,9 +91,16 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
 
 export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
     const params = await props.params;
-    const rawPost = await getPost(params.slug);
+    const result = await getPost(params.slug);
 
-    if (!rawPost) notFound();
+    if (!result) notFound();
+    const { post: rawPost, redirectTo } = result as any;
+
+    // Permanent redirect for legacy ID-based URLs to canonical slug URL
+    if (redirectTo) {
+        redirect(redirectTo);
+    }
+
     const post = rawPost as any;
 
     return (
@@ -103,10 +132,24 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                         {post.title}
                     </h1>
 
+                    {/* Author + Date row */}
                     <div className="flex flex-wrap justify-center items-center gap-4 text-gray-300 text-sm font-mono border-t border-white/10 pt-6 inline-block w-full">
-                        <span className="flex items-center gap-2"><Calendar className="w-4 h-4" /> {post.date}</span>
+                        <span className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4" /> {post.date}
+                        </span>
                         <span className="hidden md:inline">•</span>
                         <span className="flex items-center gap-2"><Clock className="w-4 h-4" /> {post.readTime} di lettura</span>
+                        {(post.authorName || post.author) && (
+                            <>
+                                <span className="hidden md:inline">•</span>
+                                <span className="flex items-center gap-2">
+                                    <span className="inline-block w-5 h-5 rounded-full bg-yellow-400/20 border border-yellow-400/50 text-yellow-400 text-[10px] font-bold flex items-center justify-center">
+                                        {(post.authorName || post.author || 'WD').charAt(0)}
+                                    </span>
+                                    {post.authorName || post.author}
+                                </span>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -171,15 +214,24 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                     <div className="bg-[#111] border border-white/10 p-8 rounded-2xl flex flex-col md:flex-row items-center md:items-start gap-6 shadow-2xl relative overflow-hidden group hover:border-yellow-400/30 transition-all duration-500">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
-                        <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-400/50 flex-shrink-0 shadow-[0_0_20px_rgba(250,204,21,0.2)] flex items-center justify-center bg-gray-800">
-                            {/* Placeholder Avatar */}
-                            <span className="text-2xl font-bold text-gray-500">WD</span>
+                        <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-400/50 flex-shrink-0 shadow-[0_0_20px_rgba(250,204,21,0.2)] flex items-center justify-center bg-gradient-to-br from-yellow-400/20 to-yellow-900/20">
+                            {post.authorAvatar ? (
+                                <img src={post.authorAvatar} alt={post.authorName || 'Autore'} className="w-full h-full object-cover" />
+                            ) : (
+                                <span className="text-2xl font-bold text-yellow-400">
+                                    {(post.authorName || 'WD').split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()}
+                                </span>
+                            )}
                         </div>
                         <div className="text-center md:text-left">
-                            <p className="text-xs text-yellow-400 uppercase font-bold mb-2 tracking-widest">Autore & Strategist</p>
-                            <h4 className="text-white font-bold text-xl mb-3">Team Strategy W[r]Digital</h4>
+                            <p className="text-xs text-yellow-400 uppercase font-bold mb-2 tracking-widest">
+                                {post.authorRole || 'Autore & Strategist'}
+                            </p>
+                            <h4 className="text-white font-bold text-xl mb-3">
+                                {post.authorName || 'Team Strategy W[r]Digital'}
+                            </h4>
                             <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                                Aiutiamo aziende visionarie a scalare il proprio business attraverso Digital Transformation, AI Marketing e Strategie Data-Driven.
+                                {post.authorBio || 'Aiutiamo aziende visionarie a scalare il proprio business attraverso Digital Transformation, AI Marketing e Strategie Data-Driven.'}
                             </p>
                             <a href="/#contatti" className="text-white text-xs font-bold uppercase border-b border-yellow-400 pb-0.5 hover:text-yellow-400 transition-colors">
                                 Richiedi una consulenza strategica →

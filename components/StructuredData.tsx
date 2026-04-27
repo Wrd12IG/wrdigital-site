@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { servicesData } from '@/data/services';
 import blogPosts from '@/data/blog.json';
+import faqData from '@/data/faq.json';
 
 interface StructuredDataProps {
     config?: {
@@ -86,15 +87,12 @@ export default function StructuredData({ config }: StructuredDataProps) {
             "bestRating": "5",
             "worstRating": "1"
         },
-        "areaServed": {
-            "@type": "GeoCircle",
-            "geoMidpoint": {
-                "@type": "GeoCoordinates",
-                "latitude": 45.4642,
-                "longitude": 9.1900
-            },
-            "geoRadius": "50000" // Serve Milan area + 50km
-        },
+        "areaServed": [
+            { "@type": "City", "name": "Milano", "sameAs": "https://www.wikidata.org/wiki/Q490" },
+            { "@type": "City", "name": "Monza", "sameAs": "https://www.wikidata.org/wiki/Q3515" },
+            { "@type": "AdministrativeArea", "name": "Provincia di Monza e della Brianza" },
+            { "@type": "AdministrativeArea", "name": "Provincia di Milano" }
+        ],
         "sameAs": [
             "https://www.instagram.com/wrdigital",
             "https://www.linkedin.com/company/wrdigital",
@@ -150,7 +148,22 @@ export default function StructuredData({ config }: StructuredDataProps) {
         }
     };
 
-    const homepageFaqSchema = null;
+    // Homepage FAQ Schema — top 5 general/agency questions
+    const homepageFaqSchema = pathname === '/' ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": (faqData as any[])
+            .sort((a, b) => (b.priority || 0) - (a.priority || 0))
+            .slice(0, 5)
+            .map(item => ({
+                "@type": "Question",
+                "name": item.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": item.answer
+                }
+            }))
+    } : null;
 
     const breadcrumbSchema = getBreadcrumbSchema();
 
@@ -207,7 +220,7 @@ export default function StructuredData({ config }: StructuredDataProps) {
                 "url": `https://www.wrdigital.it${pathname}`,
                 "priceCurrency": "EUR",
                 "price": "1500.00",
-                "priceValidUntil": "2025-12-31",
+                "priceValidUntil": `${new Date().getFullYear()}-12-31`,
                 "availability": "https://schema.org/InStock",
                 "itemCondition": "https://schema.org/NewCondition"
             }
@@ -251,11 +264,18 @@ export default function StructuredData({ config }: StructuredDataProps) {
             "headline": post.title,
             "description": post.excerpt || post.metaDescription,
             "image": post.image,
-            "author": {
-                "@type": "Organization",
-                "name": "Team Strategy W[r]Digital",
-                "url": "https://www.wrdigital.it"
-            },
+            "author": [
+                {
+                    "@type": "Person",
+                    "name": post.authorName || "Team Strategy W[r]Digital",
+                    "url": "https://www.wrdigital.it",
+                    "worksFor": {
+                        "@type": "Organization",
+                        "name": "W[r]Digital",
+                        "url": "https://www.wrdigital.it"
+                    }
+                }
+            ],
             "publisher": {
                 "@type": "Organization",
                 "name": "W[r]Digital",

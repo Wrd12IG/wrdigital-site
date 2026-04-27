@@ -57,7 +57,7 @@ export default function Footer({ isDarkMode = true, onToggleTheme, logo }: Foote
 
                     {/* Compact Contacts */}
                     <div className={styles.contactsCompact}>
-                        <div className={styles.text}>Via Venezia, 2 - 20834 Nova Milanese (MB)</div>
+                        <div className={styles.text}>WRDigital S.r.l. &mdash; Via Venezia, 2 - 20834 Nova Milanese (MB)</div>
                         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                             <a href="tel:+393401204651" className={styles.link}>+39 340 120 4651</a>
                             <span style={{ color: 'var(--color-text-muted)', opacity: 0.3 }}>|</span>
@@ -109,7 +109,7 @@ export default function Footer({ isDarkMode = true, onToggleTheme, logo }: Foote
             {/* Bottom Bar */}
             <div className={styles.bottomBar}>
                 <div className={styles.copyright}>
-                    Copyright © {currentYear} wrdigital - P.IVA IT10961410965
+                    Copyright &copy; {currentYear} WRDigital S.r.l. &mdash; P.IVA IT10961410965
                 </div>
                 <div className={styles.legalLinks}>
                     <a href="/cookie-policy" className={styles.legalLink}>Cookie Policy</a>

@@ -118,10 +118,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 "https://www.instagram.com/wrdigital.it"
             ]
         },
-        "areaServed": {
-            "@type": "City",
-            "name": "Milano"
-        },
+        "areaServed": [
+            { "@type": "City", "name": "Milano" },
+            { "@type": "City", "name": "Monza" },
+            { "@type": "AdministrativeArea", "name": "Provincia di Monza e della Brianza" },
+            { "@type": "AdministrativeArea", "name": "Lombardia" }
+        ],
         "url": `https://www.wrdigital.it/servizi/${slug}`,
         "image": page.seo?.ogImage || "https://www.wrdigital.it/images/og-default.jpg"
     };
