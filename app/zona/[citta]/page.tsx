@@ -16,8 +16,9 @@ export async function generateStaticParams() {
     return comuniData.map(c => ({ citta: c.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { citta: string } }): Promise<Metadata> {
-    const comune = getComune(params.citta);
+export async function generateMetadata({ params }: { params: Promise<{ citta: string }> }): Promise<Metadata> {
+    const resolvedParams = await params;
+    const comune = getComune(resolvedParams.citta);
     if (!comune) return { title: 'Pagina non trovata' };
 
     return {
@@ -44,8 +45,9 @@ const SERVICES = [
     { slug: 'web', label: 'Siti Web', desc: (c: Comune) => `Realizzazione siti web veloci, mobile-first e ottimizzati SEO per le PMI di ${c.name}.` },
 ];
 
-export default function CittaPage({ params }: { params: { citta: string } }) {
-    const comune = getComune(params.citta);
+export default async function CittaPage({ params }: { params: Promise<{ citta: string }> }) {
+    const resolvedParams = await params;
+    const comune = getComune(resolvedParams.citta);
     if (!comune) notFound();
 
     const jsonLd = {
