@@ -200,7 +200,7 @@ export default async function CittaPage({ params }: { params: Promise<{ citta: s
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         {SERVICES.map(s => (
-                            <Link key={s.slug} href={`/servizi/${s.slug}`} className="group p-7 bg-black border border-white/10 rounded-2xl hover:border-yellow-400/40 transition-all duration-300">
+                            <Link key={s.slug} href={`/servizi/${s.slug}/${comune.slug}`} className="group p-7 bg-black border border-white/10 rounded-2xl hover:border-yellow-400/40 transition-all duration-300">
                                 <h3 className="text-lg font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">{s.label}</h3>
                                 <p className="text-gray-400 text-sm leading-relaxed mb-4">{s.desc(comune)}</p>
                                 <span className="text-yellow-400 text-xs font-bold uppercase tracking-wider">Scopri →</span>

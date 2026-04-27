@@ -32,6 +32,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
     }));
 
+    // 2.1 Geo Service pages — Programmatic SEO (4 services x 20 municipalities)
+    const serviceGeoRoutes: any[] = [];
+    const servicesList = ['seo', 'ads', 'social', 'web'];
+    comuniData.forEach(comune => {
+        servicesList.forEach(servizio => {
+            serviceGeoRoutes.push({
+                url: `${baseUrl}/servizi/${servizio}/${comune.slug}`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly' as const,
+                priority: 0.6,
+            });
+        });
+    });
+
     // 3. Dynamic Services (from DB)
     const services = await prisma.page.findMany({
         where: { published: true },
@@ -60,5 +74,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.7,
         }));
 
-    return [...staticRoutes, ...zoneRoutes, ...serviceRoutes, ...blogRoutes];
+    return [...staticRoutes, ...zoneRoutes, ...serviceGeoRoutes, ...serviceRoutes, ...blogRoutes];
 }
