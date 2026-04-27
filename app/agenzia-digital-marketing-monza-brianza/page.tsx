@@ -161,6 +161,48 @@ export default function MonzaBrianzaPage() {
                 </div>
             </section>
 
+            {/* PR & LOCAL TRUST SIGNALS */}
+            <section className="py-16 px-6 bg-black">
+                <div className="max-w-4xl mx-auto text-center">
+                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                        Il Partner Digitale Certificato in Brianza
+                    </h2>
+                    <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+                        Siamo orgogliosi di essere riconosciuti come punto di riferimento per l&apos;innovazione delle PMI sul territorio. Hanno parlato di noi sulle principali testate giornalistiche della provincia:
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto text-left">
+                        <a 
+                            href="https://www.mbnews.it/dal-territorio/wrdigital-il-partner-digitale-per-far-crescere-le-aziende-di-monza-e-brianza/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="bg-white/5 border border-white/10 p-6 rounded-2xl hover:border-yellow-400/50 transition-colors group flex flex-col justify-between"
+                        >
+                            <p className="text-gray-300 text-sm mb-4 leading-relaxed group-hover:text-white transition-colors">
+                                &quot;W[r]Digital: il partner digitale per far crescere le aziende di Monza e Brianza...&quot;
+                            </p>
+                            <div className="flex items-center gap-2">
+                                <span className="font-black text-white text-lg tracking-tighter">MBNews<span className="text-yellow-400">.it</span></span>
+                                <span className="text-xs text-gray-500 font-mono">→ Leggi</span>
+                            </div>
+                        </a>
+                        <a 
+                            href="https://www.mbnews.it/2023/06/agenzia-servizi-web-monza-brianza-wrdigital/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="bg-white/5 border border-white/10 p-6 rounded-2xl hover:border-yellow-400/50 transition-colors group flex flex-col justify-between"
+                        >
+                            <p className="text-gray-300 text-sm mb-4 leading-relaxed group-hover:text-white transition-colors">
+                                &quot;Un&apos;agenzia di servizi web a Monza e Brianza focalizzata sul ROI garantito per le imprese locali...&quot;
+                            </p>
+                            <div className="flex items-center gap-2">
+                                <span className="font-black text-white text-lg tracking-tighter">MBNews<span className="text-yellow-400">.it</span></span>
+                                <span className="text-xs text-gray-500 font-mono">→ Leggi</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
             {/* SERVICES */}
             <section className="py-24 px-6">
                 <div className="max-w-5xl mx-auto">

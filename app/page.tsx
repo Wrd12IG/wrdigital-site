@@ -104,6 +104,8 @@ async function getHomeData() {
   return { clients: fallbackClients, siteConfig: {}, projects: [], testimonials: fallbackTestimonials, blogPosts: [] };
 }
 
+import AsFeaturedIn from '@/components/AsFeaturedIn';
+
 export default async function Home() {
   const serverTimestamp = Date.now();
   const homeData = await getHomeData();
@@ -123,6 +125,9 @@ export default async function Home() {
           customAlt={homeData.alt_hero}
           initialConfig={homeData.siteConfig.hero}
         />
+
+        {/* PR and Media Mentions */}
+        <AsFeaturedIn />
 
         {/* Hanno Scelto W[r]Digital - Marquee */}
         <FloatingLogos initialClients={homeData.clients} />
