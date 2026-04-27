@@ -267,7 +267,7 @@ export default function StructuredData({ config }: StructuredDataProps) {
             "author": [
                 {
                     "@type": "Person",
-                    "name": post.authorName || "Team Strategy W[r]Digital",
+                    "name": (post as any).authorName || "Team Strategy W[r]Digital",
                     "url": "https://www.wrdigital.it",
                     "worksFor": {
                         "@type": "Organization",
