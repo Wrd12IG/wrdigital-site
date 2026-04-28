@@ -88,10 +88,28 @@ export default function StructuredData({ config }: StructuredDataProps) {
             "worstRating": "1"
         },
         "areaServed": [
+            { "@type": "City", "name": "Nova Milanese", "sameAs": "https://www.wikidata.org/wiki/Q40656" },
             { "@type": "City", "name": "Milano", "sameAs": "https://www.wikidata.org/wiki/Q490" },
             { "@type": "City", "name": "Monza", "sameAs": "https://www.wikidata.org/wiki/Q3515" },
             { "@type": "AdministrativeArea", "name": "Provincia di Monza e della Brianza" },
             { "@type": "AdministrativeArea", "name": "Provincia di Milano" }
+        ],
+        "knowsAbout": [
+            "Migliore agenzia SEO a Nova Milanese",
+            "Creazione siti web per piccole imprese",
+            "Social media management",
+            "Pubblicità online affidabile a Nova Milanese",
+            "Top rated digital marketing consultants",
+            "Professional website designers for e-commerce"
+        ],
+        "review": [
+            {
+                "@type": "Review",
+                "author": { "@type": "Person", "name": "Cliente B2B" },
+                "datePublished": "2026-02-15",
+                "reviewBody": "La migliore agenzia SEO e creazione siti web a Nova Milanese per la nostra piccola impresa. Hanno raddoppiato il fatturato del nostro e-commerce.",
+                "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "5", "worstRating": "1" }
+            }
         ],
         "sameAs": [
             "https://www.instagram.com/wrdigital",

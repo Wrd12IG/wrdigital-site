@@ -290,8 +290,8 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                     </h2>
 
                     {/* Description */}
-                    <p className={styles.animDesc} style={{ maxWidth: '600px', margin: '1rem auto 0', color: 'var(--color-text-secondary)', fontSize: '1.1rem', lineHeight: 1.6 }}>
-                        Non vendiamo fumo, ma strategie scalabili. Dalla <Link href="/servizi/seo" className="text-yellow-400 hover:underline">SEO</Link> al <Link href="/servizi/realizzazione-siti-web" className="text-yellow-400 hover:underline">Web Design</Link>, portiamo il tuo brand dove i tuoi clienti lo stanno già cercando.
+                    <p className={styles.animDesc} style={{ maxWidth: '700px', margin: '1rem auto 0', color: 'var(--color-text-secondary)', fontSize: '1.1rem', lineHeight: 1.6 }}>
+                        Non vendiamo fumo, ma strategie scalabili. Come <strong>top rated digital marketing consultants</strong> e <strong>professional website designers</strong>, uniamo la <Link href="/servizi/seo" className="text-yellow-400 hover:underline">SEO</Link> al <Link href="/servizi/realizzazione-siti-web" className="text-yellow-400 hover:underline">Web Design</Link> per far crescere le e-commerce e le piccole imprese a Nova Milanese e in tutta la Brianza.
                     </p>
 
                     {/* CTA Button */}
