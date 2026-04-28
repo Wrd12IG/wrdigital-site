@@ -131,7 +131,7 @@
 
 .textContainer {
     margin-bottom: var(--spacing-xl);
-    max-width: 680px; /* Constrained to leave room for floating stats widget */
+    max-width: 850px; /* Constrained to leave room for floating stats widget */
     width: 100%;
 }
 
@@ -217,7 +217,7 @@
     margin-bottom: var(--spacing-sm);
     line-height: 1.4;
     letter-spacing: -0.01em;
-    max-width: 680px; /* Keep within text column, away from floating widget */
+    max-width: 850px; /* Keep within text column, away from floating widget */
 }
 
 /* Description: "Non vendiamo fumo..." */
