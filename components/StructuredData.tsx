@@ -95,11 +95,11 @@ export default function StructuredData({ config }: StructuredDataProps) {
             { "@type": "AdministrativeArea", "name": "Provincia di Milano" }
         ],
         "knowsAbout": [
-            "Migliore agenzia SEO a Nova Milanese",
+            "Migliore agenzia SEO a Milano e Monza Brianza",
             "Creazione siti web per piccole imprese",
             "Social media management",
-            "Pubblicità online affidabile a Nova Milanese",
-            "Top rated digital marketing consultants",
+            "Pubblicità online affidabile a Monza Brianza",
+            "Top rated digital marketing consultants Milan",
             "Professional website designers for e-commerce"
         ],
         "review": [
@@ -107,7 +107,7 @@ export default function StructuredData({ config }: StructuredDataProps) {
                 "@type": "Review",
                 "author": { "@type": "Person", "name": "Cliente B2B" },
                 "datePublished": "2026-02-15",
-                "reviewBody": "La migliore agenzia SEO e creazione siti web a Nova Milanese per la nostra piccola impresa. Hanno raddoppiato il fatturato del nostro e-commerce.",
+                "reviewBody": "La migliore agenzia SEO e creazione siti web a Milano e Monza Brianza per la nostra impresa. Hanno raddoppiato il fatturato del nostro e-commerce.",
                 "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "5", "worstRating": "1" }
             }
         ],
