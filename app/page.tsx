@@ -9,6 +9,7 @@ const CaseStudies = dynamic(() => import('@/components/CaseStudies'));
 const Services = dynamic(() => import('@/components/Services'));
 const TeamSection = dynamic(() => import('@/components/TeamSection'));
 const Testimonials = dynamic(() => import('@/components/Testimonials'));
+const HomepageFaq = dynamic(() => import('@/components/HomepageFaq'));
 const Blog = dynamic(() => import('@/components/Blog'));
 const DynamicSeoContent = dynamic(() => import('@/components/DynamicSeoContent'));
 const Contact = dynamic(() => import('@/components/Contact'));
@@ -149,6 +150,9 @@ export default async function Home() {
           initialTestimonials={homeData.testimonials}
           initialConfig={homeData.siteConfig.testimonials}
         />
+
+        {/* FAQ geo-specifiche — rich snippet locale + E-E-A-T */}
+        <HomepageFaq />
 
         {/* Blog */}
         <Blog initialPosts={homeData.blogPosts} />

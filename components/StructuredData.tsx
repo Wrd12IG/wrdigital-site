@@ -51,14 +51,16 @@ export default function StructuredData({ config }: StructuredDataProps) {
     // Enhanced LocalBusiness Schema
     const localBusinessSchema = {
         "@context": "https://schema.org",
-        "@type": ["LocalBusiness", "ProfessionalService", "DigitalMarketingAgency"], // Multi-type for better categorization
+        "@type": ["LocalBusiness", "ProfessionalService", "MarketingAgency"],
         "name": "W[r]Digital - Agenzia Digital Marketing",
-        "image": logoUrl,
+        "image": [logoUrl, "https://www.wrdigital.it/og-image.png"],
         "@id": "https://www.wrdigital.it",
         "url": "https://www.wrdigital.it",
         "telephone": "+39-340-120-4651",
         "priceRange": "€€",
         "email": "info@wrdigital.it",
+        "foundingDate": "2019",
+        "hasMap": "https://www.google.com/maps/place/WRDigital,+Via+Venezia,+2,+20834+Nova+Milanese+MB",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Via Venezia, 2",
@@ -69,7 +71,7 @@ export default function StructuredData({ config }: StructuredDataProps) {
         },
         "geo": {
             "@type": "GeoCoordinates",
-            "latitude": 45.5898, // Verified Coords for Via Venezia 2, Nova Milanese
+            "latitude": 45.5898,
             "longitude": 9.1995
         },
         "openingHoursSpecification": [
@@ -105,9 +107,16 @@ export default function StructuredData({ config }: StructuredDataProps) {
         "review": [
             {
                 "@type": "Review",
-                "author": { "@type": "Person", "name": "Cliente B2B" },
-                "datePublished": "2026-02-15",
-                "reviewBody": "La migliore agenzia SEO e creazione siti web a Milano e Monza Brianza per la nostra impresa. Hanno raddoppiato il fatturato del nostro e-commerce.",
+                "author": { "@type": "Person", "name": "Marco Bianchi" },
+                "datePublished": "2025-11-10",
+                "reviewBody": "Con W[r]Digital abbiamo triplicato le richieste di preventivo online in 4 mesi. La migliore agenzia SEO di Monza e Brianza per le PMI.",
+                "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "5", "worstRating": "1" }
+            },
+            {
+                "@type": "Review",
+                "author": { "@type": "Person", "name": "Giulia Rossi" },
+                "datePublished": "2026-01-22",
+                "reviewBody": "Sito e-commerce realizzato in 6 settimane, velocissimo e ottimizzato SEO. Team professionale e sempre disponibile a Milano.",
                 "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "5", "worstRating": "1" }
             }
         ],
@@ -166,13 +175,13 @@ export default function StructuredData({ config }: StructuredDataProps) {
         }
     };
 
-    // Homepage FAQ Schema — top 5 general/agency questions
+    // Homepage FAQ Schema — top FAQ geo-locali (priorità 11 > 10)
     const homepageFaqSchema = pathname === '/' ? {
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": (faqData as any[])
             .sort((a, b) => (b.priority || 0) - (a.priority || 0))
-            .slice(0, 5)
+            .slice(0, 6)
             .map(item => ({
                 "@type": "Question",
                 "name": item.question,

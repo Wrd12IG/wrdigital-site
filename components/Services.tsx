@@ -29,7 +29,7 @@ const services: (Service & { pillarText: string; pillarLink: string })[] = [
         ),
         title: 'SEO & Content',
         description: 'Essere in seconda pagina su Google significa essere invisibili. Scaliamo i motori di ricerca con un approccio tecnico e contenuti ROI-oriented.',
-        features: ['Audit Tecnica Profonda', 'Link Building Autorità', 'Content Strategy', 'Local SEO'],
+        features: ['Audit Tecnica Profonda', 'Link Building Autorità', 'Content Strategy', 'Local SEO Milano'],
         accent: '#00d4ff',
         pillarText: 'Vuoi sapere come dominiamo gli algoritmi? Scopri la nostra [r]icerca tecnica nella [Guida al Marketing 2026].',
         pillarLink: '/agenzia-marketing-digitale#pilastri'
@@ -45,10 +45,10 @@ const services: (Service & { pillarText: string; pillarLink: string })[] = [
         ),
         title: 'Web Design',
         description: 'Un sito lento allontana i clienti. Progettiamo esperienze web ultra-veloci, moderne e ottimizzate per convertire ogni visita.',
-        features: ['Mobile-First Design', 'Velocità < 2s', 'UX Conversion-Focused', 'E-Commerce'],
+        features: ['Mobile-First Design', 'Velocità < 2s', 'UX Conversion-Focused', 'E-Commerce Milano'],
         accent: '#10b981',
         pillarText: 'Non è solo estetica. Leggi come progettiamo architetture ad alte performance nel nostro [Manuale Strategico].',
-        pillarLink: '/agenzia-marketing-digitale#pilastri' // Linking Technical Realization
+        pillarLink: '/agenzia-marketing-digitale#pilastri'
     },
     {
         id: 'social',
@@ -77,7 +77,7 @@ const services: (Service & { pillarText: string; pillarLink: string })[] = [
         ),
         title: 'Advertising',
         description: 'Smetti di bruciare budget. Campagne PPC chirurgiche su Google e Meta dove paghi solo per risultati misurabili.',
-        features: ['Google Ads', 'Meta Ads', 'Programmatic', 'Retargeting'],
+        features: ['Google Ads Milano', 'Meta Ads Brianza', 'Programmatic', 'Retargeting'],
         accent: '#f59e0b',
         pillarText: 'Smetti di bruciare budget. Scopri il metodo [r]eale per campagne ROI-positive.',
         pillarLink: '/agenzia-marketing-digitale'

@@ -52,8 +52,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL('https://www.wrdigital.it'),
-    title: "Agenzia Digital Marketing Milano e Monza Brianza | ROI Garantito | W[r]Digital",
-    description: "Agenzia Digital Marketing a Milano e Monza Brianza: SEO, SEM, Social Media e Web Development. +300% traffico organico garantito. Consulenza gratuita.",
+    title: "Agenzia Marketing Digitale Milano | W[r]Digital",
+    description: "Agenzia Digital Marketing a Milano e Monza Brianza (Nova Milanese). SEO, Ads, Social Media e Web Design con ROI garantito. +300% traffico. Preventivo gratuito.",
     keywords: "agenzia digital marketing milano, agenzia digital marketing monza e brianza, web agency milano, web agency monza e brianza, SEO milano, SEO monza e brianza, consulenza SEO, realizzazione siti web milano, realizzazione siti web monza e brianza, social media marketing, pubblicità online, google ads milano, google ads monza e brianza, lead generation, crescita aziendale",
     authors: [{ name: "WR Digital Team", url: "https://www.wrdigital.it" }],
     creator: "WR Digital",
@@ -67,8 +67,8 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       url: "https://www.wrdigital.it",
-      title: "W[r]Digital | Agenzia Digital Marketing Milano e Monza Brianza - ROI Garantito",
-      description: "Trasformiamo il tuo business con strategie digitali ad alto ROI: SEO, SEM, Social Media e Web Design. +300% traffico organico garantito.",
+      title: "Agenzia Marketing Digitale Milano e Monza Brianza | W[r]Digital",
+      description: "Agenzia Digital Marketing a Milano e Monza Brianza: SEO, Ads, Social Media e Web Design con ROI garantito. +300% traffico organico. Preventivo gratuito.",
       siteName: "W[r]Digital",
       images: [{
         url: config.ogImage || "/og-image.png",

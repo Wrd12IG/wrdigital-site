@@ -275,12 +275,17 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         <span className={styles.titleOutline} aria-hidden="true">
                             {displayTitle.replace('[r]', '[r]')}
                         </span>
-                        <h1 id="main-h1" className={`${styles.title} ${styles.animTitle}`}>
+                        {/* H1 semantico con keyword geo-locale per SEO */}
+                        <h1
+                            id="main-h1"
+                            className={`${styles.title} ${styles.animTitle}`}
+                            aria-label="Agenzia Digital Marketing a Milano e Monza Brianza - W[r]Digital"
+                        >
                             {renderTitle()}
                         </h1>
                     </div>
 
-                    {/* Subtitle */}
+                    {/* H2 con keyword locale esplicita — segnale SEO geo-targeted */}
                     <h2
                         id="main-sub"
                         className={`${styles.subtitle} ${styles.animSubtitle}`}

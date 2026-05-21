@@ -104,5 +104,37 @@
     "service": "ads",
     "priority": 10,
     "keywords": ["top rated digital marketing consultants", "brand development milan"]
+  },
+  {
+    "id": "local_faq_office",
+    "question": "Avete un ufficio fisico vicino a Milano?",
+    "answer": "Sì! W[r]Digital ha sede operativa a Nova Milanese (MB), in Via Venezia 2, a pochi minuti da Monza e facilmente raggiungibile da Milano. Serviamo clienti in tutta la provincia di Monza e Brianza e nell'area metropolitana milanese. Puoi venirci a trovare previo appuntamento oppure iniziare con una consulenza gratuita online.",
+    "service": "seo",
+    "priority": 11,
+    "keywords": ["ufficio digital marketing vicino milano", "agenzia nova milanese", "sede monza brianza"]
+  },
+  {
+    "id": "local_faq_cost_seo_milan",
+    "question": "Quanto costa una consulenza SEO a Milano e Monza Brianza?",
+    "answer": "I nostri piani SEO per aziende nell'area di Milano e Monza Brianza partono da €1.200/mese per PMI locali. Il costo varia in base alla competitività delle keyword, al settore e agli obiettivi. Offriamo un'audit SEO gratuita per darti un preventivo preciso prima di qualsiasi impegno. Contattaci per sapere quanto costerebbe la SEO per la tua azienda a Milano o in Brianza.",
+    "service": "seo",
+    "priority": 11,
+    "keywords": ["costo consulenza seo milano", "preventivo seo monza brianza", "prezzo agenzia seo"]
+  },
+  {
+    "id": "local_faq_monza_brianza",
+    "question": "Operate anche a Monza e in tutta la Brianza?",
+    "answer": "Assolutamente sì. W[r]Digital opera in tutta la provincia di Monza e Brianza: Monza, Nova Milanese, Desio, Lissone, Seregno, Cesano Maderno, Muggiò, Bovisio-Masciago e comuni limitrofi. Conosciamo il tessuto imprenditoriale locale della Brianza e siamo il partner ideale per le PMI del territorio che vogliono crescere online.",
+    "service": "seo",
+    "priority": 11,
+    "keywords": ["agenzia marketing monza brianza", "digital marketing desio", "web agency seregno lissone"]
+  },
+  {
+    "id": "local_faq_google_partner",
+    "question": "W[r]Digital è un'agenzia certificata Google?",
+    "answer": "Sì, il team di W[r]Digital è certificato Google su Google Ads Search, Shopping Ads e Google Measurement. Queste certificazioni garantiscono che le tue campagne pubblicitarie siano gestite seguendo le best practice ufficiali di Google. Operiamo come agenzia di riferimento per imprese di Milano e Monza Brianza che vogliono massimizzare il ROI delle loro campagne Google.",
+    "service": "ads",
+    "priority": 11,
+    "keywords": ["agenzia certificata google milano", "google partner monza brianza", "google ads agenzia brianza"]
   }
 ]
