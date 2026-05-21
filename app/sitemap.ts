@@ -4,42 +4,47 @@ import comuniData from '@/data/comuni-mb.json';
 
 const baseUrl = 'https://www.wrdigital.it';
 
+const CORE_PAGES_DATE = new Date('2026-05-21T00:00:00.000Z');
+const ZONE_PAGES_DATE = new Date('2025-03-01T00:00:00.000Z');
+const GEO_PAGES_LAUNCH_DATE = new Date('2024-09-01T00:00:00.000Z');
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    // 1. Static Pages
+    // 1. Static Pages — date reali specifiche, non new Date() uniforme
     const staticRoutes = [
-        { route: '', priority: 1.0, changeFreq: 'weekly' as const },
-        { route: '/preventivo', priority: 0.8, changeFreq: 'weekly' as const },
-        { route: '/agenzia-marketing-digitale', priority: 0.9, changeFreq: 'weekly' as const },
-        { route: '/agenzia-digital-marketing-monza-brianza', priority: 0.85, changeFreq: 'weekly' as const },
-        { route: '/consulenza-seo-monza', priority: 0.8, changeFreq: 'weekly' as const },
-        { route: '/blog', priority: 0.8, changeFreq: 'weekly' as const },
-        { route: '/portfolio', priority: 0.8, changeFreq: 'weekly' as const },
-        { route: '/incentivi-2026', priority: 0.7, changeFreq: 'monthly' as const },
-        { route: '/privacy-policy', priority: 0.3, changeFreq: 'monthly' as const },
-        { route: '/cookie-policy', priority: 0.3, changeFreq: 'monthly' as const },
-    ].map(({ route, priority, changeFreq }) => ({
+        { route: '', priority: 1.0, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
+        { route: '/preventivo', priority: 0.8, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
+        { route: '/agenzia-marketing-digitale', priority: 0.9, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
+        { route: '/agenzia-digital-marketing-monza-brianza', priority: 0.85, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
+        { route: '/agenzia-digital-marketing-milano', priority: 0.85, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
+        { route: '/consulenza-seo-monza', priority: 0.8, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
+        { route: '/blog', priority: 0.8, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
+        { route: '/portfolio', priority: 0.8, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
+        { route: '/incentivi-2026', priority: 0.7, changeFreq: 'monthly' as const, date: new Date('2026-01-01T00:00:00.000Z') },
+        { route: '/privacy-policy', priority: 0.3, changeFreq: 'monthly' as const, date: new Date('2024-05-01T00:00:00.000Z') },
+        { route: '/cookie-policy', priority: 0.3, changeFreq: 'monthly' as const, date: new Date('2024-05-01T00:00:00.000Z') },
+    ].map(({ route, priority, changeFreq, date }) => ({
         url: `${baseUrl}${route}`,
-        lastModified: new Date(),
+        lastModified: date,
         changeFrequency: changeFreq,
         priority,
     }));
 
-    // 2. Geo zone pages — one per municipality, driven by comuni-mb.json
+    // 2. Geo zone pages — data di creazione reale (non oggi)
     const zoneRoutes = comuniData.map(comune => ({
         url: `${baseUrl}/zona/${comune.slug}`,
-        lastModified: new Date(),
+        lastModified: ZONE_PAGES_DATE,
         changeFrequency: 'monthly' as const,
         priority: 0.7,
     }));
 
-    // 2.1 Geo Service pages — Programmatic SEO (4 services x 20 municipalities)
+    // 2.1 Geo Service pages — Programmatic SEO (4 services x comuni)
     const serviceGeoRoutes: any[] = [];
     const servicesList = ['seo', 'ads', 'social', 'web'];
     comuniData.forEach(comune => {
         servicesList.forEach(servizio => {
             serviceGeoRoutes.push({
                 url: `${baseUrl}/servizi/${servizio}/${comune.slug}`,
-                lastModified: new Date(),
+                lastModified: GEO_PAGES_LAUNCH_DATE,
                 changeFrequency: 'monthly' as const,
                 priority: 0.6,
             });

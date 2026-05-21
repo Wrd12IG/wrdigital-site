@@ -80,8 +80,8 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "W[r]Digital | Agenzia Digital Marketing Milano e Monza Brianza",
-      description: "Strategie digitali ad alto ROI: SEO, SEM, Social Media. +300% traffico organico. Consulenza gratuita.",
+      title: "Agenzia Marketing Digitale Milano | W[r]Digital",
+      description: "Strategie digitali ad alto ROI per PMI a Milano e Monza Brianza: SEO, SEM, Social Media. +300% traffico organico. Consulenza gratuita.",
       images: [config.ogImage || "/og-image.png"],
     },
     robots: {

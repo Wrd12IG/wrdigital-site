@@ -55,6 +55,16 @@ export default function Footer({ isDarkMode = true, onToggleTheme, logo }: Foote
                         <button onClick={openContactModal} className={styles.link}>Contatti</button>
                     </nav>
 
+                    {/* Aree Servite — link interni per Local SEO */}
+                    <nav className={styles.horizontalNav} aria-label="Aree geografiche servite" style={{ marginTop: '8px', opacity: 0.75 }}>
+                        <span style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginRight: '4px' }}>Aree:</span>
+                        <a href="/agenzia-digital-marketing-milano" className={styles.link} style={{ fontSize: '0.8rem' }}>Milano</a>
+                        <a href="/agenzia-digital-marketing-monza-brianza" className={styles.link} style={{ fontSize: '0.8rem' }}>Monza Brianza</a>
+                        <a href="/consulenza-seo-monza" className={styles.link} style={{ fontSize: '0.8rem' }}>SEO Monza</a>
+                        <a href="/zona/monza" className={styles.link} style={{ fontSize: '0.8rem' }}>Monza</a>
+                        <a href="/zona/seregno" className={styles.link} style={{ fontSize: '0.8rem' }}>Seregno</a>
+                    </nav>
+
                     {/* Compact Contacts — NAP strutturato per Local SEO */}
                     <address className={styles.contactsCompact} style={{ fontStyle: 'normal' }}>
                         <div className={styles.text}>
