@@ -13,6 +13,7 @@ const HomepageFaq = dynamic(() => import('@/components/HomepageFaq'));
 const Blog = dynamic(() => import('@/components/Blog'));
 const DynamicSeoContent = dynamic(() => import('@/components/DynamicSeoContent'));
 const Contact = dynamic(() => import('@/components/Contact'));
+const Pricing = dynamic(() => import('@/components/Pricing'));
 
 
 import { prisma } from '@/lib/prisma';
@@ -138,6 +139,9 @@ export default async function Home() {
 
         {/* Services -> Landing Pages */}
         <Services />
+
+        {/* Piani & Tariffe - Pricing Section */}
+        <Pricing />
 
         {/* Chi Siamo / Team */}
         <TeamSection

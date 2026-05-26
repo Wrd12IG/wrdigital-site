@@ -56,13 +56,18 @@ export default function Footer({ isDarkMode = true, onToggleTheme, logo }: Foote
                     </nav>
 
                     {/* Aree Servite — link interni per Local SEO */}
-                    <nav className={styles.horizontalNav} aria-label="Aree geografiche servite" style={{ marginTop: '8px', opacity: 0.75 }}>
-                        <span style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginRight: '4px' }}>Aree:</span>
+                    <nav className={styles.horizontalNav} aria-label="Aree geografiche servite" style={{ marginTop: '8px', opacity: 0.75, flexWrap: 'wrap', gap: '4px 10px' }}>
+                        <span style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginRight: '4px' }}>Aree Servite:</span>
                         <a href="/agenzia-digital-marketing-milano" className={styles.link} style={{ fontSize: '0.8rem' }}>Milano</a>
                         <a href="/agenzia-digital-marketing-monza-brianza" className={styles.link} style={{ fontSize: '0.8rem' }}>Monza Brianza</a>
-                        <a href="/consulenza-seo-monza" className={styles.link} style={{ fontSize: '0.8rem' }}>SEO Monza</a>
                         <a href="/zona/monza" className={styles.link} style={{ fontSize: '0.8rem' }}>Monza</a>
                         <a href="/zona/seregno" className={styles.link} style={{ fontSize: '0.8rem' }}>Seregno</a>
+                        <a href="/zona/desio" className={styles.link} style={{ fontSize: '0.8rem' }}>Desio</a>
+                        <a href="/zona/lissone" className={styles.link} style={{ fontSize: '0.8rem' }}>Lissone</a>
+                        <a href="/zona/nova-milanese" className={styles.link} style={{ fontSize: '0.8rem' }}>Nova Milanese</a>
+                        <a href="/zona/carate-brianza" className={styles.link} style={{ fontSize: '0.8rem' }}>Carate Brianza</a>
+                        <a href="/zona/giussano" className={styles.link} style={{ fontSize: '0.8rem' }}>Giussano</a>
+                        <a href="/zona/meda" className={styles.link} style={{ fontSize: '0.8rem' }}>Meda</a>
                     </nav>
 
                     {/* Compact Contacts — NAP strutturato per Local SEO */}

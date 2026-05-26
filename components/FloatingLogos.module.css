@@ -1,298 +1,241 @@
 /* =============================================
-   FLOATING LOGOS SECTION — Premium 2026 Style
+   PARTNER ACHIEVEMENTS GRID — Premium 2026 Style
    ============================================= */
 
 .section {
-    padding: var(--spacing-xl) 0 var(--spacing-3xl);
+    padding: var(--spacing-3xl) 0;
     background: var(--color-bg-primary);
     position: relative;
     overflow: hidden;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-/* Wider golden glow */
+/* Subtle glow behind the section */
 .section::before {
     content: '';
     position: absolute;
-    top: -40px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 900px;
-    height: 300px;
-    background: radial-gradient(ellipse at center, rgba(250, 204, 21, 0.06) 0%, rgba(99, 61, 246, 0.04) 40%, transparent 70%);
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(250, 204, 21, 0.03) 0%, transparent 75%);
     pointer-events: none;
     z-index: 0;
 }
 
 .container {
-    max-width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
-    text-align: center;
+    padding: 0 var(--spacing-xl);
     position: relative;
     z-index: 1;
 }
 
-/* ── TITLE ── */
-.title {
-    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
-    font-weight: 700;
-    letter-spacing: 0.25em;
+/* ── HEADER ── */
+.header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto var(--spacing-3xl);
+}
+
+.label {
+    font-size: var(--font-size-xs);
+    color: #FACC15;
     text-transform: uppercase;
-    color: var(--color-text-muted);
-    margin-bottom: var(--spacing-2xl);
-    position: relative;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+    letter-spacing: 0.25em;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    display: block;
 }
 
-.title::before,
-.title::after {
-    content: '';
-    flex: 1;
-    max-width: 160px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(250, 204, 21, 0.35));
-}
-
-.title::after {
-    background: linear-gradient(270deg, transparent, rgba(250, 204, 21, 0.35));
-}
-
-.brand {
-    color: var(--color-text-primary);
+.title {
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
     font-weight: 900;
-    text-transform: none;
-    font-size: clamp(0.8rem, 1.4vw, 1rem);
-    background: linear-gradient(135deg, #ffffff 0%, #f5df4a 50%, #ffffff 100%);
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.highlight {
+    background: linear-gradient(135deg, #ffffff 0%, #facc15 60%, #ffffff 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: -0.02em;
 }
 
-.bracket {
-    -webkit-text-fill-color: var(--color-accent-primary);
-    font-weight: 400;
+.description {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    line-height: 1.6;
 }
 
-/* ── MARQUEE ── */
-.marqueeContainer {
+/* ── BENTO GRID ── */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
+}
+
+@media (max-width: 1200px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── CARD ── */
+.card {
+    background: rgba(10, 10, 15, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
-    padding: var(--spacing-lg) 0;
-    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    justify-content: space-between;
+    min-height: 280px;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
-.marqueeRow {
-    width: 100%;
-    overflow: hidden;
+.card:hover {
+    border-color: rgba(250, 204, 21, 0.35);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(250, 204, 21, 0.08);
 }
 
-.marqueeTrack {
-    display: flex;
-    gap: var(--spacing-md);
-    width: max-content;
+.cardGlow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, #facc15 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.4s ease;
 }
 
-/* Scroll animations */
-.scrollLeft {
-    animation: scrollLeft 38s linear infinite;
-}
-
-.scrollRight {
-    animation: scrollRight 45s linear infinite;
-}
-
-.scrollLeftSlow {
-    animation: scrollLeft 52s linear infinite;
-}
-
-@keyframes scrollLeft {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-33.33%); }
-}
-
-@keyframes scrollRight {
-    0% { transform: translateX(-33.33%); }
-    100% { transform: translateX(0); }
-}
-
-/* ── LOGO PILL — Premium glassmorphism ── */
-.logoPill {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 18px 8px 8px;
-    background: rgba(16, 16, 24, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 100px;
-    cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    white-space: nowrap;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.logoPill:hover {
-    border-color: rgba(245, 223, 74, 0.4);
-    box-shadow:
-        0 0 24px rgba(245, 223, 74, 0.15),
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    transform: translateY(-2px) scale(1.03);
-    background: rgba(22, 22, 34, 0.9);
-}
-
-/* ── LOGO ICON WRAPPER ── */
-.logoIconWrapper {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logoImageWrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logoImage {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-/* ── PLACEHOLDER INITIAL — each letter gets a unique gradient via nth rules ── */
-.placeholderIcon {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-    border: 1.5px solid rgba(99, 61, 246, 0.4);
-    box-shadow: 0 0 12px rgba(99, 61, 246, 0.2);
-}
-
-.placeholderInitial {
-    font-size: 1rem;
-    font-weight: 800;
-    color: #c4b5fd;
-    letter-spacing: -0.02em;
-}
-
-/* ── LOGO NAME ── */
-.logoName {
-    font-family: var(--font-family-display);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.85);
+/* ── TAG BADGE ── */
+.cardTag {
+    font-size: 0.65rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
-}
-
-/* ── ARROW ICON ── */
-.arrowIcon {
-    width: 12px;
-    height: 12px;
-    color: rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-}
-
-.logoPill:hover .arrowIcon {
-    opacity: 1;
-    color: var(--color-accent-primary);
-    transform: translate(2px, -2px);
-}
-
-/* ── SUBTITLE ── */
-.subtitle {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.7);
-    margin-top: var(--spacing-xl);
-    position: relative;
-    z-index: 10;
     letter-spacing: 0.12em;
+    color: #FACC15;
+    background: rgba(250, 204, 21, 0.08);
+    border: 1px solid rgba(250, 204, 21, 0.15);
+    padding: 4px 10px;
+    border-radius: 100px;
+    align-self: flex-start;
+    position: relative;
+    z-index: 1;
+    margin-bottom: var(--spacing-xl);
+}
+
+/* ── BRAND ROW ── */
+.brandRow {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+    z-index: 1;
+}
+
+.brandIcon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+}
+
+.card:hover .brandIcon {
+    color: #FACC15;
+    background: rgba(250, 204, 21, 0.08);
+    border-color: rgba(250, 204, 21, 0.2);
+    box-shadow: 0 0 15px rgba(250, 204, 21, 0.1);
+}
+
+.brandMeta {
+    display: flex;
+    flex-direction: column;
+}
+
+.brandName {
+    font-family: var(--font-family-primary);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+}
+
+.brandIndustry {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}
+
+/* ── METRIC BLOCK ── */
+.metricBlock {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
+}
+
+.metricValue {
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    font-weight: 900;
+    color: var(--color-text-primary);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    background: linear-gradient(180deg, #ffffff 30%, #facc15 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.card:hover .metricValue {
+    transform: scale(1.02);
+}
+
+.metricLabel {
+    font-size: 0.72rem;
+    font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-top: 4px;
 }
 
-/* ── PAUSE ON HOVER ── */
-.marqueeRow:hover .marqueeTrack {
-    animation-play-state: paused;
+/* ── DECORATIVE ARROW ── */
+.cardArrow {
+    position: absolute;
+    bottom: var(--spacing-xl);
+    right: var(--spacing-xl);
+    color: rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+    z-index: 1;
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 1024px) {
-    .logoPill {
-        padding: 6px 14px 6px 6px;
-        gap: 10px;
-    }
-
-    .logoIconWrapper {
-        width: 32px;
-        height: 32px;
-    }
-
-    .logoName {
-        font-size: 0.72rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .section {
-        padding: var(--spacing-lg) 0 var(--spacing-2xl);
-    }
-
-    .marqueeContainer {
-        gap: var(--spacing-sm);
-    }
-
-    .logoIconWrapper {
-        width: 28px;
-        height: 28px;
-    }
-
-    .arrowIcon {
-        display: none;
-    }
-
-    .scrollLeft { animation-duration: 24s; }
-    .scrollRight { animation-duration: 30s; }
-    .scrollLeftSlow { animation-duration: 36s; }
-}
-
-@media (max-width: 480px) {
-    .logoPill {
-        padding: 5px 11px 5px 5px;
-        gap: 8px;
-    }
-
-    .logoIconWrapper {
-        width: 24px;
-        height: 24px;
-    }
-
-    .placeholderInitial {
-        font-size: 0.8rem;
-    }
-
-    .logoName {
-        font-size: 0.65rem;
-    }
+.card:hover .cardArrow {
+    color: #FACC15;
+    transform: translate(3px, -3px);
 }

@@ -1,158 +1,141 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
 import styles from './FloatingLogos.module.css';
 
-interface Client {
+interface ClientAchievement {
     name: string;
-    logo: string;
+    industry: string;
+    metric: string;
+    metricLabel: string;
+    tag: string;
+    link: string;
+    svgIcon: React.ReactNode;
 }
 
-const defaultClients: Client[] = [
-    { name: 'FutureTech', logo: '' },
-    { name: 'GlobalSystems', logo: '' },
-    { name: 'NovaEnergy', logo: '' },
-    { name: 'VertexDesign', logo: '' },
-    { name: 'AlphaFinance', logo: '' },
-    { name: 'TechCorp', logo: '' },
-    { name: 'InnovateLab', logo: '' },
-    { name: 'DigitalPro', logo: '' },
-];
-
-// Color palettes for placeholder icons — cycles based on name hash
-const ICON_PALETTES = [
-    { bg: 'linear-gradient(135deg, #1e1b4b 0%, #4c1d95 100%)', border: 'rgba(139, 92, 246, 0.5)', text: '#c4b5fd' },  // violet
-    { bg: 'linear-gradient(135deg, #0c1445 0%, #1e40af 100%)', border: 'rgba(59, 130, 246, 0.5)', text: '#93c5fd' },   // blue
-    { bg: 'linear-gradient(135deg, #022c22 0%, #065f46 100%)', border: 'rgba(16, 185, 129, 0.5)', text: '#6ee7b7' },   // emerald
-    { bg: 'linear-gradient(135deg, #451a03 0%, #92400e 100%)', border: 'rgba(245, 158, 11, 0.5)', text: '#fcd34d' },   // amber
-    { bg: 'linear-gradient(135deg, #4a044e 0%, #86198f 100%)', border: 'rgba(217, 70, 239, 0.5)', text: '#f0abfc' },  // fuchsia
-    { bg: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', border: 'rgba(56, 189, 248, 0.5)', text: '#7dd3fc' },  // sky
-    { bg: 'linear-gradient(135deg, #1a0a00 0%, #7c2d12 100%)', border: 'rgba(249, 115, 22, 0.5)', text: '#fdba74' },  // orange
-    { bg: 'linear-gradient(135deg, #0a0a28 0%, #1a1a5e 100%)', border: 'rgba(99, 102, 241, 0.5)', text: '#a5b4fc' },  // indigo
-];
-
-function nameToColorIndex(name: string): number {
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-        hash = (hash << 5) - hash + name.charCodeAt(i);
-        hash |= 0;
-    }
-    return Math.abs(hash) % ICON_PALETTES.length;
-}
-
-// Placeholder icon for clients without logo — unique color per client
-const PlaceholderIcon = ({ name }: { name: string }) => {
-    const initial = name.charAt(0).toUpperCase();
-    const palette = ICON_PALETTES[nameToColorIndex(name)];
-
-    return (
-        <div
-            className={styles.placeholderIcon}
-            style={{
-                background: palette.bg,
-                border: `1.5px solid ${palette.border}`,
-                boxShadow: `0 0 10px ${palette.border}`,
-            }}
-        >
-            <span className={styles.placeholderInitial} style={{ color: palette.text }}>
-                {initial}
-            </span>
-        </div>
-    );
-};
-
-
-export default function FloatingLogos({ initialClients }: { initialClients?: Client[] }) {
-    const [clients, setClients] = useState<Client[]>(initialClients || defaultClients);
-
-    useEffect(() => {
-        if (initialClients) return;
-
-        fetch('/api/admin/clients')
-            .then(res => res.ok ? res.json() : defaultClients)
-            .then(data => {
-                if (Array.isArray(data) && data.length > 0) {
-                    const normalized = data.map((item: any) =>
-                        typeof item === 'string' ? { name: item, logo: '' } : item
-                    );
-                    setClients(normalized);
-                }
-            })
-            .catch(() => { });
-    }, [initialClients]);
-
-    // Split clients into 3 rows for the marquee effect
-    const third = Math.ceil(clients.length / 3);
-    const row1 = clients.slice(0, third);
-    const row2 = clients.slice(third, third * 2);
-    const row3 = clients.slice(third * 2);
-
-    const renderLogoPill = (client: Client, index: number) => (
-        <div key={`${client.name}-${index}`} className={styles.logoPill}>
-            <div className={styles.logoIconWrapper}>
-                {client.logo ? (
-                    <div className={styles.logoImageWrapper}>
-                        <Image
-                            src={client.logo}
-                            alt={client.name}
-                            width={40}
-                            height={40}
-                            className={styles.logoImage}
-                        />
-                    </div>
-                ) : (
-                    <PlaceholderIcon name={client.name} />
-                )}
-            </div>
-            <span className={styles.logoName}>{client.name}</span>
-            <svg
-                className={styles.arrowIcon}
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-            >
-                <path d="M7 17L17 7M17 7H7M17 7V17" />
+const achievements: ClientAchievement[] = [
+    {
+        name: 'Yeppon.it',
+        industry: 'E-Commerce Tech & Consumer Electronics',
+        metric: '+380%',
+        metricLabel: 'Crescita Traffico Organico SEO',
+        tag: 'SEO & Content Strategy',
+        link: '/servizi/seo',
+        svgIcon: (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <path d="M8 21h8M12 17v4" />
             </svg>
-        </div>
-    );
+        )
+    },
+    {
+        name: 'Brianza Serramenti',
+        industry: 'Produzione & Vendita Serramenti B2C',
+        metric: '2.5x',
+        metricLabel: 'Tasso di Conversione contatti',
+        tag: 'Local SEO & Web Design',
+        link: '/servizi/web',
+        svgIcon: (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+        )
+    },
+    {
+        name: 'Automotive Partners',
+        industry: 'Concessionarie Toyota / Volkswagen / Renault',
+        metric: '4x',
+        metricLabel: 'ROI medio Campagne Performance',
+        tag: 'Google & Meta Ads',
+        link: '/servizi/ads',
+        svgIcon: (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 001 13v3c0 .6.4 1 1 1h2" />
+                <circle cx="7" cy="17" r="2" />
+                <circle cx="17" cy="17" r="2" />
+            </svg>
+        )
+    },
+    {
+        name: 'Brevi S.p.A.',
+        industry: 'Distribuzione B2B Prodotti per l\'Infanzia',
+        metric: '-40%',
+        metricLabel: 'Costo di acquisizione Lead qualificate',
+        tag: 'Marketing Automation',
+        link: '/servizi/strategy',
+        svgIcon: (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                <path d="M12 2a14.5 14.5 0 000 20M12 2a14.5 14.5 0 010 20M2 12h20" />
+            </svg>
+        )
+    }
+];
+
+export default function FloatingLogos({ initialClients }: { initialClients?: any } = {}) {
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     return (
         <section className={styles.section}>
             <div className={styles.container}>
-                <h2 className={styles.title}>
-                    HANNO SCELTO <span className={styles.brand}>W<span className={styles.bracket}>[</span>r<span className={styles.bracket}>]</span>Digital</span>
-                </h2>
-
-                <div className={styles.marqueeContainer}>
-                    {/* Row 1 - scrolls left */}
-                    <div className={styles.marqueeRow}>
-                        <div className={`${styles.marqueeTrack} ${styles.scrollLeft}`}>
-                            {[...row1, ...row1, ...row1].map((client, i) => renderLogoPill(client, i))}
-                        </div>
-                    </div>
-
-                    {/* Row 2 - scrolls right (opposite direction) */}
-                    <div className={styles.marqueeRow}>
-                        <div className={`${styles.marqueeTrack} ${styles.scrollRight}`}>
-                            {[...row2, ...row2, ...row2].map((client, i) => renderLogoPill(client, i))}
-                        </div>
-                    </div>
-
-                    {/* Row 3 - scrolls left (slower) */}
-                    <div className={styles.marqueeRow}>
-                        <div className={`${styles.marqueeTrack} ${styles.scrollLeftSlow}`}>
-                            {[...row3, ...row3, ...row3].map((client, i) => renderLogoPill(client, i))}
-                        </div>
-                    </div>
+                <div className={styles.header}>
+                    <span className={styles.label}>Casi di Successo Reali</span>
+                    <h2 className={styles.title}>
+                        HANNO SCELTO LA CRESCITA <span className={styles.highlight}>W[r]Digital</span>
+                    </h2>
+                    <p className={styles.description}>
+                        Smettila di contare solo le visualizzazioni. Ecco i risultati quantificabili e le performance storiche ottenute dai marchi e concessionarie che si sono affidati alla nostra direzione strategica.
+                    </p>
                 </div>
 
-                <p className={styles.subtitle}>
-                    Aziende di ogni dimensione ci affidano la loro crescita digitale
-                </p>
+                <div className={styles.grid}>
+                    {achievements.map((item, index) => (
+                        <Link href={item.link} key={item.name} className="block no-underline">
+                            <motion.div
+                                className={`${styles.card} ${hoveredIndex === index ? styles.activeCard : ''}`}
+                                onMouseEnter={() => setHoveredIndex(index)}
+                                onMouseLeave={() => setHoveredIndex(null)}
+                                whileHover={{ y: -8 }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                            >
+                                {/* Card Glow Spotlight */}
+                                <div 
+                                    className={styles.cardGlow}
+                                    style={{
+                                        opacity: hoveredIndex === index ? 0.15 : 0.02
+                                    }}
+                                />
+
+                                {/* Badge Tag */}
+                                <span className={styles.cardTag}>{item.tag}</span>
+
+                                {/* Logo Row */}
+                                <div className={styles.brandRow}>
+                                    <div className={styles.brandIcon}>
+                                        {item.svgIcon}
+                                    </div>
+                                    <div className={styles.brandMeta}>
+                                        <h3 className={styles.brandName}>{item.name}</h3>
+                                        <span className={styles.brandIndustry}>{item.industry}</span>
+                                    </div>
+                                </div>
+
+                                {/* Big Metric Display */}
+                                <div className={styles.metricBlock}>
+                                    <span className={styles.metricValue}>{item.metric}</span>
+                                    <span className={styles.metricLabel}>{item.metricLabel}</span>
+                                </div>
+
+                                {/* Arrow decoration */}
+                                <svg className={styles.cardArrow} width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </motion.div>
+                        </Link>
+                    ))}
+                </div>
             </div>
         </section>
     );

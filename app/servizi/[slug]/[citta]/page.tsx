@@ -66,22 +66,22 @@ function getComune(slug: string): Comune | undefined {
 }
 
 export async function generateStaticParams() {
-    const params: { servizio: string; citta: string }[] = [];
+    const params: { slug: string; citta: string }[] = [];
     const services = Object.keys(SERVICES_DATA);
     
     comuniData.forEach(c => {
         services.forEach(s => {
-            params.push({ servizio: s, citta: c.slug });
+            params.push({ slug: s, citta: c.slug });
         });
     });
     
     return params;
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ servizio: string, citta: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string, citta: string }> }): Promise<Metadata> {
     const resolvedParams = await params;
     const comune = getComune(resolvedParams.citta);
-    const serviceData = SERVICES_DATA[resolvedParams.servizio as ServiceSlug];
+    const serviceData = SERVICES_DATA[resolvedParams.slug as ServiceSlug];
     
     if (!comune || !serviceData) return { title: 'Pagina non trovata' };
 
@@ -92,12 +92,12 @@ export async function generateMetadata({ params }: { params: Promise<{ servizio:
         title,
         description,
         alternates: {
-            canonical: `https://www.wrdigital.it/servizi/${resolvedParams.servizio}/${comune.slug}`,
+            canonical: `https://www.wrdigital.it/servizi/${resolvedParams.slug}/${comune.slug}`,
         },
         openGraph: {
             title,
             description,
-            url: `https://www.wrdigital.it/servizi/${resolvedParams.servizio}/${comune.slug}`,
+            url: `https://www.wrdigital.it/servizi/${resolvedParams.slug}/${comune.slug}`,
             locale: 'it_IT',
             type: 'website',
             images: [{ url: '/og-image.png', width: 1200, height: 630, alt: title }],
@@ -105,10 +105,10 @@ export async function generateMetadata({ params }: { params: Promise<{ servizio:
     };
 }
 
-export default async function ServizioCittaPage({ params }: { params: Promise<{ servizio: string, citta: string }> }) {
+export default async function ServizioCittaPage({ params }: { params: Promise<{ slug: string, citta: string }> }) {
     const resolvedParams = await params;
     const comune = getComune(resolvedParams.citta);
-    const serviceKey = resolvedParams.servizio as ServiceSlug;
+    const serviceKey = resolvedParams.slug as ServiceSlug;
     const serviceData = SERVICES_DATA[serviceKey];
     
     if (!comune || !serviceData) notFound();

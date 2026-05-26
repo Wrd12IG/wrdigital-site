@@ -292,6 +292,14 @@
         gap: 20px;
     }
 
+    /* Target specifically the geo-links container to wrap horizontally on mobile */
+    .footer nav[aria-label="Aree geografiche servite"] {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 8px 16px !important;
+        opacity: 0.8;
+    }
+
     .contactsCompact {
         align-items: flex-start;
         text-align: left;
