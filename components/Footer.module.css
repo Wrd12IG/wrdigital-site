@@ -352,3 +352,10 @@
         font-size: 0.8rem;
     }
 }
+
+@media (max-width: 768px) {
+    .footer {
+        content-visibility: auto;
+        contain-intrinsic-size: auto none auto 600px;
+    }
+}
