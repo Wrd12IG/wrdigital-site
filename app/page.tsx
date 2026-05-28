@@ -5,8 +5,9 @@ import ParticlesWrapper from '@/components/ParticlesWrapper'; // Wrapper for cli
 import FloatingLogos from '@/components/FloatingLogos';
 import dynamic from 'next/dynamic';
 
-const CaseStudies = dynamic(() => import('@/components/CaseStudies'));
-const Services = dynamic(() => import('@/components/Services'));
+import CaseStudies from '@/components/CaseStudies';
+import Services from '@/components/Services';
+
 const TeamSection = dynamic(() => import('@/components/TeamSection'));
 const Testimonials = dynamic(() => import('@/components/Testimonials'));
 const HomepageFaq = dynamic(() => import('@/components/HomepageFaq'));

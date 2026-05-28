@@ -382,3 +382,10 @@
 .cardWrapper:hover .shine::after {
     animation: shineSweep 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
+
+@media (max-width: 768px) {
+    .section {
+        content-visibility: auto;
+        contain-intrinsic-size: auto none auto 600px;
+    }
+}

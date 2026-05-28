@@ -223,7 +223,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         fetchPriority="high"
                         loading="eager"
                         quality={60}
-                        sizes="100vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1920px"
                         className={styles.backgroundImage}
                         style={{ objectFit: 'cover' }}
                     />
@@ -275,11 +275,14 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         <span className={styles.titleOutline} aria-hidden="true">
                             {displayTitle.replace('[r]', '[r]')}
                         </span>
-                        {/* H1 semantico con keyword geo-locale nel testo nodo (sr-only) — Googlebot legge il testo nodo, non solo aria-label */}
+                        {/* H1 semantico con keyword geo-locale per SEO —
+                            Il testo nodo contiene la keyword completa (screen-reader e Googlebot),
+                            il visual rimane solo "W[r]Digital" per coerenza brand */}
                         <h1
                             id="main-h1"
                             className={`${styles.title} ${styles.animTitle}`}
                         >
+                            {/* Keyword geo-locale: visibile solo a crawler e screen reader */}
                             <span style={{
                                 position: 'absolute',
                                 width: '1px',

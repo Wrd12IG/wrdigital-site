@@ -166,4 +166,9 @@
     .testimonialCard {
         width: 300px;
     }
+
+    .section {
+        content-visibility: auto;
+        contain-intrinsic-size: auto none auto 500px;
+    }
 }
