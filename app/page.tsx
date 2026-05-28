@@ -2,12 +2,11 @@
 export const revalidate = 0;
 import HeroSection from '@/components/HeroSection';
 import ParticlesWrapper from '@/components/ParticlesWrapper'; // Wrapper for client-side particles
-import FloatingLogos from '@/components/FloatingLogos';
 import dynamic from 'next/dynamic';
 
-import CaseStudies from '@/components/CaseStudies';
-import Services from '@/components/Services';
-
+const FloatingLogos = dynamic(() => import('@/components/FloatingLogos'));
+const CaseStudies = dynamic(() => import('@/components/CaseStudies'));
+const Services = dynamic(() => import('@/components/Services'));
 const TeamSection = dynamic(() => import('@/components/TeamSection'));
 const Testimonials = dynamic(() => import('@/components/Testimonials'));
 const HomepageFaq = dynamic(() => import('@/components/HomepageFaq'));

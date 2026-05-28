@@ -12,11 +12,11 @@ const FloatingCTA = dynamic(() => import('@/components/FloatingCTA'));
 const ContactModal = dynamic(() => import('@/components/ContactModal'));
 const ScrollProgress = dynamic(() => import('@/components/ScrollProgress'));
 const GoogleTagManager = dynamic(() => import('@/components/GoogleTagManager'));
+const Footer = dynamic(() => import('@/components/Footer'));
+const GoogleAnalytics = dynamic(() => import('@/components/GoogleAnalytics'));
+const MicrosoftClarity = dynamic(() => import('@/components/MicrosoftClarity'));
 
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import GoogleAnalytics from '@/components/GoogleAnalytics';
-import MicrosoftClarity from '@/components/MicrosoftClarity';
 import { Providers } from '@/components/Providers';
 import DynamicFavicon from '@/components/DynamicFavicon';
 import StructuredData from '@/components/StructuredData';
