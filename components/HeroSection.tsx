@@ -237,34 +237,36 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
             )}
 
             {/* ✨ Floating Stats Widget (desktop only) */}
-            <div className={styles.floatingStats}>
-                <div className={styles.statsHeader}>
-                    <div className={styles.statsHeaderDot} />
-                    <span className={styles.statsHeaderLabel}>Risultati Reali</span>
+            {!isMobile && (
+                <div className={styles.floatingStats}>
+                    <div className={styles.statsHeader}>
+                        <div className={styles.statsHeaderDot} />
+                        <span className={styles.statsHeaderLabel}>Risultati Reali</span>
+                    </div>
+                    <div className={styles.statsRow}>
+                        <div className={styles.statItem}>
+                            <div className={styles.statValue}>+{trafficCount}%</div>
+                            <div className={styles.statLabel}>Traffico Organico</div>
+                        </div>
+                        <div className={styles.statItem}>
+                            <div className={styles.statValue}>{(roiCount / 100).toFixed(1)}x</div>
+                            <div className={styles.statLabel}>ROI Medio</div>
+                        </div>
+                    </div>
+                    <div className={styles.statsBarWrapper}>
+                        <div className={styles.statsBarLabel}>
+                            <span>Performance Score</span>
+                            <span>{barWidth}%</span>
+                        </div>
+                        <div className={styles.statsBar}>
+                            <div
+                                className={styles.statsBarFill}
+                                style={{ width: `${barWidth}%` }}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className={styles.statsRow}>
-                    <div className={styles.statItem}>
-                        <div className={styles.statValue}>+{trafficCount}%</div>
-                        <div className={styles.statLabel}>Traffico Organico</div>
-                    </div>
-                    <div className={styles.statItem}>
-                        <div className={styles.statValue}>{(roiCount / 100).toFixed(1)}x</div>
-                        <div className={styles.statLabel}>ROI Medio</div>
-                    </div>
-                </div>
-                <div className={styles.statsBarWrapper}>
-                    <div className={styles.statsBarLabel}>
-                        <span>Performance Score</span>
-                        <span>{barWidth}%</span>
-                    </div>
-                    <div className={styles.statsBar}>
-                        <div
-                            className={styles.statsBarFill}
-                            style={{ width: `${barWidth}%` }}
-                        />
-                    </div>
-                </div>
-            </div>
+            )}
 
             {/* Content */}
             <div className={styles.content}>
