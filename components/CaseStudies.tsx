@@ -28,6 +28,24 @@ const CATEGORY_COLORS: Record<string, string> = {
     'Web Development': '#60a5fa',
 };
 
+// Curated Unsplash photos per category (reliable, high quality)
+const CATEGORY_IMAGES: Record<string, string> = {
+    'SEO & Content':   'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=85&fit=crop', // analytics dashboard
+    'Social Media':    'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=900&q=85&fit=crop', // social media
+    'Advertising':     'https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=900&q=85&fit=crop', // digital ads
+    'Web Development': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=900&q=85&fit=crop', // code editor
+};
+
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85&fit=crop';
+
+/** Returns a proper photo: Unsplash category fallback if image is missing/default */
+function getProjectImage(image: string, category: string): string {
+    if (!image || image === '/og-image.png' || image.startsWith('/og-image')) {
+        return CATEGORY_IMAGES[category] ?? FALLBACK_IMAGE;
+    }
+    return image;
+}
+
 // Fallback projects shown when DB is empty
 const FALLBACK_PROJECTS: Project[] = [
     {
@@ -36,13 +54,13 @@ const FALLBACK_PROJECTS: Project[] = [
         client: 'Brianza Serramenti',
         category: 'SEO & Content',
         year: '2024',
-        description: 'Strategia SEO locale integrata per azienda di serramenti nel Monzese. Da invisibile a prima posizione per tutte le query locali rilevanti.',
+        description: 'Strategia SEO locale integrata per azienda di serramenti nel Monzese. Da invisibile a prima posizione per tutte le query locali rilevanti in Brianza.',
         results: [
             { value: '+300%', label: 'Traffico organico' },
             { value: '#1', label: 'Posizione Google locale' },
         ],
-        tags: ['SEO', 'Local SEO', 'Content'],
-        image: '/og-image.png',
+        tags: ['SEO', 'Local SEO', 'Content Marketing'],
+        image: CATEGORY_IMAGES['SEO & Content'],
         color: '#a78bfa',
         showOnHome: true,
     },
@@ -52,13 +70,13 @@ const FALLBACK_PROJECTS: Project[] = [
         client: 'Cliente Automotive',
         category: 'Advertising',
         year: '2024',
-        description: 'Campagne Google Ads ottimizzate per concessionario auto con targeting geografico su Milano e Brianza.',
+        description: 'Campagne Google Ads ottimizzate per concessionario auto con targeting geografico su Milano e Brianza. Budget ottimizzato settimana per settimana.',
         results: [
             { value: '4x', label: 'ROAS medio' },
             { value: '-38%', label: 'CPA rispetto benchmark' },
         ],
         tags: ['Google Ads', 'PPC', 'Automotive'],
-        image: '/og-image.png',
+        image: CATEGORY_IMAGES['Advertising'],
         color: '#f59e0b',
         showOnHome: true,
     },
@@ -68,13 +86,13 @@ const FALLBACK_PROJECTS: Project[] = [
         client: 'E-commerce Fashion',
         category: 'Social Media',
         year: '2023',
-        description: 'Strategia social media per brand fashion emergente: contenuti organici + Meta Ads.',
+        description: 'Strategia social media per brand fashion emergente: piano editoriale, contenuti organici e campagne Meta Ads con retargeting avanzato.',
         results: [
             { value: '+180%', label: 'Follower organici' },
             { value: '6.2%', label: 'Engagement rate' },
         ],
         tags: ['Instagram', 'Meta Ads', 'Fashion'],
-        image: '/og-image.png',
+        image: CATEGORY_IMAGES['Social Media'],
         color: '#34d399',
         showOnHome: true,
     },
@@ -84,13 +102,13 @@ const FALLBACK_PROJECTS: Project[] = [
         client: 'SaaS Gestionale',
         category: 'Web Development',
         year: '2024',
-        description: 'Sviluppo web app B2B per piattaforma gestionale con dashboard dati e integrazione API.',
+        description: 'Sviluppo web app B2B per piattaforma gestionale con dashboard dati real-time, autenticazione OAuth2 e integrazione API REST.',
         results: [
             { value: '98%', label: 'Performance score' },
             { value: '2.1s', label: 'LCP medio' },
         ],
         tags: ['Next.js', 'TypeScript', 'B2B'],
-        image: '/og-image.png',
+        image: CATEGORY_IMAGES['Web Development'],
         color: '#60a5fa',
         showOnHome: true,
     },
@@ -179,12 +197,12 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
                                     {/* Background image — subtle, always present */}
                                     <div className={styles.bgImage}>
                                         <Image
-                                            src={project.image}
-                                            alt=""
+                                            className={styles.bgImageEl}
+                                            src={getProjectImage(project.image, project.category)}
+                                            alt={project.title}
                                             fill
                                             style={{ objectFit: 'cover' }}
-                                            className={styles.bgImageEl}
-                                            aria-hidden="true"
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                         />
                                         <div className={styles.bgOverlay} />
                                         <div
@@ -305,9 +323,18 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
                                 </svg>
                             </button>
 
-                            <div className={styles.modalImage}>
-                                <Image src={selectedProject.image} alt={selectedProject.title} fill style={{ objectFit: 'cover' }} />
-                                <div className={styles.modalImageOverlay} />
+                            <div className={styles.modalImage}
+                                style={{ background: `linear-gradient(135deg, ${CATEGORY_COLORS[selectedProject.category] || '#1a1a2e'}22 0%, #0a0a12 100%)` }}
+                            >
+                                <Image
+                                    src={getProjectImage(selectedProject.image, selectedProject.category)}
+                                    alt={selectedProject.title}
+                                    fill
+                                    style={{ objectFit: 'cover' }}
+                                    sizes="500px"
+                                    priority
+                                />
+                                <div className={styles.modalImageOverlay} style={{ background: `linear-gradient(to right, transparent 30%, #0e0e16 100%), linear-gradient(to top, #0e0e16 0%, transparent 40%)` }} />
                             </div>
 
                             <div className={styles.modalInfo}>
