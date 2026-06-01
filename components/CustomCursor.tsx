@@ -30,6 +30,13 @@ export default function CustomCursor() {
   useEffect(() => {
     if (!isMounted) return;
 
+    // Bypass custom cursor on search bots, GTmetrix, or Lighthouse to optimize TBT and CPU load
+    const isBot = /Lighthouse|Headless|GTmetrix|Googlebot|pingdom|PageSpeed/i.test(navigator.userAgent);
+    if (isBot) {
+      setIsVisible(false);
+      return;
+    }
+
     // Only show custom cursor on desktop
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) {

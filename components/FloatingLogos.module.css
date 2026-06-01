@@ -239,3 +239,10 @@
     color: #FACC15;
     transform: translate(3px, -3px);
 }
+
+@media (max-width: 768px) {
+    .section {
+        content-visibility: auto;
+        contain-intrinsic-size: auto none auto 400px;
+    }
+}

@@ -301,3 +301,10 @@
     font-size: var(--font-size-lg);
     color: var(--color-text-secondary);
 }
+
+@media (max-width: 768px) {
+    .section {
+        content-visibility: auto;
+        contain-intrinsic-size: auto none auto 700px;
+    }
+}

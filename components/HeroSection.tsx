@@ -223,7 +223,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         fetchPriority="high"
                         loading="eager"
                         quality={60}
-                        sizes="100vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1920px"
                         className={styles.backgroundImage}
                         style={{ objectFit: 'cover' }}
                     />
@@ -237,34 +237,36 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
             )}
 
             {/* ✨ Floating Stats Widget (desktop only) */}
-            <div className={styles.floatingStats}>
-                <div className={styles.statsHeader}>
-                    <div className={styles.statsHeaderDot} />
-                    <span className={styles.statsHeaderLabel}>Risultati Reali</span>
+            {!isMobile && (
+                <div className={styles.floatingStats}>
+                    <div className={styles.statsHeader}>
+                        <div className={styles.statsHeaderDot} />
+                        <span className={styles.statsHeaderLabel}>Risultati Reali</span>
+                    </div>
+                    <div className={styles.statsRow}>
+                        <div className={styles.statItem}>
+                            <div className={styles.statValue}>+{trafficCount}%</div>
+                            <div className={styles.statLabel}>Traffico Organico</div>
+                        </div>
+                        <div className={styles.statItem}>
+                            <div className={styles.statValue}>{(roiCount / 100).toFixed(1)}x</div>
+                            <div className={styles.statLabel}>ROI Medio</div>
+                        </div>
+                    </div>
+                    <div className={styles.statsBarWrapper}>
+                        <div className={styles.statsBarLabel}>
+                            <span>Performance Score</span>
+                            <span>{barWidth}%</span>
+                        </div>
+                        <div className={styles.statsBar}>
+                            <div
+                                className={styles.statsBarFill}
+                                style={{ width: `${barWidth}%` }}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className={styles.statsRow}>
-                    <div className={styles.statItem}>
-                        <div className={styles.statValue}>+{trafficCount}%</div>
-                        <div className={styles.statLabel}>Traffico Organico</div>
-                    </div>
-                    <div className={styles.statItem}>
-                        <div className={styles.statValue}>{(roiCount / 100).toFixed(1)}x</div>
-                        <div className={styles.statLabel}>ROI Medio</div>
-                    </div>
-                </div>
-                <div className={styles.statsBarWrapper}>
-                    <div className={styles.statsBarLabel}>
-                        <span>Performance Score</span>
-                        <span>{barWidth}%</span>
-                    </div>
-                    <div className={styles.statsBar}>
-                        <div
-                            className={styles.statsBarFill}
-                            style={{ width: `${barWidth}%` }}
-                        />
-                    </div>
-                </div>
-            </div>
+            )}
 
             {/* Content */}
             <div className={styles.content}>
@@ -275,11 +277,14 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         <span className={styles.titleOutline} aria-hidden="true">
                             {displayTitle.replace('[r]', '[r]')}
                         </span>
-                        {/* H1 semantico con keyword geo-locale nel testo nodo (sr-only) — Googlebot legge il testo nodo, non solo aria-label */}
+                        {/* H1 semantico con keyword geo-locale per SEO —
+                            Il testo nodo contiene la keyword completa (screen-reader e Googlebot),
+                            il visual rimane solo "W[r]Digital" per coerenza brand */}
                         <h1
                             id="main-h1"
                             className={`${styles.title} ${styles.animTitle}`}
                         >
+                            {/* Keyword geo-locale: visibile solo a crawler e screen reader */}
                             <span style={{
                                 position: 'absolute',
                                 width: '1px',

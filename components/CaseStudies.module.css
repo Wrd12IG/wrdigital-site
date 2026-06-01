@@ -625,14 +625,9 @@
     box-shadow: 0 10px 30px rgba(245, 223, 74, 0.25);
 }
 
-/* ── ACCESSIBILITY ── */
-@media (prefers-reduced-motion: reduce) {
-    .bentoCard,
-    .bgImageEl,
-    .hoverCta,
-    .viewAllArrow,
-    .modalCta {
-        transition: none !important;
-        animation: none !important;
+@media (max-width: 768px) {
+    .section {
+        content-visibility: auto;
+        contain-intrinsic-size: auto none auto 800px;
     }
 }

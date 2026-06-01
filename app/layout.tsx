@@ -11,11 +11,12 @@ const CookieBanner = dynamic(() => import('@/components/CookieBanner'));
 const FloatingCTA = dynamic(() => import('@/components/FloatingCTA'));
 const ContactModal = dynamic(() => import('@/components/ContactModal'));
 const ScrollProgress = dynamic(() => import('@/components/ScrollProgress'));
+const GoogleTagManager = dynamic(() => import('@/components/GoogleTagManager'));
+const Footer = dynamic(() => import('@/components/Footer'));
+const GoogleAnalytics = dynamic(() => import('@/components/GoogleAnalytics'));
+const MicrosoftClarity = dynamic(() => import('@/components/MicrosoftClarity'));
 
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import GoogleAnalytics from '@/components/GoogleAnalytics';
-import MicrosoftClarity from '@/components/MicrosoftClarity';
 import { Providers } from '@/components/Providers';
 import DynamicFavicon from '@/components/DynamicFavicon';
 import StructuredData from '@/components/StructuredData';
@@ -134,17 +135,6 @@ export default async function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        <Script
-          id="google-tag-manager"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-TTFQPZFF');`
-          }}
-        />
         <StructuredData config={config} />
         <Providers>
           <ToastProvider>
@@ -158,6 +148,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               <CookieBanner />
               <GoogleAnalytics />
               <MicrosoftClarity />
+              <GoogleTagManager />
               <SpeedInsights />
             </ModalProvider>
           </ToastProvider>

@@ -236,3 +236,10 @@
 .ctaButton:hover svg {
     transform: translateX(4px);
 }
+
+@media (max-width: 768px) {
+    .section {
+        content-visibility: auto;
+        contain-intrinsic-size: auto none auto 600px;
+    }
+}
