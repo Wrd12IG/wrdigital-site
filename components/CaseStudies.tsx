@@ -123,9 +123,8 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
     ];
 
     // Bento layout map: card index → CSS class
-    // Row 1: [0]=large(col1), [1]=small(col2 top), [2]=small(col2 bottom)
-    // Row 2: [3]=full-width accent
-    const layoutClasses = [
+    // applied to ScrollReveal (= direct grid child)
+    const cellClasses = [
         styles.cellLarge,
         styles.cellSmallTop,
         styles.cellSmallBottom,
@@ -164,12 +163,11 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
                         const primaryMetric = project.results?.[0];
                         const secondaryMetric = project.results?.[1];
                         const isHovered = hoveredId === project.id;
-                        const isAccent = index === 3;
 
                         return (
-                            <ScrollReveal key={project.id} direction="up" delay={index * 0.08}>
+                            <ScrollReveal key={project.id} direction="up" delay={index * 0.08} className={cellClasses[index] || ''}>
                                 <motion.article
-                                    className={`${styles.bentoCard} ${layoutClasses[index] || ''}`}
+                                    className={styles.bentoCard}
                                     style={{ '--accent': accent } as React.CSSProperties}
                                     onClick={() => setSelectedProject(project)}
                                     onMouseEnter={() => setHoveredId(project.id)}

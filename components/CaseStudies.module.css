@@ -160,6 +160,15 @@
     min-height: 160px;
 }
 
+/* All cell wrappers (ScrollReveal divs) must fill their grid cell */
+.cellLarge,
+.cellSmallTop,
+.cellSmallBottom,
+.cellAccent {
+    display: flex;
+    flex-direction: column;
+}
+
 @media (max-width: 1024px) {
     .bentoGrid {
         grid-template-columns: 1fr 1fr;
@@ -199,6 +208,7 @@
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    flex: 1;              /* fills the ScrollReveal wrapper height */
     padding: 24px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
@@ -336,9 +346,6 @@
     color: #fff;
     line-height: 1.25;
     letter-spacing: -0.01em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .bentoClient {
@@ -347,9 +354,6 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-top: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 /* Secondary metric chip */
