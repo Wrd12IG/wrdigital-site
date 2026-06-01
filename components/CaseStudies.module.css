@@ -191,20 +191,24 @@
     position: relative;
     overflow: hidden;
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    background: #0b0b12;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient(145deg, #1a1a2e 0%, #13131f 60%, #0f0f1a 100%);
+    box-shadow:
+        0 2px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
     cursor: pointer;
     display: flex;
     flex-direction: column;
     padding: 24px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .bentoCard:hover {
-    border-color: color-mix(in srgb, var(--accent, #facc15) 35%, transparent);
+    border-color: color-mix(in srgb, var(--accent, #facc15) 55%, rgba(255,255,255,0.18));
     box-shadow:
-        0 0 0 1px color-mix(in srgb, var(--accent, #facc15) 12%, transparent),
-        0 20px 60px color-mix(in srgb, var(--accent, #facc15) 8%, transparent);
+        0 0 0 1px color-mix(in srgb, var(--accent, #facc15) 20%, transparent),
+        0 8px 40px rgba(0, 0, 0, 0.6),
+        0 0 60px color-mix(in srgb, var(--accent, #facc15) 10%, transparent);
 }
 
 /* ── Background image layer ── */
