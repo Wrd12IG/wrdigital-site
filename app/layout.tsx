@@ -124,6 +124,14 @@ export default async function RootLayout({
   return (
     <html lang="it" suppressHydrationWarning className={inter.variable} style={{ '--icon-color': config?.iconColor || '#eab308' } as React.CSSProperties}>
       <head>
+        {/* Leadfeeder – company visitor identification */}
+        <Script
+          id="leadfeeder-tracker"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(ss,ex){ window.ldfdr=window.ldfdr||function(){(ldfdr._q=ldfdr._q||[]).push([].slice.call(arguments));}; (function(d,s){ fs=d.getElementsByTagName(s)[0]; function ce(src){ var cs=d.createElement(s); cs.src=src; cs.async=1; fs.parentNode.insertBefore(cs,fs); }; ce('https://sc.lfeeder.com/lftracker_v1_'+ss+(ex?'_'+ex:'')+'.js'); })(document,'script'); })('YEgkB8lbb2w4ep3Z');`,
+          }}
+        />
       </head>
       <body suppressHydrationWarning>
         <ScrollProgress />
