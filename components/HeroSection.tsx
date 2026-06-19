@@ -277,29 +277,28 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         <span className={styles.titleOutline} aria-hidden="true">
                             {displayTitle.replace('[r]', '[r]')}
                         </span>
-                        {/* H1 semantico con keyword geo-locale per SEO —
-                            Il testo nodo contiene la keyword completa (screen-reader e Googlebot),
-                            il visual rimane solo "W[r]Digital" per coerenza brand */}
+                        {/* H1 con brand name visibile + keyword geo-locale visibile come tagline */}
                         <h1
                             id="main-h1"
                             className={`${styles.title} ${styles.animTitle}`}
                         >
-                            {/* Keyword geo-locale: visibile solo a crawler e screen reader */}
-                            <span style={{
-                                position: 'absolute',
-                                width: '1px',
-                                height: '1px',
-                                padding: 0,
-                                margin: '-1px',
-                                overflow: 'hidden',
-                                clip: 'rect(0,0,0,0)',
-                                whiteSpace: 'nowrap',
-                                borderWidth: 0,
-                            }}>
-                                Agenzia Digital Marketing a Milano e Monza Brianza —{' '}
-                            </span>
                             {renderTitle()}
                         </h1>
+                        {/* Keyword geo-locale visibile — segnale SEO esplicito per Google */}
+                        <p
+                            style={{
+                                fontSize: '0.85rem',
+                                fontWeight: 600,
+                                letterSpacing: '0.15em',
+                                textTransform: 'uppercase',
+                                color: 'rgba(250,204,21,0.7)',
+                                margin: '0.5rem 0 0',
+                                fontFamily: 'monospace',
+                            }}
+                            aria-label="Agenzia Digital Marketing a Milano e Monza Brianza"
+                        >
+                            Agenzia Digital Marketing · Milano &amp; Monza Brianza
+                        </p>
                     </div>
 
                     {/* H2 con keyword locale esplicita — segnale SEO geo-targeted */}
@@ -311,10 +310,27 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         {displaySubtitle}
                     </h2>
 
-                    {/* Description */}
-                    <p className={styles.animDesc} style={{ maxWidth: '700px', margin: '1rem auto 0', color: 'var(--color-text-secondary)', fontSize: '1.1rem', lineHeight: 1.6 }}>
-                        Non vendiamo fumo, ma strategie scalabili. Come <strong>top rated digital marketing consultants</strong> e <strong>professional website designers</strong>, uniamo la <Link href="/servizi/seo" className="text-yellow-400 hover:underline">SEO</Link> al <Link href="/servizi/realizzazione-siti-web" className="text-yellow-400 hover:underline">Web Design</Link> per far crescere le e-commerce e le piccole imprese a Milano e Monza Brianza.
-                    </p>
+                    {/* TL;DR / Definition block — AEO: risposta diretta per AI Overviews e featured snippet */}
+                    <div
+                        className={styles.animDesc}
+                        style={{
+                            maxWidth: '700px',
+                            margin: '1.5rem auto 0',
+                            padding: '1rem 1.5rem',
+                            borderLeft: '3px solid #FACC15',
+                            background: 'rgba(250,204,21,0.05)',
+                            borderRadius: '0 8px 8px 0',
+                            textAlign: 'left',
+                        }}
+                    >
+                        <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem', lineHeight: 1.7, margin: 0 }}>
+                            <strong style={{ color: '#fff' }}>W[r]Digital</strong> è l&apos;agenzia digital marketing di Milano e Nova Milanese (Monza Brianza)
+                            specializzata in <Link href="/servizi/seo" style={{ color: '#FACC15' }}>SEO</Link>,{' '}
+                            <Link href="/servizi/ads" style={{ color: '#FACC15' }}>Google Ads</Link>, Social Media e{' '}
+                            <Link href="/servizi/realizzazione-siti-web" style={{ color: '#FACC15' }}>Web Design</Link> per PMI lombarde.
+                            Strategie data-driven con ROI misurabile e dashboard real-time — senza fumo.
+                        </p>
+                    </div>
 
                     {/* CTA Button */}
                     <div className={styles.animCta} style={{ marginTop: '3rem', display: 'flex', justifyContent: 'center' }}>

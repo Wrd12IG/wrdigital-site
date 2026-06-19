@@ -65,15 +65,15 @@ export default function HomepageFaq() {
               margin: '0 0 1rem',
             }}
           >
-            Tutto quello che vuoi sapere sulla nostra{' '}
-            <span style={{ color: '#FACC15' }}>agenzia a Milano</span>
+            FAQ — Agenzia Digital Marketing{' '}
+            <span style={{ color: '#FACC15' }}>Milano e Monza Brianza</span>
           </h2>
           <p style={{ color: '#888', fontSize: '1rem', maxWidth: '600px', margin: '0 auto' }}>
             Domande comuni su W[r]Digital e i nostri servizi di marketing digitale a Milano, Monza e in tutta la Brianza.
           </p>
         </div>
 
-        {/* FAQ Accordion */}
+        {/* FAQ Accordion — risposte sempre nel DOM per Google e AI indexing */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {homepageFaqs.map((item, index) => {
             const isOpen = openIndex === index;
@@ -129,18 +129,18 @@ export default function HomepageFaq() {
                     +
                   </span>
                 </button>
-                {isOpen && (
-                  <div
-                    style={{
-                      padding: '0 1.5rem 1.25rem',
-                      color: '#aaa',
-                      fontSize: '0.95rem',
-                      lineHeight: 1.7,
-                    }}
-                  >
-                    <p style={{ margin: 0 }}>{item.a}</p>
-                  </div>
-                )}
+                {/* IMPORTANTE: display:none invece di unmounting React — Google e AI leggono le risposte */}
+                <div
+                  style={{
+                    display: isOpen ? 'block' : 'none',
+                    padding: '0 1.5rem 1.25rem',
+                    color: '#aaa',
+                    fontSize: '0.95rem',
+                    lineHeight: 1.7,
+                  }}
+                >
+                  <p style={{ margin: 0 }}>{item.a}</p>
+                </div>
               </div>
             );
           })}
