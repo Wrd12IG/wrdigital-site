@@ -8,15 +8,16 @@ export default function robots(): MetadataRoute.Robots {
                 allow: '/',
                 disallow: ['/admin/', '/api/', '/private/', '/checkout/', '/area-clienti/'],
             },
-            // Blocca AI training crawlers
-            { userAgent: 'GPTBot', disallow: ['/'] },
-            { userAgent: 'Google-Extended', disallow: ['/'] },
+            // Blocca AI training scrapers non autorizzati
             { userAgent: 'Bytespider', disallow: ['/'] },
             { userAgent: 'CCBot', disallow: ['/'] },
-            // Permetti AI browsing crawlers (visibilità in ChatGPT, Perplexity, Claude)
+            // Permetti AI crawlers autorizzati (visibilità in ChatGPT, Perplexity, Claude, Gemini)
+            { userAgent: 'GPTBot', allow: ['/'] },
+            { userAgent: 'Google-Extended', allow: ['/'] },
             { userAgent: 'ChatGPT-User', allow: ['/'] },
             { userAgent: 'PerplexityBot', allow: ['/'] },
             { userAgent: 'ClaudeBot', allow: ['/'] },
+            { userAgent: 'Anthropic-AI', allow: ['/'] },
         ],
         sitemap: 'https://www.wrdigital.it/sitemap.xml',
     };

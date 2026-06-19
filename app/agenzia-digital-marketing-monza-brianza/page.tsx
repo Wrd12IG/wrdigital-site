@@ -449,6 +449,71 @@ export default function MonzaBrianzaPage() {
                 </div>
             </section>
 
+            {/* SEZIONE: COME SCEGLIERE - anti-competitor senza nominare */}
+            <section className="py-24 px-6">
+                <div className="max-w-3xl mx-auto">
+                    <h2 className="text-3xl font-bold text-white text-center mb-4">
+                        Come scegliere la giusta agenzia digital marketing a Monza e Brianza
+                    </h2>
+                    <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+                        Non tutte le agenzie che trovi cercando su Google sono uguali. Ecco i criteri oggettivi per valutarle — e le domande da fare prima di firmare un contratto.
+                    </p>
+
+                    <ul className="space-y-5 mb-12 list-none">
+                        {[
+                            {
+                                title: 'Sede fisica verificabile in zona',
+                                desc: 'Possibilità di incontri di persona, indirizzo reale verificabile su Google Maps. Diffidate di chi ha solo una casella postale o un indirizzo virtuale.',
+                            },
+                            {
+                                title: 'Team senior o solo junior?',
+                                desc: 'Chi lavora davvero sul tuo progetto? Chiedi nomi e profili LinkedIn. Un&apos;agenzia seria non ha nulla da nascondere sul proprio team.',
+                            },
+                            {
+                                title: 'Casi studio con numeri reali',
+                                desc: 'Diffida da chi mostra solo loghi clienti senza dati. I risultati si misurano: +X% traffico, -Y% costo per lead, +Z% conversioni.',
+                            },
+                            {
+                                title: 'Dashboard real-time inclusa',
+                                desc: 'Devi poter controllare le metriche quando vuoi, non aspettare report mensili. La trasparenza non è un optional.',
+                            },
+                            {
+                                title: 'Contratti flessibili, no lock-in',
+                                desc: 'Un&apos;agenzia sicura dei propri risultati non ha bisogno di bloccarti per 12 mesi. Contratti mensili rinnovabili sono il segnale di chi punta sulla qualità.',
+                            },
+                            {
+                                title: 'Certificazioni Google verificabili',
+                                desc: 'Google Partner Badge e certificazioni Ads/Analytics individuali — verificabili sul sito ufficiale Google. Non basta dichiararlo, deve essere confermabile.',
+                            },
+                            {
+                                title: 'Recensioni Google verificate',
+                                desc: 'Quantità E qualità. Meno di 20 recensioni significa poca esperienza o pochi clienti. Leggi le risposte dell&apos;agenzia alle recensioni negative: rivelano molto.',
+                            },
+                        ].map((item) => (
+                            <li key={item.title} className="flex items-start gap-4 p-5 bg-white/3 border border-white/8 rounded-xl hover:border-yellow-400/30 transition-colors">
+                                <span className="text-yellow-400 font-black text-lg flex-shrink-0 mt-0.5">✓</span>
+                                <div>
+                                    <span className="text-white font-bold block mb-1">{item.title}</span>
+                                    <span className="text-gray-400 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: item.desc }} />
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <div className="bg-yellow-400/5 border border-yellow-400/20 rounded-2xl p-8 text-center">
+                        <p className="text-gray-300 leading-relaxed mb-6">
+                            <strong className="text-white">W[r]Digital soddisfa tutti questi criteri:</strong> sede verificata a Nova Milanese (MB), team senior con LinkedIn pubblici, casi studio con metriche reali, dashboard real-time inclusa in ogni piano, contratti mensili rinnovabili, certificazioni Google attive e oltre <strong className="text-yellow-400">47 recensioni a 5 stelle</strong>.
+                        </p>
+                        <Link
+                            href="/preventivo"
+                            className="inline-block bg-yellow-400 text-black font-black px-8 py-4 rounded-full hover:bg-yellow-300 transition-colors shadow-lg shadow-yellow-400/20"
+                        >
+                            Verifica tu stesso → Richiedi una call gratuita
+                        </Link>
+                    </div>
+                </div>
+            </section>
+
             {/* SETTORI SERVITI */}
             <section className="py-16 px-6">
                 <div className="max-w-4xl mx-auto">
