@@ -12,7 +12,7 @@
       { "label": "Costo per lead", "value": "-44%" }
     ],
     "tags": ["Social Media", "Meta Ads", "Content Marketing", "Automotive", "Lead Generation"],
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=900&q=85&fit=crop",
+    "image": "/images/projects/citymotors.jpg",
     "color": "#FACC15",
     "showOnHome": true,
     "deleted": false,
@@ -32,7 +32,7 @@
       { "label": "Revenue da Ads", "value": "+180%" }
     ],
     "tags": ["Google Ads", "Shopping", "Performance Max", "E-commerce", "Feed Management"],
-    "image": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=85&fit=crop",
+    "image": "/images/projects/yeppon.jpg",
     "color": "#f59e0b",
     "showOnHome": true,
     "deleted": false,
@@ -52,7 +52,7 @@
       { "label": "Domain Authority", "value": "+22 pt" }
     ],
     "tags": ["SEO", "Content Strategy", "Link Building", "6 Strategy", "Local SEO", "E-E-A-T"],
-    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=85&fit=crop",
+    "image": "/images/projects/digitalitis.jpg",
     "color": "#a78bfa",
     "showOnHome": true,
     "deleted": false,
