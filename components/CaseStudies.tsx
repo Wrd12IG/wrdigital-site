@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useModal } from './ModalContext';
@@ -19,32 +19,15 @@ interface Project {
     image: string;
     color: string;
     showOnHome?: boolean;
+    url?: string;
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
     'SEO & Content':   '#a78bfa',
     'Social Media':    '#34d399',
-    'Advertising':     '#f59e0b',
+    'Advertising':     '#facc15',
     'Web Development': '#60a5fa',
 };
-
-// Curated Unsplash photos per category (reliable, high quality)
-const CATEGORY_IMAGES: Record<string, string> = {
-    'SEO & Content':   'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=85&fit=crop', // analytics dashboard
-    'Social Media':    'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=900&q=85&fit=crop', // social media
-    'Advertising':     'https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=900&q=85&fit=crop', // digital ads
-    'Web Development': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=900&q=85&fit=crop', // code editor
-};
-
-const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85&fit=crop';
-
-/** Returns a proper photo: Unsplash category fallback if image is missing/default */
-function getProjectImage(image: string, category: string): string {
-    if (!image || image === '/og-image.png' || image.startsWith('/og-image')) {
-        return CATEGORY_IMAGES[category] ?? FALLBACK_IMAGE;
-    }
-    return image;
-}
 
 // Fallback projects shown when DB is empty
 const FALLBACK_PROJECTS: Project[] = [
@@ -54,7 +37,7 @@ const FALLBACK_PROJECTS: Project[] = [
         client: 'CityMotors',
         category: 'Social Media',
         year: '2024',
-        description: 'Strategia di marketing digitale integrata per CityMotors: gestione social media, content creation, campagne Meta Ads geolocalizzate e reputazione online. Dal brand awareness alla lead generation qualificata nel settore automotive.',
+        description: 'Dal brand awareness alla lead generation qualificata nel settore automotive. Meta Ads geolocalizzate e gestione social integrata.',
         results: [
             { value: '+220%', label: 'Lead qualificati' },
             { value: '5.8x', label: 'ROAS campagne' },
@@ -63,6 +46,7 @@ const FALLBACK_PROJECTS: Project[] = [
         image: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=900&q=85&fit=crop',
         color: '#facc15',
         showOnHome: true,
+        url: 'https://www.citymotors.it/',
     },
     {
         id: 'yeppon',
@@ -70,36 +54,37 @@ const FALLBACK_PROJECTS: Project[] = [
         client: 'Yeppon.it',
         category: 'Advertising',
         year: '2024',
-        description: 'Gestione campagne Google Ads e Shopping per uno dei principali e-commerce italiani di elettronica. Ottimizzazione ROAS, struttura campagne Performance Max e feed prodotti per oltre 50.000 SKU.',
+        description: 'Google Ads e Shopping per uno dei principali e-commerce italiani di elettronica. 50.000+ SKU ottimizzati con Performance Max.',
         results: [
             { value: '4.2x', label: 'ROAS medio' },
             { value: '-41%', label: 'CPA vs benchmark' },
         ],
         tags: ['Google Ads', 'Shopping', 'Performance Max', 'E-commerce'],
         image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=85&fit=crop',
-        color: '#f59e0b',
+        color: '#facc15',
         showOnHome: true,
+        url: 'https://www.yeppon.it/',
     },
     {
         id: 'digitalitis',
-        title: 'SEO & Strategia Digitale',
+        title: 'SEO & 6 Pillar Strategy',
         client: 'Digitalitis',
         category: 'SEO & Content',
         year: '2024',
-        description: 'Audit SEO completo, strategia di contenuti e link building per agenzia digitale in forte crescita. Implementazione architettura SEO, content cluster tematici e 6 pillar strategy per dominare le SERP di settore.',
+        description: 'Audit SEO, architettura contenuti e 6 Pillar Strategy. Da zero visibilità a leader di nicchia in 8 mesi con +48 keyword in Top 3.',
         results: [
             { value: '+340%', label: 'Traffico organico' },
-            { value: 'Top 3', label: 'Keyword principali' },
+            { value: 'Top 3', label: '48 keyword' },
         ],
         tags: ['SEO', 'Content Strategy', 'Link Building', '6 Strategy'],
         image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=85&fit=crop',
         color: '#a78bfa',
         showOnHome: true,
+        url: 'https://www.digitalitis.it/',
     },
 ];
 
 export default function CaseStudies({ initialProjects }: { initialProjects?: Project[] }) {
-    const sectionRef = useRef<HTMLElement>(null);
     const { openContactModal } = useModal();
 
     const [projects] = useState<Project[]>(() => {
@@ -107,32 +92,19 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
         return FALLBACK_PROJECTS;
     });
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-    const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-    // Priority: showOnHome first, max 3
-    let displayed = projects.filter(p => p.showOnHome);
-    if (displayed.length === 0) {
-        const cats = ['Social Media', 'Advertising', 'SEO & Content'];
-        displayed = cats.map(c => projects.find(p => p.category === c)).filter(Boolean) as Project[];
-    }
-    displayed = displayed.slice(0, 3);
+    // Show max 3 showOnHome projects
+    let displayed = projects.filter(p => p.showOnHome).slice(0, 3);
+    if (displayed.length === 0) displayed = FALLBACK_PROJECTS;
 
-    // Aggregate stats from actual data
     const statsRow = [
         { value: '50+',   label: 'Clienti soddisfatti' },
         { value: '+300%', label: 'Traffico medio' },
         { value: '4x',    label: 'ROAS garantito' },
     ];
 
-    // 3-column equal layout — each card gets same class
-    const cellClasses = [
-        styles.cellTriple,
-        styles.cellTriple,
-        styles.cellTriple,
-    ];
-
     return (
-        <section id="lavori" ref={sectionRef} className={styles.section}>
+        <section id="lavori" className={styles.section}>
             <div className={styles.container}>
 
                 {/* ── HEADER ── */}
@@ -156,105 +128,91 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
                     </div>
                 </ScrollReveal>
 
-                {/* ── BENTO GRID ── */}
-                <div className={styles.bentoGrid}>
+                {/* ── CARDS GRID ── */}
+                <div className={styles.cardsGrid}>
                     {displayed.map((project, index) => {
                         const accent = CATEGORY_COLORS[project.category] || '#facc15';
                         const primaryMetric = project.results?.[0];
                         const secondaryMetric = project.results?.[1];
-                        const isHovered = hoveredId === project.id;
 
                         return (
-                            <ScrollReveal key={project.id} direction="up" delay={index * 0.08} className={cellClasses[index] || ''}>
+                            <ScrollReveal key={project.id} direction="up" delay={index * 0.1}>
                                 <motion.article
-                                    className={styles.bentoCard}
+                                    className={styles.card}
                                     style={{ '--accent': accent } as React.CSSProperties}
+                                    whileHover={{ y: -6 }}
+                                    transition={{ type: 'spring', stiffness: 380, damping: 28 }}
                                     onClick={() => setSelectedProject(project)}
-                                    onMouseEnter={() => setHoveredId(project.id)}
-                                    onMouseLeave={() => setHoveredId(null)}
-                                    whileHover={{ y: -4 }}
-                                    transition={{ type: 'spring', stiffness: 400, damping: 28 }}
-                                    aria-label={`Caso studio: ${project.title}`}
+                                    aria-label={`Caso studio: ${project.client}`}
                                 >
-                                    {/* Background image — subtle, always present */}
-                                    <div className={styles.bgImage}>
+                                    {/* ── IMAGE AREA with inverted bottom-right corner ── */}
+                                    <div className={styles.imageWrap}>
                                         <Image
-                                            className={styles.bgImageEl}
-                                            src={getProjectImage(project.image, project.category)}
-                                            alt={project.title}
+                                            src={project.image}
+                                            alt={`Caso studio ${project.client}`}
                                             fill
+                                            className={styles.cardImage}
                                             style={{ objectFit: 'cover' }}
                                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                         />
-                                        <div className={styles.bgOverlay} />
+                                        {/* Dark overlay */}
+                                        <div className={styles.imgOverlay} />
+                                        {/* Accent glow top-right */}
                                         <div
-                                            className={styles.bgAccentGlow}
-                                            style={{ background: `radial-gradient(ellipse at 80% 20%, ${accent}18 0%, transparent 65%)` }}
+                                            className={styles.imgGlow}
+                                            style={{ background: `radial-gradient(ellipse at 90% 10%, ${accent}35 0%, transparent 60%)` }}
                                         />
+                                        {/* The inverted corner "bite" — bottom-right scoop */}
+                                        <div className={styles.cornerCut} />
+                                        {/* Arrow button sitting in the scooped corner */}
+                                        <motion.button
+                                            className={styles.arrowBtn}
+                                            aria-label={`Apri caso studio ${project.client}`}
+                                            whileHover={{ scale: 1.12 }}
+                                            transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+                                            onClick={e => { e.stopPropagation(); setSelectedProject(project); }}
+                                        >
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                            </svg>
+                                        </motion.button>
                                     </div>
 
-                                    {/* Content layer */}
-                                    <div className={styles.bentoContent}>
+                                    {/* ── CARD BODY ── */}
+                                    <div className={styles.cardBody}>
+                                        {/* Category tag */}
+                                        <span
+                                            className={styles.categoryTag}
+                                            style={{ color: accent, borderColor: `${accent}55`, background: `${accent}12` }}
+                                        >
+                                            {project.category}
+                                        </span>
 
-                                        {/* Top row: category badge + year */}
-                                        <div className={styles.bentoTop}>
-                                            <span
-                                                className={styles.categoryBadge}
-                                                style={{ color: accent, borderColor: `${accent}40` }}
-                                            >
-                                                {project.category}
-                                            </span>
-                                            <span className={styles.yearBadge}>{project.year}</span>
-                                        </div>
+                                        {/* Client name */}
+                                        <h3 className={styles.clientName}>{project.client}</h3>
 
-                                        {/* HERO METRIC — always visible, center stage */}
+                                        {/* Primary metric — BIG */}
                                         {primaryMetric && (
-                                            <div className={styles.heroMetric}>
-                                                <span
-                                                    className={styles.heroMetricValue}
-                                                    style={{ color: accent }}
-                                                >
+                                            <div className={styles.metricBlock}>
+                                                <span className={styles.metricValue} style={{ color: accent }}>
                                                     {primaryMetric.value}
                                                 </span>
-                                                <span className={styles.heroMetricLabel}>
-                                                    {primaryMetric.label}
-                                                </span>
+                                                <span className={styles.metricLabel}>{primaryMetric.label}</span>
+                                                {/* Secondary metric inline */}
+                                                {secondaryMetric && (
+                                                    <span className={styles.metricSecondary}>
+                                                        <span style={{ color: accent }}>{secondaryMetric.value}</span>
+                                                        {' '}{secondaryMetric.label}
+                                                    </span>
+                                                )}
                                             </div>
                                         )}
 
-                                        {/* Bottom: title + client + secondary metric */}
-                                        <div className={styles.bentoBottom}>
-                                            <div className={styles.bentoCopy}>
-                                                <h3 className={styles.bentoTitle}>{project.title}</h3>
-                                                <p className={styles.bentoClient}>{project.client}</p>
-                                            </div>
+                                        {/* Description */}
+                                        <p className={styles.cardDesc}>{project.description}</p>
 
-                                            {/* Secondary metric chip */}
-                                            {secondaryMetric && (
-                                                <div className={styles.secondaryMetric}>
-                                                    <span className={styles.secondaryValue} style={{ color: accent }}>
-                                                        {secondaryMetric.value}
-                                                    </span>
-                                                    <span className={styles.secondaryLabel}>
-                                                        {secondaryMetric.label}
-                                                    </span>
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* Hover CTA pill */}
-                                        <motion.div
-                                            className={styles.hoverCta}
-                                            initial={{ opacity: 0, y: 8 }}
-                                            animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 8 }}
-                                            transition={{ duration: 0.2 }}
-                                            aria-hidden="true"
-                                        >
-                                            Apri caso studio
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                                                <path d="M7 17L17 7M17 7H7M17 7V17" />
-                                            </svg>
-                                        </motion.div>
+                                        {/* Year */}
+                                        <span className={styles.yearTag}>{project.year}</span>
                                     </div>
                                 </motion.article>
                             </ScrollReveal>
@@ -289,7 +247,7 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
                             className={styles.modal}
                             role="dialog"
                             aria-modal="true"
-                            aria-label={`Caso studio: ${selectedProject.title}`}
+                            aria-label={`Caso studio: ${selectedProject.client}`}
                             initial={{ opacity: 0, scale: 0.95, y: 24 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 24 }}
@@ -305,18 +263,16 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
                                 </svg>
                             </button>
 
-                            <div className={styles.modalImage}
-                                style={{ background: `linear-gradient(135deg, ${CATEGORY_COLORS[selectedProject.category] || '#1a1a2e'}22 0%, #0a0a12 100%)` }}
-                            >
+                            <div className={styles.modalImage}>
                                 <Image
-                                    src={getProjectImage(selectedProject.image, selectedProject.category)}
-                                    alt={selectedProject.title}
+                                    src={selectedProject.image}
+                                    alt={selectedProject.client}
                                     fill
                                     style={{ objectFit: 'cover' }}
                                     sizes="500px"
                                     priority
                                 />
-                                <div className={styles.modalImageOverlay} style={{ background: `linear-gradient(to right, transparent 30%, #0e0e16 100%), linear-gradient(to top, #0e0e16 0%, transparent 40%)` }} />
+                                <div className={styles.modalImageOverlay} />
                             </div>
 
                             <div className={styles.modalInfo}>
