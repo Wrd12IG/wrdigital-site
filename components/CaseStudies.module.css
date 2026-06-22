@@ -1,22 +1,29 @@
 /* =============================================
-   CASE STUDIES — New Card Design 2026
-   Image top + inverted corner + arrow button
+   CASE STUDIES — Inverted Corner Card Design
+   =============================================
+   Structure per card:
+   .card (dark bg, padding, rounded, no overflow:hidden)
+     .imageOuter (position:relative, no clip — holds button)
+       .imageInner (overflow:hidden, border-radius top+bot-left)
+         <Image>  overlay  glow
+       .arrowBtn (absolute bottom-right of imageOuter)
+     .cardBody
+       categoryTag · clientName · metricBlock · desc
    ============================================= */
 
+/* ─── SECTION ─────────────────────────────── */
 .section {
     padding: var(--spacing-3xl) 0;
     background: var(--color-bg-primary);
     position: relative;
     overflow: hidden;
 }
-
-/* Subtle top border accent */
 .section::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(250,204,21,0.15) 40%, rgba(167,139,250,0.15) 60%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(250,204,21,.15) 40%, rgba(167,139,250,.15) 60%, transparent 100%);
     pointer-events: none;
 }
 
@@ -26,7 +33,7 @@
     padding: 0 var(--spacing-xl);
 }
 
-/* ── HEADER ROW ── */
+/* ─── HEADER ──────────────────────────────── */
 .headerRow {
     display: flex;
     align-items: flex-end;
@@ -34,10 +41,7 @@
     gap: var(--spacing-2xl);
     margin-bottom: var(--spacing-2xl);
 }
-
-@media (max-width: 900px) {
-    .headerRow { flex-direction: column; align-items: flex-start; }
-}
+@media (max-width: 900px) { .headerRow { flex-direction: column; align-items: flex-start; } }
 
 .headerLeft { flex: 1; }
 
@@ -45,7 +49,7 @@
     font-size: var(--font-size-xs);
     color: var(--color-accent-primary);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: .2em;
     font-weight: 600;
     margin-bottom: var(--spacing-sm);
     display: block;
@@ -56,10 +60,9 @@
     font-weight: 900;
     line-height: 1.05;
     text-transform: uppercase;
-    letter-spacing: -0.03em;
+    letter-spacing: -.03em;
     color: var(--color-text-primary);
 }
-
 .titleAccent {
     background: linear-gradient(135deg, #f5df4a 0%, #facc15 50%, #fde68a 100%);
     -webkit-background-clip: text;
@@ -73,137 +76,109 @@
     align-items: flex-end;
     padding-bottom: 4px;
     flex-shrink: 0;
-    border-left: 1px solid rgba(255,255,255,0.08);
+    border-left: 1px solid rgba(255,255,255,.08);
     padding-left: var(--spacing-2xl);
 }
-
 @media (max-width: 900px) {
     .headerRight {
         border-left: none; padding-left: 0;
-        border-top: 1px solid rgba(255,255,255,0.08);
+        border-top: 1px solid rgba(255,255,255,.08);
         padding-top: var(--spacing-lg);
         width: 100%; flex-wrap: wrap;
         gap: var(--spacing-lg);
     }
 }
 
-.statItem { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 100px; }
-.statValue { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 900; color: var(--color-text-primary); letter-spacing: -0.03em; line-height: 1; }
-.statLabel { font-size: 0.65rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.12em; }
+.statItem { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 90px; }
+.statValue { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 900; color: var(--color-text-primary); letter-spacing: -.03em; line-height: 1; }
+.statLabel  { font-size: .65rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .12em; }
 
-/* ══════════════════════════════════════════════
-   3-COLUMN CARDS GRID
-   ══════════════════════════════════════════════ */
-
+/* ─── GRID ────────────────────────────────── */
 .cardsGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
+@media (max-width: 1024px) { .cardsGrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px)  { .cardsGrid { grid-template-columns: 1fr; } }
 
-@media (max-width: 1024px) {
-    .cardsGrid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 600px) {
-    .cardsGrid { grid-template-columns: 1fr; }
-}
-
-/* ══════════════════════════════════════════════
-   CARD — the main card shell
-   ══════════════════════════════════════════════ */
-
+/* ─── CARD ────────────────────────────────── */
 .card {
-    position: relative;
-    background: #0f0f1a;
+    background: #111119;
     border-radius: 24px;
-    border: 1px solid rgba(255,255,255,0.08);
-    overflow: visible;               /* allow arrow button to extend */
-    cursor: pointer;
+    border: 1px solid rgba(255,255,255,.09);
+    padding: 14px;
+    padding-bottom: 22px;
     display: flex;
     flex-direction: column;
-    transition: border-color 0.3s ease, box-shadow 0.35s ease;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+    cursor: pointer;
+    /* NO overflow:hidden — arrow button must be visible */
+    box-shadow: 0 4px 40px rgba(0,0,0,.55);
+    transition: border-color .3s ease, box-shadow .35s ease;
 }
-
 .card:hover {
-    border-color: color-mix(in srgb, var(--accent, #facc15) 45%, rgba(255,255,255,0.08));
+    border-color: color-mix(in srgb, var(--accent, #facc15) 50%, rgba(255,255,255,.09));
     box-shadow:
         0 0 0 1px color-mix(in srgb, var(--accent, #facc15) 18%, transparent),
-        0 8px 48px rgba(0,0,0,0.65),
-        0 0 80px color-mix(in srgb, var(--accent, #facc15) 8%, transparent);
+        0 10px 60px rgba(0,0,0,.7),
+        0 0 90px color-mix(in srgb, var(--accent, #facc15) 7%, transparent);
 }
 
-/* ══════════════════════════════════════════════
-   IMAGE WRAPPER — top ~55% of card
-   Key: border-radius hides top corners, 
-   bottom-left rounded, bottom-right = 0 for scoop
-   ══════════════════════════════════════════════ */
+/* ─── IMAGE OUTER ─────────────────────────── */
+/*  Wrapper that holds the clipped image + the arrow button.
+    Position:relative so the absolute button can anchor here.
+    NO overflow:hidden — the button sits in the "gap" between
+    image and card body (the padding area below the image). */
+.imageOuter {
+    position: relative;
+    margin-bottom: 18px;
+}
 
-.imageWrap {
+/* ─── IMAGE INNER ─────────────────────────── */
+/*  THIS is where overflow:hidden lives.
+    border-radius: top-l, top-r, bot-l = rounded; bot-r = 0
+    The missing bot-right corner + the card's bg = the "scoop" */
+.imageInner {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 10;
-    border-radius: 20px 20px 20px 0;   /* top-l, top-r, bot-l rounded — bot-r = 0 */
+    aspect-ratio: 3 / 2;
+    border-radius: 14px 14px 14px 0;   /* ← concave corner at bot-right */
     overflow: hidden;
-    flex-shrink: 0;
 }
 
-.cardImage {
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
+.cardImg {
+    transition: transform .7s cubic-bezier(.22,1,.36,1) !important;
 }
-
-.card:hover .cardImage {
+.card:hover .cardImg {
     transform: scale(1.06) !important;
 }
 
-/* Dark gradient overlay on image */
+/* Dark gradient inside image */
 .imgOverlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        160deg,
-        rgba(15,15,26,0.15) 0%,
-        rgba(15,15,26,0.55) 75%,
-        rgba(15,15,26,0.80) 100%
-    );
+    background: linear-gradient(160deg, rgba(17,17,25,.1) 0%, rgba(17,17,25,.5) 70%, rgba(17,17,25,.75) 100%);
     z-index: 1;
 }
-
 .imgGlow {
     position: absolute;
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    transition: opacity 0.4s ease;
+    transition: opacity .4s;
 }
 
-/* ── THE INVERTED / CONCAVE CORNER ─────────────
-   This is the magic: a square div in the card 
-   background color, placed at bottom-right of
-   the image area. Its top-left border-radius
-   creates the "scooped" concave corner illusion.
-   The circular arrow button sits on top of it.
-   ─────────────────────────────────────────────── */
-.cornerCut {
-    position: absolute;
-    bottom: -1px;          /* flush with image bottom edge */
-    right: -1px;           /* flush with image right edge  */
-    width: 56px;
-    height: 56px;
-    background: #0f0f1a;   /* MUST match .card background */
-    border-top-left-radius: 56px; /* the concave scoop */
-    z-index: 2;
-    pointer-events: none;
-}
-
-/* ── ARROW BUTTON — sits in the scooped corner ── */
+/* ─── ARROW BUTTON ────────────────────────── */
+/*  Placed at bottom-right of .imageOuter.
+    Sits ON the card's 14px padding — visually
+    right at the bottom-right corner of the image,
+    creating the inverted / scooped corner illusion. */
 .arrowBtn {
     position: absolute;
-    bottom: 8px;           /* nudge inside the scooped area */
-    right: 8px;
-    width: 42px;
-    height: 42px;
+    bottom: -4px;           /* slightly below image bottom */
+    right: 0;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: #facc15;
     color: #000;
@@ -212,244 +187,174 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 3;             /* above cornerCut */
-    box-shadow: 0 4px 20px rgba(250,204,21,0.4);
-    transition: background 0.2s ease, box-shadow 0.2s ease;
+    z-index: 4;
+    box-shadow: 0 4px 24px rgba(250,204,21,.45);
+    transition: background .2s, box-shadow .2s;
 }
-
 .arrowBtn:hover {
     background: #fde047;
-    box-shadow: 0 6px 28px rgba(250,204,21,0.6);
+    box-shadow: 0 6px 32px rgba(250,204,21,.65);
 }
 
-/* ── CARD BODY — content below image ── */
+/* ─── CARD BODY ───────────────────────────── */
 .cardBody {
-    padding: 20px 22px 24px;
+    padding: 0 6px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     flex: 1;
 }
 
-/* Category tag */
 .categoryTag {
     display: inline-flex;
     align-items: center;
     padding: 4px 12px;
     border-radius: 100px;
     border: 1px solid;
-    font-size: 0.62rem;
+    font-size: .62rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: .14em;
     width: fit-content;
 }
 
-/* Client name */
 .clientName {
-    font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+    font-size: clamp(1.3rem, 2.2vw, 1.75rem);
     font-weight: 900;
     color: #fff;
-    letter-spacing: -0.02em;
+    letter-spacing: -.025em;
     line-height: 1.1;
     margin: 0;
 }
 
-/* Metric block */
 .metricBlock {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding: 12px 0;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    gap: 3px;
+    padding: 14px 0;
+    border-top: 1px solid rgba(255,255,255,.06);
+    border-bottom: 1px solid rgba(255,255,255,.06);
 }
 
 .metricValue {
-    font-size: clamp(2.4rem, 4vw, 3.2rem);
+    font-size: clamp(2.6rem, 4vw, 3.4rem);
     font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -0.05em;
+    line-height: .95;
+    letter-spacing: -.06em;
+    font-variant-numeric: tabular-nums;
 }
-
 .metricLabel {
-    font-size: 0.65rem;
-    color: rgba(255,255,255,0.35);
+    font-size: .65rem;
+    color: rgba(255,255,255,.35);
     text-transform: uppercase;
-    letter-spacing: 0.14em;
-    margin-top: 4px;
+    letter-spacing: .14em;
+    margin-top: 5px;
     font-weight: 500;
 }
-
 .metricSecondary {
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.35);
+    font-size: .75rem;
+    color: rgba(255,255,255,.3);
     margin-top: 6px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    letter-spacing: .02em;
 }
 
-/* Description */
 .cardDesc {
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.45);
+    font-size: .82rem;
+    color: rgba(255,255,255,.42);
     line-height: 1.65;
     margin: 0;
 }
 
-/* Year */
-.yearTag {
-    font-size: 0.6rem;
-    color: rgba(255,255,255,0.2);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-top: auto;
-}
-
-/* ── CTA ROW ── */
-.ctaRow {
-    display: flex;
-    justify-content: center;
-    margin-top: var(--spacing-2xl);
-}
-
+/* ─── CTA ROW ─────────────────────────────── */
+.ctaRow { display: flex; justify-content: center; margin-top: var(--spacing-2xl); }
 .viewAllBtn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+    display: inline-flex; align-items: center; gap: 10px;
     padding: 14px 32px;
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,.15);
     border-radius: 100px;
-    color: rgba(255,255,255,0.7);
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
+    color: rgba(255,255,255,.7);
+    font-size: .75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .15em;
     text-decoration: none;
-    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: all .35s cubic-bezier(.22,1,.36,1);
 }
-
 .viewAllBtn:hover {
-    border-color: rgba(250,204,21,0.5);
-    color: #fff;
-    background: rgba(250,204,21,0.06);
-    box-shadow: 0 0 24px rgba(250,204,21,0.12);
+    border-color: rgba(250,204,21,.5); color: #fff;
+    background: rgba(250,204,21,.06);
+    box-shadow: 0 0 24px rgba(250,204,21,.12);
 }
-
-.viewAllArrow { transition: transform 0.3s ease; }
+.viewAllArrow { transition: transform .3s ease; }
 .viewAllBtn:hover .viewAllArrow { transform: translateX(4px); }
 
-/* ── MODAL ── */
+/* ─── MODAL ───────────────────────────────── */
 .modalBackdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.88);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     padding: var(--spacing-xl);
 }
-
 .modal {
-    width: 100%;
-    max-width: 1000px;
-    max-height: 90vh;
+    width: 100%; max-width: 1000px; max-height: 90vh;
     background: #0e0e16;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,.1);
     border-radius: 24px;
     overflow: hidden;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: grid; grid-template-columns: 1fr 1fr;
     position: relative;
 }
-
-@media (max-width: 768px) {
-    .modal { grid-template-columns: 1fr; overflow-y: auto; }
-}
+@media (max-width: 768px) { .modal { grid-template-columns: 1fr; overflow-y: auto; } }
 
 .closeBtn {
-    position: absolute;
-    top: 16px; right: 16px;
-    z-index: 50;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.6);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: rgba(255,255,255,0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    position: absolute; top: 16px; right: 16px; z-index: 50;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.1);
+    color: rgba(255,255,255,.7);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .3s;
 }
-.closeBtn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+.closeBtn:hover { background: rgba(255,255,255,.15); color: #fff; }
 
 .modalImage { position: relative; min-height: 300px; }
 .modalImageOverlay {
     position: absolute; inset: 0;
-    background: linear-gradient(to right, transparent 30%, #0e0e16 100%), linear-gradient(to top, #0e0e16 0%, transparent 40%);
+    background: linear-gradient(to right, transparent 30%, #0e0e16 100%),
+                linear-gradient(to top, #0e0e16 0%, transparent 40%);
 }
 
-.modalInfo {
-    padding: 40px 36px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.modalCategory { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 10px; display: block; }
-.modalTitle { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 900; color: #fff; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 6px; }
-.modalMeta { font-size: 0.75rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; }
-.modalDesc { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 28px; }
+.modalInfo { padding: 40px 36px; overflow-y: auto; display: flex; flex-direction: column; }
+.modalCategory { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; margin-bottom: 10px; display: block; }
+.modalTitle { font-size: clamp(1.6rem,2.5vw,2.2rem); font-weight: 900; color: #fff; line-height: 1.1; letter-spacing: -.03em; margin-bottom: 6px; }
+.modalMeta { font-size: .75rem; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 20px; }
+.modalDesc { font-size: .9rem; color: rgba(255,255,255,.6); line-height: 1.7; margin-bottom: 28px; }
 
 .modalMetrics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 12px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 24px;
+    display: grid; grid-template-columns: repeat(auto-fit,minmax(100px,1fr)); gap: 12px;
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
+    border-radius: 14px; padding: 20px; margin-bottom: 24px;
 }
-
 .modalMetric { display: flex; flex-direction: column; gap: 4px; }
-.modalMetricValue { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
-.modalMetricLabel { font-size: 0.6rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.1em; }
+.modalMetricValue { font-size: 1.6rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.modalMetricLabel { font-size: .6rem; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: .1em; }
 
 .modalTags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-.tag { padding: 4px 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; font-size: 0.65rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.08em; }
+.tag { padding: 4px 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); border-radius: 100px; font-size: .65rem; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .08em; }
 
 .modalCta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: auto;
-    padding: 16px 32px;
-    background: #facc15;
-    color: #000;
-    border: none;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-top: auto; padding: 16px 32px;
+    background: #facc15; color: #000; border: none; border-radius: 12px;
+    font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
+    cursor: pointer; transition: all .3s;
 }
-.modalCta:hover { background: #fde047; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(250,204,21,0.3); }
+.modalCta:hover { background: #fde047; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(250,204,21,.3); }
 
-/* ── ACCESSIBILITY ── */
+/* ─── A11Y / PERF ─────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-    .card, .cardImage, .arrowBtn, .modalCta, .viewAllArrow { transition: none !important; animation: none !important; }
+    .card, .cardImg, .arrowBtn, .modalCta, .viewAllArrow { transition: none !important; animation: none !important; }
 }
-
-/* ── PERFORMANCE ── */
 @media (max-width: 768px) {
     .section { content-visibility: auto; contain-intrinsic-size: auto none auto 900px; }
 }
