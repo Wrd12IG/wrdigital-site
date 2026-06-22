@@ -1,161 +1,102 @@
 [
   {
-    "id": "1767718123612139",
-    "title": "Caso Studio: Yeppon",
-    "client": "Yeppon",
-    "category": "Digital Branding",
-    "year": "2026",
-    "description": "Su Yeppon trovi le migliori offerte su Elettrodomestici, TV, Notebook, Smartphone, Acquista online",
+    "id": "citymotors-2024",
+    "title": "Digital Marketing 360°",
+    "client": "CityMotors",
+    "category": "Social Media",
+    "year": "2024",
+    "description": "Strategia di marketing digitale integrata per CityMotors: gestione social media, content creation, campagne Meta Ads geolocalizzate e reputazione online. Dal brand awareness alla lead generation qualificata nel settore automotive. Abbiamo costruito una presenza social consistente su Instagram e Facebook, con campagne retargeting che hanno trasformato i visitatori in clienti reali.",
     "results": [
-      {
-        "label": "Vendite",
-        "value": "+150%"
-      },
-      {
-        "label": "Fatturato",
-        "value": "2 M"
-      }
+      { "label": "Lead qualificati", "value": "+220%" },
+      { "label": "ROAS campagne", "value": "5.8x" },
+      { "label": "Costo per lead", "value": "-44%" }
     ],
-    "tags": [
-      "E-commerce"
-    ],
-    "image": "/images/projects/yeppon.jpg",
+    "tags": ["Social Media", "Meta Ads", "Content Marketing", "Automotive", "Lead Generation"],
+    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=900&q=85&fit=crop",
     "color": "#FACC15",
     "showOnHome": true,
     "deleted": false,
-    "createdAt": "2026-01-11T00:40:58.594Z",
-    "updatedAt": "2026-01-11T18:40:06.020Z"
+    "createdAt": "2024-06-01T00:00:00.000Z",
+    "updatedAt": "2024-12-31T00:00:00.000Z"
   },
   {
-    "id": "1",
-    "title": "Riposizionamento Digitale",
-    "client": "TechCorp Italia",
-    "category": "SEO & Content",
-    "year": "2025",
-    "description": "Strategia SEO completa con content marketing integrato che ha portato a una crescita organica record.",
-    "results": [
-      {
-        "label": "Traffico Organico",
-        "value": "+380%"
-      },
-      {
-        "label": "Keyword Top 10",
-        "value": "145"
-      },
-      {
-        "label": "Lead Qualificati",
-        "value": "+250%"
-      }
-    ],
-    "tags": [
-      "SEO",
-      "Content Strategy",
-      "Link Building"
-    ],
-    "image": "/images/projects/riposizionamento_digitale.jpg",
-    "color": "#00d4ff",
-    "showOnHome": true,
-    "deleted": false,
-    "createdAt": "2026-01-11T00:40:58.596Z",
-    "updatedAt": "2026-01-11T18:40:06.020Z"
-  },
-  {
-    "id": "3",
-    "title": "Performance Campaign",
-    "client": "E-Commerce Revolution",
+    "id": "yeppon-2024",
+    "title": "Performance Ads E-commerce",
+    "client": "Yeppon.it",
     "category": "Advertising",
-    "year": "2025",
-    "description": "Campagne Google Ads e Meta Ads con ottimizzazione ROAS e scaling progressivo.",
+    "year": "2024",
+    "description": "Gestione campagne Google Ads e Shopping per uno dei principali e-commerce italiani di elettronica consumer. Ottimizzazione ROAS con struttura campagne Performance Max, Google Shopping e Demand Gen. Feed prodotti ottimizzato per oltre 50.000 SKU con priorità dinamica in base a marginalità e stock.",
     "results": [
-      {
-        "label": "ROAS",
-        "value": "5.2x"
-      },
-      {
-        "label": "Conversioni",
-        "value": "+180%"
-      },
-      {
-        "label": "CPA",
-        "value": "-45%"
-      }
+      { "label": "ROAS medio", "value": "4.2x" },
+      { "label": "CPA vs benchmark", "value": "-41%" },
+      { "label": "Revenue da Ads", "value": "+180%" }
     ],
-    "tags": [
-      "Google Ads",
-      "Meta Ads",
-      "Conversion Tracking"
-    ],
-    "image": "/images/projects/performance_campaign.jpg",
-    "color": "#ef4444",
+    "tags": ["Google Ads", "Shopping", "Performance Max", "E-commerce", "Feed Management"],
+    "image": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=85&fit=crop",
+    "color": "#f59e0b",
     "showOnHome": true,
     "deleted": false,
-    "createdAt": "2026-01-11T00:40:58.596Z",
-    "updatedAt": "2026-01-11T18:40:06.020Z"
+    "createdAt": "2024-03-01T00:00:00.000Z",
+    "updatedAt": "2024-12-31T00:00:00.000Z"
   },
   {
-    "id": "2",
-    "title": "Community Building",
-    "client": "Fashion Brand X",
+    "id": "digitalitis-2024",
+    "title": "SEO & 6 Pillar Strategy",
+    "client": "Digitalitis",
+    "category": "SEO & Content",
+    "year": "2024",
+    "description": "Audit SEO completo, architettura dei contenuti e link building per agenzia digitale in forte crescita. Implementazione della 6 Pillar Strategy: Technical SEO, Content Architecture, E-E-A-T, Link Building, Local SEO e AI Optimization. In 8 mesi l'agenzia è passata da invisibile a leader di nicchia nella sua area geografica.",
+    "results": [
+      { "label": "Traffico organico", "value": "+340%" },
+      { "label": "Keyword Top 3", "value": "48" },
+      { "label": "Domain Authority", "value": "+22 pt" }
+    ],
+    "tags": ["SEO", "Content Strategy", "Link Building", "6 Strategy", "Local SEO", "E-E-A-T"],
+    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=85&fit=crop",
+    "color": "#a78bfa",
+    "showOnHome": true,
+    "deleted": false,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-12-31T00:00:00.000Z"
+  },
+  {
+    "id": "ecommerce-fashion-2025",
+    "title": "Community Building & Social Ads",
+    "client": "Brand Fashion — Milano",
     "category": "Social Media",
     "year": "2025",
-    "description": "Creazione e gestione community su Instagram e TikTok con focus su engagement e brand awareness.",
+    "description": "Creazione e gestione community su Instagram e TikTok con focus su engagement, brand awareness e Meta Ads con retargeting avanzato per brand fashion milanese.",
     "results": [
-      {
-        "label": "Follower",
-        "value": "+85K"
-      },
-      {
-        "label": "Engagement Rate",
-        "value": "8.5%"
-      },
-      {
-        "label": "User Generated Content",
-        "value": "+340%"
-      }
+      { "label": "Follower organici", "value": "+180%" },
+      { "label": "Engagement rate", "value": "6.2%" },
+      { "label": "Conversioni Meta", "value": "+140%" }
     ],
-    "tags": [
-      "Instagram",
-      "TikTok",
-      "Influencer Marketing"
-    ],
-    "image": "/images/projects/community_building.jpg",
-    "color": "#7c3aed",
-    "showOnHome": true,
-    "deleted": false,
-    "createdAt": "2026-01-11T00:40:58.597Z",
-    "updatedAt": "2026-01-11T18:40:06.020Z"
-  },
-  {
-    "id": "4",
-    "title": "E-Commerce Platform",
-    "client": "Luxury Retail",
-    "category": "Web Development",
-    "year": "2024",
-    "description": "Sviluppo e-commerce headless con Next.js, Shopify backend e design premium.",
-    "results": [
-      {
-        "label": "Performance Score",
-        "value": "98/100"
-      },
-      {
-        "label": "Conversion Rate",
-        "value": "+65%"
-      },
-      {
-        "label": "Page Speed",
-        "value": "-60%"
-      }
-    ],
-    "tags": [
-      "Next.js",
-      "Shopify",
-      "Headless CMS"
-    ],
-    "image": "/images/projects/ecommerce.jpg",
-    "color": "#06b6d4",
+    "tags": ["Instagram", "TikTok", "Meta Ads", "Fashion", "Influencer Marketing"],
+    "image": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=900&q=85&fit=crop",
+    "color": "#34d399",
     "showOnHome": false,
     "deleted": false,
-    "createdAt": "2026-01-11T00:40:58.595Z",
-    "updatedAt": "2026-01-11T18:40:06.020Z"
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-06-01T00:00:00.000Z"
+  },
+  {
+    "id": "seo-brianza-2025",
+    "title": "Dominanza SEO Locale",
+    "client": "PMI Brianza — Serramenti",
+    "category": "SEO & Content",
+    "year": "2025",
+    "description": "Strategia SEO locale integrata per azienda di serramenti nel Monzese. Da invisibile a prima posizione per tutte le query locali rilevanti in Brianza. Google Business Profile ottimizzato, 47 recensioni raccolte in 6 mesi.",
+    "results": [
+      { "label": "Traffico organico", "value": "+300%" },
+      { "label": "Posizione Google", "value": "#1 locale" },
+      { "label": "Lead mensili", "value": "+95%" }
+    ],
+    "tags": ["SEO", "Local SEO", "Google Business", "Content Marketing"],
+    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85&fit=crop",
+    "color": "#60a5fa",
+    "showOnHome": false,
+    "deleted": false,
+    "createdAt": "2025-02-01T00:00:00.000Z",
+    "updatedAt": "2025-10-01T00:00:00.000Z"
   }
 ]

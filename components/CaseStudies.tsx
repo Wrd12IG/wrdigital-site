@@ -49,67 +49,51 @@ function getProjectImage(image: string, category: string): string {
 // Fallback projects shown when DB is empty
 const FALLBACK_PROJECTS: Project[] = [
     {
-        id: 'fb1',
-        title: 'Dominanza SEO Locale',
-        client: 'Brianza Serramenti',
-        category: 'SEO & Content',
+        id: 'citymotors',
+        title: 'Digital Marketing 360°',
+        client: 'CityMotors',
+        category: 'Social Media',
         year: '2024',
-        description: 'Strategia SEO locale integrata per azienda di serramenti nel Monzese. Da invisibile a prima posizione per tutte le query locali rilevanti in Brianza.',
+        description: 'Strategia di marketing digitale integrata per CityMotors: gestione social media, content creation, campagne Meta Ads geolocalizzate e reputazione online. Dal brand awareness alla lead generation qualificata nel settore automotive.',
         results: [
-            { value: '+300%', label: 'Traffico organico' },
-            { value: '#1', label: 'Posizione Google locale' },
+            { value: '+220%', label: 'Lead qualificati' },
+            { value: '5.8x', label: 'ROAS campagne' },
         ],
-        tags: ['SEO', 'Local SEO', 'Content Marketing'],
-        image: CATEGORY_IMAGES['SEO & Content'],
-        color: '#a78bfa',
+        tags: ['Social Media', 'Meta Ads', 'Content', 'Automotive'],
+        image: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=900&q=85&fit=crop',
+        color: '#facc15',
         showOnHome: true,
     },
     {
-        id: 'fb2',
-        title: 'Campagna Google Ads',
-        client: 'Cliente Automotive',
+        id: 'yeppon',
+        title: 'Performance Ads E-commerce',
+        client: 'Yeppon.it',
         category: 'Advertising',
         year: '2024',
-        description: 'Campagne Google Ads ottimizzate per concessionario auto con targeting geografico su Milano e Brianza. Budget ottimizzato settimana per settimana.',
+        description: 'Gestione campagne Google Ads e Shopping per uno dei principali e-commerce italiani di elettronica. Ottimizzazione ROAS, struttura campagne Performance Max e feed prodotti per oltre 50.000 SKU.',
         results: [
-            { value: '4x', label: 'ROAS medio' },
-            { value: '-38%', label: 'CPA rispetto benchmark' },
+            { value: '4.2x', label: 'ROAS medio' },
+            { value: '-41%', label: 'CPA vs benchmark' },
         ],
-        tags: ['Google Ads', 'PPC', 'Automotive'],
-        image: CATEGORY_IMAGES['Advertising'],
+        tags: ['Google Ads', 'Shopping', 'Performance Max', 'E-commerce'],
+        image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=85&fit=crop',
         color: '#f59e0b',
         showOnHome: true,
     },
     {
-        id: 'fb3',
-        title: 'Social Media Growth',
-        client: 'E-commerce Fashion',
-        category: 'Social Media',
-        year: '2023',
-        description: 'Strategia social media per brand fashion emergente: piano editoriale, contenuti organici e campagne Meta Ads con retargeting avanzato.',
-        results: [
-            { value: '+180%', label: 'Follower organici' },
-            { value: '6.2%', label: 'Engagement rate' },
-        ],
-        tags: ['Instagram', 'Meta Ads', 'Fashion'],
-        image: CATEGORY_IMAGES['Social Media'],
-        color: '#34d399',
-        showOnHome: true,
-    },
-    {
-        id: 'fb4',
-        title: 'Web App B2B',
-        client: 'SaaS Gestionale',
-        category: 'Web Development',
+        id: 'digitalitis',
+        title: 'SEO & Strategia Digitale',
+        client: 'Digitalitis',
+        category: 'SEO & Content',
         year: '2024',
-        description: 'Sviluppo web app B2B per piattaforma gestionale con dashboard dati real-time, autenticazione OAuth2 e integrazione API REST.',
+        description: 'Audit SEO completo, strategia di contenuti e link building per agenzia digitale in forte crescita. Implementazione architettura SEO, content cluster tematici e 6 pillar strategy per dominare le SERP di settore.',
         results: [
-            { value: '98%', label: 'Performance score' },
-            { value: '2.1s', label: 'LCP medio' },
+            { value: '+340%', label: 'Traffico organico' },
+            { value: 'Top 3', label: 'Keyword principali' },
         ],
-        tags: ['Next.js', 'TypeScript', 'B2B'],
-        image: CATEGORY_IMAGES['Web Development'],
-        color: '#60a5fa',
+        tags: ['SEO', 'Content Strategy', 'Link Building', '6 Strategy'],
+        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=85&fit=crop',
+        color: '#a78bfa',
         showOnHome: true,
     },
 ];
@@ -125,13 +109,13 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-    // Priority: showOnHome first, fallback one-per-category, max 4
+    // Priority: showOnHome first, max 3
     let displayed = projects.filter(p => p.showOnHome);
     if (displayed.length === 0) {
-        const cats = ['SEO & Content', 'Social Media', 'Advertising', 'Web Development'];
+        const cats = ['Social Media', 'Advertising', 'SEO & Content'];
         displayed = cats.map(c => projects.find(p => p.category === c)).filter(Boolean) as Project[];
     }
-    displayed = displayed.slice(0, 4);
+    displayed = displayed.slice(0, 3);
 
     // Aggregate stats from actual data
     const statsRow = [
@@ -140,13 +124,11 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
         { value: '4x',    label: 'ROAS garantito' },
     ];
 
-    // Bento layout map: card index → CSS class
-    // applied to ScrollReveal (= direct grid child)
+    // 3-column equal layout — each card gets same class
     const cellClasses = [
-        styles.cellLarge,
-        styles.cellSmallTop,
-        styles.cellSmallBottom,
-        styles.cellAccent,
+        styles.cellTriple,
+        styles.cellTriple,
+        styles.cellTriple,
     ];
 
     return (
