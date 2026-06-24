@@ -176,9 +176,10 @@ export default async function ServizioCittaPage({ params }: { params: Promise<{ 
                         {serviceData.icon} Agenzia {serviceData.shortName} a {comune.name} (MB)
                     </span>
                     <h1 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">
-                        {serviceData.name.replace('a ', '')}<br />
+                        {serviceData.name}
+                        {' '}a{' '}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
-                            a {comune.name}
+                            {comune.name}
                         </span>
                     </h1>
                     <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
