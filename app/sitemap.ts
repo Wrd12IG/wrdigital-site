@@ -4,9 +4,9 @@ import comuniData from '@/data/comuni-mb.json';
 
 const baseUrl = 'https://www.wrdigital.it';
 
-const CORE_PAGES_DATE = new Date('2026-05-21T00:00:00.000Z');
+const CORE_PAGES_DATE = new Date('2026-06-24T00:00:00.000Z');
 const ZONE_PAGES_DATE = new Date('2025-03-01T00:00:00.000Z');
-const GEO_PAGES_LAUNCH_DATE = new Date('2024-09-01T00:00:00.000Z');
+const GEO_PAGES_LAUNCH_DATE = new Date('2026-06-24T00:00:00.000Z');
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // 1. Static Pages — date reali specifiche, non new Date() uniforme
