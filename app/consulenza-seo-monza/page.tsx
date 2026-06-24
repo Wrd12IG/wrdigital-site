@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-    title: 'Agenzia SEO Monza Brianza: Prima Pagina Google Garantita | W[r]Digital',
+    title: 'Consulenza SEO Monza Brianza | Prima Pagina Google | W[r]Digital',
     description: 'W[r]Digital — consulenza SEO a Monza e Brianza. Audit tecnica gratuita, link building, content strategy e posizionamento Google per PMI del territorio. Risultati in 4-6 mesi.',
     alternates: {
         canonical: 'https://www.wrdigital.it/consulenza-seo-monza',

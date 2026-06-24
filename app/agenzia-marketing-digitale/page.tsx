@@ -6,13 +6,13 @@ import PillarServiceWidget from '@/components/PillarServiceWidget';
 import styles from './PillarPage.module.css';
 
 export const metadata: Metadata = {
-    title: 'Agenzia Marketing Digitale Milano e Monza Brianza: La Guida Completa 2026 | W[r]Digital',
+    title: 'Agenzia Marketing Digitale Milano e Monza | W[r]Digital',
     description: 'Scopri come scegliere la giusta agenzia di marketing digitale a Milano e Monza Brianza nel 2026. Guida strategica su SEO, AI Search, e metriche reali.',
     alternates: {
         canonical: '/agenzia-marketing-digitale',
     },
     openGraph: {
-        title: 'Agenzia Marketing Digitale Milano e Monza Brianza: La Guida Strategica 2026',
+        title: 'Agenzia Marketing Digitale Milano e Monza | W[r]Digital',
         description: 'Non sprecare budget. Ecco come distinguere un\'agenzia seria da una fabbrica di fumo. La guida definitiva di W[r]Digital.',
         url: 'https://www.wrdigital.it/agenzia-marketing-digitale',
         type: 'article',

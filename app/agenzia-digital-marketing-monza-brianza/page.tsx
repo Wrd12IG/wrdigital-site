@@ -3,7 +3,7 @@ import Link from 'next/link';
 import comuniData from '@/data/comuni-mb.json';
 
 export const metadata: Metadata = {
-    title: 'Agenzia Digital Marketing Monza Brianza | SEO, Ads, Web | W[r]Digital',
+    title: 'Agenzia Digital Marketing Monza Brianza | W[r]Digital',
     description: 'Agenzia digital marketing a Monza e Brianza: SEO, Google Ads e Web Design per PMI. Sede a Nova Milanese (MB), 5 min da Monza. +300% traffico organico. Preventivo gratuito.',
     alternates: {
         canonical: 'https://www.wrdigital.it/agenzia-digital-marketing-monza-brianza',

@@ -4,7 +4,7 @@ import NewsletterForm from '@/components/NewsletterForm';
 import { prisma } from '@/lib/prisma';
 
 export const metadata: Metadata = {
-    title: 'Blog & Insights Digital Marketing | SEO, AI e Crescita | W[r]Digital',
+    title: 'Blog Digital Marketing | SEO, AI e Crescita | W[r]Digital',
     description: 'Guide pratiche, analisi e case study su SEO, Digital Marketing, AI e crescita aziendale a Milano e Monza Brianza. Strategie reali, dati verificabili.',
     openGraph: {
         title: 'W[r]Digital Blog - Strategie di Digital Marketing per Crescere',
