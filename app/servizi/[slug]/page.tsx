@@ -50,16 +50,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const valueProp = "W[r]Digital | Agenzia Milano";
     const seo = (page.seo || {}) as any;
 
+    // Fallback descriptions per servizi hub (quando DB vuoto)
+    const SERVICE_META_FALLBACKS: Record<string, string> = {
+        seo: 'Servizio SEO professionale a Milano e Monza Brianza. Audit tecnica, link building, content strategy e posizionamento locale. +300% traffico organico medio. Audit gratuita.',
+        ads: 'Gestione Google Ads e Meta Ads per PMI di Milano e Monza Brianza. Campagne PPC geolocalizzate, tracciamento conversioni, ROAS garantito. Fee fisso, nessuna % sul budget.',
+        social: 'Social Media Marketing a Milano e Brianza: gestione Instagram, Facebook, LinkedIn, TikTok. Strategia editoriale, crescita community e campagne a performance. Preventivo gratuito.',
+        web: 'Realizzazione siti web a Milano e Monza: landing page da €900, siti corporate da €2.500, e-commerce da €4.500. SEO tecnica, Core Web Vitals e mobile-first inclusi.',
+    };
+    const fallbackDesc = SERVICE_META_FALLBACKS[slug] || `${page.title} — W[r]Digital, agenzia digital marketing a Milano e Monza Brianza. Strategie data-driven, team senior dedicato. Audit gratuita.`;
+    const metaDesc = seo.metaDescription || fallbackDesc;
+
     // 2. Costruzione Metadati Ottimizzati
     return {
         title: seo.metaTitle || `${page.title} - ${valueProp}`,
-        description: seo.metaDescription || '',
+        description: metaDesc,
         alternates: {
             canonical: seo.canonicalUrl || `https://www.wrdigital.it/servizi/${slug}`,
         },
         openGraph: {
             title: seo.ogTitle || seo.metaTitle || page.title,
-            description: seo.ogDescription || seo.metaDescription || '',
+            description: seo.ogDescription || metaDesc,
             siteName: 'W[r]Digital Agency',
             locale: 'it_IT',
             type: 'website',
