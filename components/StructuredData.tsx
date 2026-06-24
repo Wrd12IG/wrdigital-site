@@ -82,13 +82,6 @@ export default function StructuredData({ config }: StructuredDataProps) {
                 "closes": "18:00"
             }
         ],
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "58",
-            "bestRating": "5",
-            "worstRating": "1"
-        },
         "areaServed": [
             { "@type": "City", "name": "Nova Milanese", "sameAs": "https://www.wikidata.org/wiki/Q40656" },
             { "@type": "City", "name": "Milano", "sameAs": "https://www.wikidata.org/wiki/Q490" },
@@ -97,28 +90,12 @@ export default function StructuredData({ config }: StructuredDataProps) {
             { "@type": "AdministrativeArea", "name": "Provincia di Milano" }
         ],
         "knowsAbout": [
-            "Migliore agenzia SEO a Milano e Monza Brianza",
+            "Agenzia SEO a Milano e Monza Brianza",
             "Creazione siti web per piccole imprese",
             "Social media management",
-            "Pubblicità online affidabile a Monza Brianza",
-            "Top rated digital marketing consultants Milan",
-            "Professional website designers for e-commerce"
-        ],
-        "review": [
-            {
-                "@type": "Review",
-                "author": { "@type": "Person", "name": "Marco Bianchi" },
-                "datePublished": "2025-11-10",
-                "reviewBody": "Con W[r]Digital abbiamo triplicato le richieste di preventivo online in 4 mesi. La migliore agenzia SEO di Monza e Brianza per le PMI.",
-                "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "5", "worstRating": "1" }
-            },
-            {
-                "@type": "Review",
-                "author": { "@type": "Person", "name": "Giulia Rossi" },
-                "datePublished": "2026-01-22",
-                "reviewBody": "Sito e-commerce realizzato in 6 settimane, velocissimo e ottimizzato SEO. Team professionale e sempre disponibile a Milano.",
-                "reviewRating": { "@type": "Rating", "bestRating": "5", "ratingValue": "5", "worstRating": "1" }
-            }
+            "Pubblicità online per PMI a Monza Brianza",
+            "Digital marketing consultants Milan",
+            "Web design e-commerce professionale"
         ],
         "sameAs": [
             "https://www.instagram.com/wrdigital",
@@ -127,37 +104,8 @@ export default function StructuredData({ config }: StructuredDataProps) {
         ]
     };
 
-    // Breadcrumb Schema (only for non-homepage)
-    const getBreadcrumbSchema = () => {
-        if (pathname === '/') return null;
-
-        const pathSegments = pathname.split('/').filter(Boolean);
-        const items = [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.wrdigital.it"
-            }
-        ];
-
-        let currentPath = '';
-        pathSegments.forEach((segment, index) => {
-            currentPath += `/${segment}`;
-            items.push({
-                "@type": "ListItem",
-                "position": index + 2,
-                "name": segment.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-                "item": `https://www.wrdigital.it${currentPath}`
-            });
-        });
-
-        return {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": items
-        };
-    };
+    // Note: BreadcrumbList is injected per-page (zona/[citta], servizi/[slug]/[citta])
+    // to avoid duplicates in the JSON-LD graph. No global breadcrumb here.
 
     // WebSite Schema (per Google Sitelinks Search Box)
     const websiteSchema = {
@@ -192,7 +140,7 @@ export default function StructuredData({ config }: StructuredDataProps) {
             }))
     } : null;
 
-    const breadcrumbSchema = getBreadcrumbSchema();
+
 
     // Service Schema (Rich Snippets: Stars & Price)
     const getServiceSchema = () => {
@@ -222,26 +170,6 @@ export default function StructuredData({ config }: StructuredDataProps) {
             },
             "description": service.description,
             "areaServed": "Italy",
-            "hasOfferCatalog": {
-                "@type": "OfferCatalog",
-                "name": "Servizi Digitali",
-                "itemListElement": [
-                    {
-                        "@type": "Offer",
-                        "itemOffered": {
-                            "@type": "Service",
-                            "name": service.title
-                        }
-                    }
-                ]
-            },
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": service.clientCount > 0 ? service.clientCount : 50,
-                "bestRating": "5",
-                "worstRating": "1"
-            },
             "offers": {
                 "@type": "Offer",
                 "url": `https://www.wrdigital.it${pathname}`,
@@ -347,15 +275,6 @@ export default function StructuredData({ config }: StructuredDataProps) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
             />
-
-            {/* Breadcrumb Schema (non-homepage) */}
-            {breadcrumbSchema && (
-                <script
-                    key="schema-breadcrumb"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-                />
-            )}
 
             {/* Homepage FAQ Schema */}
             {homepageFaqSchema && (
