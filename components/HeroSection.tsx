@@ -87,7 +87,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
 
     // Configuration State
     const [config, setConfig] = useState<any>(initialConfig || {
-        title: "Agenzia Digital Marketing W[r]Digital",
+        title: "W[r]Digital",
         subtitle: "Agenzia Digital Marketing a Milano e Monza Brianza\nTrasformiamo la tua presenza online in un generatore di profitti.",
         description: "Non vendiamo fumo, ma strategie scalabili. Dalla SEO al Web Design, portiamo il tuo brand dove i tuoi clienti lo stanno già cercando.",
         stats: { traffic: "+380%", roi: "2.5x" },
@@ -282,6 +282,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                             id="main-h1"
                             className={`${styles.title} ${styles.animTitle}`}
                         >
+                            <span className="sr-only">Agenzia Digital Marketing — </span>
                             {renderTitle()}
                         </h1>
                         {/* Keyword geo-locale visibile — segnale SEO esplicito per Google */}
