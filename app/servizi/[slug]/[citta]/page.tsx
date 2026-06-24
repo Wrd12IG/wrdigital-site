@@ -22,7 +22,7 @@ const SERVICES_DATA = {
         ]
     },
     'ads': {
-        name: 'Campagne Google & Meta Ads',
+        name: 'Google & Meta Ads',
         shortName: 'Ads',
         icon: '📈',
         desc: (c: Comune) => `Gestione professionale campagne pubblicitarie per PMI di ${c.name}. Intercetta i clienti pronti all'acquisto nel territorio della Brianza.`,
@@ -148,6 +148,25 @@ export default async function ServizioCittaPage({ params }: { params: Promise<{ 
                     { "@type": "ListItem", "position": 3, "name": comune.name, "item": `https://www.wrdigital.it/servizi/${serviceKey}/${comune.slug}` }
                 ]
             }
+,
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": comune.cityFaq.q,
+                        "acceptedAnswer": { "@type": "Answer", "text": comune.cityFaq.a }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": `Quanto costa ${serviceData.shortName} a ${comune.name}?`,
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": `Il costo del servizio ${serviceData.name} a ${comune.name} dipende dagli obiettivi specifici. W[r]Digital offre sempre un'analisi gratuita iniziale. Contattaci per un preventivo personalizzato senza impegno.`
+                        }
+                    }
+                ]
+            }
         ]
     };
 
@@ -210,20 +229,85 @@ export default async function ServizioCittaPage({ params }: { params: Promise<{ 
                 </div>
             </section>
 
-            {/* CONTESTO LOCALE (Dynamic from JSON) */}
-            <section className="py-20 px-6">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-2xl font-bold text-white mb-6">
-                        Il tuo partner digitale a {comune.distanceKm} km da {comune.name}
+            {/* UNIQUE CITY INTRO — differentiates the page per city (P2) */}
+            <section className="py-16 px-6 bg-gradient-to-b from-yellow-400/5 to-transparent border-b border-white/5">
+                <div className="max-w-4xl mx-auto">
+                    <h2 className="text-xl md:text-2xl font-bold text-white mb-4">
+                        {serviceData.name} a {comune.name}: il contesto locale
                     </h2>
-                    <p className="text-gray-400 text-lg leading-relaxed mb-8">
-                        Lavorare con un&apos;agenzia sul territorio significa incontri di persona, zero ritardi e una conoscenza reale del tuo mercato. A {comune.name} ({comune.population.toLocaleString('it-IT')} abitanti), i settori principali sono {comune.sectors.join(', ')}. Noi sappiamo come raggiungere i tuoi clienti qui in Brianza.
+                    <p className="text-gray-300 text-lg leading-relaxed mb-4">
+                        {comune.uniqueIntro}
                     </p>
-                    <Link href={`/zona/${comune.slug}`} className="text-yellow-400 font-bold hover:text-yellow-300 transition-colors border-b border-yellow-400/30 hover:border-yellow-300 pb-1">
-                        Scopri di più sui nostri servizi a {comune.name} →
-                    </Link>
+                    <p className="text-gray-400 leading-relaxed">
+                        L&apos;economia di {comune.name} è caratterizzata da: {comune.economy} Conoscere questo territorio ci permette di costruire strategie digitali calibrate sul mercato locale, non strategie generiche.
+                    </p>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                        {comune.sectors.map((s, i) => (
+                            <span key={i} className="text-xs text-yellow-400 border border-yellow-400/30 px-3 py-1 rounded-full font-mono uppercase tracking-wider">
+                                {s}
+                            </span>
+                        ))}
+                    </div>
                 </div>
             </section>
+
+            {/* CITY-SPECIFIC FAQ (P2+P8) — always in DOM, NO conditional rendering */}
+            <section className="py-20 px-6 bg-white/2 border-y border-white/5">
+                <div className="max-w-4xl mx-auto">
+                    <h2 className="text-2xl font-bold text-white mb-10">
+                        Domande frequenti su {serviceData.shortName} a {comune.name}
+                    </h2>
+                    <div className="space-y-6">
+                        {/* City FAQ — unique per location */}
+                        <details className="border border-white/10 rounded-2xl bg-black">
+                            <summary className="px-6 py-5 cursor-pointer text-white font-semibold hover:text-yellow-400 transition-colors list-none flex justify-between items-center">
+                                {comune.cityFaq.q}
+                                <span className="text-yellow-400 text-xl">+</span>
+                            </summary>
+                            <p className="px-6 pb-5 text-gray-400 leading-relaxed">{comune.cityFaq.a}</p>
+                        </details>
+                        {/* Service+City FAQ */}
+                        <details className="border border-white/10 rounded-2xl bg-black">
+                            <summary className="px-6 py-5 cursor-pointer text-white font-semibold hover:text-yellow-400 transition-colors list-none flex justify-between items-center">
+                                Quanto tempo ci vuole per vedere risultati con {serviceData.shortName} a {comune.name}?
+                                <span className="text-yellow-400 text-xl">+</span>
+                            </summary>
+                            <p className="px-6 pb-5 text-gray-400 leading-relaxed">
+                                Per aziende di {comune.name}, stimiamo risultati misurabili entro 90-120 giorni dall&apos;avvio. La timeline dipende dal punto di partenza, dalla concorrenza locale e dal budget allocato. Offriamo sempre un&apos;analisi gratuita iniziale per stimare i tempi reali nel tuo settore.
+                            </p>
+                        </details>
+                        <details className="border border-white/10 rounded-2xl bg-black">
+                            <summary className="px-6 py-5 cursor-pointer text-white font-semibold hover:text-yellow-400 transition-colors list-none flex justify-between items-center">
+                                Quanto costa il servizio {serviceData.shortName} per un&apos;azienda di {comune.name}?
+                                <span className="text-yellow-400 text-xl">+</span>
+                            </summary>
+                            <p className="px-6 pb-5 text-gray-400 leading-relaxed">
+                                Non esiste un prezzo fisso: ogni proposta per {comune.name} è personalizzata sugli obiettivi, la concorrenza locale e il settore specifico. Contattaci per un preventivo gratuito e senza impegno — di solito lo prepariamo entro 24 ore.
+                            </p>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            {/* NEARBY CITIES — internal linking (P2) */}
+            {comune.nearby && comune.nearby.length > 0 && (
+                <section className="py-12 px-6 border-t border-white/5">
+                    <div className="max-w-4xl mx-auto">
+                        <p className="text-gray-500 text-xs uppercase tracking-widest mb-4 font-mono">Gestiamo {serviceData.shortName} anche in</p>
+                        <div className="flex flex-wrap gap-3">
+                            {comune.nearby.map((nearbySlug) => (
+                                <Link
+                                    key={nearbySlug}
+                                    href={`/servizi/${serviceKey}/${nearbySlug}`}
+                                    className="text-sm text-gray-300 bg-white/5 border border-white/10 px-4 py-2 rounded-full hover:border-yellow-400/40 hover:text-yellow-400 transition-colors capitalize"
+                                >
+                                    {nearbySlug.replace(/-/g, ' ')}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* ALTRI SERVIZI */}
             <section className="py-16 px-6 bg-white/2 border-t border-white/10">
@@ -239,6 +323,19 @@ export default async function ServizioCittaPage({ params }: { params: Promise<{ 
                             );
                         })}
                     </div>
+                </div>
+            </section>
+
+            {/* CONTESTO LOCALE */}
+            <section className="py-12 px-6">
+                <div className="max-w-4xl mx-auto text-center">
+                    <p className="text-gray-500 text-sm leading-relaxed">
+                        Siamo a {comune.distanceKm} km da {comune.name}. Sede: Via Venezia, 2 — Nova Milanese (MB).
+                        Serviamo tutta la provincia di Monza e Brianza con sopralluoghi, incontri di persona e supporto remoto.
+                    </p>
+                    <Link href={`/zona/${comune.slug}`} className="inline-block mt-4 text-yellow-400 font-bold hover:text-yellow-300 transition-colors border-b border-yellow-400/30 hover:border-yellow-300 pb-1">
+                        Scopri tutti i servizi a {comune.name} →
+                    </Link>
                 </div>
             </section>
         </main>
