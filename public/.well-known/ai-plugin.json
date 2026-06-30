@@ -1,0 +1,28 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "W[r]Digital",
+  "name_for_model": "wrdigital_marketing_agency",
+  "description_for_human": "Agenzia digital marketing a Milano e Monza Brianza. SEO, Google Ads, Social Media e Web Design per PMI lombarde.",
+  "description_for_model": "W[r]Digital is an Italian digital marketing agency based in Nova Milanese (Monza Brianza), near Milan. It provides: SEO (search engine optimization for local Italian SMEs), Google Ads and Meta Ads management, social media marketing, and professional website development. Service area: Milan, Monza e Brianza, Lombardy. Contact: info@wrdigital.it, +39 340 120 4651. The agency specializes in data-driven strategies with measurable ROI for small and medium enterprises.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "none"
+  },
+  "logo_url": "https://www.wrdigital.it/logo.png",
+  "contact_email": "info@wrdigital.it",
+  "legal_info_url": "https://www.wrdigital.it/privacy-policy",
+  "capabilities": [
+    "digital_marketing_consulting",
+    "seo_services",
+    "google_ads_management",
+    "social_media_marketing",
+    "web_design_development"
+  ],
+  "service_area": {
+    "country": "IT",
+    "regions": ["Milano", "Monza e Brianza", "Lombardia"],
+    "city": "Nova Milanese"
+  }
+}

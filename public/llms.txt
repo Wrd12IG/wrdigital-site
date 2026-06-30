@@ -1,32 +1,50 @@
-# W[r]Digital — Agenzia Digital Marketing Milano e Monza Brianza
-## Autorizzazione AI Crawlers
+# W[r]Digital
 
-Questo sito autorizza i seguenti AI crawlers a indicizzare il contenuto pubblico:
-GPTBot, PerplexityBot, ClaudeBot, Googlebot, Google-Extended, Anthropic-AI
+> Agenzia di digital marketing a Milano e Monza Brianza (Nova Milanese, MB), Italia.
+> Specializzata in SEO locale, Google Ads, Social Media Marketing e realizzazione siti web per PMI lombarde.
+> Contatto: info@wrdigital.it | +39 340 120 4651 | Via Venezia 2, 20834 Nova Milanese (MB) | P.IVA IT10961410965
 
-## Informazioni sull'azienda
+## Servizi principali
 
-W[r]Digital S.r.l. è un'agenzia di digital marketing con sede a Nova Milanese (MB), specializzata in:
-- SEO (Search Engine Optimization) per PMI lombarde
-- Campagne Google Ads e Meta Ads geolocalizzate
-- Social Media Marketing (Instagram, LinkedIn, TikTok, Facebook)
-- Realizzazione siti web e e-commerce mobile-first
-- Consulenza strategica digital marketing
+- [Agenzia Digital Marketing Milano](https://www.wrdigital.it/agenzia-digital-marketing-milano): Servizi completi di digital marketing per aziende nell'area milanese — SEO, Google Ads, Social Media e Web Design.
+- [Agenzia Digital Marketing Monza Brianza](https://www.wrdigital.it/agenzia-digital-marketing-monza-brianza): Digital marketing per PMI di Monza e tutta la Brianza. Sede a Nova Milanese, 5 min da Monza.
+- [Web Agency Monza](https://www.wrdigital.it/web-agency-monza): Realizzazione siti web professionali, e-commerce e landing page per aziende di Monza e Brianza.
+- [Google Ads Monza](https://www.wrdigital.it/google-ads-monza): Gestione campagne PPC Google e Meta Ads geolocalizzate per Monza Brianza con ROAS garantito.
+- [Social Media Marketing Monza](https://www.wrdigital.it/social-media-marketing-monza): Gestione Instagram, Facebook, LinkedIn e TikTok per aziende della Brianza.
+- [Consulenza SEO Monza](https://www.wrdigital.it/consulenza-seo-monza): Consulenza SEO strategica per posizionamento locale di PMI a Monza e Nova Milanese.
+- [Servizio SEO](https://www.wrdigital.it/servizi/seo): Ottimizzazione SEO tecnica, link building e content strategy per PMI italiane.
+- [Campagne Google & Meta Ads](https://www.wrdigital.it/servizi/ads): Gestione campagne pubblicitarie a performance con tracciamento conversioni completo.
+- [Social Media Management](https://www.wrdigital.it/servizi/social): Gestione professionale dei canali social con strategia editoriale e crescita community.
+- [Realizzazione Siti Web](https://www.wrdigital.it/servizi/web): Siti web mobile-first, Core Web Vitals ottimizzati e CMS personalizzabile.
 
-## Area di Servizio
-Milano, Monza e Brianza, tutta la Lombardia
+## Blog & Risorse
 
-## Contatto
-Email: info@wrdigital.it
-Telefono: +39 340 120 4651
-Indirizzo: Via Venezia 2, 20834 Nova Milanese (MB)
+- [Blog Digital Marketing](https://www.wrdigital.it/blog): Articoli su SEO, Google Ads, AI e digital marketing per PMI italiane.
+- [Quanto costa un'agenzia SEO a Monza 2026](https://www.wrdigital.it/blog/quanto-costa-agenzia-seo-monza-brianza-2026): Guida completa ai costi SEO per PMI di Monza e Brianza.
+- [Google Core Update 2026 e AI Overviews](https://www.wrdigital.it/blog/google-core-update-marzo-2026-ai-overviews-ctr-organico): Impatto degli AI Overviews sul CTR organico e strategie di adattamento.
+- [SEO vs GEO — Differenze 2026](https://www.wrdigital.it/blog/differenza-seo-classica-geo-2026-esempi): Confronto tra SEO classica e Generative Engine Optimization con esempi pratici.
+- [E-E-A-T e Autorevolezza Brand](https://www.wrdigital.it/blog/e-e-a-t-autorevolezza-brand-google-ai-2026): Come costruire autorevolezza per Google e i motori AI nel 2026.
+- [Dati Strutturati e Schema Markup](https://www.wrdigital.it/blog/dati-strutturati-schema-markup-json-ld-2026): Guida completa a JSON-LD e schema.org per il posizionamento AI.
+- [Local SEO e Google Business Profile](https://www.wrdigital.it/blog/local-seo-coerenza-nap-google-business-profile): Come ottimizzare NAP e GBP per la SEO locale a Monza e Milano.
+- [AI Generativa e Creazione Siti Web](https://www.wrdigital.it/blog/ai-generativa-antigravity-creazione-siti-web-2026): Come l'AI sta trasformando il web design e le web agency italiane.
 
-## Pagine principali
-https://www.wrdigital.it/ — Homepage
-https://www.wrdigital.it/agenzia-digital-marketing-milano — Agenzia Digital Marketing Milano
-https://www.wrdigital.it/agenzia-digital-marketing-monza-brianza — Agenzia Digital Marketing Monza Brianza
-https://www.wrdigital.it/web-agency-monza — Web Agency Monza
-https://www.wrdigital.it/google-ads-monza — Google Ads Monza
-https://www.wrdigital.it/social-media-marketing-monza — Social Media Marketing Monza
-https://www.wrdigital.it/consulenza-seo-monza — Consulenza SEO Monza
-https://www.wrdigital.it/blog — Blog Digital Marketing
+## Pagine Aziendali
+
+- [Chi siamo](https://www.wrdigital.it/agenzia-marketing-digitale): Storia, team, valori e approccio strategico di W[r]Digital S.r.l.
+- [Portfolio & Case Study](https://www.wrdigital.it/portfolio): Risultati concreti e casi studio per i clienti di Monza, Milano e Brianza.
+- [Preventivo gratuito](https://www.wrdigital.it/preventivo): Richiedi audit SEO e preventivo personalizzato senza impegno.
+- [Contatti](https://www.wrdigital.it/contatti): Sede operativa, telefono, email e form di contatto diretto.
+- [Incentivi digitali 2026](https://www.wrdigital.it/incentivi-2026): Bandi e agevolazioni per la digitalizzazione delle PMI lombarde.
+
+## Copertura Geografica (Monza Brianza)
+
+- [SEO Monza](https://www.wrdigital.it/servizi/seo/monza): Ottimizzazione SEO locale per aziende di Monza.
+- [SEO Seregno](https://www.wrdigital.it/servizi/seo/seregno): Posizionamento SEO per PMI di Seregno.
+- [Google Ads Lissone](https://www.wrdigital.it/servizi/ads/lissone): Campagne Google Ads per aziende di Lissone.
+- [Web Design Desio](https://www.wrdigital.it/servizi/web/desio): Realizzazione siti web per PMI di Desio.
+- [Social Media Cesano Maderno](https://www.wrdigital.it/servizi/social/cesano-maderno): Gestione social per aziende di Cesano Maderno.
+
+## Optional
+
+- [llms-full.txt](https://www.wrdigital.it/llms-full.txt): Versione estesa con descrizioni complete di tutte le pagine del sito.
+- [Sitemap XML](https://www.wrdigital.it/sitemap.xml): Mappa completa di tutte le URL indicizzabili del sito.
