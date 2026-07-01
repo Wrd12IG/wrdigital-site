@@ -478,7 +478,6 @@
     "metaTitle": "SEO vs GEO 2026: La Generative Engine Optimization"
   },
   {
-    "id": 21,
     "slug": "digital-marketing-concessionarie-auto-guida-2026",
     "title": "Il 78% dei Clienti Auto Decide Online Prima di Entrare in Concessionaria. E la Tua Azienda Dov'è?",
     "excerpt": "Il 78% degli acquirenti di auto italiani ha già scelto il modello prima di varcare la soglia del concessionario. Se non sei dove si informano, la vendita è già persa. Scopri come il digital marketing cambia le regole del gioco per dealer e concessionarie.",
@@ -497,6 +496,8 @@
     "published": true,
     "deleted": false,
     "readingTime": 8,
-    "category": "Digital Marketing"
+    "category": "Digital Marketing",
+    "date": "2026-07-01T08:00:00.000Z",
+    "readTime": 8
   }
 ]
