@@ -11,7 +11,7 @@
     "category": "Bandi & Finanziamenti",
     "date": "27 Apr 2026",
     "readTime": "4 min",
-    "featured": true,
+    "featured": false,
     "tags": [
       "Bandi",
       "Lombardia",
@@ -39,7 +39,7 @@
     "category": "SEO Strategy",
     "date": "27 Mar 2026",
     "readTime": "9 min",
-    "featured": true,
+    "featured": false,
     "tags": [
       "Google Core Update",
       "AI Overviews",
@@ -94,7 +94,7 @@
     "category": "AI & Web Design",
     "date": "23 Mar 2026",
     "readTime": "8 min",
-    "featured": true,
+    "featured": false,
     "tags": [
       "AI Generativa",
       "Antigravity",
@@ -123,7 +123,7 @@
     "category": "Local SEO",
     "date": "05 Apr 2026",
     "readTime": "5 min",
-    "featured": true,
+    "featured": false,
     "tags": [
       "SEO",
       "Monza",
@@ -227,7 +227,7 @@
     "category": "Social Media",
     "date": "10 Gen 2026",
     "readTime": "5 min",
-    "featured": true,
+    "featured": false,
     "tags": [
       "Social Media",
       "Trends 2026",
@@ -363,7 +363,7 @@
     "category": "Local SEO",
     "date": "2026-03-16",
     "readTime": "6 min",
-    "featured": true,
+    "featured": false,
     "tags": [],
     "published": true,
     "deleted": false,
@@ -384,7 +384,7 @@
     "category": "Content Strategy",
     "date": "2026-03-18",
     "readTime": "7 min",
-    "featured": true,
+    "featured": false,
     "tags": [],
     "published": true,
     "deleted": false,
@@ -468,7 +468,7 @@
     "category": "SEO & Content",
     "date": "2026-03-22",
     "readTime": "8 min",
-    "featured": true,
+    "featured": false,
     "tags": [],
     "published": true,
     "deleted": false,
@@ -497,8 +497,9 @@
     "deleted": false,
     "readingTime": 8,
     "category": "Digital Marketing",
-    "date": "2026-07-01T08:00:00.000Z",
+    "date": "2026-07-01",
     "readTime": "8",
-    "image": null
+    "image": "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&q=80&w=800",
+    "featured": true
   }
 ]
