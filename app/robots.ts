@@ -3,21 +3,33 @@ import { MetadataRoute } from 'next';
 export default function robots(): MetadataRoute.Robots {
     return {
         rules: [
+            // Regola base: tutto permesso, solo aree private bloccate
             {
                 userAgent: '*',
                 allow: '/',
                 disallow: ['/admin/', '/api/', '/private/', '/checkout/', '/area-clienti/'],
             },
-            // Blocca AI training scrapers non autorizzati
-            { userAgent: 'Bytespider', disallow: ['/'] },
-            { userAgent: 'CCBot', disallow: ['/'] },
-            // Permetti AI crawlers autorizzati (visibilità in ChatGPT, Perplexity, Claude, Gemini)
+            // OpenAI — ChatGPT browsing + addestramento
             { userAgent: 'GPTBot', allow: ['/'] },
-            { userAgent: 'Google-Extended', allow: ['/'] },
             { userAgent: 'ChatGPT-User', allow: ['/'] },
-            { userAgent: 'PerplexityBot', allow: ['/'] },
+            // Google — Gemini + AI Overviews
+            { userAgent: 'Google-Extended', allow: ['/'] },
+            // Anthropic — Claude
             { userAgent: 'ClaudeBot', allow: ['/'] },
+            { userAgent: 'Claude-Web', allow: ['/'] },
             { userAgent: 'Anthropic-AI', allow: ['/'] },
+            // Perplexity AI
+            { userAgent: 'PerplexityBot', allow: ['/'] },
+            // Common Crawl — dataset base di molti LLM
+            { userAgent: 'CCBot', allow: ['/'] },
+            // ByteDance / TikTok AI
+            { userAgent: 'Bytespider', allow: ['/'] },
+            // Meta AI
+            { userAgent: 'FacebookBot', allow: ['/'] },
+            // Apple Intelligence
+            { userAgent: 'Applebot', allow: ['/'] },
+            // Cohere AI
+            { userAgent: 'cohere-ai', allow: ['/'] },
         ],
         sitemap: 'https://www.wrdigital.it/sitemap.xml',
     };
