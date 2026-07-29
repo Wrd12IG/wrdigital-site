@@ -59,13 +59,15 @@ function AnimatedMesh() {
     return (
         <mesh
             ref={meshRef}
-            position={[1.5, -0.8, -1]}
+            position={[1.2, -0.4, 0.5]}
             rotation={[-Math.PI / 3.2, 0, Math.PI / 14]}
         >
             <planeGeometry ref={geomRef} args={[18, 12, 36, 24]} />
             <meshStandardMaterial
                 wireframe
                 color="#f5df4a" // Yellow/Gold identity accent
+                emissive="#f5df4a" // Add self-illumination for high visibility
+                emissiveIntensity={0.6}
                 roughness={0.2}
                 metalness={0.8}
             />
@@ -121,13 +123,13 @@ function Scene() {
     return (
         <>
             {/* Ambient base lighting */}
-            <ambientLight intensity={0.15} />
-            <directionalLight position={[10, 10, 5]} intensity={0.8} color="#ffffff" />
+            <ambientLight intensity={0.4} />
+            <directionalLight position={[10, 10, 5]} intensity={1.2} color="#ffffff" />
             
             {/* Color Light Setup for reflecting gradient on the wireframe */}
-            <pointLight position={[-8, 8, -2]} intensity={3.5} color="#a855f7" /> {/* Neon Purple */}
-            <pointLight position={[8, -8, 4]} intensity={2.5} color="#f5df4a" />  {/* Gold */}
-            <pointLight position={[0, -5, 2]} intensity={2} color="#06b6d4" />    {/* Cyber Cyan */}
+            <pointLight position={[-8, 8, -2]} intensity={4.5} color="#a855f7" /> {/* Neon Purple */}
+            <pointLight position={[8, -8, 4]} intensity={3.5} color="#f5df4a"  /> {/* Gold */}
+            <pointLight position={[0, -5, 2]} intensity={3.0} color="#06b6d4"  /> {/* Cyber Cyan */}
 
             {/* Dynamic Mesh */}
             <AnimatedMesh />
