@@ -8,6 +8,7 @@ export default function CustomCursor() {
   const [isMounted, setIsMounted] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [cursorLabel, setCursorLabel] = useState<string | null>(null);
 
   // Raw mouse position for precision (dot)
   const mouseX = useMotionValue(-100);
@@ -54,20 +55,35 @@ export default function CustomCursor() {
 
     const handleMouseEnter = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.closest('a') ||
-        target.closest('button') ||
-        target.dataset.cursor ||
-        window.getComputedStyle(target).cursor === 'pointer'
-      ) {
+      const interactive = target.closest('a, button, [data-cursor]') as HTMLElement;
+      
+      if (interactive) {
         setIsHovering(true);
+        
+        // Smart dynamic labels if not explicitly declared in data-cursor
+        let label = interactive.getAttribute('data-cursor');
+        if (!label) {
+          const text = interactive.textContent?.trim().toLowerCase() || '';
+          if (interactive.tagName === 'BUTTON' && (text.includes('contatt') || text.includes('talk') || text.includes('grow'))) {
+            label = 'Fai Grow';
+          } else if (interactive.closest('[class*="video"]') || interactive.closest('[class*="reel"]')) {
+            label = 'Play';
+          }
+        }
+        
+        setCursorLabel(label);
+      } else {
+        setIsHovering(false);
+        setCursorLabel(null);
       }
     };
 
     const handleMouseLeave = (e: MouseEvent) => {
-      setIsHovering(false);
+      const relatedTarget = e.relatedTarget as HTMLElement;
+      if (!relatedTarget || !relatedTarget.closest('a, button, [data-cursor]')) {
+        setIsHovering(false);
+        setCursorLabel(null);
+      }
     };
 
     window.addEventListener('mousemove', moveCursor);
@@ -103,16 +119,22 @@ export default function CustomCursor() {
         }}
       />
 
-      {/* Fluid Ring / Crosshair */}
+      {/* Fluid Ring / Crosshair / Label container */}
       <motion.div
-        className={`${styles.cursorRing} ${isHovering ? styles.hovering : ''}`}
+        className={`${styles.cursorRing} ${isHovering ? styles.hovering : ''} ${cursorLabel ? styles.hasLabel : ''}`}
         style={{
           x: smoothX,
           y: smoothY,
         }}
       >
-        <div className={styles.crosshairVertical} />
-        <div className={styles.crosshairHorizontal} />
+        {cursorLabel ? (
+          <span className={styles.cursorLabel}>{cursorLabel}</span>
+        ) : (
+          <>
+            <div className={styles.crosshairVertical} />
+            <div className={styles.crosshairHorizontal} />
+          </>
+        )}
       </motion.div>
     </div>
   );

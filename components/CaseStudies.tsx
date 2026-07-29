@@ -141,6 +141,7 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
                                     transition={{ type: 'spring', stiffness: 380, damping: 28 }}
                                     onClick={() => setSelectedProject(project)}
                                     aria-label={`Caso studio: ${project.client}`}
+                                    data-cursor="Vedi Case Study"
                                 >
                                     {/*
                                      * ─── IMAGE CONTAINER ────────────────────────────
