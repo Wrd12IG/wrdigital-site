@@ -17,6 +17,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         { route: '/agenzia-digital-marketing-monza-brianza', priority: 0.85, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
         { route: '/agenzia-digital-marketing-milano', priority: 0.85, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
         { route: '/consulenza-seo-monza', priority: 0.8, changeFreq: 'weekly' as const, date: CORE_PAGES_DATE },
+        { route: '/consulenza-seo-nova-milanese', priority: 0.8, changeFreq: 'weekly' as const, date: new Date('2026-07-29T00:00:00.000Z') },
+        { route: '/realizzazione-siti-web-nova-milanese', priority: 0.8, changeFreq: 'weekly' as const, date: new Date('2026-07-29T00:00:00.000Z') },
         { route: '/web-agency-monza', priority: 0.85, changeFreq: 'weekly' as const, date: new Date('2026-06-19T00:00:00.000Z') },
         { route: '/google-ads-monza', priority: 0.85, changeFreq: 'weekly' as const, date: new Date('2026-06-19T00:00:00.000Z') },
         { route: '/social-media-marketing-monza', priority: 0.80, changeFreq: 'weekly' as const, date: new Date('2026-06-19T00:00:00.000Z') },

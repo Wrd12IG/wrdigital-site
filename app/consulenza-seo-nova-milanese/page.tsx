@@ -204,7 +204,7 @@ export default function SeoNovaPage() {
                         Un sito nato con la SEO dentro ha una struttura di pagine che rispecchia come le persone cercano, URL sensati, testi scritti per essere trovati oltre che letti, tempi di caricamento sotto controllo, e un tracciamento delle conversioni attivo dal primo giorno. Costa uguale farlo bene subito. Costa il doppio farlo dopo.
                     </p>
                     <p className="mt-4">
-                        Se stai valutando la <Link href="/servizi/realizzazione-siti-web" className="text-yellow-400 hover:underline font-semibold">realizzazione di un sito a Nova Milanese o a Desio</Link>, la domanda giusta da fare a chi te lo propone non è &quot;quanto costa&quot; ma &quot;come decidete quali pagine fare&quot;. Se non sanno rispondere, ti stanno vendendo un vestito, non uno strumento di vendita.
+                        Se stai valutando la <Link href="/realizzazione-siti-web-nova-milanese" className="text-yellow-400 hover:underline font-semibold">realizzazione di un sito a Nova Milanese o a Desio</Link>, la domanda giusta da fare a chi te lo propone non è &quot;quanto costa&quot; ma &quot;come decidete quali pagine fare&quot;. Se non sanno rispondere, ti stanno vendendo un vestito, non uno strumento di vendita.
                     </p>
 
                     <h2 className="text-2xl font-bold text-white mt-12 mb-4">SEO per e-commerce: il caso specifico</h2>
