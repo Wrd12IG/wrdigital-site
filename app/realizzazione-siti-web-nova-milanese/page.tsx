@@ -242,7 +242,7 @@ export default function WebNovaPage() {
                             },
                             {
                                 q: 'Fate anche e-commerce?',
-                                a: <>Sì, ma è un progetto diverso per complessità e costi. Abbiamo gestito l&apos;ottimizzazione di flussi di checkout e carrelli di vendita complessi nel territorio di <Link href="/zona/desio" className="text-blue-400 hover:underline">Desio</Link> e Monza.</>
+                                a: <>Sì, ma è un progetto diverso per complessità e costi. <Link href="/realizzazione-ecommerce-desio-brianza" className="text-blue-400 hover:underline font-semibold">Vedi la pagina dedicata →</Link></>
                             },
                             {
                                 q: 'Avete lavorato con aziende del mio settore?',
