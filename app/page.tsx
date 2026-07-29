@@ -29,7 +29,7 @@ async function getHomeData() {
       prisma.siteConfig.findMany(),
       prisma.project.findMany({ where: { deleted: false }, orderBy: { createdAt: 'desc' } }),
       prisma.testimonial.findMany({ where: { deleted: false }, orderBy: { createdAt: 'desc' } }),
-      prisma.blogPost.findMany({ where: { deleted: false, published: true }, orderBy: { createdAt: 'desc' }, take: 10 })
+      prisma.blogPost.findMany({ where: { deleted: false, published: true }, orderBy: { createdAt: 'desc' } })
     ]);
 
     const siteConfig = configs.reduce((acc: Record<string, any>, config: { key: string, value: string }) => {
