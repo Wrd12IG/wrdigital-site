@@ -500,7 +500,7 @@
     "date": "2026-07-01",
     "readTime": "8",
     "image": "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&q=80&w=800",
-    "featured": true
+    "featured": false
   },
   {
     "slug": "quanto-costa-un-sito-web",
@@ -548,6 +548,6 @@
     "date": "2026-07-29",
     "readTime": "6",
     "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&q=80&w=800",
-    "featured": false
+    "featured": true
   }
 ]

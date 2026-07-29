@@ -44,17 +44,17 @@ export default function Blog({ initialPosts }: { initialPosts?: BlogPost[] }) {
         try {
             if (!dateStr) return new Date(0);
 
-            // Handle ISO strings or already parsed dates
-            const tryDate = new Date(dateStr);
-            if (!isNaN(tryDate.getTime())) return tryDate;
-
-            // Handle DD/MM/YYYY
+            // Handle DD/MM/YYYY first, because new Date("DD/MM/YYYY") parses it as MM/DD/YYYY in JS
             if (dateStr.includes('/')) {
                 const parts = dateStr.split('/');
                 if (parts.length === 3) {
                     return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
                 }
             }
+
+            // Handle ISO strings or already parsed dates
+            const tryDate = new Date(dateStr);
+            if (!isNaN(tryDate.getTime())) return tryDate;
 
             // Handle DD MMM YYYY (e.g., 15 Gen 2026)
             const months: Record<string, number> = {
