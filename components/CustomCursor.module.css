@@ -73,31 +73,74 @@
     mix-blend-mode: normal;
 }
 
-/* Crosshair Elements - Visible only on hover */
+/* Crosshair Elements - Always visible, subtle by default */
 .crosshairVertical,
 .crosshairHorizontal {
     position: absolute;
-    background: var(--color-accent-primary);
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: rgba(255, 255, 255, 0.45);
+    opacity: 0.4;
+    transition: opacity 0.3s ease, background-color 0.3s, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .crosshairVertical {
     width: 1px;
-    height: 12px;
-    transform: scaleY(0);
+    height: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .crosshairHorizontal {
-    width: 12px;
+    width: 10px;
     height: 1px;
-    transform: scaleX(0);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.cursorRing.hovering .crosshairVertical,
-.cursorRing.hovering .crosshairHorizontal {
+/* Offset crosshairs to sit on the outer circle boundary */
+.cursorRing:not(.locked) .crosshairVertical {
+    transform: translate(-50%, -50%) scaleY(1.4);
+}
+.cursorRing:not(.locked) .crosshairHorizontal {
+    transform: translate(-50%, -50%) scaleX(1.4);
+}
+
+/* Lock-on Target State */
+.cursorRing.locked {
+    width: 26px;
+    height: 26px;
+    border-color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.15);
+    border-width: 1.5px;
+    mix-blend-mode: normal;
+    animation: targetPulse 1.2s infinite ease-in-out;
+}
+
+.cursorDot.locked {
+    background: #ef4444;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.9);
+    width: 8px;
+    height: 8px;
+}
+
+.cursorRing.locked .crosshairVertical,
+.cursorRing.locked .crosshairHorizontal {
+    background: #ef4444;
     opacity: 1;
-    transform: scale(1);
+}
+
+.cursorRing.locked .crosshairVertical {
+    transform: translate(-50%, -50%) scaleY(0.7);
+}
+
+.cursorRing.locked .crosshairHorizontal {
+    transform: translate(-50%, -50%) scaleX(0.7);
+}
+
+@keyframes targetPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.08); }
 }
 
 /* Hide default cursor only when custom cursor is active */

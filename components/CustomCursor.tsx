@@ -7,15 +7,15 @@ import styles from './CustomCursor.module.css';
 export default function CustomCursor() {
   const [isMounted, setIsMounted] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [cursorLabel, setCursorLabel] = useState<string | null>(null);
 
   // Raw mouse position for precision (dot)
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
   // Smooth mouse position for ring (medium lag)
-  const springConfig = { damping: 25, stiffness: 150, mass: 0.5 };
+  const springConfig = { damping: 25, stiffness: 180, mass: 0.4 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
@@ -55,34 +55,25 @@ export default function CustomCursor() {
 
     const handleMouseEnter = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const interactive = target.closest('a, button, [data-cursor]') as HTMLElement;
       
-      if (interactive) {
+      // Target CTAs (links, buttons) or Metric/Number containers
+      const isCTA = target.closest('a, button, [data-cursor], [role="button"]');
+      const isMetric = target.closest('[class*="stat"], [class*="ROI"], [class*="number"], [class*="Count"], [class*="Val"]');
+      
+      if (isCTA || isMetric) {
         setIsHovering(true);
-        
-        // Smart dynamic labels if not explicitly declared in data-cursor
-        let label = interactive.getAttribute('data-cursor');
-        if (!label) {
-          const text = interactive.textContent?.trim().toLowerCase() || '';
-          if (interactive.tagName === 'BUTTON' && (text.includes('contatt') || text.includes('talk') || text.includes('grow'))) {
-            label = 'Fai Grow';
-          } else if (interactive.closest('[class*="video"]') || interactive.closest('[class*="reel"]')) {
-            label = 'Play';
-          }
-        }
-        
-        setCursorLabel(label);
+        setIsLocked(true); // Lock-on animation active
       } else {
         setIsHovering(false);
-        setCursorLabel(null);
+        setIsLocked(false);
       }
     };
 
     const handleMouseLeave = (e: MouseEvent) => {
       const relatedTarget = e.relatedTarget as HTMLElement;
-      if (!relatedTarget || !relatedTarget.closest('a, button, [data-cursor]')) {
+      if (!relatedTarget || (!relatedTarget.closest('a, button, [data-cursor]') && !relatedTarget.closest('[class*="stat"], [class*="ROI"], [class*="number"], [class*="Count"], [class*="Val"]'))) {
         setIsHovering(false);
-        setCursorLabel(null);
+        setIsLocked(false);
       }
     };
 
@@ -110,31 +101,25 @@ export default function CustomCursor() {
         }}
       />
 
-      {/* Precision Dot */}
+      {/* Precision Dot - turns red on lock-on */}
       <motion.div
-        className={styles.cursorDot}
+        className={`${styles.cursorDot} ${isLocked ? styles.locked : ''}`}
         style={{
           x: mouseX,
           y: mouseY,
         }}
       />
 
-      {/* Fluid Ring / Crosshair / Label container */}
+      {/* Fluid Ring / Crosshair - shrinks and targets on hover */}
       <motion.div
-        className={`${styles.cursorRing} ${isHovering ? styles.hovering : ''} ${cursorLabel ? styles.hasLabel : ''}`}
+        className={`${styles.cursorRing} ${isLocked ? styles.locked : ''}`}
         style={{
           x: smoothX,
           y: smoothY,
         }}
       >
-        {cursorLabel ? (
-          <span className={styles.cursorLabel}>{cursorLabel}</span>
-        ) : (
-          <>
-            <div className={styles.crosshairVertical} />
-            <div className={styles.crosshairHorizontal} />
-          </>
-        )}
+        <div className={`${styles.crosshairVertical} ${isLocked ? styles.locked : ''}`} />
+        <div className={`${styles.crosshairHorizontal} ${isLocked ? styles.locked : ''}`} />
       </motion.div>
     </div>
   );
