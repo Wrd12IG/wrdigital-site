@@ -1,155 +1,117 @@
 'use client';
 
-import { useRef, useMemo, Suspense, useState, useEffect } from 'react';
+import { useRef, Suspense, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, MeshDistortMaterial, Sphere, Box, Torus, OrbitControls } from '@react-three/drei';
+import { Plane, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Delay in ms before loading the 3D scene (allows critical rendering to complete)
 const SCENE_LOAD_DELAY = 3000;
 
-// Animated floating sphere with distortion
-function AnimatedSphere({ position, color, speed = 1, distort = 0.3 }: {
-    position: [number, number, number];
-    color: string;
-    speed?: number;
-    distort?: number;
-}) {
+// Waving Topographic Digital Grid Mesh representing Data Flow & SEO indexing
+function AnimatedMesh() {
     const meshRef = useRef<THREE.Mesh>(null);
-
+    const geomRef = useRef<THREE.BufferGeometry>(null);
+    
+    // Wave math and mouse tracking interaction inside frame loop
     useFrame((state) => {
+        const time = state.clock.getElapsedTime();
+        
+        // Track mouse position in normalized coordinate bounds (-1 to 1)
+        const mx = state.pointer.x;
+        const my = state.pointer.y;
+
+        // Subtle tilt of the plane towards mouse
         if (meshRef.current) {
-            meshRef.current.rotation.x = state.clock.elapsedTime * 0.2 * speed;
-            meshRef.current.rotation.y = state.clock.elapsedTime * 0.3 * speed;
+            meshRef.current.rotation.x = -Math.PI / 3.2 + my * 0.08;
+            meshRef.current.rotation.y = Math.PI / 14 + mx * 0.08;
+        }
+
+        // Deform grid geometry vertices (topographic waves)
+        if (geomRef.current) {
+            const pos = geomRef.current.attributes.position;
+            const count = pos.count;
+
+            for (let i = 0; i < count; i++) {
+                const x = pos.getX(i);
+                const y = pos.getY(i);
+
+                // Math wave equation: multiple sine waves for organic complexity
+                const wave1 = Math.sin(x * 0.22 + time * 0.6) * Math.cos(y * 0.22 + time * 0.6) * 0.45;
+                const wave2 = Math.sin(x * 0.08 - time * 0.3) * 0.25;
+                
+                // Mouse proximity swell (displacement effect under cursor)
+                // Normalize mesh coordinate scale with screen-space coordinates
+                const distanceToMouse = Math.sqrt(
+                    Math.pow(x - (mx * 7), 2) + Math.pow(y - (my * 4), 2)
+                );
+                const mouseForce = Math.max(0, 2.5 - distanceToMouse * 0.6) * 0.3;
+
+                // Set new Z coordinate
+                pos.setZ(i, wave1 + wave2 + mouseForce);
+            }
+            
+            pos.needsUpdate = true;
+            geomRef.current.computeVertexNormals();
         }
     });
 
     return (
-        <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-            <Sphere ref={meshRef} args={[1.5, 64, 64]} position={position}>
-                <MeshDistortMaterial
-                    color={color}
-                    attach="material"
-                    distort={distort}
-                    speed={2}
-                    roughness={0.2}
-                    metalness={0.8}
-                />
-            </Sphere>
-        </Float>
+        <Plane
+            ref={meshRef}
+            args={[18, 12, 36, 24]}
+            position={[1.5, -0.8, -1]}
+            rotation={[-Math.PI / 3.2, 0, Math.PI / 14]}
+        >
+            <planeGeometry ref={geomRef} attach="geometry" />
+            <meshStandardMaterial
+                wireframe
+                color="#f5df4a" // Yellow/Gold identity accent
+                roughness={0.2}
+                metalness={0.8}
+            />
+        </Plane>
     );
 }
 
-// Rotating torus (ring)
-function AnimatedTorus({ position, color }: {
-    position: [number, number, number];
-    color: string;
-}) {
-    const meshRef = useRef<THREE.Mesh>(null);
-
-    useFrame((state) => {
-        if (meshRef.current) {
-            meshRef.current.rotation.x = state.clock.elapsedTime * 0.5;
-            meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
-        }
-    });
-
-    return (
-        <Float speed={1.5} rotationIntensity={0.5} floatIntensity={1.5}>
-            <Torus ref={meshRef} args={[1, 0.3, 16, 100]} position={position}>
-                <meshStandardMaterial
-                    color={color}
-                    roughness={0.3}
-                    metalness={0.9}
-                    wireframe
-                />
-            </Torus>
-        </Float>
-    );
-}
-
-// Floating cubes
-function FloatingCubes() {
-    const cubesRef = useRef<THREE.Group>(null);
-
-    const cubeData = useMemo(() => [
-        { position: [-3, 2, -2] as [number, number, number], color: '#f5df4a', scale: 0.4 },
-        { position: [3.5, -1.5, -1] as [number, number, number], color: '#d4c03a', scale: 0.3 },
-        { position: [-2, -2, 1] as [number, number, number], color: '#f5df4a', scale: 0.25 },
-        { position: [2, 2.5, 0] as [number, number, number], color: '#d4c03a', scale: 0.35 },
-        { position: [0, -3, -2] as [number, number, number], color: '#f5df4a', scale: 0.2 },
-    ], []);
-
-    useFrame((state) => {
-        if (cubesRef.current) {
-            cubesRef.current.rotation.y = state.clock.elapsedTime * 0.05;
-        }
-    });
-
-    return (
-        <group ref={cubesRef}>
-            {cubeData.map((cube, index) => (
-                <Float
-                    key={index}
-                    speed={1 + index * 0.2}
-                    rotationIntensity={0.5}
-                    floatIntensity={1}
-                >
-                    <Box
-                        args={[1, 1, 1]}
-                        position={cube.position}
-                        scale={cube.scale}
-                    >
-                        <meshStandardMaterial
-                            color={cube.color}
-                            roughness={0.1}
-                            metalness={0.9}
-                            transparent
-                            opacity={0.8}
-                        />
-                    </Box>
-                </Float>
-            ))}
-        </group>
-    );
-}
-
-// Particle field
+// Particle field floating behind the mesh for extra depth
 function ParticleField() {
-    const particlesRef = useRef<THREE.Points>(null);
+    const pointsRef = useRef<THREE.Points>(null);
+    const count = 120;
 
-    const particleCount = 200;
-    const positions = useMemo(() => {
-        const pos = new Float32Array(particleCount * 3);
-        for (let i = 0; i < particleCount; i++) {
-            pos[i * 3] = (Math.random() - 0.5) * 20;
-            pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
-            pos[i * 3 + 2] = (Math.random() - 0.5) * 20;
+    const [positions] = useState(() => {
+        const arr = new Float32Array(count * 3);
+        for (let i = 0; i < count; i++) {
+            arr[i * 3] = (Math.random() - 0.5) * 20;     // X
+            arr[i * 3 + 1] = (Math.random() - 0.5) * 15; // Y
+            arr[i * 3 + 2] = (Math.random() - 0.8) * 8;  // Z
         }
-        return pos;
-    }, []);
+        return arr;
+    });
 
     useFrame((state) => {
-        if (particlesRef.current) {
-            particlesRef.current.rotation.y = state.clock.elapsedTime * 0.02;
-            particlesRef.current.rotation.x = state.clock.elapsedTime * 0.01;
+        if (pointsRef.current) {
+            pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.02;
         }
     });
 
     return (
-        <points ref={particlesRef}>
-            <bufferGeometry>
+        <points ref={pointsRef}>
+            <bufferGeometry attach="geometry">
                 <bufferAttribute
                     attach="attributes-position"
                     args={[positions, 3]}
+                    count={count}
+                    array={positions}
+                    itemSize={3}
                 />
             </bufferGeometry>
             <pointsMaterial
-                size={0.05}
-                color="#f5df4a"
-                transparent
-                opacity={0.6}
+                color="#a855f7" // Purple accent glow
+                size={0.06}
                 sizeAttenuation
+                transparent
+                opacity={0.4}
             />
         </points>
     );
@@ -159,18 +121,19 @@ function ParticleField() {
 function Scene() {
     return (
         <>
-            {/* Lighting for metallic chrome reflections */}
-            <ambientLight intensity={0.2} />
-            <directionalLight position={[5, 5, 5]} intensity={1.5} color="#ffffff" />
+            {/* Ambient base lighting */}
+            <ambientLight intensity={0.15} />
+            <directionalLight position={[10, 10, 5]} intensity={0.8} color="#ffffff" />
             
-            {/* Dual color light setup (purple/gold shift) */}
-            <pointLight position={[-10, 10, -2]} intensity={2.5} color="#a855f7" /> {/* Purple glow */}
-            <pointLight position={[10, -10, 5]} intensity={2} color="#f5df4a" />    {/* Gold glow */}
-            <pointLight position={[-5, -5, 2]} intensity={1.5} color="#3b82f6" />    {/* Subtle blue accent */}
+            {/* Color Light Setup for reflecting gradient on the wireframe */}
+            <pointLight position={[-8, 8, -2]} intensity={3.5} color="#a855f7" /> {/* Neon Purple */}
+            <pointLight position={[8, -8, 4]} intensity={2.5} color="#f5df4a" />  {/* Gold */}
+            <pointLight position={[0, -5, 2]} intensity={2} color="#06b6d4" />    {/* Cyber Cyan */}
 
-            {/* Main deforming liquid sphere */}
-            <AnimatedSphere position={[1.8, -0.2, 0]} color="#e2e8f0" speed={1.2} distort={0.45} />
+            {/* Dynamic Mesh */}
+            <AnimatedMesh />
             
+            {/* Extra Depth Particles */}
             <ParticleField />
 
             {/* Camera Controls - subtle auto rotation */}
@@ -178,7 +141,7 @@ function Scene() {
                 enableZoom={false}
                 enablePan={false}
                 autoRotate
-                autoRotateSpeed={0.4}
+                autoRotateSpeed={0.15}
                 maxPolarAngle={Math.PI / 2}
                 minPolarAngle={Math.PI / 2}
             />
@@ -196,24 +159,21 @@ function Loader() {
     );
 }
 
-// Exported Component
+// Exported Wrapper Component
 export default function ThreeScene() {
     const [isReady, setIsReady] = useState(false);
-    const [isMobile, setIsMobile] = useState(true); // Default to mobile to prevent SSR flash
+    const [isMobile, setIsMobile] = useState(true);
 
     useEffect(() => {
-        // Check if mobile
         const checkMobile = window.innerWidth < 768;
         setIsMobile(checkMobile);
 
-        if (checkMobile) return; // Don't set timer if mobile
+        if (checkMobile) return;
 
-        // Use requestIdleCallback if available, otherwise setTimeout
         const loadScene = () => {
             setIsReady(true);
         };
 
-        // Delay the 3D scene loading to allow critical rendering to complete
         const timer = setTimeout(() => {
             if ('requestIdleCallback' in window) {
                 (window as any).requestIdleCallback(loadScene, { timeout: 1000 });
@@ -225,13 +185,10 @@ export default function ThreeScene() {
         return () => clearTimeout(timer);
     }, []);
 
-    // Don't render anything on mobile
     if (isMobile) {
         return null;
     }
 
-    // ALWAYS render a fixed container to prevent CLS
-    // Only the Canvas content changes, not the container dimensions
     return (
         <div style={{
             position: 'absolute',
@@ -241,13 +198,12 @@ export default function ThreeScene() {
             height: '100%',
             pointerEvents: 'none',
             zIndex: 1,
-            // Reserve the space even when canvas is not yet loaded
             contain: 'layout style paint',
         }}>
             {isReady && (
                 <Canvas
                     dpr={[1, 1.5]}
-                    camera={{ position: [0, 0, 8], fov: 45 }}
+                    camera={{ position: [0, 0, 7.5], fov: 45 }}
                     style={{ background: 'transparent' }}
                     gl={{ alpha: true, antialias: true }}
                 >
