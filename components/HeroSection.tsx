@@ -38,7 +38,11 @@ function useAnimatedCounter(target: number, duration = 1800, delay = 1200) {
     return count;
 }
 
-// Removed ThreeScene import - no more 3D for performance
+import dynamic from 'next/dynamic';
+
+const ThreeScene = dynamic(() => import('./ThreeScene'), {
+    ssr: false,
+});
 
 const services = [
     { id: 'seo', title: 'SEO', description: 'Fatti trovare quando conta davvero.' },
@@ -228,6 +232,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         style={{ objectFit: 'cover' }}
                     />
                     <div className={styles.overlay} />
+                    <ThreeScene />
                 </div>
             )}
 

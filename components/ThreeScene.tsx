@@ -26,7 +26,7 @@ function AnimatedSphere({ position, color, speed = 1, distort = 0.3 }: {
 
     return (
         <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-            <Sphere ref={meshRef} args={[1, 64, 64]} position={position}>
+            <Sphere ref={meshRef} args={[1.5, 64, 64]} position={position}>
                 <MeshDistortMaterial
                     color={color}
                     attach="material"
@@ -159,16 +159,18 @@ function ParticleField() {
 function Scene() {
     return (
         <>
-            {/* Lighting */}
-            <ambientLight intensity={0.3} />
-            <directionalLight position={[10, 10, 5]} intensity={1} color="#ffffff" />
-            <pointLight position={[-10, -10, -5]} intensity={0.5} color="#f5df4a" />
-            <pointLight position={[10, -10, 5]} intensity={0.5} color="#d4c03a" />
+            {/* Lighting for metallic chrome reflections */}
+            <ambientLight intensity={0.2} />
+            <directionalLight position={[5, 5, 5]} intensity={1.5} color="#ffffff" />
+            
+            {/* Dual color light setup (purple/gold shift) */}
+            <pointLight position={[-10, 10, -2]} intensity={2.5} color="#a855f7" /> {/* Purple glow */}
+            <pointLight position={[10, -10, 5]} intensity={2} color="#f5df4a" />    {/* Gold glow */}
+            <pointLight position={[-5, -5, 2]} intensity={1.5} color="#3b82f6" />    {/* Subtle blue accent */}
 
-            {/* Main Elements */}
-            <AnimatedSphere position={[2.5, 0, 0]} color="#f5df4a" distort={0.4} />
-            <AnimatedTorus position={[-2.5, 0.5, -1]} color="#d4c03a" />
-            <FloatingCubes />
+            {/* Main deforming liquid sphere */}
+            <AnimatedSphere position={[1.8, -0.2, 0]} color="#e2e8f0" speed={1.2} distort={0.45} />
+            
             <ParticleField />
 
             {/* Camera Controls - subtle auto rotation */}
@@ -176,7 +178,7 @@ function Scene() {
                 enableZoom={false}
                 enablePan={false}
                 autoRotate
-                autoRotateSpeed={0.5}
+                autoRotateSpeed={0.4}
                 maxPolarAngle={Math.PI / 2}
                 minPolarAngle={Math.PI / 2}
             />
