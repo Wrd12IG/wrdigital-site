@@ -229,7 +229,11 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         quality={60}
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1920px"
                         className={styles.backgroundImage}
-                        style={{ objectFit: 'cover' }}
+                        style={{ 
+                            objectFit: 'cover', 
+                            opacity: isMobile ? 0.35 : 0.08,
+                            transition: 'opacity 0.5s ease' 
+                        }}
                     />
                     <div className={styles.overlay} />
                     <ThreeScene />
