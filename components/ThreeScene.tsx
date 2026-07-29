@@ -168,21 +168,9 @@ export default function ThreeScene() {
         const checkMobile = window.innerWidth < 768;
         setIsMobile(checkMobile);
 
-        if (checkMobile) return;
-
-        const loadScene = () => {
+        if (!checkMobile) {
             setIsReady(true);
-        };
-
-        const timer = setTimeout(() => {
-            if ('requestIdleCallback' in window) {
-                (window as any).requestIdleCallback(loadScene, { timeout: 1000 });
-            } else {
-                loadScene();
-            }
-        }, SCENE_LOAD_DELAY);
-
-        return () => clearTimeout(timer);
+        }
     }, []);
 
     if (isMobile) {
