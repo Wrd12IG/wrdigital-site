@@ -2,7 +2,7 @@
 
 import { useRef, Suspense, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Plane, OrbitControls } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Delay in ms before loading the 3D scene (allows critical rendering to complete)
@@ -57,20 +57,19 @@ function AnimatedMesh() {
     });
 
     return (
-        <Plane
+        <mesh
             ref={meshRef}
-            args={[18, 12, 36, 24]}
             position={[1.5, -0.8, -1]}
             rotation={[-Math.PI / 3.2, 0, Math.PI / 14]}
         >
-            <planeGeometry ref={geomRef} attach="geometry" />
+            <planeGeometry ref={geomRef} args={[18, 12, 36, 24]} />
             <meshStandardMaterial
                 wireframe
                 color="#f5df4a" // Yellow/Gold identity accent
                 roughness={0.2}
                 metalness={0.8}
             />
-        </Plane>
+        </mesh>
     );
 }
 
