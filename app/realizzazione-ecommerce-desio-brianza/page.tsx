@@ -106,122 +106,153 @@ const STATS = [
 
 export default function EcommerceDesioPage() {
     return (
-        <main className="bg-black text-white min-h-screen">
+        <main className="bg-black text-white min-h-screen relative overflow-hidden">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
+            {/* GLOWS */}
+            <div className="absolute top-10 left-1/4 w-[450px] h-[450px] bg-purple-500/10 rounded-full blur-[140px] pointer-events-none" />
+            <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-pink-500/5 rounded-full blur-[160px] pointer-events-none" />
+
             {/* HERO */}
-            <section className="relative pt-40 pb-24 px-6 text-center overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-purple-400/5 via-transparent to-transparent pointer-events-none" />
+            <section className="relative pt-44 pb-24 px-6 text-center">
                 <div className="max-w-4xl mx-auto relative z-10">
-                    <span className="inline-block text-purple-400 text-xs font-mono uppercase tracking-[0.3em] mb-6 border border-purple-400/30 px-4 py-2 rounded-full">
+                    <span className="inline-block text-purple-400 text-xs font-mono uppercase tracking-[0.25em] mb-6 border border-purple-400/20 bg-purple-950/20 backdrop-blur-md px-5 py-2.5 rounded-full">
                         E-commerce Agency · Desio & Brianza
                     </span>
-                    <h1 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight uppercase">
+                    <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight uppercase tracking-tight">
                         Un e-commerce non è un sito con il carrello<br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-amber-300">
                             Vendere online in Brianza: cosa serve davvero
                         </span>
                     </h1>
-                    <p className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto mb-10 leading-relaxed">
-                        Un e-commerce non è un sito vetrina con il pulsante &quot;acquista&quot;. È un&apos;attività commerciale complessa con magazzino, logistica, assistenza clienti e un costo di acquisizione per ogni ordine. Il sito è solo il 30% del lavoro. Il restante 70% è strategia di acquisizione.
+                    <p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mb-10 leading-relaxed font-light">
+                        Un e-commerce non è un semplice sito vetrina con un pulsante &quot;acquista&quot;. È un&apos;attività commerciale a tutti gli effetti, provvista di magazzino, logistica, customer service e costi di acquisizione. Il sito rappresenta solo il 30% del lavoro.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link href="/preventivo" className="bg-yellow-400 text-black font-bold px-8 py-4 rounded-full hover:bg-yellow-300 transition-colors shadow-lg shadow-yellow-400/20">
+                        <Link href="/preventivo" className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-extrabold px-9 py-4.5 rounded-full hover:scale-105 transition-all duration-300 shadow-xl shadow-yellow-400/10">
                             Parla con un Esperto →
                         </Link>
-                        <Link href="/portfolio" className="border border-white/20 text-white font-bold px-8 py-4 rounded-full hover:border-white/40 transition-colors">
+                        <Link href="/portfolio" className="border border-white/10 bg-white/5 backdrop-blur-md text-white font-bold px-9 py-4.5 rounded-full hover:border-white/30 hover:bg-white/10 transition-all duration-300">
                             Vedi i Nostri Progetti
                         </Link>
                     </div>
                 </div>
             </section>
 
-            {/* RISULTATI / CASE STUDY */}
-            <section className="py-16 border-y border-white/10 bg-white/5">
+            {/* STATS */}
+            <section className="relative py-16 border-y border-white/10 bg-white/[0.02] backdrop-blur-md z-10">
                 <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                     {STATS.map(r => (
-                        <div key={r.value}>
-                            <div className="text-3xl md:text-4xl font-black text-purple-400 mb-2">{r.value}</div>
-                            <div className="text-gray-400 text-sm">{r.label}</div>
+                        <div key={r.value} className="p-4 rounded-xl border border-white/5 bg-white/[0.01]">
+                            <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-300 mb-2">{r.value}</div>
+                            <div className="text-gray-400 text-sm font-medium">{r.label}</div>
                         </div>
                     ))}
                 </div>
             </section>
 
-            {/* CONTENUTO ARTICOLO */}
-            <section className="py-24 px-6 max-w-4xl mx-auto leading-relaxed text-gray-300 space-y-12">
-                <div className="prose prose-invert max-w-none">
-                    <h2 className="text-2xl font-bold text-white mt-8 mb-4">Il malinteso che fa fallire metà dei progetti e-commerce</h2>
-                    <p>
-                        Per questo la prima conversazione che facciamo non è sulla scelta tecnologica della piattaforma. È incentrata su tre numeri essenziali: <strong>margine per ordine, scontrino medio e frequenza di riacquisto dei clienti.</strong> Se questi tre parametri non sono in equilibrio, l&apos;e-commerce genererà perdite a prescindere dal traffico inviato — e preferiamo dirtelo prima di farti spendere budget inutilmente.
-                    </p>
+            {/* CONTENUTI A GRIGLIA */}
+            <section className="py-24 px-6 max-w-6xl mx-auto relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    
+                    {/* SINISTRA: FOCUS E COSTRUZIONE */}
+                    <div className="lg:col-span-7 space-y-12">
+                        
+                        {/* IL MALINTESO */}
+                        <div className="space-y-6">
+                            <h2 className="text-2xl font-bold text-white tracking-tight">Il malinteso che fa fallire metà dei progetti e-commerce</h2>
+                            <p className="text-gray-300 leading-relaxed font-light text-lg">
+                                La prima conversazione che facciamo non verte mai sulla pura scelta tecnologica della piattaforma. Analizziamo tre numeri fondamentali: <strong>margine per singolo ordine, scontrino medio e frequenza di riacquisto dei clienti.</strong> Se questi parametri non sono sostenibili, l&apos;e-commerce non genererà profitti, indipendentemente dal volume di visitatori inviati sul sito.
+                            </p>
+                        </div>
 
-                    <h2 className="text-2xl font-bold text-white mt-12 mb-4">Cosa costruiamo</h2>
-                    <ul className="list-disc pl-6 space-y-3 mt-4">
-                        <li>
-                            <strong>L&apos;e-commerce.</strong> Piattaforma selezionata in base al catalogo reale, schede prodotto ottimizzate per convertire, checkout fluido e senza attriti, integrazione logistica e sistemi di pagamento configurati. Il tutto gestibile facilmente da un pannello di controllo intuitivo.
-                        </li>
-                        <li>
-                            <strong>Il posizionamento del catalogo.</strong> Architettura delle categorie, gestione logica dei filtri di navigazione e riscrittura di schede prodotto per evitare il contenuto duplicato dei cataloghi fornitori — che Google tende a penalizzare o ignorare a favore di un solo rivenditore.
-                        </li>
-                        <li>
-                            <strong>Le campagne.</strong> Struttura di campagne Google Shopping e Performance Max per intercettare l&apos;intenzione d&apos;acquisto immediata, e campagne social (Meta/TikTok) per fare conoscere i tuoi prodotti a chi non li sta ancora cercando direttamente.
-                        </li>
-                        <li>
-                            <strong>I contenuti che fanno comprare.</strong> Guide all&apos;uso, tabelle comparative, FAQ e risposte immediate sui prodotti per convertire le ricerche informazionali in acquisti transazionali.
-                        </li>
-                    </ul>
+                        {/* COSA FACCIAMO */}
+                        <div className="p-8 rounded-2xl border border-white/10 bg-white/[0.02] space-y-6">
+                            <h2 className="text-2xl font-bold text-white tracking-tight">Cosa costruiamo</h2>
+                            <div className="space-y-4">
+                                {[
+                                    { title: "L'infrastruttura di vendita", desc: "Schede prodotto che convertono, checkout fluido, integrazioni di pagamento e logistica configurate e pannello di gestione accessibile." },
+                                    { title: "Posizionamento del catalogo", desc: "Architettura delle categorie, gestione filtri e riscrittura schede prodotto per differenziarsi dai cataloghi duplicati dei concorrenti." },
+                                    { title: "Campagne Performance", desc: "Ottimizzazione di campagne Google Shopping e Performance Max per catturare la domanda transazionale immediata." },
+                                    { title: "Contenuti a supporto delle vendite", desc: "Guide alle taglie, tabelle comparative ed approfondimenti che intercettano gli utenti pronti all'acquisto." }
+                                ].map((step, idx) => (
+                                    <div key={idx} className="flex gap-4">
+                                        <span className="w-6 h-6 rounded-full bg-purple-400/10 border border-purple-400/20 text-purple-400 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-1">
+                                            {idx + 1}
+                                        </span>
+                                        <div>
+                                            <h4 className="text-white font-bold mb-1">{step.title}</h4>
+                                            <p className="text-gray-400 text-sm leading-relaxed">{step.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
 
-                    <h2 className="text-2xl font-bold text-white mt-12 mb-4">Il problema specifico dei cataloghi grandi</h2>
-                    <p>
-                        Se hai centinaia o migliaia di codici a catalogo, affronti sfide uniche che un negozio con 50 prodotti non ha:
-                    </p>
-                    <ul className="list-disc pl-6 space-y-3 mt-4">
-                        <li><strong>I prodotti competono tra loro:</strong> varianti dello stesso articolo rischiano di cannibalizzarsi su Google.</li>
-                        <li><strong>I filtri generano URL infinite:</strong> combinazioni di taglie, colori e marche creano duplicati tecnici che diluiscono l&apos;authority del sito.</li>
-                        <li><strong>Le schede sono duplicate:</strong> le descrizioni standard dei produttori sono identiche in rete. È fondamentale definire una priorità d&apos;intervento per riscrivere quelle che generano l&apos;80% del tuo margine.</li>
-                    </ul>
-                    <p className="mt-6 bg-white/5 border border-white/10 rounded-2xl p-6">
-                        <strong>L&apos;esperienza reale di W[r]Digital:</strong> Per l&apos;e-commerce nazionale di elettronica di consumo <strong>Yeppon.it</strong>, abbiamo affrontato proprio questa complessità gestendo un feed di oltre <strong>50.000 SKU</strong> con una struttura Performance Max dinamica e ottimizzando l&apos;architettura di scansione di Google, incrementando le conversioni da advertising del <strong>+180%</strong>.
-                    </p>
+                        {/* CASE STUDY IN EVIDENZA */}
+                        <div className="p-8 rounded-2xl border border-purple-400/20 bg-purple-400/[0.01] relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-purple-400/10 rounded-full blur-xl pointer-events-none" />
+                            <span className="text-xs font-mono uppercase text-purple-400 tracking-wider">In Evidenza · Case Study Yeppon.it</span>
+                            <h3 className="text-xl font-bold text-white mt-2 mb-4">Ottimizzazione Feed & Campagne per 50.000+ SKU</h3>
+                            <p className="text-gray-400 leading-relaxed text-sm">
+                                Per il portale di elettronica consumer <strong>Yeppon.it</strong> abbiamo strutturato campagne Google Ads e Performance Max dinamiche con priorità calibrate sul margine, incrementando le conversioni da advertising del <strong>+180%</strong> e riducendo il costo di acquisizione del <strong>41%</strong>.
+                            </p>
+                        </div>
+                    </div>
 
-                    <h2 className="text-2xl font-bold text-white mt-12 mb-4">Aprire un e-commerce oggi ha ancora senso?</h2>
-                    <p>Sì, ma non per tutti. Analizziamo onestamente i casi reali:</p>
-                    <ul className="list-disc pl-6 space-y-3 mt-4">
-                        <li>
-                            <strong>Ha senso</strong> se il margine copre ampiamente il costo di acquisizione cliente, se possiedi un&apos;esclusiva territoriale o di prodotto, o se offri un&apos;assistenza specializzata che fa la differenza rispetto a player massivi.
-                        </li>
-                        <li>
-                            <strong>Ha senso ma in forma ibrida</strong> se sei un produttore B2B: spesso una piattaforma di ordini digitali con area riservata per rivenditori genera un ritorno sull&apos;investimento molto più alto di un carrello pubblico classico.
-                        </li>
-                        <li>
-                            <strong>Non ha senso</strong> se rivendi prodotti terzi non differenziati disponibili ovunque e allo stesso prezzo. In quel segmento competi direttamente con Amazon, e i costi di acquisizione supereranno sempre i ricavi.
-                        </li>
-                    </ul>
+                    {/* DESTRA: PREZZI, SETTORI E PIATTAFORME */}
+                    <div className="lg:col-span-5 space-y-8 lg:sticky lg:top-32">
+                        
+                        {/* LISTINO PREZZI */}
+                        <div className="p-8 rounded-2xl border border-purple-400/20 bg-purple-400/[0.02] backdrop-blur-md shadow-2xl space-y-6">
+                            <h3 className="text-xl font-bold text-white">Tariffe e-commerce</h3>
+                            <div className="space-y-3 font-mono text-sm">
+                                <div className="flex justify-between border-b border-white/5 pb-2">
+                                    <span className="text-gray-400">Shopify Standard</span>
+                                    <span className="text-purple-400 font-bold">da €4.500</span>
+                                </div>
+                                <div className="flex justify-between border-b border-white/5 pb-2">
+                                    <span className="text-gray-400">Shopify Plus / Woo</span>
+                                    <span className="text-purple-400 font-bold">da €8.000</span>
+                                </div>
+                                <div className="flex justify-between border-b border-white/5 pb-2">
+                                    <span className="text-gray-400">Headless Custom</span>
+                                    <span className="text-purple-400 font-bold">da €15.000</span>
+                                </div>
+                                <div className="flex justify-between pb-2">
+                                    <span className="text-gray-400">Gestione e CRO</span>
+                                    <span className="text-purple-400 font-bold">da €1.200/m</span>
+                                </div>
+                            </div>
+                            <p className="text-xs text-gray-500 leading-relaxed font-sans">
+                                Il budget promozionale per farsi trovare nei primi sei mesi di attività è fondamentale per la riuscita del progetto.
+                            </p>
+                            <Link href="/blog/quanto-costa-un-sito-web" className="block text-center text-sm bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-full py-3 transition-colors font-semibold">
+                                Come si calcola un preventivo? →
+                            </Link>
+                        </div>
 
-                    <h2 className="text-2xl font-bold text-white mt-12 mb-4">Quanto costa</h2>
-                    <p>
-                        I progetti e-commerce richiedono setup tecnici stabili. Le nostre fasce di partenza indicative sono:
-                    </p>
-                    <p className="mt-4 font-semibold text-white">
-                        E-commerce base (es. Shopify standard): da €4.500 · E-commerce avanzato / catalogo medio (Shopify Plus / WooCommerce): da €8.000 · Progetti custom enterprise / headless: da €15.000 · Supporto mensile e campagne (CRO + Ads): da €1.200/mese.
-                    </p>
-                    <p className="mt-4">
-                        Il costo che quasi tutti dimenticano non è la piattaforma: è <strong>il budget per farsi trovare nei primi sei mesi.</strong> Un e-commerce senza pubblicità o posizionamento SEO iniziale è come un negozio fisico aperto in una via senza passanti.
-                    </p>
-                    <p className="mt-4">
-                        Se vuoi valutare le differenze e capire dove finiscono gli investimenti di sviluppo, leggi il nostro approfondimento: <Link href="/blog/quanto-costa-un-sito-web" className="text-purple-400 hover:underline font-semibold">Quanto costa un sito web per una PMI (e perché i preventivi variano) →</Link>
-                    </p>
+                        {/* APRIRE UN E-COMMERCE OGGI */}
+                        <div className="p-8 rounded-2xl border border-white/10 bg-white/[0.01] space-y-4 text-sm leading-relaxed">
+                            <h4 className="text-white font-bold">Ha senso aprire un e-commerce?</h4>
+                            <p className="text-gray-400 font-light">
+                                <strong>Ha senso</strong> se hai un margine sufficiente per sostenere il costo pubblicitario per ordine, un fattore differenziante chiaro e la capacità di gestire flussi logistici ricorrenti.
+                            </p>
+                            <p className="text-gray-400 font-light">
+                                <strong>Non ha senso</strong> se rivendi prodotti di terzi facilmente reperibili ovunque alle stesse condizioni dei grandi marketplace generalisti.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             {/* FAQ */}
-            <section className="py-24 px-6 bg-white/5 border-y border-white/10">
+            <section className="py-24 px-6 bg-white/[0.01] border-y border-white/10 relative z-10">
                 <div className="max-w-3xl mx-auto">
-                    <h2 className="text-3xl font-bold text-white text-center mb-16">Domande Frequenti</h2>
+                    <h2 className="text-3xl font-bold text-white text-center mb-16 uppercase tracking-tight">Domande Frequenti</h2>
                     <div className="space-y-6">
                         {[
                             {
@@ -245,7 +276,7 @@ export default function EcommerceDesioPage() {
                                 a: 'Il lavoro vero inizia lì: ottimizzazione delle schede, campagne, analisi di cosa vende e cosa resta fermo. Offriamo piani di supporto continuativi che includono manutenzione tecnica, monitoraggio delle conversioni (CRO), ottimizzazione continua dei flussi di acquisto e gestione delle campagne Google Ads/Meta. I piani partono da €900/mese in base alla complessità e alle ore dedicate.'
                             }
                         ].map((faq, i) => (
-                            <div key={i} className="bg-black border border-white/10 rounded-2xl p-6 hover:border-purple-400/20 transition-colors">
+                            <div key={i} className="bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:border-purple-400/30 transition-all duration-300">
                                 <h3 className="text-white font-bold mb-3">{faq.q}</h3>
                                 <p className="text-gray-400 text-sm leading-relaxed">{faq.a}</p>
                             </div>
@@ -254,17 +285,14 @@ export default function EcommerceDesioPage() {
                 </div>
             </section>
 
-            {/* CTA FINALE */}
-            <section className="py-24 px-6 text-center">
+            {/* CTA */}
+            <section className="py-28 px-6 text-center relative z-10">
                 <div className="max-w-2xl mx-auto">
-                    <h2 className="text-3xl font-bold text-white mb-6">
+                    <h2 className="text-3xl md:text-4xl font-black text-white mb-6 uppercase tracking-tight">
                         Partiamo dai numeri, non dalla piattaforma
                     </h2>
-                    <p className="text-gray-300 mb-6">
-                        Scrivici con tre informazioni: cosa vendi, quanti prodotti hai a catalogo e qual è il margine medio.
-                    </p>
-                    <p className="text-gray-400 mb-10">
-                        Con quelle tre righe ti diciamo se il progetto sta in piedi — e se non sta in piedi, perché.
+                    <p className="text-gray-300 mb-6 font-light">
+                        Scrivici indicando cosa vendi, quanti articoli hai a catalogo e il margine medio per prodotto. Ti diciamo se il progetto ha le basi per essere sostenibile.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                         <Link href="/preventivo" className="inline-block bg-gradient-to-r from-purple-400 to-purple-500 text-white font-black px-10 py-5 rounded-full text-lg hover:scale-105 transition-transform shadow-xl shadow-purple-400/20">
@@ -274,7 +302,7 @@ export default function EcommerceDesioPage() {
                             Chiama: 340 120 4651
                         </a>
                     </div>
-                    <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center text-sm text-gray-500">
+                    <div className="mt-16 flex flex-col sm:flex-row gap-6 justify-center text-sm text-gray-500">
                         <Link href="/" className="hover:text-purple-400 transition-colors">
                             ← Torna alla Homepage
                         </Link>
