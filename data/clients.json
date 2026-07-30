@@ -91,42 +91,55 @@
     "updatedAt": "2026-07-30T08:30:00.000Z"
   },
   {
-    "id": "client-crismatica",
-    "name": "CRISMATICA NETWORK",
+    "id": "client-yamaha",
+    "name": "YAMAHA MOTORTIMES",
     "logo": "",
-    "url": "https://www.crismatica.it",
-    "description": "Strategia di posizionamento B2B, content marketing e SEO per Managed Service Provider IT.",
+    "url": "",
+    "description": "Social media management e content creation (Instagram & TikTok) per concessionaria ufficiale Yamaha.",
     "socials": {},
     "showInSuccessStories": true,
     "deleted": false,
     "order": 7,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-07-30T08:30:00.000Z"
+    "updatedAt": "2026-07-30T08:36:00.000Z"
   },
   {
-    "id": "client-cyberwise",
-    "name": "CYBERWISE",
+    "id": "client-bgf",
+    "name": "Bettin - BGF S.r.l.",
     "logo": "",
-    "url": "https://www.cyberwise.it",
-    "description": "Sito web corporate e SEO strategy per agenzia specializzata in cybersecurity.",
+    "url": "https://www.bettin.it",
+    "description": "Strategia SEO e Performance Ads per servizi industriali e noleggio attrezzature.",
     "socials": {},
     "showInSuccessStories": true,
     "deleted": false,
     "order": 8,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-07-30T08:30:00.000Z"
+    "updatedAt": "2026-07-30T08:36:00.000Z"
   },
   {
-    "id": "client-yamaha",
-    "name": "YAMAHA MOTORTIMES",
+    "id": "client-autostriatto",
+    "name": "Autostriatto S.r.l.",
     "logo": "",
-    "url": "https://www.yamaha-motortimes.it",
-    "description": "Social media management e promozione lanci nuovi modelli per concessionaria ufficiale Yamaha.",
+    "url": "https://www.autostriatto.it",
+    "description": "Lead generation qualificata e advertising multicanale per concessionaria auto.",
     "socials": {},
     "showInSuccessStories": true,
     "deleted": false,
     "order": 9,
     "createdAt": "2026-01-11T12:25:38.836Z",
-    "updatedAt": "2026-07-30T08:30:00.000Z"
+    "updatedAt": "2026-07-30T08:36:00.000Z"
+  },
+  {
+    "id": "client-gruppolauto",
+    "name": "Gruppo L'Auto",
+    "logo": "",
+    "url": "https://www.gruppolauto.it",
+    "description": "Gestione campagne pubblicitarie locali e lead generation per gruppo concessionario auto di riferimento.",
+    "socials": {},
+    "showInSuccessStories": true,
+    "deleted": false,
+    "order": 10,
+    "createdAt": "2026-01-11T12:25:38.836Z",
+    "updatedAt": "2026-07-30T08:36:00.000Z"
   }
 ]
