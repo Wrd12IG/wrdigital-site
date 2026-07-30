@@ -60,6 +60,146 @@
     "updatedAt": "2024-12-31T00:00:00.000Z"
   },
   {
+    "id": "winblu-project",
+    "title": "SEO Nazionale & Lead Generation PC Gaming",
+    "client": "WINBLU",
+    "category": "SEO & Content",
+    "year": "2025",
+    "description": "Strategia di posizionamento SEO nazionale e campagne lead generation per il produttore italiano di PC desktop e gaming. Ottimizzazione delle schede prodotto e posizionamento organico per query ad alta conversione.",
+    "results": [
+      {"label": "Traffico Organico", "value": "+180%"},
+      {"label": "Keyword in Top 3", "value": "+85"},
+      {"label": "Lead B2B/B2C", "value": "+90%"}
+    ],
+    "tags": ["SEO", "E-commerce", "Lead Generation", "Gaming PC"],
+    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=900&q=85&fit=crop",
+    "color": "#3b82f6",
+    "showOnHome": true,
+    "deleted": false,
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-06-01T00:00:00.000Z"
+  },
+  {
+    "id": "brevi-project",
+    "title": "Portale B2B & Digital Marketing",
+    "client": "Brevi S.p.A.",
+    "category": "SEO & Content",
+    "year": "2025",
+    "description": "Strategia di marketing digitale e SEO per il portale di distribuzione IT B2B leader in Italia. Ottimizzazione dell'architettura informativa e dell'indicizzazione per catalogo con migliaia di prodotti.",
+    "results": [
+      {"label": "Visibilità organica", "value": "+120%"},
+      {"label": "Tempo sul sito", "value": "+45%"},
+      {"label": "Accessi B2B", "value": "+65%"}
+    ],
+    "tags": ["B2B Marketing", "Technical SEO", "IT Distribution"],
+    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85&fit=crop",
+    "color": "#ef4444",
+    "showOnHome": true,
+    "deleted": false,
+    "createdAt": "2025-01-10T00:00:00.000Z",
+    "updatedAt": "2025-06-01T00:00:00.000Z"
+  },
+  {
+    "id": "autoformula-project",
+    "title": "Performance Ads & Lead Generation Automotive",
+    "client": "AUTOFORMULA",
+    "category": "Advertising",
+    "year": "2025",
+    "description": "Campagne di lead generation iper-targettizzate e gestione inserzioni Meta Ads per concessionario automotive in Lombardia. Funnel di acquisizione contatti per test drive e promozioni commerciali.",
+    "results": [
+      {"label": "Contatti Test Drive", "value": "+240%"},
+      {"label": "Costo per Lead", "value": "-35%"},
+      {"label": "Conversioni Ads", "value": "4.8x ROAS"}
+    ],
+    "tags": ["Meta Ads", "Lead Generation", "Automotive", "Local Marketing"],
+    "image": "https://images.unsplash.com/photo-1563720223185-11003d516935?w=900&q=85&fit=crop",
+    "color": "#10b981",
+    "showOnHome": true,
+    "deleted": false,
+    "createdAt": "2025-02-01T00:00:00.000Z",
+    "updatedAt": "2025-07-01T00:00:00.000Z"
+  },
+  {
+    "id": "yamaha-project",
+    "title": "Social Strategy & Community Building",
+    "client": "YAMAHA MOTORTIMES",
+    "category": "Social Media",
+    "year": "2026",
+    "description": "Content creation, video short-form (Reels/TikTok) e gestione dei canali social ufficiali per concessionaria ufficiale Yamaha. Incremento della brand awareness e dell'engagement con la community locale.",
+    "results": [
+      {"label": "Copertura profili", "value": "+310%"},
+      {"label": "Visualizzazioni Video", "value": "450K+"},
+      {"label": "Follower organici", "value": "+140%"}
+    ],
+    "tags": ["Instagram", "TikTok", "Content Creation", "Community Management"],
+    "image": "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=900&q=85&fit=crop",
+    "color": "#f59e0b",
+    "showOnHome": true,
+    "deleted": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-06-01T00:00:00.000Z"
+  },
+  {
+    "id": "bgf-project",
+    "title": "SEO & Lead Generation Noleggio Industriale",
+    "client": "Bettin - BGF S.r.l.",
+    "category": "SEO & Content",
+    "year": "2025",
+    "description": "Strategia di posizionamento sui motori di ricerca e campagne Google Ads per azienda leader nel noleggio di macchinari e attrezzature industriali. Struttura del sito orientata alla conversione.",
+    "results": [
+      {"label": "Richieste Noleggio", "value": "+150%"},
+      {"label": "Traffico organico", "value": "+80%"},
+      {"label": "ROAS Google Ads", "value": "5.2x"}
+    ],
+    "tags": ["SEO", "Google Ads", "B2B Lead Generation", "Noleggio Industriale"],
+    "image": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=85&fit=crop",
+    "color": "#8b5cf6",
+    "showOnHome": true,
+    "deleted": false,
+    "createdAt": "2025-03-01T00:00:00.000Z",
+    "updatedAt": "2025-08-01T00:00:00.000Z"
+  },
+  {
+    "id": "autostriatto-project",
+    "title": "Google & Meta Ads per Concessionaria Auto",
+    "client": "Autostriatto S.r.l.",
+    "category": "Advertising",
+    "year": "2025",
+    "description": "Gestione ed ottimizzazione di campagne pubblicitarie locali multicanale (Google Search, Meta Ads) finalizzate alla lead generation qualificata per la vendita di veicoli nuovi e usati.",
+    "results": [
+      {"label": "Lead Acquisite", "value": "+200%"},
+      {"label": "ROAS Campagne", "value": "4.5x"},
+      {"label": "CPA medio", "value": "-28%"}
+    ],
+    "tags": ["Google Ads", "Meta Ads", "Automotive", "Lead Generation"],
+    "image": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=900&q=85&fit=crop",
+    "color": "#ec4899",
+    "showOnHome": true,
+    "deleted": false,
+    "createdAt": "2025-04-01T00:00:00.000Z",
+    "updatedAt": "2025-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "gruppolauto-project",
+    "title": "Performance Marketing Multibrand",
+    "client": "Gruppo L'Auto",
+    "category": "Advertising",
+    "year": "2025",
+    "description": "Strategia di performance marketing multibrand per gruppo concessionario auto di riferimento. Gestione campagne coordinate e lead generation per diversi brand automobilistici.",
+    "results": [
+      {"label": "Contatti unici", "value": "+340%"},
+      {"label": "Costo per lead", "value": "-40%"},
+      {"label": "ROAS complessivo", "value": "6.1x"}
+    ],
+    "tags": ["Automotive", "Advertising", "Performance Marketing", "Google Ads"],
+    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=900&q=85&fit=crop",
+    "color": "#f59e0b",
+    "showOnHome": true,
+    "deleted": false,
+    "createdAt": "2025-05-01T00:00:00.000Z",
+    "updatedAt": "2025-10-01T00:00:00.000Z"
+  },
+  {
     "id": "ecommerce-fashion-2025",
     "title": "Community Building & Social Ads",
     "client": "Brand Fashion — Milano",
