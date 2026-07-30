@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 
 const FloatingLogos = dynamic(() => import('@/components/FloatingLogos'));
 const CaseStudies = dynamic(() => import('@/components/CaseStudies'));
+const ClientsNetwork = dynamic(() => import('@/components/ClientsNetwork'));
 const Services = dynamic(() => import('@/components/Services'));
 const TeamSection = dynamic(() => import('@/components/TeamSection'));
 const Testimonials = dynamic(() => import('@/components/Testimonials'));
@@ -136,6 +137,9 @@ export default async function Home() {
 
         {/* Case Studies / Storie di Successo */}
         <CaseStudies initialProjects={homeData.projects} />
+
+        {/* Network Clienti Gestiti */}
+        <ClientsNetwork initialClients={homeData.clients} />
 
         {/* Services -> Landing Pages */}
         <Services />
