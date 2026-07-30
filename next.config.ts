@@ -49,6 +49,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'img.freepik.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'image.thum.io',
+      },
     ],
     qualities: [60, 75, 90],
   },
