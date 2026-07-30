@@ -27,7 +27,7 @@
       "Automotive",
       "Lead Generation"
     ],
-    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.citymotors.it",
+    "image": "/images/projects/citymotors.jpg?v=20260730",
     "color": "#FACC15",
     "showOnHome": true,
     "deleted": false,
@@ -62,7 +62,7 @@
       "E-commerce",
       "Feed Management"
     ],
-    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.yeppon.it",
+    "image": "/images/projects/yeppon.jpg?v=20260730",
     "color": "#f59e0b",
     "showOnHome": true,
     "deleted": false,
@@ -98,7 +98,7 @@
       "Local SEO",
       "E-E-A-T"
     ],
-    "image": "/images/projects/digitalitis.jpg",
+    "image": "/images/projects/digitalitis.jpg?v=20260730",
     "color": "#a78bfa",
     "showOnHome": true,
     "deleted": false,
@@ -132,7 +132,7 @@
       "Lead Generation",
       "Gaming PC"
     ],
-    "image": "/images/projects/winblu.jpg",
+    "image": "/images/projects/winblu.jpg?v=20260730",
     "color": "#3b82f6",
     "showOnHome": true,
     "deleted": false,
@@ -165,7 +165,7 @@
       "Technical SEO",
       "IT Distribution"
     ],
-    "image": "/images/projects/brevi.jpg",
+    "image": "/images/projects/brevi.jpg?v=20260730",
     "color": "#ef4444",
     "showOnHome": true,
     "deleted": false,
@@ -199,7 +199,7 @@
       "Automotive",
       "Local Marketing"
     ],
-    "image": "/images/projects/autoformula.jpg",
+    "image": "/images/projects/autoformula.jpg?v=20260730",
     "color": "#10b981",
     "showOnHome": true,
     "deleted": false,
@@ -267,7 +267,7 @@
       "B2B Lead Generation",
       "Noleggio Industriale"
     ],
-    "image": "/images/projects/bgf.jpg",
+    "image": "/images/projects/bgf.jpg?v=20260730",
     "color": "#8b5cf6",
     "showOnHome": true,
     "deleted": false,
@@ -335,7 +335,7 @@
       "Performance Marketing",
       "Google Ads"
     ],
-    "image": "/images/projects/gruppolauto.jpg",
+    "image": "/images/projects/gruppolauto.jpg?v=20260730",
     "color": "#f59e0b",
     "showOnHome": true,
     "deleted": false,
@@ -369,7 +369,7 @@
       "Google Business",
       "Content Marketing"
     ],
-    "image": "/images/projects/brianzaserramenti.jpg",
+    "image": "/images/projects/brianzaserramenti.jpg?v=20260730",
     "color": "#60a5fa",
     "showOnHome": false,
     "deleted": false,
@@ -403,7 +403,7 @@
       "Atelier",
       "Local Marketing"
     ],
-    "image": "/images/projects/rovisposi.jpg",
+    "image": "/images/projects/rovisposi.jpg?v=20260730",
     "color": "#34d399",
     "showOnHome": false,
     "deleted": false,
