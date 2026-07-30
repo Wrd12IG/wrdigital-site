@@ -5,14 +5,14 @@
     "client": "CityMotors",
     "category": "Social Media",
     "year": "2024",
-    "description": "Strategia di marketing digitale integrata per CityMotors: gestione social media, content creation, campagne Meta Ads geolocalizzate e reputazione online. Dal brand awareness alla lead generation qualificata nel settore automotive. Abbiamo costruito una presenza social consistente su Instagram e Facebook, con campagne retargeting che hanno trasformato i visitatori in clienti reali.",
+    "description": "Strategia di marketing digitale integrata per CityMotors: gestione social media, content creation, campagne Meta Ads geolocalizzate e reputazione online. Dal brand awareness alla lead generation qualificata nel settore automotive.",
     "results": [
       { "label": "Lead qualificati", "value": "+220%" },
       { "label": "ROAS campagne", "value": "5.8x" },
       { "label": "Costo per lead", "value": "-44%" }
     ],
     "tags": ["Social Media", "Meta Ads", "Content Marketing", "Automotive", "Lead Generation"],
-    "image": "/images/projects/citymotors.jpg",
+    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.citymotors.it",
     "color": "#FACC15",
     "showOnHome": true,
     "deleted": false,
@@ -32,7 +32,7 @@
       { "label": "Revenue da Ads", "value": "+180%" }
     ],
     "tags": ["Google Ads", "Shopping", "Performance Max", "E-commerce", "Feed Management"],
-    "image": "/images/projects/yeppon.jpg",
+    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.yeppon.it",
     "color": "#f59e0b",
     "showOnHome": true,
     "deleted": false,
@@ -45,7 +45,7 @@
     "client": "Digitalitis",
     "category": "SEO & Content",
     "year": "2024",
-    "description": "Audit SEO completo, architettura dei contenuti e link building per agenzia digitale in forte crescita. Implementazione della 6 Pillar Strategy: Technical SEO, Content Architecture, E-E-A-T, Link Building, Local SEO e AI Optimization. In 8 mesi l'agenzia è passata da invisibile a leader di nicchia nella sua area geografica.",
+    "description": "Audit SEO completo, architettura dei contenuti e link building per agenzia digitale in forte crescita. Implementazione della 6 Pillar Strategy: Technical SEO, Content Architecture, E-E-A-T, Link Building, Local SEO e AI Optimization.",
     "results": [
       { "label": "Traffico organico", "value": "+340%" },
       { "label": "Keyword Top 3", "value": "48" },
@@ -72,7 +72,7 @@
       {"label": "Lead B2B/B2C", "value": "+90%"}
     ],
     "tags": ["SEO", "E-commerce", "Lead Generation", "Gaming PC"],
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=900&q=85&fit=crop",
+    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.winblu.it",
     "color": "#3b82f6",
     "showOnHome": true,
     "deleted": false,
@@ -92,7 +92,7 @@
       {"label": "Accessi B2B", "value": "+65%"}
     ],
     "tags": ["B2B Marketing", "Technical SEO", "IT Distribution"],
-    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85&fit=crop",
+    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.brevi.it",
     "color": "#ef4444",
     "showOnHome": true,
     "deleted": false,
@@ -105,14 +105,14 @@
     "client": "AUTOFORMULA",
     "category": "Advertising",
     "year": "2025",
-    "description": "Campagne di lead generation iper-targettizzate e gestione inserzioni Meta Ads per concessionario automotive in Lombardia. Funnel di acquisizione contatti per test drive e promozioni commerciali.",
+    "description": "Campagne di lead generation iper-targettizzate e gestione inserzioni Meta Ads per concessionario ufficiale automotive in Lombardia. Funnel di acquisizione contatti per test drive e promozioni commerciali.",
     "results": [
       {"label": "Contatti Test Drive", "value": "+240%"},
       {"label": "Costo per Lead", "value": "-35%"},
       {"label": "Conversioni Ads", "value": "4.8x ROAS"}
     ],
     "tags": ["Meta Ads", "Lead Generation", "Automotive", "Local Marketing"],
-    "image": "https://images.unsplash.com/photo-1563720223185-11003d516935?w=900&q=85&fit=crop",
+    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.autoformula.it",
     "color": "#10b981",
     "showOnHome": true,
     "deleted": false,
@@ -152,7 +152,7 @@
       {"label": "ROAS Google Ads", "value": "5.2x"}
     ],
     "tags": ["SEO", "Google Ads", "B2B Lead Generation", "Noleggio Industriale"],
-    "image": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=85&fit=crop",
+    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.bettin.it",
     "color": "#8b5cf6",
     "showOnHome": true,
     "deleted": false,
@@ -172,7 +172,7 @@
       {"label": "CPA medio", "value": "-28%"}
     ],
     "tags": ["Google Ads", "Meta Ads", "Automotive", "Lead Generation"],
-    "image": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=900&q=85&fit=crop",
+    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.autostriatto.it",
     "color": "#ec4899",
     "showOnHome": true,
     "deleted": false,
@@ -192,32 +192,12 @@
       {"label": "ROAS complessivo", "value": "6.1x"}
     ],
     "tags": ["Automotive", "Advertising", "Performance Marketing", "Google Ads"],
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=900&q=85&fit=crop",
+    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.gruppolauto.it",
     "color": "#f59e0b",
     "showOnHome": true,
     "deleted": false,
     "createdAt": "2025-05-01T00:00:00.000Z",
     "updatedAt": "2025-10-01T00:00:00.000Z"
-  },
-  {
-    "id": "ecommerce-fashion-2025",
-    "title": "Community Building & Social Ads",
-    "client": "Brand Fashion — Milano",
-    "category": "Social Media",
-    "year": "2025",
-    "description": "Creazione e gestione community su Instagram e TikTok con focus su engagement, brand awareness e Meta Ads con retargeting avanzato per brand fashion milanese.",
-    "results": [
-      { "label": "Follower organici", "value": "+180%" },
-      { "label": "Engagement rate", "value": "6.2%" },
-      { "label": "Conversioni Meta", "value": "+140%" }
-    ],
-    "tags": ["Instagram", "TikTok", "Meta Ads", "Fashion", "Influencer Marketing"],
-    "image": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=900&q=85&fit=crop",
-    "color": "#34d399",
-    "showOnHome": false,
-    "deleted": false,
-    "createdAt": "2025-01-01T00:00:00.000Z",
-    "updatedAt": "2025-06-01T00:00:00.000Z"
   },
   {
     "id": "seo-brianza-2025",
@@ -232,11 +212,31 @@
       { "label": "Lead mensili", "value": "+95%" }
     ],
     "tags": ["SEO", "Local SEO", "Google Business", "Content Marketing"],
-    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85&fit=crop",
+    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.brianzaserramenti.it",
     "color": "#60a5fa",
     "showOnHome": false,
     "deleted": false,
     "createdAt": "2025-02-01T00:00:00.000Z",
     "updatedAt": "2025-10-01T00:00:00.000Z"
+  },
+  {
+    "id": "rovisposi-project",
+    "title": "Brand Positioning & Social Ads",
+    "client": "Rovi Sposi",
+    "category": "Social Media",
+    "year": "2025",
+    "description": "Brand positioning e campagne Social Media Marketing locali per atelier sposa storico. Ottimizzazione delle conversioni locali e attrazione nuovi clienti sul territorio.",
+    "results": [
+      { "label": "Engagement rate", "value": "6.5%" },
+      { "label": "Nuovi contatti", "value": "+110%" },
+      { "label": "Costo conversione", "value": "-30%" }
+    ],
+    "tags": ["Instagram", "Meta Ads", "Atelier", "Local Marketing"],
+    "image": "https://image.thum.io/get/width/1280/crop/800/maxAge/24/https://www.rovisposi.it",
+    "color": "#34d399",
+    "showOnHome": false,
+    "deleted": false,
+    "createdAt": "2025-01-15T00:00:00.000Z",
+    "updatedAt": "2025-06-15T00:00:00.000Z"
   }
 ]
