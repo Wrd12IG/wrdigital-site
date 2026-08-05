@@ -1,36 +1,38 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
+    const commonDisallow = ['/admin/', '/api/', '/private/', '/checkout/', '/area-clienti/'];
+    const aiBots = [
+        'GPTBot',
+        'ChatGPT-User',
+        'Google-Extended',
+        'ClaudeBot',
+        'Claude-Web',
+        'Anthropic-AI',
+        'PerplexityBot',
+        'CCBot',
+        'Bytespider',
+        'FacebookBot',
+        'Applebot',
+        'cohere-ai'
+    ];
+
     return {
         rules: [
-            // Regola base: tutto permesso, solo aree private bloccate
+            // Regola base per gli utenti/bot generici
             {
                 userAgent: '*',
                 allow: '/',
-                disallow: ['/admin/', '/api/', '/private/', '/checkout/', '/area-clienti/'],
+                disallow: commonDisallow,
             },
-            // OpenAI — ChatGPT browsing + addestramento
-            { userAgent: 'GPTBot', allow: ['/'] },
-            { userAgent: 'ChatGPT-User', allow: ['/'] },
-            // Google — Gemini + AI Overviews
-            { userAgent: 'Google-Extended', allow: ['/'] },
-            // Anthropic — Claude
-            { userAgent: 'ClaudeBot', allow: ['/'] },
-            { userAgent: 'Claude-Web', allow: ['/'] },
-            { userAgent: 'Anthropic-AI', allow: ['/'] },
-            // Perplexity AI
-            { userAgent: 'PerplexityBot', allow: ['/'] },
-            // Common Crawl — dataset base di molti LLM
-            { userAgent: 'CCBot', allow: ['/'] },
-            // ByteDance / TikTok AI
-            { userAgent: 'Bytespider', allow: ['/'] },
-            // Meta AI
-            { userAgent: 'FacebookBot', allow: ['/'] },
-            // Apple Intelligence
-            { userAgent: 'Applebot', allow: ['/'] },
-            // Cohere AI
-            { userAgent: 'cohere-ai', allow: ['/'] },
+            // Regole specifiche per bot AI/LLM che garantiscono l'esclusione delle aree sensibili
+            ...aiBots.map(bot => ({
+                userAgent: bot,
+                allow: ['/'],
+                disallow: commonDisallow,
+            }))
         ],
         sitemap: 'https://www.wrdigital.it/sitemap.xml',
     };
 }
+
