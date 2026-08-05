@@ -135,8 +135,37 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                     {/* Author + Date row */}
                     <div className="flex flex-wrap justify-center items-center gap-4 text-gray-300 text-sm font-mono border-t border-white/10 pt-6 inline-block w-full">
                         <span className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" /> {post.date}
+                            <Calendar className="w-4 h-4" /> Pubblicato: {post.date}
                         </span>
+                        {(() => {
+                            try {
+                                const updatedAt = post.updatedAt;
+                                const createdAt = post.createdAt || post.date;
+                                if (updatedAt) {
+                                    const dateObj = new Date(updatedAt);
+                                    const fallbackObj = createdAt ? new Date(createdAt) : null;
+                                    if (!isNaN(dateObj.getTime())) {
+                                        let shouldShow = true;
+                                        if (fallbackObj && !isNaN(fallbackObj.getTime())) {
+                                            const diffDays = Math.ceil(Math.abs(dateObj.getTime() - fallbackObj.getTime()) / (1000 * 60 * 60 * 24));
+                                            shouldShow = diffDays > 1;
+                                        }
+                                        if (shouldShow) {
+                                            const formatted = dateObj.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                                            return (
+                                                <>
+                                                    <span className="hidden md:inline">•</span>
+                                                    <span className="flex items-center gap-2 text-yellow-400 font-bold">
+                                                        Aggiornato: {formatted}
+                                                    </span>
+                                                </>
+                                            );
+                                        }
+                                    }
+                                }
+                            } catch (e) {}
+                            return null;
+                        })()}
                         <span className="hidden md:inline">•</span>
                         <span className="flex items-center gap-2"><Clock className="w-4 h-4" /> {post.readTime} di lettura</span>
                         {(post.authorName || post.author) && (
