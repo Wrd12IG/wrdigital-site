@@ -2,7 +2,7 @@
   {
     "id": "client-21lxuudjw31omfkrutxp",
     "name": "ESSEDI UTENSILI",
-    "url": "",
+    "url": "https://www.essediutensili.it",
     "description": "Distribuzione di utensili industriali per la lavorazione del legno, alluminio e PVC. Importatore esclusivo Kanefusa per l'Italia.",
     "sector": "Industria",
     "socials": "{}",
@@ -13,7 +13,7 @@
   {
     "id": "client-3ylj61pu5jz7ec0gszdf",
     "name": "L'ALTRO LUCA E ANDREA",
-    "url": "",
+    "url": "https://www.laltrolucaeandrea.it",
     "description": "Ristorante milanese sul Naviglio Grande specializzato in cucina tradizionale milanese: risotto, cotoletta e ossobuco.",
     "sector": "Ristorazione",
     "socials": "{}",
@@ -35,7 +35,7 @@
   {
     "id": "client-4xzrvqiqyjlobh1plszw",
     "name": "CENTRO CARCAZZARO",
-    "url": "",
+    "url": "https://centrocarcazzaro.concessionaria.renault.it",
     "description": "Concessionaria ufficiale Renault e Dacia a Saronno (VA). Vendita auto nuove, usate e assistenza autorizzata.",
     "sector": "Automotive",
     "socials": "{}",
@@ -57,7 +57,7 @@
   {
     "id": "client-5ehedxw8gqllzjgqp8av",
     "name": "DIGITALITIS",
-    "url": "",
+    "url": "https://www.digitalitis.it",
     "description": "Software house con sede a Monza specializzata in soluzioni digitali e DMS per concessionarie auto (suite BeeSmart).",
     "sector": "Tecnologia & Software",
     "socials": "{}",
@@ -68,7 +68,7 @@
   {
     "id": "client-6usolblg7wy0mloht9pv",
     "name": "NEXT HARDWARE & SOFTWARE",
-    "url": "",
+    "url": "https://www.nexths.it",
     "description": "Centro di assistenza informatica e riparazione PC a Limbiate (MB), con servizi tecnici per privati e aziende.",
     "sector": "Informatica",
     "socials": "{}",
@@ -90,7 +90,7 @@
   {
     "id": "client-8ziqwqkleaallsgxfxdf",
     "name": "GRUPPO L'AUTO",
-    "url": "",
+    "url": "https://www.gruppolauto.com",
     "description": "Concessionaria multimarca in Lombardia: vendita auto nuove, usate e km 0, officina e assistenza post-vendita.",
     "sector": "Automotive",
     "socials": "{}",
@@ -123,7 +123,7 @@
   {
     "id": "client-b7eh8onh3sx0p4wijmq5",
     "name": "ELETTROMECCANICA FBS",
-    "url": "https://www.elettromeccanicafbs.it",
+    "url": "https://www.fbselettromeccanica.it",
     "description": "Lavorazioni elettromeccaniche e avvolgimenti elettrici industriali.",
     "sector": "Industria",
     "socials": "{}",
@@ -134,7 +134,7 @@
   {
     "id": "client-d6txkbg8rczr0d0dmk0t",
     "name": "MOOD ARREDAMENTI",
-    "url": "https://www.moodarredamenti.it",
+    "url": "https://moodarredo.it",
     "description": "Showroom e progettazione di arredamenti d'interni su misura.",
     "sector": "Retail & Design",
     "socials": "{}",
@@ -167,7 +167,7 @@
   {
     "id": "client-glcjawxurioamdnvr1ez",
     "name": "ATEL MILANO",
-    "url": "https://www.atelmilano.it",
+    "url": "https://atelsrlmilano.it",
     "description": "Atelier di alta moda e sartoria a Milano.",
     "sector": "Retail & Fashion",
     "socials": "{}",
@@ -178,7 +178,7 @@
   {
     "id": "client-gvi3vhy83n73uroyauua",
     "name": "YASHI ITALIA",
-    "url": "https://www.yashiweb.it",
+    "url": "https://www.yashiweb.com/it/",
     "description": "Produttore di computer, monitor e soluzioni tecnologiche innovative.",
     "sector": "Tech & IT",
     "socials": "{}",
@@ -200,12 +200,12 @@
   {
     "id": "client-hvcid5xmj2bgjiaeo4u5",
     "name": "DALMA FOR YOU",
-    "url": "https://www.dalmaforyou.com",
+    "url": "",
     "description": "Gioielli e accessori moda dal design esclusivo.",
     "sector": "Retail & Luxury",
     "socials": "{}",
     "showInSuccessStories": true,
-    "deleted": false,
+    "deleted": true,
     "order": 99
   },
   {
@@ -222,7 +222,7 @@
   {
     "id": "client-jqywbatd8ht8hmhqitub",
     "name": "MANGIAFUOCO RISTORANTE",
-    "url": "https://www.mangiafuocomilano.it",
+    "url": "https://mangiafuocoristorante.it",
     "description": "Ristorante e bistrot nel cuore di Milano.",
     "sector": "Food & Beverage",
     "socials": "{}",
@@ -277,7 +277,7 @@
   {
     "id": "client-pjifcwskhu7tpybk5vdn",
     "name": "ARZUFFI PVD S.R.L.",
-    "url": "https://www.arzuffipvd.it",
+    "url": "https://www.arzuffisrl.it",
     "description": "Leader mondiale nei processi di metallizzazione sotto vuoto (PVD).",
     "sector": "Industria",
     "socials": "{}",
@@ -398,7 +398,7 @@
   {
     "id": "client-fsftp17jdonpggvigtwk",
     "name": "FURECO",
-    "url": "",
+    "url": "https://www.fureco.it",
     "description": "Manifattura di pellicce e capi in cashmere di lusso con produzione 100% italiana. Marchi: Fabio Gavazzi, Mavina. Showroom a Milano.",
     "sector": "Moda & Lusso",
     "socials": "{}",
@@ -464,7 +464,7 @@
   {
     "id": "client-m2r9igm9smg9bxwmiwrv",
     "name": "YAMAHA MOTORTIMES",
-    "url": "https://www.yamaha-motortimes.it",
+    "url": "http://dealer.moto.it/motortimes/",
     "description": "Concessionario ufficiale e officina autorizzata Yamaha per la Brianza.",
     "sector": "Automotive & Moto",
     "socials": "{}",
@@ -475,7 +475,7 @@
   {
     "id": "client-mvprxwqzikwlyxyvg3tc",
     "name": "LUCA E ANDREA BAR",
-    "url": "",
+    "url": "https://www.lucaeandreabar.it",
     "description": "Caffetteria, aperitivi e ristorazione veloce di qualità.",
     "sector": "Food & Beverage",
     "socials": "{}",
@@ -530,7 +530,7 @@
   {
     "id": "client-qorcphwsxtmb3uzmv8kx",
     "name": "MIMMO DORMIO S.R.L. - HELP COMPUTER",
-    "url": "https://www.mimmodormio.it",
+    "url": "https://helpcomputergroup.it",
     "description": "Vendita hardware, software e soluzioni IT gestite.",
     "sector": "Tech & IT",
     "socials": "{}",
@@ -541,7 +541,7 @@
   {
     "id": "client-rf5xlz3fjgkey4kjfk2i",
     "name": "MEDICAL SPA - AMBULATORIO",
-    "url": "",
+    "url": "https://www.ambulatoriomedicalspa.it",
     "description": "Poliambulatorio specialistico e centro per la salute.",
     "sector": "Medical & Health",
     "socials": "{}",
@@ -563,7 +563,7 @@
   {
     "id": "client-tqgcxgmuwoesah1fuqu9",
     "name": "AUTOFORMULA",
-    "url": "https://www.autoformula.it",
+    "url": "https://www.autoformula.com",
     "description": "Concessionaria ufficiale e officina autorizzata per diversi brand auto.",
     "sector": "Automotive",
     "socials": "{}",
@@ -574,7 +574,7 @@
   {
     "id": "client-w7iuvzqdlnzp7qgochb0",
     "name": "ATLANTIS",
-    "url": "https://www.atlantissport.it",
+    "url": "https://www.atlantis-land.com",
     "description": "Centro sportivo e vendita di articoli sportivi professionali.",
     "sector": "Retail & Sport",
     "socials": "{}",
