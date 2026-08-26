@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowRight, Trophy, BarChart3, Rocket, X } from 'lucide-react';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import { useModal } from './ModalContext';
 
 interface Project {
@@ -37,8 +35,6 @@ export default function PortfolioPage({ projects }: PortfolioPageProps) {
 
     return (
         <div className="min-h-screen bg-black text-white font-sans selection:bg-yellow-500/30">
-            <Navbar isDarkMode={true} />
-
             {/* Hero Section */}
             <section className="relative pt-48 pb-24 px-6 md:px-12 w-full overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(250,204,21,0.1),transparent_70%)] opacity-70" />
@@ -232,8 +228,6 @@ export default function PortfolioPage({ projects }: PortfolioPageProps) {
                     </Link>
                 </div>
             </section>
-
-            <Footer isDarkMode={true} />
         </div>
     );
 }
