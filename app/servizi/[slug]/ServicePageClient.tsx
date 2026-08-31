@@ -557,10 +557,6 @@ export default function ServicePage({ initialData, slug: propSlug }: ServicePage
                                 </div>
                                 <div className={styles.trustBadge}>
                                     <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                                    <span>ISO 9001 Qualità</span>
-                                </div>
-                                <div className={styles.trustBadge}>
-                                    <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
                                     <span>GDPR Compliant</span>
                                 </div>
                             </div>
