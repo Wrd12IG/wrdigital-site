@@ -178,7 +178,7 @@ export default function CookiePolicy() {
                                 <p className="text-sm text-gray-400">
                                     Impostazioni → Privacy e sicurezza → Cookie e altri dati dei siti
                                 </p>
-                                <a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer"
+                                <a href="https://support.google.com/chrome/answer/95647?hl=it" target="_blank" rel="noopener noreferrer"
                                     className="text-[#FACC15] text-xs hover:underline mt-2 inline-block">
                                     Guida completa →
                                 </a>

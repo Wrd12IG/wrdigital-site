@@ -97,7 +97,7 @@ export default function Footer({ isDarkMode = true, onToggleTheme, logo }: Foote
                             Il nostro team è formato e certificato direttamente da Google per garantirti
                             strategie pubblicitarie basate sulle best practice del settore.{' '}
                             <a
-                                href="https://skillshop.exceedlms.com/profiles/g/wrdigital"
+                                href="https://skillshop.credential.net/f7a3bf03-5826-47ad-88cd-2b826ab7973b"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 style={{ color: '#FACC15', textDecoration: 'underline', fontSize: '0.85em' }}
