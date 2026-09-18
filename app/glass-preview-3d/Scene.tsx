@@ -359,11 +359,15 @@ function Kit() {
   const [checked, setChecked] = useState(true);
   const knob = useRef<THREE.Group>(null);
   const root = useRef<THREE.Group>(null);
-  const { viewport, pointer } = useThree();
+  const { pointer } = useThree();
 
-  const scale = Math.min(1, viewport.width / 10.9, viewport.height / 12.9);
-
-  useFrame((_, dt) => {
+  useFrame((state, dt) => {
+    /* fit the kit to whatever viewport it lands in, every frame, with margin */
+    if (root.current) {
+      const { width, height } = state.viewport;
+      const fit = Math.min(1, width / (KIT_W * 1.16), height / (KIT_H * 1.08));
+      root.current.scale.setScalar(fit);
+    }
     if (knob.current) {
       const target = toggled ? 0.52 : -0.52;
       knob.current.position.x += (target - knob.current.position.x) * Math.min(1, dt * 10);
@@ -378,7 +382,7 @@ function Kit() {
   const F = 0.46;
 
   return (
-    <group ref={root} scale={scale}>
+    <group ref={root}>
       {/* ROW 1 */}
       <Glass w={4.615} h={1.423} position={[-2.692, 5.229, 0]}>
         <Core w={4.05} h={0.93} d={0.4} tone="orange" />
