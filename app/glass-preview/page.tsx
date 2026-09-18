@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 /* =============================================================================
    LIQUID GLASS UI KIT — 1:1 replica of the reference render
@@ -56,7 +56,7 @@ function pool(radius: number): React.CSSProperties {
     backdropFilter: 'blur(1.5px)',
     WebkitBackdropFilter: 'blur(1.5px)',
     boxShadow:
-      '0 0 0 1px rgba(128,150,182,0.45), 0 1px 2px -1px rgba(40,56,82,0.25), inset 0 1.5px 1px -0.5px rgba(255,255,255,1), inset 0 -1.5px 2px -1px rgba(104,126,162,0.35)',
+      '0 0 0 1px rgba(128,150,182,0.45), 0 1px 2px -1px rgba(40,56,82,0.25), inset 0 1.5px 1px -0.5px rgba(255,255,255,1), inset 0 -1.5px 2px -1px rgba(104,126,162,0.35), inset 0 9px 15px -11px rgba(255,255,255,0.95)',
   };
 }
 
@@ -81,6 +81,60 @@ function Caustic({
     />
   );
 }
+
+/* --- the extruded side wall: what turns a shape into a solid object ------- */
+const Edge = ({ radius, depth = 11, inset = 5 }: { radius: number; depth?: number; inset?: number }) => (
+  <>
+    {/* glass thickness seen below and through the bottom of the face */}
+    <div
+      aria-hidden
+      className="pointer-events-none absolute"
+      style={{
+        zIndex: -1,
+        left: 1,
+        right: 1,
+        bottom: -depth,
+        height: depth * 2.5,
+        borderRadius: radius,
+        background:
+          'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(242,247,254,0.14) 42%, rgba(216,228,243,0.5) 68%, rgba(182,198,222,0.8) 86%, rgba(230,241,253,0.94) 96%, rgba(255,255,255,1) 100%)',
+        filter: 'blur(0.6px)',
+      }}
+    />
+    {/* light splitting inside the thickness of the glass */}
+    <div
+      aria-hidden
+      className="pointer-events-none absolute"
+      style={{
+        zIndex: -1,
+        left: inset + 4,
+        right: inset + 4,
+        bottom: -depth + 2,
+        height: depth * 1.15,
+        borderRadius: radius,
+        background:
+          'linear-gradient(90deg, rgba(120,215,255,0.45) 0%, rgba(255,255,255,0) 24%, rgba(255,255,255,0) 70%, rgba(255,190,120,0.4) 89%, rgba(255,120,180,0.45) 100%)',
+        filter: 'blur(4px)',
+        opacity: 0.7,
+      }}
+    />
+    {/* dark seam where the wall meets the floor, then the refracted lip */}
+    <div
+      aria-hidden
+      className="pointer-events-none absolute"
+      style={{
+        zIndex: -2,
+        left: inset,
+        right: inset,
+        bottom: -depth - 2,
+        height: depth,
+        borderRadius: radius,
+        boxShadow:
+          '0 5px 9px -3px rgba(22,36,58,0.55), 0 14px 24px -8px rgba(22,36,58,0.45), 0 30px 46px -18px rgba(22,36,58,0.4)',
+      }}
+    />
+  </>
+);
 
 /* --- specular crescent that sits on top of colored candy cores ------------- */
 const Gloss = ({ inset = 12, height = '46%', radius = 999 }: { inset?: number; height?: string; radius?: number }) => (
@@ -109,10 +163,33 @@ export default function GlassPreviewPage() {
   const [checked, setChecked] = useState(true);
   const [query, setQuery] = useState('With suggestions');
 
+  /* the whole tray is a physical object: it turns towards the viewer */
+  const stage = useRef<HTMLDivElement>(null);
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const sx = useSpring(px, { stiffness: 90, damping: 18, mass: 0.7 });
+  const sy = useSpring(py, { stiffness: 90, damping: 18, mass: 0.7 });
+  const rotateY = useTransform(sx, [-1, 1], [-7, 7]);
+  const rotateX = useTransform(sy, [-1, 1], [7, -3]);
+
+  const track = (e: React.MouseEvent<HTMLDivElement>) => {
+    const r = stage.current?.getBoundingClientRect();
+    if (!r) return;
+    px.set(((e.clientX - r.left) / r.width) * 2 - 1);
+    py.set(((e.clientY - r.top) / r.height) * 2 - 1);
+  };
+  const release = () => {
+    px.set(0);
+    py.set(0);
+  };
+
   return (
     <div
+      ref={stage}
+      onMouseMove={track}
+      onMouseLeave={release}
       className="relative min-h-screen w-full overflow-hidden flex items-center justify-center px-5 py-16 select-none"
-      style={{ background: '#e9ebee', fontFamily: FONT, color: INK }}
+      style={{ background: '#e9ebee', fontFamily: FONT, color: INK, perspective: 1500 }}
     >
       {/* studio lighting on the backdrop */}
       <div
@@ -143,7 +220,10 @@ export default function GlassPreviewPage() {
         @media (max-width: 340px) { .glass-kit { zoom: 0.5; } }
       `}</style>
 
-      <div className="glass-kit relative flex flex-col gap-[26px]">
+      <motion.div
+        className="glass-kit relative flex flex-col gap-[26px]"
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d', transformOrigin: '50% 60%' }}
+      >
         {/* ===================================================================
             ROW 1 — START PROJECT · SECONDARY · POWER
         =================================================================== */}
@@ -153,6 +233,7 @@ export default function GlassPreviewPage() {
             className="relative group flex-[1.52] transition-transform duration-200 active:scale-[0.985]"
             style={{ ...shell(999), height: 74, padding: 10 }}
           >
+            <Edge radius={999} depth={12} inset={6} />
             <Caustic
               tone="warm"
               blur={14}
@@ -188,6 +269,7 @@ export default function GlassPreviewPage() {
             className="relative flex-[1] transition-transform duration-200 active:scale-[0.985]"
             style={{ ...shell(999), height: 74, padding: 10 }}
           >
+            <Edge radius={999} depth={12} inset={6} />
             <Caustic
               tone="radial-gradient(60% 60% at 50% 50%, rgba(90,185,255,0.72) 0%, rgba(175,215,255,0.5) 45%, rgba(255,255,255,0) 80%)"
               blur={13}
@@ -211,6 +293,7 @@ export default function GlassPreviewPage() {
             className="relative shrink-0 transition-transform duration-200 active:scale-[0.97]"
             style={{ ...shell(24), width: 78, height: 74, padding: 10 }}
           >
+            <Edge radius={24} depth={12} inset={5} />
             <Caustic blur={10} style={{ right: -14, bottom: -12, width: 64, height: 46, borderRadius: 999 }} />
             <span className="flex h-full w-full items-center justify-center" style={pool(18)}>
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.9" strokeLinecap="round">
@@ -225,7 +308,8 @@ export default function GlassPreviewPage() {
             ROW 2 — SEARCH FIELD WITH SUGGESTIONS + ADD
         =================================================================== */}
         <motion.div {...row(1)} className="relative" style={{ ...shell(999), height: 86, padding: 11 }}>
-          <Caustic blur={14} style={{ right: -16, top: 4, bottom: -14, width: 120, borderRadius: 999 }} />
+          <Edge radius={999} depth={13} inset={8} />
+            <Caustic blur={14} style={{ right: -16, top: 4, bottom: -14, width: 120, borderRadius: 999 }} />
           <Caustic
             tone="radial-gradient(60% 60% at 50% 50%, rgba(160,205,255,0.4) 0%, rgba(255,255,255,0) 78%)"
             blur={14}
@@ -282,6 +366,7 @@ export default function GlassPreviewPage() {
             className="relative flex-1 cursor-pointer transition-transform duration-200 active:scale-[0.99]"
             style={{ ...shell(999), height: 80, padding: 10 }}
           >
+            <Edge radius={999} depth={13} inset={7} />
             <Caustic blur={13} opacity={0.6} style={{ left: '26%', right: '8%', bottom: -11, height: 24, borderRadius: 999 }} />
 
             <div className="flex h-full w-full items-stretch" style={pool(999)}>
@@ -329,6 +414,7 @@ export default function GlassPreviewPage() {
             className="relative shrink-0 cursor-pointer"
             style={{ ...shell(999), width: 134, height: 78, padding: 9 }}
           >
+            <Edge radius={999} depth={12} inset={5} />
             <Caustic
               tone={
                 toggled
@@ -375,6 +461,7 @@ export default function GlassPreviewPage() {
             className="relative flex-1 transition-transform duration-200 active:scale-[0.99]"
             style={{ ...shell(999), height: 74, padding: 10 }}
           >
+            <Edge radius={999} depth={12} inset={6} />
             <Caustic blur={12} opacity={0.75} style={{ left: '30%', right: '4%', bottom: -11, height: 24, borderRadius: 999 }} />
             <span className="flex h-full w-full items-center justify-center gap-[13px]" style={pool(999)}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
@@ -390,6 +477,7 @@ export default function GlassPreviewPage() {
             className="relative flex-[1.05] transition-transform duration-200 active:scale-[0.99]"
             style={{ ...shell(999), height: 74, padding: 10 }}
           >
+            <Edge radius={999} depth={12} inset={6} />
             <Caustic blur={12} style={{ right: -12, bottom: -12, width: 92, height: 44, borderRadius: 999 }} />
             <Caustic blur={12} opacity={0.6} style={{ left: 0, bottom: -12, width: 90, height: 34, borderRadius: 999 }} />
             <span
@@ -418,6 +506,7 @@ export default function GlassPreviewPage() {
             className="relative flex-1 transition-transform duration-200 hover:-translate-y-[2px]"
             style={{ ...shell(36), height: 200, padding: 13 }}
           >
+            <Edge radius={36} depth={17} inset={8} />
             <Caustic blur={16} opacity={0.75} style={{ left: '26%', right: '-3%', bottom: -15, height: 38, borderRadius: 40 }} />
             <Caustic blur={12} opacity={0.9} style={{ left: -14, bottom: 18, width: 58, height: 96, borderRadius: 999 }} />
 
@@ -453,6 +542,7 @@ export default function GlassPreviewPage() {
 
           {/* FIND FILES DIALOG */}
           <div className="relative flex-[1.05]" style={{ ...shell(36), height: 200, padding: 12 }}>
+            <Edge radius={36} depth={17} inset={8} />
             <Caustic blur={16} opacity={0.75} style={{ left: '30%', right: '-3%', bottom: -15, height: 36, borderRadius: 40 }} />
             <Caustic blur={12} opacity={0.85} style={{ right: -14, bottom: 26, width: 54, height: 90, borderRadius: 999 }} />
 
@@ -490,7 +580,7 @@ export default function GlassPreviewPage() {
             </div>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </div>
   );
 }
