@@ -1,526 +1,496 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import { Search, Power, X, Check, ChevronsUpDown, RotateCcw, Plus } from 'lucide-react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
+/* =============================================================================
+   LIQUID GLASS UI KIT — 1:1 replica of the reference render
+   Every control is built as: OUTER SHELL (thick refracting glass rim)
+   + INNER POOL (the flat glass surface that holds the content)
+   + CAUSTIC (prismatic light spilled on the floor behind the object)
+============================================================================= */
+
+const FONT =
+  '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif';
+
+const INK = '#22262b';
+
+/* Prismatic dispersion: cyan -> gold -> magenta, exactly like light split by a
+   thick glass edge. Kept pastel so it reads as light, not as a colored blob. */
+const PRISM =
+  'radial-gradient(62% 62% at 50% 50%, rgba(40,205,255,0.80) 0%, rgba(140,230,255,0.62) 20%, rgba(255,205,95,0.72) 44%, rgba(255,105,180,0.60) 66%, rgba(255,255,255,0) 86%)';
+
+const WARM_PRISM =
+  'radial-gradient(62% 62% at 50% 50%, rgba(255,140,45,0.85) 0%, rgba(255,185,80,0.62) 30%, rgba(255,110,165,0.45) 62%, rgba(255,255,255,0) 84%)';
+
+/* --- the glass shell: thick rim, bevelled top, refracted bottom edge ------- */
+function shell(radius: number): React.CSSProperties {
+  return {
+    position: 'relative',
+    borderRadius: radius,
+    background:
+      'linear-gradient(148deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.30) 24%, rgba(224,234,247,0.20) 52%, rgba(255,255,255,0.55) 78%, rgba(255,255,255,0.85) 100%)',
+    backdropFilter: 'blur(7px) saturate(1.6)',
+    WebkitBackdropFilter: 'blur(7px) saturate(1.6)',
+    border: '1px solid rgba(143,162,190,0.62)',
+    boxShadow: [
+      '0 2px 3px -1px rgba(40,56,82,0.12)',
+      '0 14px 24px -10px rgba(34,50,76,0.30)',
+      '0 34px 54px -24px rgba(22,36,58,0.38)',
+      'inset 0 2.5px 1.5px -1px rgba(255,255,255,1)',
+      'inset 0 -3px 3px -1.5px rgba(88,110,148,0.5)',
+      'inset 3px 0 4px -2.5px rgba(255,255,255,1)',
+      'inset -3px 0 4px -2.5px rgba(255,255,255,1)',
+      'inset 0 0 0 1px rgba(255,255,255,0.55)',
+    ].join(','),
+  };
+}
+
+/* --- the inner pool: the calm glass surface inside the rim ----------------- */
+function pool(radius: number): React.CSSProperties {
+  return {
+    position: 'relative',
+    borderRadius: radius,
+    background:
+      'linear-gradient(180deg, rgba(255,255,255,0.46) 0%, rgba(255,255,255,0.10) 44%, rgba(236,244,254,0.34) 100%)',
+    backdropFilter: 'blur(1.5px)',
+    WebkitBackdropFilter: 'blur(1.5px)',
+    boxShadow:
+      '0 0 0 1px rgba(128,150,182,0.45), 0 1px 2px -1px rgba(40,56,82,0.25), inset 0 1.5px 1px -0.5px rgba(255,255,255,1), inset 0 -1.5px 2px -1px rgba(104,126,162,0.35)',
+  };
+}
+
+/* --- light projected on the floor behind an object ------------------------ */
+function Caustic({
+  style,
+  tone = 'prism',
+  blur = 12,
+  opacity = 1,
+}: {
+  style: React.CSSProperties;
+  tone?: 'prism' | 'warm' | string;
+  blur?: number;
+  opacity?: number;
+}) {
+  const bg = tone === 'prism' ? PRISM : tone === 'warm' ? WARM_PRISM : tone;
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute"
+      style={{ zIndex: -1, background: bg, filter: `blur(${blur}px)`, opacity, ...style }}
+    />
+  );
+}
+
+/* --- specular crescent that sits on top of colored candy cores ------------- */
+const Gloss = ({ inset = 12, height = '46%', radius = 999 }: { inset?: number; height?: string; radius?: number }) => (
+  <div
+    aria-hidden
+    className="pointer-events-none absolute"
+    style={{
+      top: 2,
+      left: inset,
+      right: inset,
+      height,
+      borderRadius: radius,
+      background: 'linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.22) 62%, rgba(255,255,255,0) 100%)',
+    }}
+  />
+);
+
+const row = (i: number) => ({
+  initial: { opacity: 0, y: 26, filter: 'blur(6px)' },
+  animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+  transition: { duration: 0.75, delay: 0.06 * i, ease: [0.22, 1, 0.36, 1] as const },
+});
+
 export default function GlassPreviewPage() {
-    const [toggled, setToggled] = useState(true);
-    const [searchValue, setSearchValue] = useState('With suggestions');
-    const [selectedActive, setSelectedActive] = useState(true);
+  const [toggled, setToggled] = useState(true);
+  const [checked, setChecked] = useState(true);
+  const [query, setQuery] = useState('With suggestions');
 
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-    const cardRef = useRef<HTMLDivElement>(null);
+  return (
+    <div
+      className="relative min-h-screen w-full overflow-hidden flex items-center justify-center px-5 py-16 select-none"
+      style={{ background: '#e9ebee', fontFamily: FONT, color: INK }}
+    >
+      {/* studio lighting on the backdrop */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,0.95) 0%, rgba(243,245,247,0.55) 45%, rgba(225,228,233,0.0) 75%), radial-gradient(90% 60% at 50% 110%, rgba(206,211,219,0.55) 0%, rgba(236,238,240,0) 70%)',
+        }}
+      />
+      {/* film grain */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none mix-blend-multiply"
+        style={{
+          opacity: 0.22,
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E\")",
+        }}
+      />
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!cardRef.current) return;
-        const rect = cardRef.current.getBoundingClientRect();
-        const x = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-        const y = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-        setMousePos({ x, y });
-    };
+      <style>{`
+        .glass-kit { width: 520px; }
+        @media (max-width: 620px) { .glass-kit { zoom: 0.88; } }
+        @media (max-width: 540px) { .glass-kit { zoom: 0.76; } }
+        @media (max-width: 460px) { .glass-kit { zoom: 0.66; } }
+        @media (max-width: 400px) { .glass-kit { zoom: 0.58; } }
+        @media (max-width: 340px) { .glass-kit { zoom: 0.5; } }
+      `}</style>
 
-    const handleMouseLeave = () => {
-        setMousePos({ x: 0, y: 0 });
-    };
-
-    return (
-        <main 
-            className="min-h-screen w-full flex items-center justify-center p-4 sm:p-8 select-none"
-            style={{
-                backgroundColor: '#e6e8ec',
-                backgroundImage: `
-                    radial-gradient(circle at 50% 15%, #ffffff 0%, #eef0f4 40%, #e2e5eb 75%, #d5d9e2 100%)
-                `
-            }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-        >
-            {/* Top Diffused Studio Light */}
-            <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-white/70 rounded-full blur-[140px] pointer-events-none -z-10" />
-
-            {/* 3D Tilted UI Board */}
-            <motion.div 
-                ref={cardRef}
-                animate={{
-                    rotateX: mousePos.y * -3,
-                    rotateY: mousePos.x * 3,
-                }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="w-full max-w-[460px] flex flex-col gap-[22px] relative z-10 py-6"
-                style={{
-                    transformStyle: 'preserve-3d',
-                }}
+      <div className="glass-kit relative flex flex-col gap-[26px]">
+        {/* ===================================================================
+            ROW 1 — START PROJECT · SECONDARY · POWER
+        =================================================================== */}
+        <motion.div {...row(0)} className="flex items-center gap-[22px]">
+          {/* START PROJECT */}
+          <button
+            className="relative group flex-[1.52] transition-transform duration-200 active:scale-[0.985]"
+            style={{ ...shell(999), height: 74, padding: 10 }}
+          >
+            <Caustic
+              tone="warm"
+              blur={14}
+              style={{ left: '12%', right: '4%', bottom: -13, height: 26, borderRadius: 999 }}
+            />
+            <Caustic
+              blur={9}
+              opacity={0.85}
+              style={{ right: -14, bottom: -10, width: 76, height: 42, borderRadius: 999 }}
+            />
+            <span
+              className="relative flex h-full w-full items-center justify-center overflow-hidden"
+              style={{
+                borderRadius: 999,
+                background:
+                  'linear-gradient(180deg, #ff9a4d 0%, #fd7028 30%, #f25411 62%, #d83e05 100%)',
+                boxShadow:
+                  'inset 0 2px 2px -0.5px rgba(255,255,255,0.9), inset 0 -3px 5px -1px rgba(138,38,0,0.75), 0 6px 16px -4px rgba(226,84,20,0.6)',
+              }}
             >
+              <Gloss inset={16} height="44%" />
+              <span
+                className="relative"
+                style={{ color: '#fff', fontSize: 19, fontWeight: 500, letterSpacing: '-0.01em', textShadow: '0 1px 2px rgba(120,35,0,0.35)' }}
+              >
+                Start project
+              </span>
+            </span>
+          </button>
 
-                {/* =========================================================================
-                    ROW 1: START PROJECT | SECONDARY | POWER
-                ========================================================================= */}
-                <div className="flex items-center gap-[14px] justify-between">
-                    
-                    {/* 1. START PROJECT */}
-                    <div 
-                        className="flex-[1.42] h-[64px] rounded-full relative cursor-pointer active:scale-[0.98] transition-transform"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.45) 100%)',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            padding: '4px',
-                            boxShadow: `
-                                0 2px 4px rgba(0, 0, 0, 0.04),
-                                0 14px 28px -4px rgba(35, 45, 65, 0.16),
-                                0 24px 44px -8px rgba(25, 35, 55, 0.12),
-                                inset 0 2px 2px #ffffff,
-                                inset 0 -2px 3px rgba(70, 85, 110, 0.25),
-                                inset 1px 0 2px rgba(255, 255, 255, 0.8),
-                                inset -1px 0 2px rgba(255, 255, 255, 0.8)
-                            `,
-                            border: '1.2px solid rgba(255, 255, 255, 0.95)'
-                        }}
-                    >
-                        {/* Orange Floor Caustic */}
-                        <div 
-                            className="absolute -inset-2.5 rounded-full pointer-events-none -z-10"
-                            style={{
-                                background: 'radial-gradient(circle at 45% 95%, rgba(249, 115, 22, 0.6) 0%, rgba(251, 146, 60, 0.35) 45%, transparent 75%)',
-                                filter: 'blur(10px)'
-                            }}
-                        />
+          {/* SECONDARY */}
+          <button
+            className="relative flex-[1] transition-transform duration-200 active:scale-[0.985]"
+            style={{ ...shell(999), height: 74, padding: 10 }}
+          >
+            <Caustic
+              tone="radial-gradient(60% 60% at 50% 50%, rgba(90,185,255,0.72) 0%, rgba(175,215,255,0.5) 45%, rgba(255,255,255,0) 80%)"
+              blur={13}
+              style={{ left: '16%', right: '4%', bottom: -11, height: 24, borderRadius: 999 }}
+            />
+            <Caustic blur={9} opacity={0.9} style={{ right: -12, bottom: -8, width: 62, height: 38, borderRadius: 999 }} />
+            <span
+              className="flex h-full w-full items-center justify-center"
+              style={{
+                ...pool(999),
+                background:
+                  'linear-gradient(180deg, rgba(255,255,255,0.66) 0%, rgba(228,240,252,0.4) 48%, rgba(196,220,246,0.55) 100%)',
+              }}
+            >
+              <span style={{ fontSize: 18.5, fontWeight: 500, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>Secondary</span>
+            </span>
+          </button>
 
-                        {/* Prismatic Rainbow Dispersion Flare (Bottom-Right) */}
-                        <div 
-                            className="absolute -right-2 -bottom-2 w-16 h-14 pointer-events-none -z-10 rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle at 60% 60%, rgba(0, 220, 255, 0.9) 0%, rgba(255, 190, 0, 0.75) 35%, rgba(255, 0, 130, 0.6) 65%, transparent 80%)',
-                                filter: 'blur(5px)'
-                            }}
-                        />
+          {/* POWER */}
+          <button
+            className="relative shrink-0 transition-transform duration-200 active:scale-[0.97]"
+            style={{ ...shell(24), width: 78, height: 74, padding: 10 }}
+          >
+            <Caustic blur={10} style={{ right: -14, bottom: -12, width: 64, height: 46, borderRadius: 999 }} />
+            <span className="flex h-full w-full items-center justify-center" style={pool(18)}>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.9" strokeLinecap="round">
+                <path d="M12 3.2v8.2" />
+                <path d="M18.4 6.6a8.6 8.6 0 1 1-12.8 0" />
+              </svg>
+            </span>
+          </button>
+        </motion.div>
 
-                        {/* Inner Orange Candy Pill */}
-                        <div 
-                            className="w-full h-full rounded-full flex items-center justify-center text-white font-semibold text-[15.5px] tracking-tight relative overflow-hidden"
-                            style={{
-                                background: 'linear-gradient(180deg, #ff6a30 0%, #f35016 38%, #e03a00 80%, #b82800 100%)',
-                                boxShadow: `
-                                    inset 0 1.5px 2px rgba(255, 255, 255, 0.95),
-                                    inset 0 -2.5px 4px rgba(120, 20, 0, 0.7),
-                                    0 4px 14px rgba(220, 60, 0, 0.45)
-                                `,
-                                textShadow: '0 1px 2px rgba(0, 0, 0, 0.25)'
-                            }}
-                        >
-                            {/* Curved Glass Specular Highlight */}
-                            <div 
-                                className="absolute top-[2px] left-3.5 right-3.5 h-[44%] rounded-full pointer-events-none"
-                                style={{
-                                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 65%, transparent 100%)'
-                                }}
-                            />
-                            Start project
-                        </div>
-                    </div>
+        {/* ===================================================================
+            ROW 2 — SEARCH FIELD WITH SUGGESTIONS + ADD
+        =================================================================== */}
+        <motion.div {...row(1)} className="relative" style={{ ...shell(999), height: 86, padding: 11 }}>
+          <Caustic blur={14} style={{ right: -16, top: 4, bottom: -14, width: 120, borderRadius: 999 }} />
+          <Caustic
+            tone="radial-gradient(60% 60% at 50% 50%, rgba(160,205,255,0.4) 0%, rgba(255,255,255,0) 78%)"
+            blur={14}
+            opacity={0.5}
+            style={{ left: '22%', right: '26%', bottom: -11, height: 22, borderRadius: 999 }}
+          />
 
-                    {/* 2. SECONDARY */}
-                    <div 
-                        className="flex-1 h-[64px] rounded-full relative cursor-pointer active:scale-[0.98] transition-transform flex items-center justify-center"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.1) 45%, rgba(230, 242, 255, 0.3) 80%, rgba(255, 255, 255, 0.5) 100%)',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            padding: '4px',
-                            boxShadow: `
-                                0 2px 4px rgba(0, 0, 0, 0.04),
-                                0 14px 28px -4px rgba(35, 45, 65, 0.16),
-                                0 24px 44px -8px rgba(25, 35, 55, 0.12),
-                                inset 0 2px 2px #ffffff,
-                                inset 0 -2px 3px rgba(70, 85, 110, 0.25),
-                                inset 1px 0 2px rgba(255, 255, 255, 0.8),
-                                inset -1px 0 2px rgba(255, 255, 255, 0.8)
-                            `,
-                            border: '1.2px solid rgba(255, 255, 255, 0.95)'
-                        }}
-                    >
-                        {/* Cyan Floor Caustic */}
-                        <div 
-                            className="absolute -inset-2.5 rounded-full pointer-events-none -z-10"
-                            style={{
-                                background: 'radial-gradient(circle at 65% 95%, rgba(56, 189, 248, 0.6) 0%, rgba(147, 197, 253, 0.3) 45%, transparent 75%)',
-                                filter: 'blur(10px)'
-                            }}
-                        />
+          <div className="flex h-full w-full items-stretch">
+            {/* recessed white field */}
+            <div
+              className="flex flex-1 items-center gap-[14px] pl-[22px] pr-4"
+              style={{
+                ...pool(999),
+                background:
+                  'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.72) 55%, rgba(248,251,255,0.8) 100%)',
+                boxShadow:
+                  'inset 0 2px 3px -1px rgba(120,140,175,0.28), inset 0 -1.5px 1px -0.5px rgba(255,255,255,0.95), inset 0 0 0 1px rgba(255,255,255,0.6)',
+              }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="2" strokeLinecap="round">
+                <circle cx="10.8" cy="10.8" r="6.6" />
+                <path d="m15.8 15.8 4 4" />
+              </svg>
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="With suggestions"
+                className="w-full bg-transparent outline-none"
+                style={{ fontSize: 18.5, fontWeight: 400, letterSpacing: '-0.01em', color: INK }}
+              />
+            </div>
 
-                        {/* Prismatic Rainbow Flare on Bottom-Right */}
-                        <div 
-                            className="absolute -right-2 -bottom-2 w-14 h-12 pointer-events-none -z-10 rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle at 60% 60%, rgba(0, 210, 255, 0.85) 0%, rgba(255, 180, 0, 0.65) 35%, rgba(255, 0, 130, 0.5) 65%, transparent 80%)',
-                                filter: 'blur(5px)'
-                            }}
-                        />
+            {/* glass cap with the add affordance */}
+            <button className="relative flex items-center justify-center" style={{ width: 84 }}>
+              <span
+                aria-hidden
+                className="absolute left-0 top-[9%] bottom-[9%]"
+                style={{ width: 1, background: 'linear-gradient(180deg, rgba(160,178,205,0), rgba(150,170,200,0.45), rgba(160,178,205,0))' }}
+              />
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.9" strokeLinecap="round">
+                <path d="M12 5.4v13.2M5.4 12h13.2" />
+              </svg>
+            </button>
+          </div>
+        </motion.div>
 
-                        {/* Floating Dark Slate Text */}
-                        <span className="font-semibold text-slate-800 text-[15.5px] tracking-tight relative z-10">
-                            Secondary
-                        </span>
-                    </div>
+        {/* ===================================================================
+            ROW 3 — SELECT (WITH CHECK) · TOGGLE
+        =================================================================== */}
+        <motion.div {...row(2)} className="flex items-center gap-[22px]">
+          {/* SELECT */}
+          <div
+            onClick={() => setChecked((v) => !v)}
+            className="relative flex-1 cursor-pointer transition-transform duration-200 active:scale-[0.99]"
+            style={{ ...shell(999), height: 80, padding: 10 }}
+          >
+            <Caustic blur={13} opacity={0.6} style={{ left: '26%', right: '8%', bottom: -11, height: 24, borderRadius: 999 }} />
 
-                    {/* 3. POWER SQUIRCLE */}
-                    <div 
-                        className="w-[64px] h-[64px] rounded-[22px] relative flex-shrink-0 cursor-pointer active:scale-[0.98] transition-transform flex items-center justify-center"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.1) 45%, rgba(230, 242, 255, 0.3) 80%, rgba(255, 255, 255, 0.5) 100%)',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            boxShadow: `
-                                0 2px 4px rgba(0, 0, 0, 0.04),
-                                0 14px 28px -4px rgba(35, 45, 65, 0.16),
-                                0 24px 44px -8px rgba(25, 35, 55, 0.12),
-                                inset 0 2px 2px #ffffff,
-                                inset 0 -2px 3px rgba(70, 85, 110, 0.25),
-                                inset 1px 0 2px rgba(255, 255, 255, 0.8),
-                                inset -1px 0 2px rgba(255, 255, 255, 0.8)
-                            `,
-                            border: '1.2px solid rgba(255, 255, 255, 0.95)'
-                        }}
-                    >
-                        {/* Prismatic Rainbow Flare on Bottom-Right Corner */}
-                        <div 
-                            className="absolute -right-2 -bottom-2 w-14 h-12 pointer-events-none -z-10 rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle at 60% 60%, rgba(0, 220, 255, 0.9) 0%, rgba(255, 180, 0, 0.7) 35%, rgba(255, 0, 140, 0.55) 65%, transparent 80%)',
-                                filter: 'blur(5px)'
-                            }}
-                        />
+            <div className="flex h-full w-full items-stretch" style={pool(999)}>
+              <div className="flex flex-1 items-center gap-[14px] pl-[20px]">
+                {/* hexagonal spinner mark */}
+                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18.9 9.3V7.6L12 3.6 5.1 7.6v8l6.9 4 6.9-4v-1.7" />
+                </svg>
+                <span style={{ fontSize: 18.5, fontWeight: 500, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>Select</span>
+              </div>
 
-                        {/* Power Icon */}
-                        <Power className="w-[22px] h-[22px] text-slate-800 stroke-[2.4] relative z-10" />
-                    </div>
-
-                </div>
-
-                {/* =========================================================================
-                    ROW 2: SEARCH BAR ("With suggestions" + PLUS)
-                ========================================================================= */}
-                <div 
-                    className="w-full h-[64px] rounded-full flex items-center justify-between relative"
-                    style={{
-                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.45) 100%)',
-                        backdropFilter: 'blur(20px)',
-                        WebkitBackdropFilter: 'blur(20px)',
-                        padding: '4px',
-                        boxShadow: `
-                            0 2px 4px rgba(0, 0, 0, 0.04),
-                            0 14px 30px -4px rgba(35, 45, 65, 0.16),
-                            0 26px 48px -8px rgba(25, 35, 55, 0.12),
-                            inset 0 2px 2px #ffffff,
-                            inset 0 -2px 3px rgba(70, 85, 110, 0.25),
-                            inset 1px 0 2px rgba(255, 255, 255, 0.8),
-                            inset -1px 0 2px rgba(255, 255, 255, 0.8)
-                        `,
-                        border: '1.2px solid rgba(255, 255, 255, 0.95)'
-                    }}
+              <div className="relative flex items-center pl-4 pr-[7px]">
+                <span
+                  aria-hidden
+                  className="absolute left-0 top-[14%] bottom-[14%]"
+                  style={{ width: 1, background: 'linear-gradient(180deg, rgba(160,178,205,0), rgba(150,170,200,0.4), rgba(160,178,205,0))' }}
+                />
+                <span
+                  className="flex items-center justify-center transition-transform duration-200"
+                  style={{
+                    width: 46,
+                    height: 46,
+                    borderRadius: 13,
+                    background: checked
+                      ? 'linear-gradient(180deg, #4fd6a4 0%, #22c08a 48%, #12a173 100%)'
+                      : 'linear-gradient(180deg, rgba(255,255,255,0.7), rgba(225,232,242,0.7))',
+                    boxShadow: checked
+                      ? 'inset 0 1.5px 1.5px -0.5px rgba(255,255,255,0.9), inset 0 -2.5px 4px -1px rgba(4,110,78,0.6), 0 5px 14px -5px rgba(16,160,115,0.75)'
+                      : 'inset 0 1px 1px rgba(255,255,255,0.9), inset 0 0 0 1px rgba(160,178,205,0.35)',
+                  }}
                 >
-                    {/* Prismatic Rainbow Dispersion Flare on Right Cap */}
-                    <div 
-                        className="absolute right-0 top-0 bottom-0 w-24 rounded-full pointer-events-none -z-10"
-                        style={{
-                            background: 'radial-gradient(circle at 85% 65%, rgba(0, 220, 255, 0.9) 0%, rgba(255, 185, 0, 0.7) 35%, rgba(255, 0, 140, 0.55) 60%, transparent 80%)',
-                            filter: 'blur(7px)'
-                        }}
-                    />
+                  {checked && (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.9" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="m5.5 12.5 4.2 4.2 8.8-9.4" />
+                    </svg>
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
 
-                    {/* Left Frosted Input Box */}
-                    <div 
-                        className="flex-1 h-full rounded-l-full flex items-center gap-3 pl-4 pr-3 mr-1"
-                        style={{
-                            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(240, 243, 248, 0.6) 100%)',
-                            boxShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.9), inset 0 -1px 2px rgba(70, 85, 110, 0.08)'
-                        }}
-                    >
-                        <Search className="w-[18px] h-[18px] text-slate-600 stroke-[2.4] flex-shrink-0" />
-                        <input
-                            type="text"
-                            value={searchValue}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            className="bg-transparent border-none outline-none font-medium text-slate-700 text-[15.5px] w-full placeholder-slate-400 tracking-tight"
-                            placeholder="With suggestions"
-                        />
-                    </div>
+          {/* TOGGLE */}
+          <div
+            onClick={() => setToggled((v) => !v)}
+            className="relative shrink-0 cursor-pointer"
+            style={{ ...shell(999), width: 134, height: 78, padding: 9 }}
+          >
+            <Caustic
+              tone={
+                toggled
+                  ? 'radial-gradient(60% 60% at 50% 50%, rgba(20,196,142,0.85) 0%, rgba(120,228,192,0.55) 45%, rgba(255,255,255,0) 80%)'
+                  : 'radial-gradient(60% 60% at 50% 50%, rgba(150,170,195,0.4) 0%, rgba(255,255,255,0) 80%)'
+              }
+              blur={13}
+              style={{ left: '6%', right: '-4%', bottom: -12, height: 32, borderRadius: 999 }}
+            />
+            <div
+              className="relative h-full w-full transition-colors duration-300"
+              style={{
+                ...pool(999),
+                background: toggled
+                  ? 'linear-gradient(180deg, rgba(120,228,186,0.85) 0%, rgba(46,196,148,0.8) 45%, rgba(20,158,118,0.85) 100%)'
+                  : 'linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(214,222,234,0.7) 100%)',
+                boxShadow:
+                  'inset 0 2px 2px -0.5px rgba(255,255,255,0.85), inset 0 -2.5px 4px -1px rgba(6,96,72,0.35), inset 0 0 0 1px rgba(255,255,255,0.5)',
+              }}
+            >
+              <motion.span
+                className="absolute top-0 block"
+                animate={{ x: toggled ? 54 : 0 }}
+                transition={{ type: 'spring', stiffness: 460, damping: 34 }}
+                style={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: 999,
+                  background: 'radial-gradient(circle at 34% 24%, #ffffff 0%, #f6f8fb 52%, #d8dee8 100%)',
+                  boxShadow:
+                    '0 6px 14px -4px rgba(12,60,46,0.4), 0 2px 4px -1px rgba(12,60,46,0.22), inset 0 1.5px 1px -0.5px #ffffff',
+                }}
+              />
+            </div>
+          </div>
+        </motion.div>
 
-                    {/* Right Partitioned Glass Button with Plus Sign */}
-                    <button 
-                        className="w-[56px] h-full rounded-r-full flex items-center justify-center text-slate-800 transition-transform active:scale-95"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(225, 240, 255, 0.2) 50%, rgba(255, 235, 210, 0.25) 100%)',
-                            boxShadow: 'inset 0 1.5px 1.5px rgba(255, 255, 255, 0.9), inset 1px 0 0 rgba(255, 255, 255, 0.7)'
-                        }}
-                    >
-                        <Plus className="w-5 h-5 stroke-[2.4]" />
-                    </button>
+        {/* ===================================================================
+            ROW 4 — TABS · TOAST
+        =================================================================== */}
+        <motion.div {...row(3)} className="flex items-center gap-[22px]">
+          {/* TABS */}
+          <button
+            className="relative flex-1 transition-transform duration-200 active:scale-[0.99]"
+            style={{ ...shell(999), height: 74, padding: 10 }}
+          >
+            <Caustic blur={12} opacity={0.75} style={{ left: '30%', right: '4%', bottom: -11, height: 24, borderRadius: 999 }} />
+            <span className="flex h-full w-full items-center justify-center gap-[13px]" style={pool(999)}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7.4 9.6 12 5l4.6 4.6" />
+                <path d="M16.6 14.4 12 19l-4.6-4.6" />
+              </svg>
+              <span style={{ fontSize: 18.5, fontWeight: 500, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>Tabs</span>
+            </span>
+          </button>
+
+          {/* TOAST */}
+          <button
+            className="relative flex-[1.05] transition-transform duration-200 active:scale-[0.99]"
+            style={{ ...shell(999), height: 74, padding: 10 }}
+          >
+            <Caustic blur={12} style={{ right: -12, bottom: -12, width: 92, height: 44, borderRadius: 999 }} />
+            <Caustic blur={12} opacity={0.6} style={{ left: 0, bottom: -12, width: 90, height: 34, borderRadius: 999 }} />
+            <span
+              className="flex h-full w-full items-center justify-center gap-[11px]"
+              style={{
+                ...pool(999),
+                boxShadow:
+                  'inset 0 0 0 1.5px rgba(232,140,66,0.85), inset 0 1.5px 1px -0.5px rgba(255,255,255,0.9), 0 0 12px -4px rgba(232,140,66,0.5)',
+              }}
+            >
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="rgba(240,160,100,0.35)" stroke="rgba(226,128,58,0.9)" strokeWidth="1.5" strokeLinejoin="round">
+                <path d="M12 3.2 15.2 12 12 20.8 8.8 12 12 3.2Z" />
+                <path d="M3.2 12 12 8.8 20.8 12 12 15.2 3.2 12Z" />
+              </svg>
+              <span style={{ fontSize: 18.5, fontWeight: 500, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>Toast</span>
+            </span>
+          </button>
+        </motion.div>
+
+        {/* ===================================================================
+            ROW 5 — GLASS CARD · FIND FILES DIALOG
+        =================================================================== */}
+        <motion.div {...row(4)} className="flex items-stretch gap-[22px]">
+          {/* CARD */}
+          <div
+            className="relative flex-1 transition-transform duration-200 hover:-translate-y-[2px]"
+            style={{ ...shell(36), height: 200, padding: 13 }}
+          >
+            <Caustic blur={16} opacity={0.75} style={{ left: '26%', right: '-3%', bottom: -15, height: 38, borderRadius: 40 }} />
+            <Caustic blur={12} opacity={0.9} style={{ left: -14, bottom: 18, width: 58, height: 96, borderRadius: 999 }} />
+
+            <div className="relative flex h-full w-full items-end justify-end overflow-hidden p-[18px]" style={pool(27)}>
+              {/* diagonal specular sweep across the slab */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute"
+                style={{
+                  inset: 0,
+                  borderRadius: 27,
+                  background:
+                    'linear-gradient(138deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.72) 14%, rgba(255,255,255,0.18) 30%, rgba(255,255,255,0) 46%), radial-gradient(85% 65% at 14% 6%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 58%), linear-gradient(200deg, rgba(255,255,255,0) 58%, rgba(206,222,238,0.35) 100%)',
+                }}
+              />
+              {/* faint internal iridescence */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute"
+                style={{
+                  inset: 0,
+                  borderRadius: 27,
+                  opacity: 0.4,
+                  background:
+                    'radial-gradient(60% 50% at 16% 88%, rgba(255,160,200,0.4) 0%, rgba(255,255,255,0) 60%), radial-gradient(60% 50% at 88% 84%, rgba(120,210,255,0.4) 0%, rgba(255,255,255,0) 60%)',
+                }}
+              />
+              <span className="relative" style={{ fontSize: 19, fontWeight: 500, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
+                Card
+              </span>
+            </div>
+          </div>
+
+          {/* FIND FILES DIALOG */}
+          <div className="relative flex-[1.05]" style={{ ...shell(36), height: 200, padding: 12 }}>
+            <Caustic blur={16} opacity={0.75} style={{ left: '30%', right: '-3%', bottom: -15, height: 36, borderRadius: 40 }} />
+            <Caustic blur={12} opacity={0.85} style={{ right: -14, bottom: 26, width: 54, height: 90, borderRadius: 999 }} />
+
+            <div className="flex h-full w-full flex-col justify-between px-[18px] py-[17px]" style={pool(28)}>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div style={{ fontSize: 20, fontWeight: 600, letterSpacing: '-0.015em', lineHeight: 1.15 }}>Find files...</div>
+                  <div style={{ fontSize: 16.5, fontWeight: 400, color: '#5b616a', marginTop: 8 }}>Add collaborator</div>
                 </div>
+                <button className="mt-[2px] text-[#5b616a] transition-colors hover:text-[#22262b]" aria-label="Close">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round">
+                    <path d="m6 6 12 12M18 6 6 18" />
+                  </svg>
+                </button>
+              </div>
 
-                {/* =========================================================================
-                    ROW 3: SELECT | TOGGLE SWITCH
-                ========================================================================= */}
-                <div className="flex items-center gap-[14px] justify-between">
-                    
-                    {/* SELECT PILL */}
-                    <div 
-                        onClick={() => setSelectedActive(!selectedActive)}
-                        className="flex-[1.42] h-[62px] rounded-full flex items-center justify-between relative cursor-pointer active:scale-[0.98] transition-transform"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.45) 100%)',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            padding: '4px 5px 4px 18px',
-                            boxShadow: `
-                                0 2px 4px rgba(0, 0, 0, 0.04),
-                                0 14px 28px -4px rgba(35, 45, 65, 0.16),
-                                0 24px 44px -8px rgba(25, 35, 55, 0.12),
-                                inset 0 2px 2px #ffffff,
-                                inset 0 -2px 3px rgba(70, 85, 110, 0.25),
-                                inset 1px 0 2px rgba(255, 255, 255, 0.8),
-                                inset -1px 0 2px rgba(255, 255, 255, 0.8)
-                            `,
-                            border: '1.2px solid rgba(255, 255, 255, 0.95)'
-                        }}
-                    >
-                        {/* Reload Icon + Select Label */}
-                        <div className="flex items-center gap-2.5 text-slate-800 font-semibold text-[15.5px] tracking-tight">
-                            <RotateCcw className="w-[18px] h-[18px] stroke-[2.4] text-slate-700" />
-                            <span>Select</span>
-                        </div>
-
-                        {/* Mint Green Checkmark Squircle */}
-                        <div 
-                            className="w-[46px] h-[46px] rounded-[13px] flex items-center justify-center text-white"
-                            style={{
-                                background: selectedActive 
-                                    ? 'linear-gradient(145deg, #34d399 0%, #10b981 50%, #059669 100%)'
-                                    : 'linear-gradient(145deg, #cbd5e1 0%, #94a3b8 100%)',
-                                boxShadow: 'inset 0 1.5px 1.5px rgba(255, 255, 255, 0.85), inset 0 -2.5px 4px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(5, 150, 105, 0.45)'
-                            }}
-                        >
-                            <Check className="w-5 h-5 stroke-[3.2]" />
-                        </div>
-                    </div>
-
-                    {/* TOGGLE SWITCH (Emerald Jelly + White Ceramic Knob) */}
-                    <div 
-                        onClick={() => setToggled(!toggled)}
-                        className="w-[104px] h-[58px] p-[4px] rounded-full relative cursor-pointer transition-all duration-300 flex-shrink-0"
-                        style={{
-                            background: toggled 
-                                ? 'linear-gradient(135deg, rgba(20, 184, 166, 0.85) 0%, rgba(13, 148, 136, 0.7) 50%, rgba(15, 118, 110, 0.8) 100%)' 
-                                : 'linear-gradient(135deg, rgba(148, 163, 184, 0.45) 0%, rgba(100, 116, 139, 0.25) 100%)',
-                            backdropFilter: 'blur(16px)',
-                            border: '1.2px solid rgba(255, 255, 255, 0.95)',
-                            boxShadow: `
-                                0 2px 4px rgba(0, 0, 0, 0.05),
-                                0 14px 28px -4px rgba(13, 148, 136, 0.42),
-                                0 24px 44px -8px rgba(13, 148, 136, 0.25),
-                                inset 0 2.5px 3px rgba(255, 255, 255, 0.95),
-                                inset 0 -3px 5px rgba(0, 0, 0, 0.28)
-                            `
-                        }}
-                    >
-                        {/* Turquoise Floor Caustic Glow */}
-                        {toggled && (
-                            <div 
-                                className="absolute -inset-2 rounded-full pointer-events-none -z-10"
-                                style={{
-                                    background: 'radial-gradient(circle at 65% 90%, rgba(20, 184, 166, 0.85) 0%, rgba(45, 212, 191, 0.5) 45%, transparent 75%)',
-                                    filter: 'blur(9px)'
-                                }}
-                            />
-                        )}
-
-                        {/* Ceramic 3D White Knob with Top Specular Glow */}
-                        <motion.div 
-                            className="w-[48px] h-[48px] rounded-full"
-                            animate={{ x: toggled ? 46 : 0 }}
-                            transition={{ type: 'spring', stiffness: 500, damping: 32 }}
-                            style={{
-                                background: 'radial-gradient(circle at 35% 25%, #ffffff 0%, #f1f5f9 55%, #cbd5e1 100%)',
-                                boxShadow: `
-                                    0 6px 12px rgba(0, 0, 0, 0.26),
-                                    0 2px 4px rgba(0, 0, 0, 0.12),
-                                    inset 0 1.5px 1.5px #ffffff
-                                `
-                            }}
-                        />
-                    </div>
-
-                </div>
-
-                {/* =========================================================================
-                    ROW 4: TABS | TOAST
-                ========================================================================= */}
-                <div className="flex items-center gap-[14px] justify-between">
-                    
-                    {/* TABS PILL */}
-                    <div 
-                        className="flex-1 h-[56px] px-6 rounded-full flex items-center justify-center gap-2 text-slate-800 font-semibold text-[15px] cursor-pointer active:scale-[0.98] transition-transform"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.1) 45%, rgba(230, 242, 255, 0.3) 80%, rgba(255, 255, 255, 0.5) 100%)',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            border: '1.2px solid rgba(255, 255, 255, 0.95)',
-                            boxShadow: `
-                                0 2px 4px rgba(0, 0, 0, 0.04),
-                                0 14px 28px -4px rgba(35, 45, 65, 0.16),
-                                0 24px 44px -8px rgba(25, 35, 55, 0.12),
-                                inset 0 2px 2px #ffffff,
-                                inset 0 -2px 3px rgba(70, 85, 110, 0.25),
-                                inset 1px 0 2px rgba(255, 255, 255, 0.8),
-                                inset -1px 0 2px rgba(255, 255, 255, 0.8)
-                            `
-                        }}
-                    >
-                        <ChevronsUpDown className="w-[18px] h-[18px] stroke-[2.4] text-slate-700" />
-                        <span>Tabs</span>
-                    </div>
-
-                    {/* TOAST PILL WITH AMBER INNER CONTOUR WIRE */}
-                    <div 
-                        className="flex-1 h-[56px] p-[4px] rounded-full relative cursor-pointer active:scale-[0.98] transition-transform"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 245, 235, 0.3) 80%, rgba(255, 255, 255, 0.5) 100%)',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            border: '1.2px solid rgba(255, 255, 255, 0.95)',
-                            boxShadow: `
-                                0 2px 4px rgba(0, 0, 0, 0.04),
-                                0 14px 28px -4px rgba(35, 45, 65, 0.16),
-                                0 24px 44px -8px rgba(25, 35, 55, 0.12),
-                                inset 0 2px 2px #ffffff,
-                                inset 0 -2px 3px rgba(70, 85, 110, 0.25),
-                                inset 1px 0 2px rgba(255, 255, 255, 0.8),
-                                inset -1px 0 2px rgba(255, 255, 255, 0.8)
-                            `
-                        }}
-                    >
-                        {/* Prismatic Rainbow Flare on Bottom-Right */}
-                        <div 
-                            className="absolute -right-2 -bottom-2 w-14 h-12 pointer-events-none -z-10 rounded-full"
-                            style={{
-                                background: 'radial-gradient(circle at 60% 60%, rgba(0, 220, 255, 0.85) 0%, rgba(255, 185, 0, 0.7) 35%, rgba(255, 0, 130, 0.55) 65%, transparent 80%)',
-                                filter: 'blur(5px)'
-                            }}
-                        />
-
-                        {/* Thin Glowing Amber Inner Contour Wire Ring */}
-                        <div 
-                            className="w-full h-full rounded-full flex items-center justify-center gap-2 text-slate-800 font-semibold text-[15px] border-[1.5px] border-amber-500/75"
-                            style={{
-                                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 245, 230, 0.15) 100%)',
-                                boxShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.9), 0 2px 8px rgba(245, 158, 11, 0.22)'
-                            }}
-                        >
-                            {/* 4-point Diamond Star */}
-                            <svg className="w-4 h-4 text-amber-500 fill-amber-400/40" viewBox="0 0 24 24">
-                                <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-                            </svg>
-                            <span>Toast</span>
-                        </div>
-                    </div>
-
-                </div>
-
-                {/* =========================================================================
-                    ROW 5: PRISMATIC GLASS CARD | PRO PLAN DIALOG MODAL
-                ========================================================================= */}
-                <div className="flex items-stretch gap-[14px] justify-between">
-                    
-                    {/* PRISMATIC GLASS CARD */}
-                    <div 
-                        className="flex-1 h-[155px] p-5 rounded-[26px] flex items-end justify-end text-slate-800 font-semibold text-[16px] relative overflow-hidden active:scale-[0.98] transition-transform"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 245, 240, 0.15) 25%, rgba(230, 250, 255, 0.25) 60%, rgba(255, 255, 255, 0.55) 100%)',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            border: '1.2px solid rgba(255, 255, 255, 0.95)',
-                            boxShadow: `
-                                0 2px 4px rgba(0, 0, 0, 0.04),
-                                0 16px 32px -4px rgba(35, 45, 65, 0.18),
-                                0 28px 50px -8px rgba(25, 35, 55, 0.14),
-                                inset 0 2px 2px #ffffff,
-                                inset 0 -2px 3px rgba(70, 85, 110, 0.25),
-                                inset 1px 0 2px rgba(255, 255, 255, 0.8),
-                                inset -1px 0 2px rgba(255, 255, 255, 0.8)
-                            `
-                        }}
-                    >
-                        {/* Top Curved Glare Specular Sheen */}
-                        <div 
-                            className="absolute top-0 left-0 right-0 h-[65%] rounded-t-[26px] pointer-events-none"
-                            style={{
-                                background: 'radial-gradient(ellipse at 30% 0%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.3) 50%, transparent 80%)'
-                            }}
-                        />
-
-                        {/* Iridescent Rainbow Pearlescent internal sheen */}
-                        <div 
-                            className="absolute -inset-10 pointer-events-none"
-                            style={{
-                                background: 'radial-gradient(circle at 45% 45%, rgba(255, 220, 240, 0.5) 0%, rgba(220, 245, 255, 0.4) 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%)'
-                            }}
-                        />
-
-                        {/* Bottom-right text "Card" */}
-                        <span className="relative z-10 font-bold text-slate-800 tracking-tight">Card</span>
-                    </div>
-
-                    {/* PRO PLAN FLOATING GLASS MODAL */}
-                    <div 
-                        className="flex-[1.2] h-[155px] p-4 px-[18px] rounded-[26px] flex flex-col justify-between relative"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(240, 248, 255, 0.25) 100%)',
-                            backdropFilter: 'blur(20px)',
-                            WebkitBackdropFilter: 'blur(20px)',
-                            border: '1.2px solid rgba(255, 255, 255, 0.95)',
-                            boxShadow: `
-                                0 2px 4px rgba(0, 0, 0, 0.04),
-                                0 16px 32px -4px rgba(35, 45, 65, 0.18),
-                                0 28px 50px -8px rgba(25, 35, 55, 0.14),
-                                inset 0 2px 2px #ffffff,
-                                inset 0 -2px 3px rgba(70, 85, 110, 0.25),
-                                inset 1px 0 2px rgba(255, 255, 255, 0.8),
-                                inset -1px 0 2px rgba(255, 255, 255, 0.8)
-                            `
-                        }}
-                    >
-                        <div className="flex items-start justify-between">
-                            <div>
-                                <h3 className="font-bold text-slate-900 text-[16px] leading-tight">Find files...</h3>
-                                <p className="text-[12.5px] text-slate-500 font-medium mt-0.5">Add collaborator</p>
-                            </div>
-                            <button className="text-slate-400 hover:text-slate-800 transition-colors p-0.5">
-                                <X className="w-4 h-4 stroke-[2.4]" />
-                            </button>
-                        </div>
-
-                        {/* Glossy Candy Cobalt Blue Core */}
-                        <button 
-                            className="w-full h-[42px] rounded-full text-white font-bold text-[15px] tracking-tight hover:brightness-105 active:scale-[0.98] transition-all relative overflow-hidden"
-                            style={{
-                                background: 'linear-gradient(180deg, #38bdf8 0%, #0284c7 45%, #0369a1 80%, #075985 100%)',
-                                boxShadow: `
-                                    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.9),
-                                    inset 0 -2.5px 4px rgba(3, 105, 161, 0.9),
-                                    0 5px 16px rgba(2, 132, 199, 0.55)
-                                `,
-                                textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
-                            }}
-                        >
-                            <div className="absolute top-[2px] left-3.5 right-3.5 h-[42%] rounded-full bg-gradient-to-b from-white/70 to-transparent pointer-events-none" />
-                            Pro plan
-                        </button>
-                    </div>
-
-                </div>
-
-            </motion.div>
-        </main>
-    );
+              <button
+                className="relative w-full overflow-hidden transition-transform duration-200 active:scale-[0.985]"
+                style={{
+                  height: 52,
+                  borderRadius: 999,
+                  background: 'linear-gradient(180deg, #4aa6f5 0%, #1d76e2 40%, #0f52c4 74%, #0b3ea4 100%)',
+                  boxShadow:
+                    'inset 0 2px 2px -0.5px rgba(255,255,255,0.85), inset 0 -3px 5px -1px rgba(6,40,110,0.8), 0 7px 18px -6px rgba(20,90,200,0.7)',
+                }}
+              >
+                <Gloss inset={14} height="44%" />
+                <span
+                  className="relative"
+                  style={{ color: '#fff', fontSize: 18.5, fontWeight: 500, letterSpacing: '-0.01em', textShadow: '0 1px 2px rgba(6,30,80,0.35)' }}
+                >
+                  Pro plan
+                </span>
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
 }
