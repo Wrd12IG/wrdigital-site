@@ -6,36 +6,73 @@ import { Search, Power, ChevronDown, Sparkles, X, Check, ArrowRight, RotateCcw }
 export default function GlassPreviewPage() {
     const [toggled, setToggled] = useState(true);
     const [searchValue, setSearchValue] = useState('With suggestions');
+    const [showBgElements, setShowBgElements] = useState(true);
 
     return (
         <div className="min-h-screen bg-[#e8ecf2] text-slate-800 flex flex-col items-center justify-center p-4 sm:p-8 md:p-12 relative overflow-hidden select-none">
             
-            {/* Global Studio Illumination & Soft Floor Gradient */}
+            {/* Global Studio Illumination Floor */}
             <div 
-                className="absolute inset-0 -z-10"
+                className="absolute inset-0 -z-30"
                 style={{
-                    background: 'radial-gradient(circle at 50% 10%, #ffffff 0%, #eef2f7 40%, #e2e8f0 75%, #d5dde8 100%)'
+                    background: 'radial-gradient(circle at 50% 10%, #ffffff 0%, #edf1f7 40%, #e2e8f0 75%, #d5dde8 100%)'
                 }}
             />
-            
-            {/* Ambient Lighting Dome */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[450px] bg-white/60 rounded-full blur-3xl -z-10 pointer-events-none" />
 
-            {/* Header */}
-            <div className="text-center mb-10 max-w-lg">
-                <span className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full text-[11px] font-extrabold tracking-widest uppercase bg-white/80 border border-white text-slate-700 shadow-sm mb-3 backdrop-blur-md">
+            {/* Dynamic Colorful Background Spheres — to highlight real optical transparency */}
+            {showBgElements && (
+                <div className="absolute inset-0 pointer-events-none -z-20 overflow-hidden">
+                    {/* Orange-Amber Orb top left */}
+                    <div 
+                        className="absolute top-1/4 left-[15%] w-72 h-72 rounded-full blur-2xl opacity-60 animate-pulse"
+                        style={{ background: 'radial-gradient(circle, #fb923c 0%, #f97316 60%, transparent 70%)' }}
+                    />
+                    {/* Cyan-Blue Orb center right */}
+                    <div 
+                        className="absolute top-1/3 right-[15%] w-80 h-80 rounded-full blur-2xl opacity-55"
+                        style={{ background: 'radial-gradient(circle, #38bdf8 0%, #0284c7 60%, transparent 70%)' }}
+                    />
+                    {/* Purple-Pink Orb bottom center */}
+                    <div 
+                        className="absolute bottom-1/4 left-[30%] w-96 h-96 rounded-full blur-3xl opacity-45"
+                        style={{ background: 'radial-gradient(circle, #c084fc 0%, #a855f7 60%, transparent 70%)' }}
+                    />
+                    {/* Emerald Orb center */}
+                    <div 
+                        className="absolute top-1/2 left-[45%] w-60 h-60 rounded-full blur-2xl opacity-40"
+                        style={{ background: 'radial-gradient(circle, #34d399 0%, #059669 60%, transparent 70%)' }}
+                    />
+                </div>
+            )}
+
+            {/* Header & Controls */}
+            <div className="text-center mb-8 max-w-lg relative z-10">
+                <span className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full text-[11px] font-extrabold tracking-widest uppercase bg-white/60 border border-white/80 text-slate-700 shadow-sm mb-3 backdrop-blur-md">
                     <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                    Liquid Glass System 2026
+                    Ultra-Clear Liquid Glass
                 </span>
                 <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-                    Hyper-Realistic 3D Glass UI
+                    Pure Crystal Transparency
                 </h1>
                 <p className="text-xs sm:text-sm text-slate-500 mt-2 font-medium">
-                    Riproduzione 1:1 con lenti in cristallo spesso, riflessi speculari Fresnel, dispersione arcobaleno e nuclei volumetrici.
+                    Trasparenza pura all&apos;85-90% con rifrazione interna, lenti spesse e riflessi speculari sui bordi.
                 </p>
+
+                {/* Transparency Tester Toggle */}
+                <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-white/90 shadow-sm backdrop-blur-md text-xs font-semibold text-slate-600">
+                    <span>Luci di contrasto sfondo:</span>
+                    <button
+                        onClick={() => setShowBgElements(!showBgElements)}
+                        className={`px-3 py-0.5 rounded-full text-xs font-bold transition-all ${
+                            showBgElements ? 'bg-slate-900 text-white shadow-sm' : 'bg-slate-200 text-slate-600'
+                        }`}
+                    >
+                        {showBgElements ? 'ON (Mostra Trasparenza)' : 'OFF (Sfondo Studio Chiaro)'}
+                    </button>
+                </div>
             </div>
 
-            {/* UI Canvas Stage (Exact 1:1 Layout) */}
+            {/* UI Canvas Stage (Exact 1:1 Pure Optical Glass Layout) */}
             <div className="w-full max-w-[500px] flex flex-col gap-6 relative z-10">
 
                 {/* =========================================================================
@@ -47,15 +84,15 @@ export default function GlassPreviewPage() {
                     <div 
                         className="flex-[1.35] h-[64px] p-[5px] rounded-full relative cursor-pointer group transition-all duration-300 hover:-translate-y-0.5"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.2) 40%, rgba(240,246,255,0.3) 70%, rgba(255,255,255,0.7) 100%)',
-                            backdropFilter: 'blur(24px) saturate(200%)',
-                            WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.05) 40%, rgba(240,246,255,0.1) 70%, rgba(255,255,255,0.25) 100%)',
+                            backdropFilter: 'blur(20px) saturate(220%)',
+                            WebkitBackdropFilter: 'blur(20px) saturate(220%)',
+                            border: '1.5px solid rgba(255,255,255,0.85)',
                             boxShadow: `
-                                inset 0 2px 1.5px 0 rgba(255,255,255,1),
-                                inset 0 0 0 1px rgba(255,255,255,0.8),
-                                inset 0 -3px 6px 0 rgba(100,120,150,0.25),
+                                inset 0 2px 1.5px 0 rgba(255,255,255,0.95),
+                                inset 0 -2.5px 5px 0 rgba(100,120,150,0.2),
                                 0 4px 8px rgba(0,0,0,0.04),
-                                0 18px 36px -6px rgba(45,65,95,0.22),
+                                0 16px 32px -6px rgba(45,65,95,0.2),
                                 0 28px 56px -12px rgba(20,35,60,0.12)
                             `
                         }}
@@ -69,7 +106,7 @@ export default function GlassPreviewPage() {
                             }}
                         />
 
-                        {/* Glossy Orange Floating Core */}
+                        {/* Glossy Orange Floating Core Inside Transparent Crystal */}
                         <div 
                             className="w-full h-full rounded-full flex items-center justify-center text-white font-bold text-[16px] tracking-tight relative overflow-hidden shadow-lg transition-transform group-hover:scale-[1.01]"
                             style={{
@@ -78,25 +115,24 @@ export default function GlassPreviewPage() {
                                 textShadow: '0 1px 2px rgba(0,0,0,0.3)'
                             }}
                         >
-                            {/* Specular Glint */}
                             <div className="absolute top-[2px] left-3 right-3 h-[38%] rounded-full bg-gradient-to-b from-white/60 to-transparent pointer-events-none" />
                             Start project
                         </div>
                     </div>
 
-                    {/* SECONDARY BUTTON */}
+                    {/* SECONDARY BUTTON (PURE CLEAR CRYSTAL) */}
                     <div 
                         className="flex-1 h-[64px] p-[5px] rounded-full relative cursor-pointer group transition-all duration-300 hover:-translate-y-0.5"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.2) 40%, rgba(240,246,255,0.3) 70%, rgba(255,255,255,0.7) 100%)',
-                            backdropFilter: 'blur(24px) saturate(200%)',
-                            WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.08) 40%, rgba(240,246,255,0.12) 70%, rgba(255,255,255,0.3) 100%)',
+                            backdropFilter: 'blur(20px) saturate(220%)',
+                            WebkitBackdropFilter: 'blur(20px) saturate(220%)',
+                            border: '1.5px solid rgba(255,255,255,0.85)',
                             boxShadow: `
-                                inset 0 2px 1.5px 0 rgba(255,255,255,1),
-                                inset 0 0 0 1px rgba(255,255,255,0.8),
-                                inset 0 -3px 6px 0 rgba(100,120,150,0.25),
+                                inset 0 2px 1.5px 0 rgba(255,255,255,0.95),
+                                inset 0 -2.5px 5px 0 rgba(100,120,150,0.2),
                                 0 4px 8px rgba(0,0,0,0.04),
-                                0 18px 36px -6px rgba(45,65,95,0.22),
+                                0 16px 32px -6px rgba(45,65,95,0.2),
                                 0 28px 56px -12px rgba(20,35,60,0.12)
                             `
                         }}
@@ -105,7 +141,7 @@ export default function GlassPreviewPage() {
                         <div 
                             className="absolute -inset-1.5 rounded-full pointer-events-none -z-10"
                             style={{
-                                background: 'radial-gradient(circle at 85% 85%, rgba(0,210,255,0.65) 0%, rgba(147,197,253,0.35) 40%, transparent 70%)',
+                                background: 'radial-gradient(circle at 85% 85%, rgba(0,210,255,0.7) 0%, rgba(147,197,253,0.35) 40%, transparent 70%)',
                                 filter: 'blur(8px)'
                             }}
                         />
@@ -113,27 +149,27 @@ export default function GlassPreviewPage() {
                         <div 
                             className="w-full h-full rounded-full flex items-center justify-center text-slate-800 font-semibold text-[15.5px]"
                             style={{
-                                background: 'linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(235,242,250,0.55) 50%, rgba(215,228,245,0.65) 100%)',
-                                boxShadow: 'inset 0 1.5px 1.5px rgba(255,255,255,0.95), inset 0 -1.5px 3px rgba(100,130,170,0.2), 0 4px 12px rgba(70,90,120,0.12)'
+                                background: 'linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(240,246,255,0.05) 50%, rgba(220,235,250,0.2) 100%)',
+                                boxShadow: 'inset 0 1.5px 1.5px rgba(255,255,255,0.8), inset 0 -1.5px 3px rgba(100,130,170,0.15)'
                             }}
                         >
                             Secondary
                         </div>
                     </div>
 
-                    {/* POWER SQUARE BUTTON */}
+                    {/* POWER SQUARE BUTTON (CRYSTAL BLOCK) */}
                     <div 
                         className="w-[64px] h-[64px] p-[5px] rounded-[22px] relative flex-shrink-0 cursor-pointer group transition-all duration-300 hover:-translate-y-0.5"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.2) 40%, rgba(240,246,255,0.3) 70%, rgba(255,255,255,0.7) 100%)',
-                            backdropFilter: 'blur(24px) saturate(200%)',
-                            WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.08) 40%, rgba(240,246,255,0.12) 70%, rgba(255,255,255,0.3) 100%)',
+                            backdropFilter: 'blur(20px) saturate(220%)',
+                            WebkitBackdropFilter: 'blur(20px) saturate(220%)',
+                            border: '1.5px solid rgba(255,255,255,0.85)',
                             boxShadow: `
-                                inset 0 2px 1.5px 0 rgba(255,255,255,1),
-                                inset 0 0 0 1px rgba(255,255,255,0.8),
-                                inset 0 -3px 6px 0 rgba(100,120,150,0.25),
+                                inset 0 2px 1.5px 0 rgba(255,255,255,0.95),
+                                inset 0 -2.5px 5px 0 rgba(100,120,150,0.2),
                                 0 4px 8px rgba(0,0,0,0.04),
-                                0 18px 36px -6px rgba(45,65,95,0.22)
+                                0 16px 32px -6px rgba(45,65,95,0.2)
                             `
                         }}
                     >
@@ -149,8 +185,8 @@ export default function GlassPreviewPage() {
                         <div 
                             className="w-full h-full rounded-[17px] flex items-center justify-center text-slate-800"
                             style={{
-                                background: 'linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(235,242,250,0.55) 50%, rgba(215,228,245,0.65) 100%)',
-                                boxShadow: 'inset 0 1.5px 1.5px rgba(255,255,255,0.95), inset 0 -1.5px 3px rgba(100,130,170,0.2)'
+                                background: 'linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(240,246,255,0.05) 50%, rgba(220,235,250,0.2) 100%)',
+                                boxShadow: 'inset 0 1.5px 1.5px rgba(255,255,255,0.8), inset 0 -1.5px 3px rgba(100,130,170,0.15)'
                             }}
                         >
                             <Power className="w-[22px] h-[22px] stroke-[2.4]" />
@@ -165,15 +201,15 @@ export default function GlassPreviewPage() {
                 <div 
                     className="w-full h-[66px] p-[5px] rounded-full flex items-center justify-between relative"
                     style={{
-                        background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.2) 40%, rgba(240,246,255,0.3) 70%, rgba(255,255,255,0.7) 100%)',
-                        backdropFilter: 'blur(24px) saturate(200%)',
-                        WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.06) 40%, rgba(240,246,255,0.1) 70%, rgba(255,255,255,0.25) 100%)',
+                        backdropFilter: 'blur(20px) saturate(220%)',
+                        WebkitBackdropFilter: 'blur(20px) saturate(220%)',
+                        border: '1.5px solid rgba(255,255,255,0.85)',
                         boxShadow: `
-                            inset 0 2px 1.5px 0 rgba(255,255,255,1),
-                            inset 0 0 0 1px rgba(255,255,255,0.8),
-                            inset 0 -3px 6px 0 rgba(100,120,150,0.25),
+                            inset 0 2px 1.5px 0 rgba(255,255,255,0.95),
+                            inset 0 -2.5px 5px 0 rgba(100,120,150,0.2),
                             0 4px 8px rgba(0,0,0,0.04),
-                            0 20px 42px -8px rgba(45,65,95,0.24)
+                            0 18px 36px -8px rgba(45,65,95,0.22)
                         `
                     }}
                 >
@@ -186,29 +222,29 @@ export default function GlassPreviewPage() {
                         }}
                     />
 
-                    {/* Inner Search Cutout */}
+                    {/* Inner Semi-Transparent Cutout */}
                     <div 
                         className="flex-1 h-full rounded-l-full pl-5 pr-3 flex items-center gap-3"
                         style={{
-                            background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(245,248,252,0.8) 100%)',
-                            boxShadow: 'inset 0 1.5px 2px rgba(255,255,255,1), inset 0 -1px 2px rgba(100,130,170,0.15)'
+                            background: 'linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(245,248,252,0.4) 100%)',
+                            boxShadow: 'inset 0 1.5px 2px rgba(255,255,255,0.9), inset 0 -1px 2px rgba(100,130,170,0.1)'
                         }}
                     >
-                        <Search className="w-5 h-5 text-slate-500 stroke-[2.4] flex-shrink-0" />
+                        <Search className="w-5 h-5 text-slate-600 stroke-[2.4] flex-shrink-0" />
                         <input
                             type="text"
                             value={searchValue}
                             onChange={(e) => setSearchValue(e.target.value)}
-                            className="bg-transparent border-none outline-none font-medium text-slate-700 text-[16px] w-full"
+                            className="bg-transparent border-none outline-none font-medium text-slate-800 text-[16px] w-full"
                         />
                     </div>
 
                     {/* Plus Cap */}
                     <button 
-                        className="w-[56px] h-full rounded-r-full flex items-center justify-center text-slate-700 text-2xl font-light border-l border-white/80 hover:text-black transition-transform hover:scale-105 active:scale-95"
+                        className="w-[56px] h-full rounded-r-full flex items-center justify-center text-slate-800 text-2xl font-light border-l border-white/60 hover:text-black transition-transform hover:scale-105 active:scale-95"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(215,235,255,0.55) 50%, rgba(255,230,200,0.45) 100%)',
-                            boxShadow: 'inset 0 1.5px 1.5px rgba(255,255,255,0.95)'
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(215,235,255,0.15) 50%, rgba(255,230,200,0.15) 100%)',
+                            boxShadow: 'inset 0 1.5px 1.5px rgba(255,255,255,0.85)'
                         }}
                     >
                         +
@@ -224,14 +260,14 @@ export default function GlassPreviewPage() {
                     <div 
                         className="flex-[1.4] h-[62px] p-[5px] pl-6 rounded-full flex items-center justify-between relative cursor-pointer group transition-all duration-300 hover:-translate-y-0.5"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.2) 40%, rgba(240,246,255,0.3) 70%, rgba(255,255,255,0.7) 100%)',
-                            backdropFilter: 'blur(24px) saturate(200%)',
-                            WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.06) 40%, rgba(240,246,255,0.1) 70%, rgba(255,255,255,0.25) 100%)',
+                            backdropFilter: 'blur(20px) saturate(220%)',
+                            WebkitBackdropFilter: 'blur(20px) saturate(220%)',
+                            border: '1.5px solid rgba(255,255,255,0.85)',
                             boxShadow: `
-                                inset 0 2px 1.5px 0 rgba(255,255,255,1),
-                                inset 0 0 0 1px rgba(255,255,255,0.8),
-                                inset 0 -3px 6px 0 rgba(100,120,150,0.25),
-                                0 18px 36px -6px rgba(45,65,95,0.22)
+                                inset 0 2px 1.5px 0 rgba(255,255,255,0.95),
+                                inset 0 -2.5px 5px 0 rgba(100,120,150,0.2),
+                                0 16px 32px -6px rgba(45,65,95,0.2)
                             `
                         }}
                     >
@@ -251,15 +287,17 @@ export default function GlassPreviewPage() {
                         </div>
                     </div>
 
-                    {/* EMERALD JELLY TOGGLE */}
+                    {/* EMERALD JELLY TOGGLE (TRANSLUCENT RESIN) */}
                     <div 
                         onClick={() => setToggled(!toggled)}
                         className="w-[104px] h-[58px] p-1 rounded-full relative cursor-pointer transition-all duration-300 flex-shrink-0"
                         style={{
                             background: toggled 
-                                ? 'linear-gradient(135deg, rgba(20, 184, 166, 0.8) 0%, rgba(13, 148, 136, 0.6) 50%, rgba(15, 118, 110, 0.7) 100%)' 
-                                : 'linear-gradient(135deg, rgba(148, 163, 184, 0.5) 0%, rgba(100, 116, 139, 0.4) 100%)',
-                            boxShadow: 'inset 0 2px 3px rgba(255, 255, 255, 0.85), inset 0 -3px 6px rgba(0, 0, 0, 0.25), 0 14px 28px -4px rgba(13, 148, 136, 0.45), 0 6px 12px rgba(0, 0, 0, 0.1)'
+                                ? 'linear-gradient(135deg, rgba(20, 184, 166, 0.65) 0%, rgba(13, 148, 136, 0.45) 50%, rgba(15, 118, 110, 0.55) 100%)' 
+                                : 'linear-gradient(135deg, rgba(148, 163, 184, 0.35) 0%, rgba(100, 116, 139, 0.2) 100%)',
+                            backdropFilter: 'blur(16px)',
+                            border: '1.5px solid rgba(255,255,255,0.85)',
+                            boxShadow: 'inset 0 2px 3px rgba(255, 255, 255, 0.85), inset 0 -3px 6px rgba(0, 0, 0, 0.2), 0 14px 28px -4px rgba(13, 148, 136, 0.4), 0 6px 12px rgba(0, 0, 0, 0.08)'
                         }}
                     >
                         {/* Cyan-Green Caustic Floor Glow */}
@@ -289,18 +327,18 @@ export default function GlassPreviewPage() {
                 ========================================================================= */}
                 <div className="flex items-center gap-4 justify-between">
                     
-                    {/* TABS PILL */}
+                    {/* TABS PILL (CLEAR GLASS) */}
                     <div 
                         className="flex-1 h-[56px] px-6 rounded-full flex items-center justify-center gap-2.5 text-slate-800 font-semibold text-[15px] cursor-pointer hover:-translate-y-0.5 transition-all"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.2) 40%, rgba(240,246,255,0.3) 70%, rgba(255,255,255,0.7) 100%)',
-                            backdropFilter: 'blur(24px) saturate(200%)',
-                            WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.06) 40%, rgba(240,246,255,0.1) 70%, rgba(255,255,255,0.25) 100%)',
+                            backdropFilter: 'blur(20px) saturate(220%)',
+                            WebkitBackdropFilter: 'blur(20px) saturate(220%)',
+                            border: '1.5px solid rgba(255,255,255,0.85)',
                             boxShadow: `
-                                inset 0 2px 1.5px 0 rgba(255,255,255,1),
-                                inset 0 0 0 1px rgba(255,255,255,0.8),
-                                inset 0 -3px 6px 0 rgba(100,120,150,0.25),
-                                0 18px 36px -6px rgba(45,65,95,0.2)
+                                inset 0 2px 1.5px 0 rgba(255,255,255,0.95),
+                                inset 0 -2.5px 5px 0 rgba(100,120,150,0.2),
+                                0 16px 32px -6px rgba(45,65,95,0.18)
                             `
                         }}
                     >
@@ -312,14 +350,14 @@ export default function GlassPreviewPage() {
                     <div 
                         className="flex-1 h-[56px] p-[5px] rounded-full relative cursor-pointer hover:-translate-y-0.5 transition-all"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.2) 40%, rgba(240,246,255,0.3) 70%, rgba(255,255,255,0.7) 100%)',
-                            backdropFilter: 'blur(24px) saturate(200%)',
-                            WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.06) 40%, rgba(240,246,255,0.1) 70%, rgba(255,255,255,0.25) 100%)',
+                            backdropFilter: 'blur(20px) saturate(220%)',
+                            WebkitBackdropFilter: 'blur(20px) saturate(220%)',
+                            border: '1.5px solid rgba(255,255,255,0.85)',
                             boxShadow: `
-                                inset 0 2px 1.5px 0 rgba(255,255,255,1),
-                                inset 0 0 0 1px rgba(255,255,255,0.8),
-                                inset 0 -3px 6px 0 rgba(100,120,150,0.25),
-                                0 18px 36px -6px rgba(45,65,95,0.2)
+                                inset 0 2px 1.5px 0 rgba(255,255,255,0.95),
+                                inset 0 -2.5px 5px 0 rgba(100,120,150,0.2),
+                                0 16px 32px -6px rgba(45,65,95,0.18)
                             `
                         }}
                     >
@@ -327,8 +365,8 @@ export default function GlassPreviewPage() {
                         <div 
                             className="w-full h-full rounded-full flex items-center justify-center gap-2 text-slate-800 font-semibold text-[15px] border-[1.5px] border-amber-500/60"
                             style={{
-                                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 245, 230, 0.35) 100%)',
-                                boxShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.85), 0 2px 8px rgba(245, 158, 11, 0.18)'
+                                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 245, 230, 0.1) 100%)',
+                                boxShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.85), 0 2px 8px rgba(245, 158, 11, 0.15)'
                             }}
                         >
                             <Sparkles className="w-4 h-4 text-amber-500 fill-amber-400/30" />
@@ -343,18 +381,18 @@ export default function GlassPreviewPage() {
                 ========================================================================= */}
                 <div className="flex items-stretch gap-4 justify-between">
                     
-                    {/* PRISMATIC GLASS CARD */}
+                    {/* PRISMATIC GLASS CARD (OPTICAL SLAB) */}
                     <div 
                         className="flex-1 h-[155px] p-6 rounded-[28px] flex items-end justify-end text-slate-800 font-semibold text-[17px] relative overflow-hidden"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,245,240,0.4) 25%, rgba(230,250,255,0.45) 60%, rgba(255,255,255,0.8) 100%)',
-                            backdropFilter: 'blur(24px) saturate(200%)',
-                            WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,245,240,0.1) 25%, rgba(230,250,255,0.15) 60%, rgba(255,255,255,0.35) 100%)',
+                            backdropFilter: 'blur(20px) saturate(220%)',
+                            WebkitBackdropFilter: 'blur(20px) saturate(220%)',
+                            border: '1.5px solid rgba(255,255,255,0.85)',
                             boxShadow: `
-                                inset 0 2px 1.5px 0 rgba(255,255,255,1),
-                                inset 0 0 0 1px rgba(255,255,255,0.8),
-                                inset 0 -3px 6px 0 rgba(100,120,150,0.25),
-                                0 24px 50px -10px rgba(45,65,95,0.24)
+                                inset 0 2px 1.5px 0 rgba(255,255,255,0.95),
+                                inset 0 -2.5px 5px 0 rgba(100,120,150,0.2),
+                                0 20px 45px -10px rgba(45,65,95,0.22)
                             `
                         }}
                     >
@@ -362,7 +400,7 @@ export default function GlassPreviewPage() {
                         <div 
                             className="absolute -inset-10 pointer-events-none"
                             style={{
-                                background: 'radial-gradient(circle at 40% 40%, rgba(255,220,240,0.45) 0%, rgba(220,245,255,0.4) 30%, rgba(255,255,255,0.5) 50%, transparent 70%)'
+                                background: 'radial-gradient(circle at 40% 40%, rgba(255,220,240,0.4) 0%, rgba(220,245,255,0.3) 30%, rgba(255,255,255,0.35) 50%, transparent 70%)'
                             }}
                         />
                         <span className="relative z-10">Card</span>
@@ -372,14 +410,14 @@ export default function GlassPreviewPage() {
                     <div 
                         className="flex-[1.25] h-[155px] p-4 px-5 rounded-[28px] flex flex-col justify-between relative"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,246,255,0.5) 100%)',
-                            backdropFilter: 'blur(24px) saturate(200%)',
-                            WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(240,246,255,0.15) 100%)',
+                            backdropFilter: 'blur(20px) saturate(220%)',
+                            WebkitBackdropFilter: 'blur(20px) saturate(220%)',
+                            border: '1.5px solid rgba(255,255,255,0.85)',
                             boxShadow: `
-                                inset 0 2px 1.5px 0 rgba(255,255,255,1),
-                                inset 0 0 0 1px rgba(255,255,255,0.8),
-                                inset 0 -3px 6px 0 rgba(100,120,150,0.25),
-                                0 24px 50px -10px rgba(45,65,95,0.24)
+                                inset 0 2px 1.5px 0 rgba(255,255,255,0.95),
+                                inset 0 -2.5px 5px 0 rgba(100,120,150,0.2),
+                                0 20px 45px -10px rgba(45,65,95,0.22)
                             `
                         }}
                     >
