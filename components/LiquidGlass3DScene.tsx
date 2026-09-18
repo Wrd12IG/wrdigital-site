@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { 
     MeshTransmissionMaterial, 
     RoundedBox, 
     Text, 
-    Environment, 
     ContactShadows, 
     Float,
     OrbitControls 
@@ -15,7 +14,7 @@ import * as THREE from 'three';
 
 // --- Single 3D Glass Shell Primitive ---
 function GlassPill({ 
-    args = [2.2, 0.7, 0.35, 16], 
+    args = [2.2, 0.7, 0.35], 
     radius = 0.35, 
     children, 
     onClick, 
@@ -42,15 +41,15 @@ function GlassPill({
             <RoundedBox args={args} radius={radius} smoothness={8} castShadow receiveShadow>
                 <MeshTransmissionMaterial
                     backside
-                    samples={10}
-                    resolution={512}
+                    samples={6}
+                    resolution={256}
                     transmission={1}
-                    roughness={0.02}
-                    thickness={1.6}
+                    roughness={0.03}
+                    thickness={1.5}
                     ior={1.52}
                     chromaticAberration={0.08}
                     anisotropy={0.15}
-                    distortion={0.15}
+                    distortion={0.12}
                     distortionScale={0.2}
                     temporalDistortion={0}
                     color="#ffffff"
@@ -87,10 +86,8 @@ function StartProjectButton({ position }: { position: [number, number, number] }
                     position={[0, 0, 0.16]}
                     fontSize={0.22}
                     color="#ffffff"
-                    font="https://fonts.gstatic.com/s/plusjakartasans/v8/LDIbaomQNQcsA88c7O9yZ4KMCoOg4Ko20yygg_Pb.woff"
                     anchorX="center"
                     anchorY="middle"
-                    fontWeight={800}
                 >
                     Start project
                 </Text>
@@ -120,7 +117,6 @@ function SecondaryButton({ position }: { position: [number, number, number] }) {
                     color="#1e293b"
                     anchorX="center"
                     anchorY="middle"
-                    fontWeight={700}
                 >
                     Secondary
                 </Text>
@@ -140,7 +136,6 @@ function PowerButton({ position }: { position: [number, number, number] }) {
                     color="#334155"
                     anchorX="center"
                     anchorY="middle"
-                    fontWeight={800}
                 >
                     ⏻
                 </Text>
@@ -166,7 +161,6 @@ function SearchBar({ position }: { position: [number, number, number] }) {
                     color="#475569"
                     anchorX="left"
                     anchorY="middle"
-                    fontWeight={600}
                 >
                     🔍  With suggestions
                 </Text>
@@ -178,7 +172,6 @@ function SearchBar({ position }: { position: [number, number, number] }) {
                     color="#334155"
                     anchorX="center"
                     anchorY="middle"
-                    fontWeight={400}
                 >
                     +
                 </Text>
@@ -198,7 +191,6 @@ function SelectPill({ position }: { position: [number, number, number] }) {
                     color="#334155"
                     anchorX="center"
                     anchorY="middle"
-                    fontWeight={700}
                 >
                     ↻  Select
                 </Text>
@@ -219,7 +211,6 @@ function SelectPill({ position }: { position: [number, number, number] }) {
                     color="#ffffff"
                     anchorX="center"
                     anchorY="middle"
-                    fontWeight={900}
                 >
                     ✓
                 </Text>
@@ -280,7 +271,6 @@ function TabsPill({ position }: { position: [number, number, number] }) {
                     color="#334155"
                     anchorX="center"
                     anchorY="middle"
-                    fontWeight={700}
                 >
                     ⬍  Tabs
                 </Text>
@@ -309,7 +299,6 @@ function ToastPill({ position }: { position: [number, number, number] }) {
                     color="#334155"
                     anchorX="center"
                     anchorY="middle"
-                    fontWeight={700}
                 >
                     ✨  Toast
                 </Text>
@@ -338,7 +327,6 @@ function PureGlassCard({ position }: { position: [number, number, number] }) {
                     color="#334155"
                     anchorX="center"
                     anchorY="middle"
-                    fontWeight={700}
                 >
                     Card
                 </Text>
@@ -359,7 +347,6 @@ function ProPlanDialog({ position }: { position: [number, number, number] }) {
                     color="#0f172a"
                     anchorX="left"
                     anchorY="middle"
-                    fontWeight={800}
                 >
                     Find files...
                 </Text>
@@ -369,7 +356,6 @@ function ProPlanDialog({ position }: { position: [number, number, number] }) {
                     color="#64748b"
                     anchorX="left"
                     anchorY="middle"
-                    fontWeight={500}
                 >
                     Add collaborator
                 </Text>
@@ -379,7 +365,6 @@ function ProPlanDialog({ position }: { position: [number, number, number] }) {
                     color="#64748b"
                     anchorX="right"
                     anchorY="middle"
-                    fontWeight={600}
                 >
                     ✕
                 </Text>
@@ -400,12 +385,66 @@ function ProPlanDialog({ position }: { position: [number, number, number] }) {
                     color="#ffffff"
                     anchorX="center"
                     anchorY="middle"
-                    fontWeight={800}
                 >
                     Pro plan
                 </Text>
             </GlassPill>
         </group>
+    );
+}
+
+// --- Scene Inner Component ---
+function SceneInner() {
+    return (
+        <>
+            {/* Studio Lighting */}
+            <ambientLight intensity={1.2} />
+            <directionalLight position={[6, 8, 7]} intensity={2.2} castShadow shadow-mapSize={1024} />
+            <directionalLight position={[-6, 4, 4]} intensity={1.0} color="#e0f2fe" />
+            <pointLight position={[0, 3, 4]} intensity={1.5} />
+
+            <Float speed={1.2} rotationIntensity={0.08} floatIntensity={0.12}>
+                <group position={[0, 0, 0]}>
+                    {/* Row 1: Start Project (y=2.2) */}
+                    <StartProjectButton position={[-1.4, 2.2, 0]} />
+                    <SecondaryButton position={[1.1, 2.2, 0]} />
+                    <PowerButton position={[2.4, 2.2, 0]} />
+
+                    {/* Row 2: Search Bar (y=1.1) */}
+                    <SearchBar position={[0, 1.1, 0]} />
+
+                    {/* Row 3: Select & Toggle (y=0.0) */}
+                    <SelectPill position={[-1.0, 0.0, 0]} />
+                    <ToggleSwitch position={[1.8, 0.0, 0]} />
+
+                    {/* Row 4: Tabs & Toast (y=-1.0) */}
+                    <TabsPill position={[-1.4, -1.0, 0]} />
+                    <ToastPill position={[1.4, -1.0, 0]} />
+
+                    {/* Row 5: Card & Pro Plan (y=-2.4) */}
+                    <PureGlassCard position={[-1.4, -2.4, 0]} />
+                    <ProPlanDialog position={[1.4, -2.4, 0]} />
+                </group>
+            </Float>
+
+            {/* Soft Floor Shadow */}
+            <ContactShadows 
+                position={[0, -3.8, 0]} 
+                opacity={0.6} 
+                scale={14} 
+                blur={2.5} 
+                far={8} 
+            />
+
+            {/* 3D Orbit Controls */}
+            <OrbitControls 
+                enableZoom={false} 
+                maxPolarAngle={Math.PI / 1.8} 
+                minPolarAngle={Math.PI / 2.4}
+                maxAzimuthAngle={Math.PI / 8}
+                minAzimuthAngle={-Math.PI / 8}
+            />
+        </>
     );
 }
 
@@ -418,56 +457,9 @@ export default function LiquidGlass3DScene() {
                 camera={{ position: [0, 0, 7.5], fov: 42 }}
                 gl={{ alpha: true, antialias: true, toneMappingExposure: 1.1 }}
             >
-                {/* Studio Lighting Setup */}
-                <ambientLight intensity={0.8} />
-                <directionalLight position={[5, 8, 6]} intensity={1.8} castShadow shadow-mapSize={1024} />
-                <directionalLight position={[-6, 4, 4]} intensity={0.8} color="#e0f2fe" />
-                <pointLight position={[0, 4, 3]} intensity={1.2} />
-                <Environment preset="city" />
-
-                <Float speed={1.2} rotationIntensity={0.1} floatIntensity={0.15}>
-                    <group position={[0, 0, 0]}>
-                        
-                        {/* Row 1: Start Project (y=2.2) */}
-                        <StartProjectButton position={[-1.4, 2.2, 0]} />
-                        <SecondaryButton position={[1.1, 2.2, 0]} />
-                        <PowerButton position={[2.4, 2.2, 0]} />
-
-                        {/* Row 2: Search Bar (y=1.1) */}
-                        <SearchBar position={[0, 1.1, 0]} />
-
-                        {/* Row 3: Select & Toggle (y=0.0) */}
-                        <SelectPill position={[-1.0, 0.0, 0]} />
-                        <ToggleSwitch position={[1.8, 0.0, 0]} />
-
-                        {/* Row 4: Tabs & Toast (y=-1.0) */}
-                        <TabsPill position={[-1.4, -1.0, 0]} />
-                        <ToastPill position={[1.4, -1.0, 0]} />
-
-                        {/* Row 5: Card & Pro Plan (y=-2.4) */}
-                        <PureGlassCard position={[-1.4, -2.4, 0]} />
-                        <ProPlanDialog position={[1.4, -2.4, 0]} />
-
-                    </group>
-                </Float>
-
-                {/* Soft Contact Floor Shadows */}
-                <ContactShadows 
-                    position={[0, -3.8, 0]} 
-                    opacity={0.65} 
-                    scale={14} 
-                    blur={2.4} 
-                    far={8} 
-                />
-
-                {/* Interactive Orbit Controls (tilt and inspect in 3D!) */}
-                <OrbitControls 
-                    enableZoom={false} 
-                    maxPolarAngle={Math.PI / 1.8} 
-                    minPolarAngle={Math.PI / 2.4}
-                    maxAzimuthAngle={Math.PI / 8}
-                    minAzimuthAngle={-Math.PI / 8}
-                />
+                <Suspense fallback={null}>
+                    <SceneInner />
+                </Suspense>
             </Canvas>
         </div>
     );
