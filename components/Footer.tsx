@@ -17,9 +17,10 @@ export default function Footer({ isDarkMode = true, onToggleTheme, logo }: Foote
     const currentYear = new Date().getFullYear();
 
     const isAdmin = pathname?.startsWith('/admin');
+    const isGlassPreview = pathname?.startsWith('/glass-preview');
 
     return (
-        <footer className={styles.footer} role="contentinfo" style={{ display: isAdmin ? 'none' : 'block' }}>
+        <footer className={styles.footer} role="contentinfo" style={{ display: (isAdmin || isGlassPreview) ? 'none' : 'block' }}>
             <div className={styles.container}>
                 {/* Brand Column (Left) */}
                 <div className={styles.brandColumn}>

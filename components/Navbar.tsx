@@ -36,6 +36,7 @@ export default function Navbar({ isDarkMode, logo }: NavbarProps) {
     const scrollYRef = useRef(0);
 
     const isAdmin = pathname?.startsWith('/admin');
+    const isGlassPreview = pathname?.startsWith('/glass-preview');
 
     useEffect(() => {
         let ticking = false;
@@ -80,11 +81,11 @@ export default function Navbar({ isDarkMode, logo }: NavbarProps) {
 
     return (
         <motion.header
-            className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''} ${isAdmin ? styles.hidden : ''}`}
+            className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''} ${isAdmin || isGlassPreview ? styles.hidden : ''}`}
             initial={{ y: 0 }}
-            animate={{ y: isHidden && !isAdmin ? -100 : 0 }}
+            animate={{ y: isHidden && !(isAdmin || isGlassPreview) ? -100 : 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            style={{ display: isAdmin ? 'none' : 'block' }}
+            style={{ display: (isAdmin || isGlassPreview) ? 'none' : 'block' }}
         >
             <div className={styles.container}>
                 {/* Logo */}
