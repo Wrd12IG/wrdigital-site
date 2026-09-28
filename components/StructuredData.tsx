@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { servicesData } from '@/data/services';
 import blogPosts from '@/data/blog.json';
 import faqData from '@/data/faq.json';
+import { isoBlogDate } from '@/lib/dates';
 import { COMPANY, ORG_ID, SITE_URL, WEBSITE_ID, orgRef, postalAddress } from '@/lib/company';
 
 // Route che emettono già una BreadcrumbList nel proprio JSON-LD.
@@ -249,8 +250,8 @@ export default function StructuredData({ config }: StructuredDataProps) {
                 ? [{ "@type": "Person", "name": (post as any).authorName, "worksFor": { "@id": ORG_ID } }]
                 : [orgRef()],
             "publisher": orgRef(),
-            "datePublished": post.createdAt || "2026-01-01",
-            "dateModified": post.updatedAt || post.createdAt || "2026-01-01",
+            "datePublished": isoBlogDate(post.date) || isoBlogDate(post.createdAt),
+            "dateModified": isoBlogDate(post.updatedAt) || isoBlogDate(post.date) || isoBlogDate(post.createdAt),
             "mainEntityOfPage": {
                 "@type": "WebPage",
                 "@id": `https://www.wrdigital.it${pathname}`

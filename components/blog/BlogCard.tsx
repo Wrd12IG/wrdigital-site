@@ -4,6 +4,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { formatBlogDate } from '@/lib/dates';
 
 interface BlogPost {
     id: string;
@@ -115,7 +116,7 @@ export default function BlogCard({ post, index }: { post: BlogPost; index: numbe
                                     {post.views >= 1000 ? `${(post.views / 1000).toFixed(1)}k` : post.views}
                                 </span>
                             ) : (
-                                <span className="text-gray-600">{post.date}</span>
+                                <span className="text-gray-600">{formatBlogDate(post.date)}</span>
                             )}
                         </div>
 

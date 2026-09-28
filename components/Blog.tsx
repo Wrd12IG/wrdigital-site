@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { formatBlogDate, parseBlogDate } from '@/lib/dates';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Blog.module.css';
@@ -40,42 +41,7 @@ export default function Blog({ initialPosts }: { initialPosts?: BlogPost[] }) {
         fetchPosts();
     }, [initialPosts]);
 
-    const parseDate = (dateStr: string) => {
-        try {
-            if (!dateStr) return new Date(0);
-
-            // Handle DD/MM/YYYY first, because new Date("DD/MM/YYYY") parses it as MM/DD/YYYY in JS
-            if (dateStr.includes('/')) {
-                const parts = dateStr.split('/');
-                if (parts.length === 3) {
-                    return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
-                }
-            }
-
-            // Handle ISO strings or already parsed dates
-            const tryDate = new Date(dateStr);
-            if (!isNaN(tryDate.getTime())) return tryDate;
-
-            // Handle DD MMM YYYY (e.g., 15 Gen 2026)
-            const months: Record<string, number> = {
-                'Gen': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'Mag': 4, 'Giu': 5,
-                'Lug': 6, 'Ago': 7, 'Set': 8, 'Ott': 9, 'Nov': 10, 'Dic': 11,
-                'Jan': 0, 'May': 4, 'Jun': 5, 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Dec': 11
-            };
-            const parts = dateStr.split(' ');
-            if (parts.length === 3) {
-                const monthName = parts[1];
-                const month = months[monthName] ?? (parseInt(monthName) - 1);
-                return new Date(parseInt(parts[2]), month, parseInt(parts[0]));
-            }
-        } catch (e) {
-            console.error("Date parsing error for:", dateStr, e);
-        }
-
-        return new Date(0);
-    };
-
-    const sortedPosts = [...posts].sort((a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime());
+    const sortedPosts = [...posts].sort((a, b) => (parseBlogDate(b.date)?.getTime() ?? 0) - (parseBlogDate(a.date)?.getTime() ?? 0));
     const featuredPost = sortedPosts.find(post => post.featured);
     const regularPosts = sortedPosts.filter(post => post.id !== featuredPost?.id).slice(0, 3);
 
@@ -131,7 +97,7 @@ export default function Blog({ initialPosts }: { initialPosts?: BlogPost[] }) {
                                         <h3 className={styles.featuredTitle}>{featuredPost.title}</h3>
                                         <p className={styles.excerpt}>{featuredPost.excerpt}</p>
                                         <div className={styles.meta}>
-                                            <span>{featuredPost.date}</span>
+                                            <span>{formatBlogDate(featuredPost.date)}</span>
                                             <span className={styles.dot}>•</span>
                                             <span>{featuredPost.readTime}</span>
                                         </div>
@@ -164,7 +130,7 @@ export default function Blog({ initialPosts }: { initialPosts?: BlogPost[] }) {
                                             <h4 className={styles.postTitle}>{post.title}</h4>
                                             <p className={styles.postExcerpt}>{post.excerpt}</p>
                                             <div className={styles.meta}>
-                                                <span>{post.date}</span>
+                                                <span>{formatBlogDate(post.date)}</span>
                                                 <span className={styles.dot}>•</span>
                                                 <span>{post.readTime}</span>
                                             </div>
