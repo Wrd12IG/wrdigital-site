@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         };
     }
 
-    const valueProp = "W[r]Digital | Agenzia Milano";
+    const valueProp = "WR Digital | Agenzia Milano";
     const seo = (page.seo || {}) as any;
 
     // Fallback descriptions per servizi hub (quando DB vuoto)
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         social: 'Social Media Marketing a Milano e Brianza: gestione Instagram, Facebook, LinkedIn, TikTok. Strategia editoriale, crescita community e campagne a performance. Preventivo gratuito.',
         web: 'Realizzazione siti web a Milano e Monza: landing page da €900, siti corporate da €2.500, e-commerce da €4.500. SEO tecnica, Core Web Vitals e mobile-first inclusi.',
     };
-    const fallbackDesc = SERVICE_META_FALLBACKS[slug] || `${page.title} — W[r]Digital, agenzia digital marketing a Milano e Monza Brianza. Strategie data-driven, team senior dedicato. Audit gratuita.`;
+    const fallbackDesc = SERVICE_META_FALLBACKS[slug] || `${page.title} — WR Digital, agenzia digital marketing a Milano e Monza Brianza. Strategie data-driven, team senior dedicato. Audit gratuita.`;
     const metaDesc = seo.metaDescription || fallbackDesc;
 
     // 2. Costruzione Metadati Ottimizzati

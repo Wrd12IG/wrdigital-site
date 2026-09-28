@@ -15,7 +15,7 @@ import styles from './ServicePage.module.css';
 import { servicesData } from '@/data/services';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { Check } from 'lucide-react';
-import { COMPANY, KPI } from '@/lib/company';
+import { COMPANY, KPI, yearsActive } from '@/lib/company';
 // ============ DYNAMIC HERO ANIMATIONS ============
 
 // SEO: Matrix Code Rain (Yellow)
@@ -438,8 +438,8 @@ export default function ServicePage({ initialData, slug: propSlug }: ServicePage
                                             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#60a5fa" stroke="#93c5fd" strokeWidth="1.5" />
                                         </svg>
                                     </div>
-                                    <div className={styles.trustMetricValue}>8+</div>
-                                    <div className={styles.trustMetricLabel}>Anni Esperienza</div>
+                                    <div className={styles.trustMetricValue}>{yearsActive()}+</div>
+                                    <div className={styles.trustMetricLabel}>Anni di attività</div>
                                 </motion.div>
 
                                 <motion.div
