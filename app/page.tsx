@@ -97,8 +97,10 @@ async function getHomeData() {
     const finalTestimonials = testimonials.length > 0
       ? testimonials
       : (staticTestimonials as any[]).filter((t: any) => !t.deleted);
+    // Il modello Prisma Client non ha 'sector': lo prendiamo da data/clients.json (stesso id).
+    const sectorById = new Map((staticClients as any[]).map((c: any) => [c.id, c.sector]));
     const finalClients = clients.length > 0
-      ? clients
+      ? clients.map(c => ({ ...c, sector: sectorById.get(c.id) || '' }))
       : (staticClients as any[]).filter((c: any) => !c.deleted);
 
     const finalBlogPosts = blogPosts.length > 0 ? blogPosts : publishedStaticPosts();

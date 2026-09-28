@@ -138,6 +138,7 @@ async function main() {
                     description: c.description,
                     socials: ensureStringified(c.socials || {}),
                     showInSuccessStories: c.showInSuccessStories || false,
+                    deleted: c.deleted || false,
                     order: index
                 },
                 create: {
@@ -148,6 +149,7 @@ async function main() {
                     description: c.description,
                     socials: JSON.stringify(c.socials || {}),
                     showInSuccessStories: c.showInSuccessStories || false,
+                    deleted: c.deleted || false,
                     order: index
                 }
             })
