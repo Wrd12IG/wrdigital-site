@@ -20,6 +20,10 @@ const Pricing = dynamic(() => import('@/components/Pricing'));
 import { prisma } from '@/lib/prisma';
 import staticTestimonials from '@/data/testimonials.json';
 import staticClients from '@/data/clients.json';
+import staticBlogPosts from '@/data/blog.json';
+
+// Stesso fallback di /api/blog: il widget blog deve essere nell'HTML server-side anche senza DB.
+const publishedStaticPosts = () => (staticBlogPosts as any[]).filter((p: any) => p.published && !p.deleted);
 
 async function getHomeData() {
   try {
@@ -97,14 +101,16 @@ async function getHomeData() {
       ? clients
       : (staticClients as any[]).filter((c: any) => !c.deleted);
 
-    return { ...data, contentOverrides, clients: finalClients, siteConfig, projects, testimonials: finalTestimonials, blogPosts };
+    const finalBlogPosts = blogPosts.length > 0 ? blogPosts : publishedStaticPosts();
+
+    return { ...data, contentOverrides, clients: finalClients, siteConfig, projects, testimonials: finalTestimonials, blogPosts: finalBlogPosts };
   } catch (e) {
     console.error('Error fetching home data:', e);
   }
   // On complete DB failure, use static data as fallback
   const fallbackTestimonials = (staticTestimonials as any[]).filter((t: any) => !t.deleted);
   const fallbackClients = (staticClients as any[]).filter((c: any) => !c.deleted);
-  return { clients: fallbackClients, siteConfig: {}, projects: [], testimonials: fallbackTestimonials, blogPosts: [] };
+  return { clients: fallbackClients, siteConfig: {}, projects: [], testimonials: fallbackTestimonials, blogPosts: publishedStaticPosts() };
 }
 
 import AsFeaturedIn from '@/components/AsFeaturedIn';
