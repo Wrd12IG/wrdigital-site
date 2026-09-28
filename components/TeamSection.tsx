@@ -16,7 +16,6 @@ const staticTeam = [
     { name: 'Enxhi Gjashta',        role: 'Graphic Designer',                          color: '#60a5fa', avatar: '/images/team/enxhi.jpg',      tag: 'Design',  stats: { xp: '3+ Anni', stat1: 'Motion Graphics', stat2: 'Layout', bio: 'Dà vita ai pixel creando design dinamici e animazioni fluide.' } },
     { name: 'Giulia Tarricone',     role: 'Social Manager Junior',                     color: '#34d399', avatar: '/images/team/giulia.jpg',     tag: 'Team',    stats: { xp: '2+ Anni', stat1: 'Trend Analysis', stat2: 'Video Edit', bio: 'Scova le ultime tendenze e crea contenuti social freschi e virali.' } },
     { name: 'Giada Morena',         role: 'Social Manager Junior',                     color: '#34d399', avatar: '/images/team/giada.jpg',      tag: 'Team',    stats: { xp: '2+ Anni', stat1: 'Creatività', stat2: 'Engagement', bio: 'Sviluppa idee creative per campagne social che catturano l\'attenzione.' } },
-    { name: 'Luca Ena',             role: 'Web Developer Manager',                     color: '#818cf8', avatar: '/images/team/luca.jpg',       tag: 'Dev',     stats: { xp: '8+ Anni', stat1: 'Full Stack', stat2: 'Performance', bio: 'Costruisce architetture web veloci, sicure e scalabili per ogni tipo di progetto.' } },
 ];
 
 // Float animation durations per card (for staggered bobbing)
