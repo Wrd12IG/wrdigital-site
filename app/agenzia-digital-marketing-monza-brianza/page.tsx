@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import comuniData from '@/data/comuni-mb.json';
+import { COMPANY, KPI } from '@/lib/company';
 
 export const metadata: Metadata = {
     title: 'Agenzia Digital Marketing Monza Brianza | W[r]Digital',
@@ -436,7 +437,7 @@ export default function MonzaBrianzaPage() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                         {[
                             { num: '5 min', label: 'dal centro di Monza', note: 'Via Venezia 2, Nova Milanese' },
-                            { num: '50+', label: 'clienti in Brianza', note: 'attivi o completati dal 2019' },
+                            { num: KPI.clientsLabel, label: 'clienti in Brianza', note: `attivi o completati dal ${COMPANY.foundingYear}` },
                             { num: '100%', label: 'trasparenza', note: 'dashboard real-time inclusa' },
                         ].map(stat => (
                             <div key={stat.num} className="p-6">

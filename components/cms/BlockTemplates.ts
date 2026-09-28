@@ -75,7 +75,7 @@ export const BLOCK_TEMPLATES: BlockTemplate[] = [
                 content: {
                     content: `
                         <h2>La nostra storia</h2>
-                        <p>Fondata nel 2020, <strong>W[r]Digital</strong> nasce dalla passione di tre professionisti del marketing digitale con un obiettivo chiaro: portare risultati concreti alle aziende italiane.</p>
+                        <p>Fondata nel 2019, <strong>W[r]Digital</strong> nasce dalla passione di tre professionisti del marketing digitale con un obiettivo chiaro: portare risultati concreti alle aziende italiane.</p>
                         <p>In appena 4 anni abbiamo servito oltre <strong>200 clienti</strong> in tutta Italia, generando un fatturato combinato di oltre <em>15 milioni di euro</em>  grazie alle nostre strategie SEO, Social Media e Advertising.</p>
                         <h3>I nostri valori</h3>
                         <ul>

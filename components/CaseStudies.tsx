@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { KPI } from '@/lib/company';
 import { useModal } from './ModalContext';
 import ScrollReveal from './ScrollReveal';
 import styles from './CaseStudies.module.css';
@@ -95,7 +96,7 @@ export default function CaseStudies({ initialProjects }: { initialProjects?: Pro
     if (displayed.length === 0) displayed = FALLBACK_PROJECTS;
 
     const statsRow = [
-        { value: '50+',   label: 'Clienti soddisfatti' },
+        { value: KPI.clientsLabel, label: 'Clienti soddisfatti' },
         { value: '+300%', label: 'Traffico medio' },
         { value: '4x',    label: 'ROAS garantito' },
     ];
