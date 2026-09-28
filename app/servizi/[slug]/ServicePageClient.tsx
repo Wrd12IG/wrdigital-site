@@ -186,9 +186,10 @@ function GrowthGraph() {
     );
 }
 
-// Hook per animazione count-up
+// Hook per animazione count-up: lo stato iniziale è il valore finale, così l'HTML
+// server-side contiene il dato reale (non "0"); l'animazione parte solo quando entra in vista.
 function useCountUp(end: number, duration: number = 2000, startOnView: boolean = true) {
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(end);
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true });
     const hasStarted = useRef(false);
