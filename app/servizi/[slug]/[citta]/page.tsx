@@ -28,7 +28,7 @@ const SERVICES_DATA = {
         desc: (c: Comune) => `Gestione professionale campagne pubblicitarie per PMI di ${c.name}. Intercetta i clienti pronti all'acquisto nel territorio della Brianza.`,
         benefits: [
             'Lead generation B2B e B2C locale',
-            'Ottimizzazione budget (ROAS garantito)',
+            'Ottimizzazione budget (ROAS monitorato)',
             'Campagne Google Search e Shopping',
             'Retargeting sui visitatori del sito'
         ]

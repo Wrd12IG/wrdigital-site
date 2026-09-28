@@ -156,7 +156,7 @@ const SERVICES = [
         slug: 'ads',
         label: 'Google Ads & Meta Ads per Monza e Provincia',
         icon: '📢',
-        desc: 'Campagne geolocalizzate su Monza e provincia con ROAS garantito. Targeting per CAP, annunci stagionali e tracciamento conversioni completo.',
+        desc: 'Campagne geolocalizzate su Monza e provincia con ROAS tracciato e report mensile. Targeting per CAP, annunci stagionali e tracciamento conversioni completo.',
         features: ['Campagne Search geolocalizzate', 'Target per CAP Brianza', 'Ottimizzazione ROAS mensile', 'Report settimanale'],
     },
     {
@@ -271,7 +271,7 @@ export default function MonzaBrianzaPage() {
                         <a href="https://www.mbnews.it/2023/06/agenzia-servizi-web-monza-brianza-wrdigital/" target="_blank" rel="noopener noreferrer"
                             className="bg-white/5 border border-white/10 p-6 rounded-2xl hover:border-yellow-400/50 transition-colors group flex flex-col justify-between">
                             <p className="text-gray-300 text-sm mb-4 leading-relaxed group-hover:text-white transition-colors">
-                                &quot;Un&apos;agenzia di servizi web a Monza e Brianza focalizzata sul ROI garantito per le imprese locali...&quot;
+                                &quot;Un&apos;agenzia di servizi web a Monza e Brianza focalizzata sul ROI misurabile per le imprese locali...&quot;
                             </p>
                             <div className="flex items-center gap-2">
                                 <span className="font-black text-white text-lg tracking-tighter">MBNews<span className="text-yellow-400">.it</span></span>

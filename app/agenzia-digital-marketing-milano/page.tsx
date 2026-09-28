@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     },
     openGraph: {
         title: 'Agenzia Digital Marketing Milano | W[r]Digital',
-        description: 'La tua agenzia digital marketing di fiducia a Milano. SEO, Ads, Social Media e Web Design con ROI garantito e trasparenza totale.',
+        description: 'La tua agenzia digital marketing di fiducia a Milano. SEO, Ads, Social Media e Web Design con risultati misurabili e trasparenza totale.',
         url: 'https://www.wrdigital.it/agenzia-digital-marketing-milano',
         locale: 'it_IT',
         type: 'website',

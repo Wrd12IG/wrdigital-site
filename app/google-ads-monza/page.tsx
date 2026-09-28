@@ -3,13 +3,13 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
     title: 'Google Ads Monza & Brianza | Campagne PPC | W[r]Digital',
-    description: 'Gestione Google Ads a Monza e Brianza: campagne PPC geolocalizzate, ROAS garantito e tracciamento conversioni completo. Team certificato Google. Preventivo gratuito.',
+    description: 'Gestione Google Ads a Monza e Brianza: campagne PPC geolocalizzate, ROAS monitorato e tracciamento conversioni completo. Team certificato Google. Preventivo gratuito.',
     alternates: {
         canonical: 'https://www.wrdigital.it/google-ads-monza',
     },
     openGraph: {
         title: 'Google Ads Monza & Brianza | Campagne PPC | W[r]Digital',
-        description: 'Gestione Google Ads a Monza e Brianza: campagne PPC geolocalizzate, ROAS garantito e tracciamento conversioni completo. Team certificato Google. Preventivo gratuito.',
+        description: 'Gestione Google Ads a Monza e Brianza: campagne PPC geolocalizzate, ROAS monitorato e tracciamento conversioni completo. Team certificato Google. Preventivo gratuito.',
         url: 'https://www.wrdigital.it/google-ads-monza',
         locale: 'it_IT',
         type: 'website',

@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     // Fallback descriptions per servizi hub (quando DB vuoto)
     const SERVICE_META_FALLBACKS: Record<string, string> = {
         seo: 'Servizio SEO professionale a Milano e Monza Brianza. Audit tecnica, link building, content strategy e posizionamento locale. +300% traffico organico medio. Audit gratuita.',
-        ads: 'Gestione Google Ads e Meta Ads per PMI di Milano e Monza Brianza. Campagne PPC geolocalizzate, tracciamento conversioni, ROAS garantito. Fee fisso, nessuna % sul budget.',
+        ads: 'Gestione Google Ads e Meta Ads per PMI di Milano e Monza Brianza. Campagne PPC geolocalizzate, tracciamento conversioni, ROAS monitorato. Fee fisso, nessuna % sul budget.',
         social: 'Social Media Marketing a Milano e Brianza: gestione Instagram, Facebook, LinkedIn, TikTok. Strategia editoriale, crescita community e campagne a performance. Preventivo gratuito.',
         web: 'Realizzazione siti web a Milano e Monza: landing page da €900, siti corporate da €2.500, e-commerce da €4.500. SEO tecnica, Core Web Vitals e mobile-first inclusi.',
     };

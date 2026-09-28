@@ -28,7 +28,7 @@ export const servicesData: Record<string, {
             { title: 'Audit Tecnica Profonda', description: 'Analisi completa di 200+ fattori SEO con report dettagliato e priorità di intervento.' },
             { title: 'Link Building Premium', description: 'Backlink da siti autorevoli (DR 50+) nel tuo settore per scalare le SERP.' },
             { title: 'Content Strategy ROI', description: 'Piano editoriale basato su keyword ad alto intento di acquisto.' },
-            { title: 'Rimozione Penalizzazioni', description: 'Recupero da penalizzazioni Google con garanzia di risultato.' },
+            { title: 'Rimozione Penalizzazioni', description: 'Recupero da penalizzazioni Google con diagnosi e piano di rientro documentati.' },
             { title: 'Report Mensili Trasparenti', description: 'Dashboard in tempo reale + call mensile con il tuo SEO Specialist.' }
         ],
         faq: [

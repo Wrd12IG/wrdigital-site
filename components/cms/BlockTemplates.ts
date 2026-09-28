@@ -253,7 +253,7 @@ export const BLOCK_TEMPLATES: BlockTemplate[] = [
                 type: 'hero',
                 content: {
                     title: 'Servizio SEO Professionale',
-                    subtitle: '<p>Scaliamo i motori di ricerca con un approccio <strong>tecnico e contenuti ROI-oriented</strong>. Risultati garantiti in 6 mesi.</p>',
+                    subtitle: '<p>Scaliamo i motori di ricerca con un approccio <strong>tecnico e contenuti ROI-oriented</strong>. Risultati misurati e documentati nei casi studio.</p>',
                     ctaText: 'Richiedi un preventivo',
                     ctaLink: '/contatti',
                     backgroundType: 'gradient'

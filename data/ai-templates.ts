@@ -19,7 +19,7 @@ export const aiTemplates: any = {
     },
     seo: {
         meta: {
-            title: "Agenzia SEO Milano: Posizionamento Google Garantito | W[r]Digital",
+            title: "Agenzia SEO Milano: Posizionamento Google Misurabile | W[r]Digital",
             description: "Scala la SERP con W[r]Digital. Strategie SEO data-driven, Link Building e Ottimizzazione Tecnica per dominare il tuo mercato. Inizia la scalata ora.",
             keywords: "agenzia seo milano, consulenza seo, posizionamento siti web, link building, audit seo tecnica"
         },
