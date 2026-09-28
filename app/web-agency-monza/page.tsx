@@ -2,13 +2,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-    title: 'Web Agency Monza | Siti Web Professionali | W[r]Digital',
+    title: 'Web Agency Monza | Siti Web Professionali | WR Digital',
     description: 'Web agency a Monza con sede a Nova Milanese: siti web professionali, e-commerce e landing page ottimizzate SEO per PMI di Monza e Brianza. Preventivo gratuito.',
     alternates: {
         canonical: 'https://www.wrdigital.it/web-agency-monza',
     },
     openGraph: {
-        title: 'Web Agency Monza | Siti Web Professionali | W[r]Digital',
+        title: 'Web Agency Monza | Siti Web Professionali | WR Digital',
         description: 'Web agency a Monza con sede a Nova Milanese: siti web professionali, e-commerce e landing page ottimizzate SEO per PMI di Monza e Brianza. Preventivo gratuito.',
         url: 'https://www.wrdigital.it/web-agency-monza',
         locale: 'it_IT',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Web Agency Monza | Siti Web Professionali | W[r]Digital',
+        title: 'Web Agency Monza | Siti Web Professionali | WR Digital',
         description: 'Web agency a Monza: siti web professionali, e-commerce e landing page SEO per PMI di Monza e Brianza.',
         images: ['/og-image.png'],
     },
@@ -26,54 +26,6 @@ export const metadata: Metadata = {
 const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-        {
-            "@type": ["LocalBusiness", "MarketingAgency"],
-            "@id": "https://www.wrdigital.it/#business",
-            "name": "W[r]Digital — Web Agency Monza",
-            "url": "https://www.wrdigital.it",
-            "logo": "https://www.wrdigital.it/logo.png",
-            "image": "https://www.wrdigital.it/og-image.png",
-            "telephone": "+393401204651",
-            "email": "info@wrdigital.it",
-            "foundingDate": "2019",
-            "priceRange": "€€",
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "47",
-                "bestRating": "5"
-            },
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Via Venezia, 2",
-                "addressLocality": "Nova Milanese",
-                "addressRegion": "MB",
-                "postalCode": "20834",
-                "addressCountry": "IT"
-            },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 45.5773,
-                "longitude": 9.1813
-            },
-            "areaServed": [
-                { "@type": "City", "name": "Monza", "sameAs": "https://www.wikidata.org/wiki/Q6746" },
-                { "@type": "City", "name": "Nova Milanese" },
-                { "@type": "AdministrativeArea", "name": "Provincia di Monza e della Brianza" }
-            ],
-            "openingHoursSpecification": [
-                {
-                    "@type": "OpeningHoursSpecification",
-                    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                    "opens": "09:00",
-                    "closes": "18:00"
-                }
-            ],
-            "sameAs": [
-                "https://www.instagram.com/wrdigital.it",
-                "https://www.linkedin.com/company/wrdigital"
-            ]
-        },
         {
             "@type": "BreadcrumbList",
             "itemListElement": [

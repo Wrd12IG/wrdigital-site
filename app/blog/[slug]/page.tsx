@@ -63,7 +63,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
             title: pageTitle,
             description: pageDesc,
             url: `https://www.wrdigital.it/blog/${post.slug}`,
-            siteName: 'W[r]Digital Blog',
+            siteName: 'WR Digital Blog',
             locale: 'it_IT',
             type: 'article',
             publishedTime: post.date || undefined,

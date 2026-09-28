@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { bandi2026 } from '@/data/bandi';
 
 export const metadata: Metadata = {
-    title: 'Incentivi e Bandi Digital Marketing 2026 | W[r]Digital',
+    title: 'Incentivi e Bandi Digital Marketing 2026 | WR Digital',
     description: 'Scopri i bandi e gli incentivi disponibili per il 2026 per digitalizzare la tua impresa. Fondi perduti per siti web, e-commerce, SEO e advertising.',
 };
 

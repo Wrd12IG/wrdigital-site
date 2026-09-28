@@ -1,15 +1,16 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { orgRef } from '@/lib/company';
 
 export const metadata: Metadata = {
-    title: 'Consulenza SEO Monza Brianza | Prima Pagina Google | W[r]Digital',
-    description: 'W[r]Digital — consulenza SEO a Monza e Brianza. Audit tecnica gratuita, link building, content strategy e posizionamento Google per PMI del territorio. Risultati in 4-6 mesi.',
+    title: 'Consulenza SEO Monza Brianza | Prima Pagina Google | WR Digital',
+    description: 'WR Digital — consulenza SEO a Monza e Brianza. Audit tecnica gratuita, link building, content strategy e posizionamento Google per PMI del territorio. Risultati in 4-6 mesi.',
     alternates: {
         canonical: 'https://www.wrdigital.it/consulenza-seo-monza',
     },
     openGraph: {
-        title: 'Consulenza SEO Monza Brianza | Prima Pagina Google | W[r]Digital',
-        description: 'Scala la SERP con W[r]Digital. Specialisti SEO per le PMI di Monza e Brianza. Audit gratuita, metodo scientifico, risultati misurabili.',
+        title: 'Consulenza SEO Monza Brianza | Prima Pagina Google | WR Digital',
+        description: 'Scala la SERP con WR Digital. Specialisti SEO per le PMI di Monza e Brianza. Audit gratuita, metodo scientifico, risultati misurabili.',
         url: 'https://www.wrdigital.it/consulenza-seo-monza',
         locale: 'it_IT',
         type: 'website',
@@ -24,20 +25,7 @@ const jsonLd = {
             "@type": "Service",
             "name": "Consulenza SEO — Monza e Brianza",
             "description": "Servizio di ottimizzazione per i motori di ricerca (SEO) per aziende e PMI della Provincia di Monza e Brianza. Include audit tecnica, link building locale e content strategy.",
-            "provider": {
-                "@type": "LocalBusiness",
-                "name": "W[r]Digital",
-                "url": "https://www.wrdigital.it",
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Via Venezia, 2",
-                    "addressLocality": "Nova Milanese",
-                    "addressRegion": "MB",
-                    "postalCode": "20834",
-                    "addressCountry": "IT"
-                },
-                "telephone": "+393401204651"
-            },
+            "provider": orgRef(),
             "areaServed": [
                 { "@type": "City", "name": "Monza" },
                 { "@type": "City", "name": "Nova Milanese" },

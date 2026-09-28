@@ -4,6 +4,33 @@ import { usePathname } from 'next/navigation';
 import { servicesData } from '@/data/services';
 import blogPosts from '@/data/blog.json';
 import faqData from '@/data/faq.json';
+import { COMPANY, ORG_ID, SITE_URL, WEBSITE_ID, orgRef, postalAddress } from '@/lib/company';
+
+// Route che emettono già una BreadcrumbList nel proprio JSON-LD.
+const PAGE_LEVEL_BREADCRUMB = [
+    /^\/google-ads-monza$/,
+    /^\/agenzia-digital-marketing-milano$/,
+    /^\/agenzia-digital-marketing-monza-brianza$/,
+    /^\/social-media-marketing-monza$/,
+    /^\/web-agency-monza$/,
+    /^\/zona\/[^/]+$/,
+    /^\/servizi\/[^/]+\/[^/]+$/,
+];
+
+const humanize = (slug: string) =>
+    decodeURIComponent(slug).replace(/-/g, ' ').replace(/^./, c => c.toUpperCase());
+
+function breadcrumbLabel(segments: string[], i: number): string {
+    const seg = segments[i];
+    if (segments[0] === 'blog' && i === 1) {
+        const post = (blogPosts as any[]).find(p => p.slug === seg);
+        if (post?.title) return post.title;
+    }
+    if (segments[0] === 'servizi' && i === 1 && servicesData[seg]?.title) {
+        return servicesData[seg].title;
+    }
+    return humanize(seg);
+}
 
 interface StructuredDataProps {
     config?: {
@@ -16,72 +43,52 @@ export default function StructuredData({ config }: StructuredDataProps) {
     const pathname = usePathname();
     const logoUrl = config?.logo || "https://www.wrdigital.it/logo.png";
 
-    // Organization Schema (Global)
+    // Entità unica (Organization + LocalBusiness): tutte le pagine la referenziano via ORG_ID.
     const organizationSchema = {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "WRDigital S.r.l.",
-        "alternateName": "W[r]Digital",
-        "url": "https://www.wrdigital.it",
+        "@type": ["ProfessionalService", "LocalBusiness", "Organization"],
+        "@id": ORG_ID,
+        "name": COMPANY.name,
+        "alternateName": COMPANY.alternateName,
+        "legalName": COMPANY.legalName,
+        "vatID": COMPANY.vatID,
+        "url": SITE_URL,
         "logo": logoUrl,
-        "description": "Digital agency specializzata in SEO, Social Media Marketing, Web Development e Advertising a Milano e Monza Brianza",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Via Venezia, 2",
-            "addressLocality": "Nova Milanese",
-            "addressRegion": "MB",
-            "postalCode": "20834",
-            "addressCountry": "IT"
+        "image": [logoUrl, `${SITE_URL}/og-image.png`],
+        "description": "Agenzia di digital marketing a Monza e Milano: SEO, GEO, Google Ads, social media e siti web per PMI.",
+        "foundingDate": String(COMPANY.foundingYear),
+        "email": COMPANY.email,
+        "telephone": COMPANY.telephone,
+        "priceRange": "€€",
+        "address": postalAddress(),
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": COMPANY.geo.latitude,
+            "longitude": COMPANY.geo.longitude
         },
+        "hasMap": "https://www.google.com/maps/place/WRDigital,+Via+Venezia,+2,+20834+Nova+Milanese+MB",
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": COMPANY.openingHours.days,
+                "opens": COMPANY.openingHours.opens,
+                "closes": COMPANY.openingHours.closes
+            }
+        ],
         "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+39-340-120-4651",
+            "telephone": COMPANY.telephone,
+            "email": COMPANY.email,
             "contactType": "customer service",
             "areaServed": "IT",
             "availableLanguage": "Italian"
         },
-        "sameAs": [
-            "https://www.instagram.com/wrdigital",
-            "https://www.linkedin.com/company/wrdigital",
-            "https://www.facebook.com/wrdigital",
-            "https://www.youtube.com/@wrdigital.agency"
-        ]
-    };
-
-    // Enhanced LocalBusiness Schema
-    const localBusinessSchema = {
-        "@context": "https://schema.org",
-        "@type": ["LocalBusiness", "ProfessionalService", "MarketingAgency"],
-        "name": "W[r]Digital - Agenzia Digital Marketing",
-        "image": [logoUrl, "https://www.wrdigital.it/og-image.png"],
-        "@id": "https://www.wrdigital.it",
-        "url": "https://www.wrdigital.it",
-        "telephone": "+39-340-120-4651",
-        "priceRange": "€€",
-        "email": "info@wrdigital.it",
-        "foundingDate": "2019",
-        "hasMap": "https://www.google.com/maps/place/WRDigital,+Via+Venezia,+2,+20834+Nova+Milanese+MB",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Via Venezia, 2",
-            "addressLocality": "Nova Milanese",
-            "addressRegion": "MB",
-            "postalCode": "20834",
-            "addressCountry": "IT"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 45.5898,
-            "longitude": 9.1995
-        },
-        "openingHoursSpecification": [
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                "opens": "09:00",
-                "closes": "18:00"
-            }
-        ],
+        "founder": COMPANY.founders.map(f => ({
+            "@type": "Person",
+            "name": f.name,
+            "jobTitle": f.jobTitle,
+            "worksFor": { "@id": ORG_ID }
+        })),
         "areaServed": [
             { "@type": "City", "name": "Nova Milanese", "sameAs": "https://www.wikidata.org/wiki/Q40656" },
             { "@type": "City", "name": "Milano", "sameAs": "https://www.wikidata.org/wiki/Q490" },
@@ -109,37 +116,49 @@ export default function StructuredData({ config }: StructuredDataProps) {
             { "@type": "AdministrativeArea", "name": "Provincia di Milano" }
         ],
         "knowsAbout": [
-            "Agenzia SEO a Milano e Monza Brianza",
-            "Creazione siti web per piccole imprese",
-            "Social media management",
-            "Pubblicità online per PMI a Monza Brianza",
-            "Digital marketing consultants Milan",
-            "Web design e-commerce professionale"
+            "SEO",
+            "Generative Engine Optimization (GEO)",
+            "Google Ads",
+            "Social media marketing",
+            "Realizzazione siti web",
+            "Digital marketing per concessionarie auto"
         ],
-        "sameAs": [
-            "https://www.instagram.com/wrdigital",
-            "https://www.linkedin.com/company/wrdigital",
-            "https://www.facebook.com/wrdigital"
-        ]
+        "sameAs": [...COMPANY.sameAs]
     };
 
-    // Note: BreadcrumbList is injected per-page (zona/[citta], servizi/[slug]/[citta])
-    // to avoid duplicates in the JSON-LD graph. No global breadcrumb here.
-
-    // WebSite Schema (per Google Sitelinks Search Box)
     const websiteSchema = {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "W[r]Digital - Agenzia Digital Marketing Milano e Monza Brianza",
-        "url": "https://www.wrdigital.it",
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://www.wrdigital.it/search?q={search_term_string}"
-            },
-            "query-input": "required name=search_term_string"
-        }
+        "@id": WEBSITE_ID,
+        "name": COMPANY.name,
+        "alternateName": COMPANY.alternateName,
+        "url": SITE_URL,
+        "inLanguage": "it-IT",
+        "publisher": { "@id": ORG_ID }
+    };
+
+    // BreadcrumbList globale, esclusa la home e le route che la dichiarano già nella propria pagina.
+    const getBreadcrumbSchema = () => {
+        if (pathname === '/') return null;
+        if (PAGE_LEVEL_BREADCRUMB.some(re => re.test(pathname))) return null;
+
+        const segments = pathname.split('/').filter(Boolean);
+        const items = [{ name: 'Home', item: SITE_URL }];
+        segments.forEach((seg, i) => {
+            const path = '/' + segments.slice(0, i + 1).join('/');
+            items.push({ name: breadcrumbLabel(segments, i), item: `${SITE_URL}${path}` });
+        });
+
+        return {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": items.map((it, i) => ({
+                "@type": "ListItem",
+                "position": i + 1,
+                "name": it.name,
+                "item": it.item
+            }))
+        };
     };
 
     // Homepage FAQ Schema — top FAQ geo-locali (priorità 11 > 10)
@@ -174,19 +193,7 @@ export default function StructuredData({ config }: StructuredDataProps) {
             "@context": "https://schema.org",
             "@type": "Service",
             "name": service.title,
-            "provider": {
-                "@type": "LocalBusiness",
-                "name": "WRDigital S.r.l.",
-                "image": logoUrl,
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Via Venezia, 2",
-                    "addressLocality": "Nova Milanese",
-                    "addressRegion": "MB",
-                    "postalCode": "20834",
-                    "addressCountry": "IT"
-                }
-            },
+            "provider": orgRef(),
             "description": service.description,
             "areaServed": "Italy",
             "offers": {
@@ -238,26 +245,10 @@ export default function StructuredData({ config }: StructuredDataProps) {
             "headline": post.title,
             "description": post.excerpt || post.metaDescription,
             "image": post.image,
-            "author": [
-                {
-                    "@type": "Person",
-                    "name": (post as any).authorName || "Team Strategy W[r]Digital",
-                    "url": "https://www.wrdigital.it",
-                    "worksFor": {
-                        "@type": "Organization",
-                        "name": "W[r]Digital",
-                        "url": "https://www.wrdigital.it"
-                    }
-                }
-            ],
-            "publisher": {
-                "@type": "Organization",
-                "name": "W[r]Digital",
-                "logo": {
-                    "@type": "ImageObject",
-                    "url": logoUrl
-                }
-            },
+            "author": (post as any).authorName
+                ? [{ "@type": "Person", "name": (post as any).authorName, "worksFor": { "@id": ORG_ID } }]
+                : [orgRef()],
+            "publisher": orgRef(),
             "datePublished": post.createdAt || "2026-01-01",
             "dateModified": post.updatedAt || post.createdAt || "2026-01-01",
             "mainEntityOfPage": {
@@ -271,24 +262,26 @@ export default function StructuredData({ config }: StructuredDataProps) {
     const serviceSchema = getServiceSchema();
     const faqSchema = getFAQSchema();
     const articleSchema = getArticleSchema();
+    const breadcrumbSchema = getBreadcrumbSchema();
 
     return (
         <div id="structured-data-container" style={{ display: 'none' }}>
-            {/* Organization Schema */}
+            {/* Organization + LocalBusiness (entità unica) */}
             <script
                 key="schema-org"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
             />
 
-            {/* LocalBusiness Schema */}
-            <script
-                key="schema-local"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-            />
+            {breadcrumbSchema && (
+                <script
+                    key="schema-breadcrumb"
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+                />
+            )}
 
-            {/* WebSite Schema (per Sitelinks Search Box) */}
+            {/* WebSite Schema */}
             <script
                 key="schema-website"
                 type="application/ld+json"

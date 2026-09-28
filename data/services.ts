@@ -18,7 +18,7 @@ export const servicesData: Record<string, {
         uvpSubtitle: 'Essere in seconda pagina su Google significa essere invisibili.',
         ctaText: 'Analizza il mio sito gratis',
         clientCount: 52,
-        description: 'In W[r]Digital scaliamo i motori di ricerca con un approccio tecnico e contenuti che piacciono sia agli algoritmi che alle persone. Costruiamo un\'infrastruttura di acquisizione organica che lavora 24/7.',
+        description: 'In WR Digital scaliamo i motori di ricerca con un approccio tecnico e contenuti che piacciono sia agli algoritmi che alle persone. Costruiamo un\'infrastruttura di acquisizione organica che lavora 24/7.',
         stats: [
             { value: '+145%', label: 'Traffico Organico' },
             { value: '3.8x', label: 'ROI Medio' },

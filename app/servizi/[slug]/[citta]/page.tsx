@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import comuniData from '@/data/comuni-mb.json';
+import { orgRef } from '@/lib/company';
 
 // Statically pre-render all permutations at build time
 export const dynamicParams = false;
@@ -120,20 +121,7 @@ export default async function ServizioCittaPage({ params }: { params: Promise<{ 
                 "@type": "Service",
                 "name": `${serviceData.name} a ${comune.name}`,
                 "description": serviceData.desc(comune),
-                "provider": {
-                    "@type": "LocalBusiness",
-                    "name": "W[r]Digital",
-                    "url": "https://www.wrdigital.it",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "streetAddress": "Via Venezia, 2",
-                        "addressLocality": "Nova Milanese",
-                        "addressRegion": "MB",
-                        "postalCode": "20834",
-                        "addressCountry": "IT"
-                    },
-                    "telephone": "+393401204651"
-                },
+                "provider": orgRef(),
                 "areaServed": [
                     { "@type": "City", "name": comune.name },
                     { "@type": "AdministrativeArea", "name": "Provincia di Monza e della Brianza" }

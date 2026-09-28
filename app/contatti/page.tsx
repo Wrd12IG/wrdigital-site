@@ -3,13 +3,13 @@ import Contact from '@/components/Contact';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Contatti | Agenzia Digital Marketing W[r]Digital',
+    title: 'Contatti | Agenzia Digital Marketing WR Digital',
     description: 'Contattaci per un\'audit gratuita del tuo stato digitale. Sede a Nova Milanese (MB), 5 min da Monza. Risposta in 24 ore.',
     alternates: {
         canonical: 'https://www.wrdigital.it/contatti',
     },
     openGraph: {
-        title: 'Contatti | W[r]Digital — Agenzia Digital Marketing',
+        title: 'Contatti | WR Digital — Agenzia Digital Marketing',
         description: 'Richiedi la tua audit SEO gratuita. Team senior dedicato, risposta entro 24 ore. Nova Milanese, Monza e Brianza.',
         url: 'https://www.wrdigital.it/contatti',
         type: 'website',

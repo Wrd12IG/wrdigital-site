@@ -3,7 +3,7 @@ import ThankYouPageClient from '@/components/ThankYouPage';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Grazie - Richiesta Ricevuta | W[r]Digital',
+    title: 'Grazie - Richiesta Ricevuta | WR Digital',
     description: 'Grazie per averci contattato. Prenderemo in carico la tua richiesta al più presto.',
     robots: {
         index: false, // Don't index thank you pages

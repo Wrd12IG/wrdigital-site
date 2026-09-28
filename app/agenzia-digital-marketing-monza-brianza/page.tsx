@@ -4,13 +4,13 @@ import comuniData from '@/data/comuni-mb.json';
 import { COMPANY, KPI } from '@/lib/company';
 
 export const metadata: Metadata = {
-    title: 'Agenzia Digital Marketing Monza Brianza | W[r]Digital',
+    title: 'Agenzia Digital Marketing Monza Brianza | WR Digital',
     description: 'Agenzia digital marketing a Monza e Brianza: SEO, Google Ads e Web Design per PMI. Sede a Nova Milanese (MB), 5 min da Monza. +300% traffico organico. Preventivo gratuito.',
     alternates: {
         canonical: 'https://www.wrdigital.it/agenzia-digital-marketing-monza-brianza',
     },
     openGraph: {
-        title: 'Agenzia Digital Marketing Monza e Brianza | W[r]Digital',
+        title: 'Agenzia Digital Marketing Monza e Brianza | WR Digital',
         description: 'Siamo l\'agenzia di marketing digitale di riferimento per Monza e la Brianza. SEO, Ads e Web con risultati misurabili.',
         url: 'https://www.wrdigital.it/agenzia-digital-marketing-monza-brianza',
         locale: 'it_IT',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Agenzia Digital Marketing Monza Brianza | W[r]Digital',
+        title: 'Agenzia Digital Marketing Monza Brianza | WR Digital',
         description: 'SEO, Google Ads e Web Design per PMI di Monza e Brianza. Sede a Nova Milanese. Preventivo gratuito.',
         images: ['/og-image.png'],
     },
@@ -28,67 +28,6 @@ export const metadata: Metadata = {
 const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-        {
-            "@type": ["LocalBusiness", "MarketingAgency"],
-            "@id": "https://www.wrdigital.it/#business",
-            "name": "W[r]Digital — Agenzia Digital Marketing Monza Brianza",
-            "url": "https://www.wrdigital.it",
-            "logo": "https://www.wrdigital.it/logo.png",
-            "image": "https://www.wrdigital.it/og-image.png",
-            "telephone": "+393401204651",
-            "email": "info@wrdigital.it",
-            "foundingDate": "2019",
-            "priceRange": "€€",
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "47",
-                "bestRating": "5"
-            },
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Via Venezia, 2",
-                "addressLocality": "Nova Milanese",
-                "addressRegion": "MB",
-                "postalCode": "20834",
-                "addressCountry": "IT"
-            },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 45.5773,
-                "longitude": 9.1813
-            },
-            "areaServed": [
-                { "@type": "City", "name": "Monza", "sameAs": "https://www.wikidata.org/wiki/Q6746" },
-                { "@type": "City", "name": "Nova Milanese" },
-                { "@type": "City", "name": "Desio" },
-                { "@type": "City", "name": "Seregno" },
-                { "@type": "City", "name": "Lissone" },
-                { "@type": "City", "name": "Cesano Maderno" },
-                { "@type": "City", "name": "Bovisio Masciago" },
-                { "@type": "AdministrativeArea", "name": "Provincia di Monza e della Brianza" }
-            ],
-            "knowsAbout": [
-                "SEO Monza Brianza",
-                "Google Ads Monza",
-                "Agenzia digital marketing Monza e Brianza",
-                "Social media marketing Brianza",
-                "Creazione siti web Monza",
-                "Consulenza digital marketing PMI"
-            ],
-            "openingHoursSpecification": [
-                {
-                    "@type": "OpeningHoursSpecification",
-                    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                    "opens": "09:00",
-                    "closes": "18:00"
-                }
-            ],
-            "sameAs": [
-                "https://www.instagram.com/wrdigital.it",
-                "https://www.linkedin.com/company/wrdigital"
-            ]
-        },
         {
             "@type": "BreadcrumbList",
             "itemListElement": [
@@ -109,7 +48,7 @@ const jsonLd = {
                 },
                 {
                     "@type": "Question",
-                    "name": "Dove si trova l'agenzia W[r]Digital?",
+                    "name": "Dove si trova l'agenzia WR Digital?",
                     "acceptedAnswer": {
                         "@type": "Answer",
                         "text": "Il nostro ufficio è a Nova Milanese (MB), in Via Venezia 2 — nel cuore della Brianza, a 5 minuti da Monza e facilmente raggiungibile da Seregno, Desio, Lissone e Cesano Maderno."

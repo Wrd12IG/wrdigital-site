@@ -1,6 +1,7 @@
 'use client';
 
 import Script from 'next/script';
+import { COMPANY, orgRef } from '@/lib/company';
 
 interface SeoSchemaProps {
     type: 'Service' | 'Organization' | 'Article';
@@ -16,24 +17,9 @@ export default function SeoSchema({ type, data }: SeoSchemaProps) {
         const serviceSchema = {
             "@context": "https://schema.org/",
             "@type": "Service",
-            "name": data.title ? `${data.title} W[r]Digital` : "Consulenza Digitale W[r]Digital",
+            "name": data.title ? `${data.title} | ${COMPANY.name}` : `Consulenza Digitale ${COMPANY.name}`,
             "serviceType": data.title || "Digital Marketing",
-            "provider": {
-                "@type": "LocalBusiness",
-                "name": "W[r]Digital",
-                "image": "https://www.wrdigital.it/logo.png", // Ensure this image exists
-                "priceRange": "€€€",
-                "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "Milano",
-                    "addressCountry": "IT"
-                }
-            },
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "42"
-            },
+            "provider": orgRef(),
             "offers": {
                 "@type": "Offer",
                 "priceCurrency": "EUR",
@@ -44,24 +30,7 @@ export default function SeoSchema({ type, data }: SeoSchemaProps) {
         };
         schema = serviceSchema;
     } else if (type === 'Organization') {
-        schema = {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "W[r]Digital",
-            "url": "https://www.wrdigital.it",
-            "logo": "https://www.wrdigital.it/logo.png",
-            "sameAs": [
-                "https://instagram.com/wrdigital",
-                "https://linkedin.com/company/wrdigital"
-            ],
-            "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+39-340-120-4651", // Actual number
-                "contactType": "customer service",
-                "areaServed": "IT",
-                "availableLanguage": "Italian"
-            }
-        };
+        schema = { "@context": "https://schema.org", ...orgRef() };
     }
 
     // Add FAQ schema if present (using @graph to combine entities)

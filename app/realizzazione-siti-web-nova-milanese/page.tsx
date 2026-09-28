@@ -1,14 +1,15 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { orgRef } from '@/lib/company';
 
 export const metadata: Metadata = {
-    title: 'Realizzazione Siti Web Nova Milanese e Brianza | W[r]Digital',
+    title: 'Realizzazione Siti Web Nova Milanese e Brianza | WR Digital',
     description: 'Realizziamo siti web per PMI a Nova Milanese, Desio e in Monza Brianza. Progettati per portare richieste di contatto, non solo per essere belli. Parliamone.',
     alternates: {
         canonical: 'https://www.wrdigital.it/realizzazione-siti-web-nova-milanese',
     },
     openGraph: {
-        title: 'Realizzazione Siti Web Nova Milanese e Brianza | W[r]Digital',
+        title: 'Realizzazione Siti Web Nova Milanese e Brianza | WR Digital',
         description: 'Realizziamo siti web per PMI a Nova Milanese, Desio e in Monza Brianza. Progettati per portare richieste di contatto, non solo per essere belli. Parliamone.',
         url: 'https://www.wrdigital.it/realizzazione-siti-web-nova-milanese',
         locale: 'it_IT',
@@ -24,22 +25,7 @@ const jsonLd = {
             "@type": "Service",
             "name": "Realizzazione Siti Web Nova Milanese",
             "description": "Servizio professionale di sviluppo e realizzazione siti web per PMI e aziende a Nova Milanese, Desio e in Monza Brianza. Ottimizzazione SEO, mobile-first e velocità Core Web Vitals.",
-            "provider": {
-                "@type": "LocalBusiness",
-                "name": "W[r]Digital",
-                "url": "https://www.wrdigital.it",
-                "logo": "https://www.wrdigital.it/logo.png",
-                "image": "https://www.wrdigital.it/og-image.png",
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Via Venezia, 2",
-                    "addressLocality": "Nova Milanese",
-                    "addressRegion": "MB",
-                    "postalCode": "20834",
-                    "addressCountry": "IT"
-                },
-                "telephone": "+393401204651"
-            },
+            "provider": orgRef(),
             "areaServed": [
                 { "@type": "City", "name": "Nova Milanese" },
                 { "@type": "City", "name": "Desio" },

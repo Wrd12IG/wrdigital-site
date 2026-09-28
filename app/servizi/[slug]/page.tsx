@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import ServicePageClient from './ServicePageClient';
 import { prisma } from '@/lib/prisma';
 import { notFound, redirect } from 'next/navigation';
+import { orgRef } from '@/lib/company';
 
 export async function generateStaticParams() {
     const pages = await prisma.page.findMany({ select: { slug: true } });
@@ -42,7 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!page) {
         return {
-            title: 'Servizio non trovato | W[r]Digital',
+            title: 'Servizio non trovato | WR Digital',
             robots: { index: false }
         };
     }
@@ -70,7 +71,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         openGraph: {
             title: seo.ogTitle || seo.metaTitle || page.title,
             description: seo.ogDescription || metaDesc,
-            siteName: 'W[r]Digital Agency',
+            siteName: 'WR Digital',
             locale: 'it_IT',
             type: 'website',
             images: [
@@ -118,16 +119,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         "@type": "Service",
         "name": page.title,
         "description": content.description || page.seo?.metaDescription || '',
-        "provider": {
-            "@type": "Organization",
-            "name": "W[r]Digital",
-            "url": "https://www.wrdigital.it",
-            "logo": "https://www.wrdigital.it/logo.png",
-            "sameAs": [
-                "https://www.linkedin.com/company/wrdigital",
-                "https://www.instagram.com/wrdigital.it"
-            ]
-        },
+        "provider": orgRef(),
         "areaServed": [
             { "@type": "City", "name": "Milano" },
             { "@type": "City", "name": "Monza" },

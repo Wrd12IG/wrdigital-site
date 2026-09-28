@@ -2,13 +2,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-    title: 'Google Ads Monza & Brianza | Campagne PPC | W[r]Digital',
+    title: 'Google Ads Monza & Brianza | Campagne PPC | WR Digital',
     description: 'Gestione Google Ads a Monza e Brianza: campagne PPC geolocalizzate, ROAS monitorato e tracciamento conversioni completo. Team certificato Google. Preventivo gratuito.',
     alternates: {
         canonical: 'https://www.wrdigital.it/google-ads-monza',
     },
     openGraph: {
-        title: 'Google Ads Monza & Brianza | Campagne PPC | W[r]Digital',
+        title: 'Google Ads Monza & Brianza | Campagne PPC | WR Digital',
         description: 'Gestione Google Ads a Monza e Brianza: campagne PPC geolocalizzate, ROAS monitorato e tracciamento conversioni completo. Team certificato Google. Preventivo gratuito.',
         url: 'https://www.wrdigital.it/google-ads-monza',
         locale: 'it_IT',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Google Ads Monza & Brianza | Campagne PPC | W[r]Digital',
+        title: 'Google Ads Monza & Brianza | Campagne PPC | WR Digital',
         description: 'Campagne Google Ads per aziende di Monza e Brianza. ROAS medio 4x, team certificato, zero sprechi.',
         images: ['/og-image.png'],
     },
@@ -26,42 +26,6 @@ export const metadata: Metadata = {
 const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-        {
-            "@type": ["LocalBusiness", "MarketingAgency"],
-            "@id": "https://www.wrdigital.it/#business",
-            "name": "W[r]Digital — Google Ads Monza",
-            "url": "https://www.wrdigital.it",
-            "logo": "https://www.wrdigital.it/logo.png",
-            "image": "https://www.wrdigital.it/og-image.png",
-            "telephone": "+393401204651",
-            "email": "info@wrdigital.it",
-            "foundingDate": "2019",
-            "priceRange": "€€",
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "47",
-                "bestRating": "5"
-            },
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Via Venezia, 2",
-                "addressLocality": "Nova Milanese",
-                "addressRegion": "MB",
-                "postalCode": "20834",
-                "addressCountry": "IT"
-            },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 45.5773,
-                "longitude": 9.1813
-            },
-            "areaServed": [
-                { "@type": "City", "name": "Monza", "sameAs": "https://www.wikidata.org/wiki/Q6746" },
-                { "@type": "City", "name": "Nova Milanese" },
-                { "@type": "AdministrativeArea", "name": "Provincia di Monza e della Brianza" }
-            ]
-        },
         {
             "@type": "BreadcrumbList",
             "itemListElement": [

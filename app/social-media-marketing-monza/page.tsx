@@ -2,13 +2,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-    title: 'Social Media Marketing Monza & Brianza | W[r]Digital',
+    title: 'Social Media Marketing Monza & Brianza | WR Digital',
     description: 'Gestione social media per aziende di Monza e Brianza: Instagram, Facebook, LinkedIn e TikTok. Content plan, community management e advertising. Preventivo gratuito.',
     alternates: {
         canonical: 'https://www.wrdigital.it/social-media-marketing-monza',
     },
     openGraph: {
-        title: 'Social Media Marketing Monza & Brianza | W[r]Digital',
+        title: 'Social Media Marketing Monza & Brianza | WR Digital',
         description: 'Gestione social media per aziende di Monza e Brianza: Instagram, Facebook, LinkedIn e TikTok. Content plan, community management e advertising. Preventivo gratuito.',
         url: 'https://www.wrdigital.it/social-media-marketing-monza',
         locale: 'it_IT',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Social Media Marketing Monza & Brianza | W[r]Digital',
+        title: 'Social Media Marketing Monza & Brianza | WR Digital',
         description: 'Gestione social media per PMI di Monza: Instagram, Facebook, LinkedIn, TikTok. Content plan e community management.',
         images: ['/og-image.png'],
     },
@@ -26,42 +26,6 @@ export const metadata: Metadata = {
 const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-        {
-            "@type": ["LocalBusiness", "MarketingAgency"],
-            "@id": "https://www.wrdigital.it/#business",
-            "name": "W[r]Digital — Social Media Marketing Monza",
-            "url": "https://www.wrdigital.it",
-            "logo": "https://www.wrdigital.it/logo.png",
-            "image": "https://www.wrdigital.it/og-image.png",
-            "telephone": "+393401204651",
-            "email": "info@wrdigital.it",
-            "foundingDate": "2019",
-            "priceRange": "€€",
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "47",
-                "bestRating": "5"
-            },
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Via Venezia, 2",
-                "addressLocality": "Nova Milanese",
-                "addressRegion": "MB",
-                "postalCode": "20834",
-                "addressCountry": "IT"
-            },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 45.5773,
-                "longitude": 9.1813
-            },
-            "areaServed": [
-                { "@type": "City", "name": "Monza", "sameAs": "https://www.wikidata.org/wiki/Q6746" },
-                { "@type": "City", "name": "Nova Milanese" },
-                { "@type": "AdministrativeArea", "name": "Provincia di Monza e della Brianza" }
-            ]
-        },
         {
             "@type": "BreadcrumbList",
             "itemListElement": [

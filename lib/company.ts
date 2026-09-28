@@ -21,10 +21,11 @@ export const COMPANY = {
     },
     geo: { latitude: 45.5898, longitude: 9.1995 },
     openingHours: { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '09:00', closes: '18:00' },
+    // Profili effettivamente linkati dal sito (Footer/Contact/SocialLinks): schema e link devono coincidere.
     sameAs: [
-        'https://www.instagram.com/wrdigital',
-        'https://www.linkedin.com/company/wrdigital',
-        'https://www.facebook.com/wrdigital',
+        'https://www.facebook.com/WRDigitalSrl/',
+        'https://www.linkedin.com/company/wrdigitalagency/',
+        'https://www.instagram.com/wrdigital.agency/',
         'https://www.youtube.com/@wrdigital.agency',
     ],
     founders: [
