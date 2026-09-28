@@ -290,7 +290,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                             id="main-h1"
                             className={`${styles.title} ${styles.animTitle}`}
                         >
-                            <span className="sr-only">Agenzia Digital Marketing — </span>
+                            <span className="sr-only">Agenzia Digital Marketing a Monza e Milano — </span>
                             {renderTitle()}
                         </h1>
                         {/* Keyword geo-locale visibile — segnale SEO esplicito per Google */}

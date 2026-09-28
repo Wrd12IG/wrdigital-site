@@ -53,10 +53,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL('https://www.wrdigital.it'),
-    title: "Agenzia Marketing Digitale Milano | W[r]Digital",
-    description: "Agenzia Digital Marketing a Milano e Monza Brianza (Nova Milanese). SEO, Ads, Social Media e Web Design con ROI garantito. +300% traffico. Preventivo gratuito.",
-    keywords: "agenzia digital marketing milano, agenzia digital marketing monza e brianza, web agency milano, web agency monza e brianza, SEO milano, SEO monza e brianza, consulenza SEO, realizzazione siti web milano, realizzazione siti web monza e brianza, social media marketing, pubblicità online, google ads milano, google ads monza e brianza, lead generation, crescita aziendale",
-    authors: [{ name: "WR Digital Team", url: "https://www.wrdigital.it" }],
+    title: "Agenzia Digital Marketing a Monza e Milano | WR Digital",
+    description: "Agenzia digital marketing a Monza e Milano: SEO, Google Ads, social media e siti web per PMI, con risultati misurati e report chiari. Preventivo gratuito.",
+    authors: [{ name: "WR Digital", url: "https://www.wrdigital.it" }],
     creator: "WR Digital",
     publisher: "WR Digital",
     alternates: {
@@ -68,21 +67,21 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       url: "https://www.wrdigital.it",
-      title: "Agenzia Marketing Digitale Milano e Monza Brianza | W[r]Digital",
-      description: "Agenzia Digital Marketing a Milano e Monza Brianza: SEO, Ads, Social Media e Web Design con ROI garantito. +300% traffico organico. Preventivo gratuito.",
-      siteName: "W[r]Digital",
+      title: "Agenzia Digital Marketing a Monza e Milano | WR Digital",
+      description: "Agenzia digital marketing a Monza e Milano: SEO, Google Ads, social media e siti web per PMI, con risultati misurati e report chiari. Preventivo gratuito.",
+      siteName: "WR Digital",
       images: [{
         url: config.ogImage || "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "W[r]Digital - Agenzia Digital Marketing Milano e Monza Brianza",
+        alt: "WR Digital - Agenzia Digital Marketing Monza e Milano",
       }],
       locale: "it_IT",
     },
     twitter: {
       card: "summary_large_image",
-      title: "Agenzia Marketing Digitale Milano | W[r]Digital",
-      description: "Strategie digitali ad alto ROI per PMI a Milano e Monza Brianza: SEO, SEM, Social Media. +300% traffico organico. Consulenza gratuita.",
+      title: "Agenzia Digital Marketing a Monza e Milano | WR Digital",
+      description: "SEO, Google Ads, social media e siti web per PMI a Monza e Milano, con risultati misurati e report chiari. Preventivo gratuito.",
       images: [config.ogImage || "/og-image.png"],
     },
     robots: {
