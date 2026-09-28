@@ -75,7 +75,7 @@
     "client": "Digitalitis",
     "category": "SEO & Content",
     "year": "2024",
-    "description": "Audit SEO completo, architettura dei contenuti e link building per agenzia digitale in forte crescita. Implementazione della 6 Pillar Strategy: Technical SEO, Content Architecture, E-E-A-T, Link Building, Local SEO e AI Optimization.",
+    "description": "Audit SEO completo, architettura dei contenuti e link building per la software house di Monza che sviluppa BeeSmart, il gestionale (DMS) per concessionarie auto. Implementazione della 6 Pillar Strategy: Technical SEO, Content Architecture, E-E-A-T, Link Building, Local SEO e AI Optimization.",
     "results": [
       {
         "label": "Traffico organico",
@@ -242,14 +242,14 @@
   },
   {
     "id": "bgf-project",
-    "title": "SEO & Lead Generation Noleggio Industriale",
+    "title": "SEO & Google Ads per Concessionaria Auto",
     "client": "Bettin - BGF S.r.l.",
     "category": "SEO & Content",
     "year": "2025",
-    "description": "Strategia di posizionamento sui motori di ricerca e campagne Google Ads per azienda leader nel noleggio di macchinari e attrezzature industriali. Struttura del sito orientata alla conversione.",
+    "description": "Posizionamento sui motori di ricerca e campagne Google Ads per B.G.F. Auto / Bettin Motors, concessionaria Škoda, Mitsubishi e Silence a Piove di Sacco (PD). Struttura del sito orientata alla conversione.",
     "results": [
       {
-        "label": "Richieste Noleggio",
+        "label": "Richieste dal sito",
         "value": "+150%"
       },
       {
@@ -264,8 +264,8 @@
     "tags": [
       "SEO",
       "Google Ads",
-      "B2B Lead Generation",
-      "Noleggio Industriale"
+      "Lead Generation",
+      "Automotive"
     ],
     "image": "/images/projects/bgf_v2.jpg",
     "color": "#8b5cf6",
