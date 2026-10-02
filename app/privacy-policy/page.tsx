@@ -3,8 +3,8 @@ import { Mail, MapPin, Phone, FileText, Edit, Trash2, Ban, Pause, Package, Check
 
 
 export const metadata: Metadata = {
-    title: 'Privacy Policy | W[r]Digital',
-    description: 'Informativa sulla privacy e trattamento dei dati personali di W[r]Digital S.r.l.',
+    title: 'Privacy Policy | WR Digital',
+    description: 'Informativa sulla privacy e trattamento dei dati personali di WRDigital S.r.l.',
     robots: { index: false, follow: false },
 };
 

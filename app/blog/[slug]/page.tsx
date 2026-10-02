@@ -6,6 +6,7 @@ import { Calendar, Clock } from 'lucide-react';
 import staticPosts from '@/data/blog.json';
 
 import { prisma } from '@/lib/prisma';
+import { formatBlogDate, isoBlogDate } from '@/lib/dates';
 
 // Helper to get post — supports both semantic slug and legacy ID
 const getPost = async (slugOrId: string) => {
@@ -63,10 +64,11 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
             title: pageTitle,
             description: pageDesc,
             url: `https://www.wrdigital.it/blog/${post.slug}`,
-            siteName: 'W[r]Digital Blog',
+            siteName: 'WR Digital Blog',
             locale: 'it_IT',
             type: 'article',
-            publishedTime: post.date || undefined,
+            publishedTime: isoBlogDate(post.date) || isoBlogDate(post.createdAt),
+            modifiedTime: isoBlogDate(post.updatedAt),
             authors: [authorName],
             images: [
                 {
@@ -135,7 +137,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                     {/* Author + Date row */}
                     <div className="flex flex-wrap justify-center items-center gap-4 text-gray-300 text-sm font-mono border-t border-white/10 pt-6 inline-block w-full">
                         <span className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" /> Pubblicato: {post.date}
+                            <Calendar className="w-4 h-4" /> Pubblicato: <time dateTime={isoBlogDate(post.date)}>{formatBlogDate(post.date)}</time>
                         </span>
                         {(() => {
                             try {
@@ -151,7 +153,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                                             shouldShow = diffDays > 1;
                                         }
                                         if (shouldShow) {
-                                            const formatted = dateObj.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                                            const formatted = formatBlogDate(dateObj);
                                             return (
                                                 <>
                                                     <span className="hidden md:inline">•</span>

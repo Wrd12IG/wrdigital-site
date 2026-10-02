@@ -15,6 +15,7 @@ import styles from './ServicePage.module.css';
 import { servicesData } from '@/data/services';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { Check } from 'lucide-react';
+import { COMPANY, KPI, yearsActive } from '@/lib/company';
 // ============ DYNAMIC HERO ANIMATIONS ============
 
 // SEO: Matrix Code Rain (Yellow)
@@ -185,9 +186,10 @@ function GrowthGraph() {
     );
 }
 
-// Hook per animazione count-up
+// Hook per animazione count-up: lo stato iniziale è il valore finale, così l'HTML
+// server-side contiene il dato reale (non "0"); l'animazione parte solo quando entra in vista.
 function useCountUp(end: number, duration: number = 2000, startOnView: boolean = true) {
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(end);
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true });
     const hasStarted = useRef(false);
@@ -436,8 +438,8 @@ export default function ServicePage({ initialData, slug: propSlug }: ServicePage
                                             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#60a5fa" stroke="#93c5fd" strokeWidth="1.5" />
                                         </svg>
                                     </div>
-                                    <div className={styles.trustMetricValue}>8+</div>
-                                    <div className={styles.trustMetricLabel}>Anni Esperienza</div>
+                                    <div className={styles.trustMetricValue}>{yearsActive()}+</div>
+                                    <div className={styles.trustMetricLabel}>Anni di attività</div>
                                 </motion.div>
 
                                 <motion.div
@@ -468,8 +470,8 @@ export default function ServicePage({ initialData, slug: propSlug }: ServicePage
                                             <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                     </div>
-                                    <div className={styles.trustMetricValue}>150+</div>
-                                    <div className={styles.trustMetricLabel}>Clienti Attivi</div>
+                                    <div className={styles.trustMetricValue}>{KPI.clientsLabel}</div>
+                                    <div className={styles.trustMetricLabel}>Clienti dal {COMPANY.foundingYear}</div>
                                 </motion.div>
 
                                 <motion.div

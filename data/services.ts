@@ -18,7 +18,7 @@ export const servicesData: Record<string, {
         uvpSubtitle: 'Essere in seconda pagina su Google significa essere invisibili.',
         ctaText: 'Analizza il mio sito gratis',
         clientCount: 52,
-        description: 'In W[r]Digital scaliamo i motori di ricerca con un approccio tecnico e contenuti che piacciono sia agli algoritmi che alle persone. Costruiamo un\'infrastruttura di acquisizione organica che lavora 24/7.',
+        description: 'In WR Digital scaliamo i motori di ricerca con un approccio tecnico e contenuti che piacciono sia agli algoritmi che alle persone. Costruiamo un\'infrastruttura di acquisizione organica che lavora 24/7.',
         stats: [
             { value: '+145%', label: 'Traffico Organico' },
             { value: '3.8x', label: 'ROI Medio' },
@@ -28,7 +28,7 @@ export const servicesData: Record<string, {
             { title: 'Audit Tecnica Profonda', description: 'Analisi completa di 200+ fattori SEO con report dettagliato e priorità di intervento.' },
             { title: 'Link Building Premium', description: 'Backlink da siti autorevoli (DR 50+) nel tuo settore per scalare le SERP.' },
             { title: 'Content Strategy ROI', description: 'Piano editoriale basato su keyword ad alto intento di acquisto.' },
-            { title: 'Rimozione Penalizzazioni', description: 'Recupero da penalizzazioni Google con garanzia di risultato.' },
+            { title: 'Rimozione Penalizzazioni', description: 'Recupero da penalizzazioni Google con diagnosi e piano di rientro documentati.' },
             { title: 'Report Mensili Trasparenti', description: 'Dashboard in tempo reale + call mensile con il tuo SEO Specialist.' }
         ],
         faq: [

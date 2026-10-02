@@ -79,13 +79,6 @@
   backdrop-filter: blur(10px);
 }
 
-@media (min-width: 1024px) {
-  .controlsRow {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
 
 /* Search Box */
 .searchWrapper {
@@ -96,7 +89,7 @@
 
 @media (min-width: 1024px) {
   .searchWrapper {
-    max-width: 350px;
+    max-width: 480px;
   }
 }
 
@@ -130,29 +123,39 @@
 /* Filters */
 .filtersWrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--spacing-md);
-  overflow: hidden;
-  flex: 2;
+  min-width: 0;
 }
 
 .filterIcon {
   color: var(--color-accent-primary);
   flex-shrink: 0;
+  margin-top: 9px;
 }
 
 .filtersList {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--spacing-sm);
-  overflow-x: auto;
-  padding-bottom: 4px;
-  scrollbar-width: none; /* Firefox */
-  -webkit-overflow-scrolling: touch;
+  min-width: 0;
 }
 
-.filtersList::-webkit-scrollbar {
-  display: none; /* Safari/Chrome */
+/* Su mobile i chip scorrono in orizzontale invece di occupare 5-6 righe */
+@media (max-width: 767px) {
+  .filtersList {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filtersList::-webkit-scrollbar {
+    display: none;
+  }
 }
+
 
 .filterBtn {
   white-space: nowrap;

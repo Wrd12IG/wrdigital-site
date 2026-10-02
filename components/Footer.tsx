@@ -102,7 +102,7 @@ export default function Footer({ isDarkMode = true, onToggleTheme, logo }: Foote
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 style={{ color: '#FACC15', textDecoration: 'underline', fontSize: '0.85em' }}
-                                aria-label="Verifica certificazioni Google di W[r]Digital su Google Skillshop"
+                                aria-label="Verifica certificazioni Google di WR Digital su Google Skillshop"
                             >
                                 Verifica le nostre certificazioni →
                             </a>

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import comuniData from '@/data/comuni-mb.json';
+import { orgRef } from '@/lib/company';
 
 // Statically pre-render all zone pages at build time
 export const dynamicParams = false;
@@ -22,13 +23,13 @@ export async function generateMetadata({ params }: { params: Promise<{ citta: st
     if (!comune) return { title: 'Pagina non trovata' };
 
     return {
-        title: `Agenzia Digital Marketing ${comune.name} | SEO, Ads e Web | W[r]Digital`,
-        description: `W[r]Digital — agenzia marketing digitale per le PMI di ${comune.name}. SEO locale, Google Ads e siti web ottimizzati. A soli ${comune.distanceKm} km dal tuo ufficio. Audit gratuita.`,
+        title: `Agenzia Digital Marketing ${comune.name} | SEO, Ads e Web | WR Digital`,
+        description: `WR Digital — agenzia marketing digitale per le PMI di ${comune.name}. SEO locale, Google Ads e siti web ottimizzati. A soli ${comune.distanceKm} km dal tuo ufficio. Audit gratuita.`,
         alternates: {
             canonical: `https://www.wrdigital.it/zona/${comune.slug}`,
         },
         openGraph: {
-            title: `Agenzia Digital Marketing ${comune.name} | W[r]Digital`,
+            title: `Agenzia Digital Marketing ${comune.name} | WR Digital`,
             description: `Strategie SEO, Ads e Web per le PMI di ${comune.name} e della Brianza. Audit gratuita, risultati misurabili.`,
             url: `https://www.wrdigital.it/zona/${comune.slug}`,
             locale: 'it_IT',
@@ -57,20 +58,7 @@ export default async function CittaPage({ params }: { params: Promise<{ citta: s
                 "@type": "Service",
                 "name": `Digital Marketing per ${comune.name}`,
                 "description": `Servizi di digital marketing (SEO, Ads, Social, Web) per aziende e PMI di ${comune.name}, Provincia di Monza e Brianza.`,
-                "provider": {
-                    "@type": "LocalBusiness",
-                    "name": "W[r]Digital",
-                    "url": "https://www.wrdigital.it",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "streetAddress": "Via Venezia, 2",
-                        "addressLocality": "Nova Milanese",
-                        "addressRegion": "MB",
-                        "postalCode": "20834",
-                        "addressCountry": "IT"
-                    },
-                    "telephone": "+393401204651"
-                },
+                "provider": orgRef(),
                 "areaServed": [
                     { "@type": "City", "name": comune.name },
                     { "@type": "AdministrativeArea", "name": "Provincia di Monza e della Brianza" }

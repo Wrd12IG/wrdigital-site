@@ -1,12 +1,12 @@
 export const aiTemplates: any = {
     home: {
         meta: {
-            title: "Digital Agency Milano: SEO, Social & Web | W[r]Digital",
-            description: "Trasforma il tuo brand con W[r]Digital. Strategie SEO, Social Media e Sviluppo Web che portano risultati misurabili. Richiedi la tua audit gratuita oggi.",
+            title: "Digital Agency Milano: SEO, Social & Web | WR Digital",
+            description: "Trasforma il tuo brand con WR Digital. Strategie SEO, Social Media e Sviluppo Web che portano risultati misurabili. Richiedi la tua audit gratuita oggi.",
             keywords: "digital agency milano, agenzia seo, social media marketing, sviluppo web, crescita organica"
         },
         og: {
-            title: "W[r]Digital | L'Agenzia che scala il tuo business",
+            title: "WR Digital | L'Agenzia che scala il tuo business",
             description: "Non la solita agenzia. Un partner strategico per la tua crescita digitale.",
             image: "https://wrdigital.com/og-home-2026.jpg"
         },
@@ -19,12 +19,12 @@ export const aiTemplates: any = {
     },
     seo: {
         meta: {
-            title: "Agenzia SEO Milano: Posizionamento Google Garantito | W[r]Digital",
-            description: "Scala la SERP con W[r]Digital. Strategie SEO data-driven, Link Building e Ottimizzazione Tecnica per dominare il tuo mercato. Inizia la scalata ora.",
+            title: "Agenzia SEO Milano: Posizionamento Google Misurabile | WR Digital",
+            description: "Scala la SERP con WR Digital. Strategie SEO data-driven, Link Building e Ottimizzazione Tecnica per dominare il tuo mercato. Inizia la scalata ora.",
             keywords: "agenzia seo milano, consulenza seo, posizionamento siti web, link building, audit seo tecnica"
         },
         og: {
-            title: "Domina la prima pagina di Google | SEO W[r]Digital",
+            title: "Domina la prima pagina di Google | SEO WR Digital",
             description: "Essere in seconda pagina significa essere invisibili. Cambia le regole del gioco.",
             image: "https://wrdigital.com/og-seo.jpg"
         },
@@ -37,12 +37,12 @@ export const aiTemplates: any = {
     },
     social: {
         meta: {
-            title: "Social Media Agency: Strategie che Convertono | W[r]Digital",
+            title: "Social Media Agency: Strategie che Convertono | WR Digital",
             description: "Più che like, creiamo clienti. Gestione professionale Instagram, TikTok e LinkedIn con focus su E-E-A-T e conversioni. Scopri la nostra strategia social.",
             keywords: "social media agency, gestione instagram, tiktok marketing, social media manager milano, content creation"
         },
         og: {
-            title: "Trasforma i Follower in Clienti | Social W[r]Digital",
+            title: "Trasforma i Follower in Clienti | Social WR Digital",
             description: "Smetti di postare a caso. Inizia a costruire una community fedele.",
             image: "https://wrdigital.com/og-social.jpg"
         },
@@ -54,12 +54,12 @@ export const aiTemplates: any = {
     },
     ads: {
         meta: {
-            title: "Google Ads & Meta Advertising: Campagne ROI+ | W[r]Digital",
+            title: "Google Ads & Meta Advertising: Campagne ROI+ | WR Digital",
             description: "Smetti di bruciare budget. Campagne PPC mirate su Google e Social che massimizzano il tuo ritorno sull'investimento. Richiedi un'analisi gratuita.",
             keywords: "google ads agency, meta ads, pubblicità online, ppc management, lead generation"
         },
         og: {
-            title: "Advertising che Ripaga l'Investimento | Ads W[r]Digital",
+            title: "Advertising che Ripaga l'Investimento | Ads WR Digital",
             description: "Ogni euro speso deve portarne indietro almeno due. Questa è la nostra filosofia.",
             image: "https://wrdigital.com/og-ads.jpg"
         },
@@ -71,12 +71,12 @@ export const aiTemplates: any = {
     },
     web: {
         meta: {
-            title: "Sviluppo Siti Web: Veloci, Moderni, Efficaci | W[r]Digital",
+            title: "Sviluppo Siti Web: Veloci, Moderni, Efficaci | WR Digital",
             description: "Il tuo sito è lento? Perdi clienti. Realizziamo siti web ultra-performanti, mobile-first e ottimizzati SEO. Il tuo miglior venditore, attivo 24/7.",
             keywords: "realizzazione siti web milano, web design, siti ecommerce, sviluppo web custom, restyling sito"
         },
         og: {
-            title: "Siti Web Belli ma Soprattutto Veloci | Web W[r]Digital",
+            title: "Siti Web Belli ma Soprattutto Veloci | Web WR Digital",
             description: "Design premium e performance da Formula 1. Il connubio perfetto.",
             image: "https://wrdigital.com/og-web.jpg"
         },

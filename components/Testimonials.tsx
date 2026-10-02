@@ -157,6 +157,8 @@ export default function Testimonials({ initialTestimonials, initialConfig }: { i
                             <div
                                 key={`${testimonial.id || 'fb'}-${idx}`}
                                 className={styles.testimonialCard}
+                                // Solo la prima copia è contenuto: le altre servono al loop visivo del marquee.
+                                aria-hidden={idx >= list.length ? true : undefined}
                             >
                                 {/* Decorative Quote Icon */}
                                 <div className={styles.quoteIcon}>

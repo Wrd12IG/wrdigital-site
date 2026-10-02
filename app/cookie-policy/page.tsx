@@ -3,8 +3,8 @@ import { Settings, BarChart3, Target, Globe, Mail, Phone, AlertTriangle, Check }
 
 
 export const metadata: Metadata = {
-    title: 'Cookie Policy | W[r]Digital',
-    description: 'Informativa completa sull\'utilizzo dei cookie sul sito W[r]Digital',
+    title: 'Cookie Policy | WR Digital',
+    description: 'Informativa completa sull\'utilizzo dei cookie sul sito WR Digital',
     robots: { index: false, follow: false },
 };
 

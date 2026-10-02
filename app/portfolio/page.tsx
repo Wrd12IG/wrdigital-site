@@ -4,10 +4,10 @@ import { prisma } from '@/lib/prisma';
 import staticProjects from '@/data/portfolio.json';
 
 export const metadata: Metadata = {
-    title: 'Portfolio & Case Studies | W[r]Digital',
+    title: 'Portfolio & Case Studies | WR Digital',
     description: 'Esplora i nostri progetti di successo. Siti web, campagne SEO e strategie di marketing che hanno generato ROI reali per i nostri clienti.',
     openGraph: {
-        title: 'Il Portfolio di W[r]Digital - Risultati che Parlano',
+        title: 'Il Portfolio di WR Digital - Risultati che Parlano',
         description: 'Dal Web Design alla SEO avanzata. Scopri come aiutiamo le aziende a crescere.',
         url: 'https://www.wrdigital.it/portfolio',
         images: [{ url: '/og-portfolio.jpg', width: 1200, height: 630 }],

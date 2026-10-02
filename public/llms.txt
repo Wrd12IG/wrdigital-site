@@ -1,15 +1,28 @@
-# W[r]Digital
+# WR Digital
 
 > Agenzia di digital marketing a Milano e Monza Brianza (Nova Milanese, MB), Italia.
 > Specializzata in SEO locale, Google Ads, Social Media Marketing e realizzazione siti web per PMI lombarde.
 > Contatto: info@wrdigital.it | +39 340 120 4651 | Via Venezia 2, 20834 Nova Milanese (MB) | P.IVA IT10961410965
+
+## WR Digital in sintesi
+
+- **Nome**: WR Digital (grafia del marchio: W[r]Digital)
+- **Ragione sociale**: WRDigital S.r.l. — P.IVA IT10961410965
+- **Fondazione**: 2019
+- **Sede**: Via Venezia 2, 20834 Nova Milanese (MB), Italia
+- **Area servita**: Monza e Brianza, Milano e Lombardia
+- **Servizi**: SEO, GEO / AI Search, Google Ads, Meta Ads, social media marketing, realizzazione siti web ed e-commerce (Next.js)
+- **Settori**: PMI lombarde, concessionarie e automotive, retail ed e-commerce, servizi professionali
+- **Clienti**: 50+ dal 2019
+- **Founder**: Valentina Dell'Orto, Roberto Solano, Giuseppe Savino
+- **Contatti**: info@wrdigital.it · +39 340 120 4651 · Lun–Ven 09:00–18:00
 
 ## Servizi principali
 
 - [Agenzia Digital Marketing Milano](https://www.wrdigital.it/agenzia-digital-marketing-milano): Servizi completi di digital marketing per aziende nell'area milanese — SEO, Google Ads, Social Media e Web Design.
 - [Agenzia Digital Marketing Monza Brianza](https://www.wrdigital.it/agenzia-digital-marketing-monza-brianza): Digital marketing per PMI di Monza e tutta la Brianza. Sede a Nova Milanese, 5 min da Monza.
 - [Web Agency Monza](https://www.wrdigital.it/web-agency-monza): Realizzazione siti web professionali, e-commerce e landing page per aziende di Monza e Brianza.
-- [Google Ads Monza](https://www.wrdigital.it/google-ads-monza): Gestione campagne PPC Google e Meta Ads geolocalizzate per Monza Brianza con ROAS garantito.
+- [Google Ads Monza](https://www.wrdigital.it/google-ads-monza): Gestione campagne PPC Google e Meta Ads geolocalizzate per Monza Brianza con ROAS tracciato e report mensile.
 - [Social Media Marketing Monza](https://www.wrdigital.it/social-media-marketing-monza): Gestione Instagram, Facebook, LinkedIn e TikTok per aziende della Brianza.
 - [Consulenza SEO Monza](https://www.wrdigital.it/consulenza-seo-monza): Consulenza SEO strategica per posizionamento locale di PMI a Monza e Nova Milanese.
 - [Servizio SEO](https://www.wrdigital.it/servizi/seo): Ottimizzazione SEO tecnica, link building e content strategy per PMI italiane.
@@ -30,7 +43,7 @@
 
 ## Pagine Aziendali
 
-- [Chi siamo](https://www.wrdigital.it/agenzia-marketing-digitale): Storia, team, valori e approccio strategico di W[r]Digital S.r.l.
+- [Chi siamo](https://www.wrdigital.it/agenzia-marketing-digitale): Storia, team, valori e approccio strategico di WR Digital (WRDigital S.r.l.).
 - [Portfolio & Case Study](https://www.wrdigital.it/portfolio): Risultati concreti e casi studio per i clienti di Monza, Milano e Brianza.
 - [Preventivo gratuito](https://www.wrdigital.it/preventivo): Richiedi audit SEO e preventivo personalizzato senza impegno.
 - [Contatti](https://www.wrdigital.it/contatti): Sede operativa, telefono, email e form di contatto diretto.

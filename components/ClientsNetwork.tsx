@@ -16,6 +16,22 @@ export interface Client {
   order: number;
 }
 
+// I settori dei clienti sono scritti a mano (24+ varianti): per i filtri li raggruppiamo
+// in poche macro-categorie in ordine fisso. Il badge della card mostra il settore dettagliato.
+const MACRO_SECTORS: { label: string; sectors: string[] }[] = [
+  { label: 'Automotive', sectors: ['Automotive', 'Automotive & Moto'] },
+  { label: 'Industria & Edilizia', sectors: ['Industria', 'Industria & Logistica', 'Logistica & Industria', 'Edilizia', 'Impiantistica & Manutenzione'] },
+  { label: 'Tech & IT', sectors: ['Tech & IT', 'Tecnologia & Software', 'Informatica'] },
+  { label: 'Retail & Moda', sectors: ['Retail & Sport', 'Retail & Design', 'Retail & Fashion', 'Retail & Wedding', 'Retail & Health', 'Moda & Lusso', 'Beauty & Wellness'] },
+  { label: 'Food & Ospitalità', sectors: ['Food & Beverage', 'Ristorazione', 'Ospitalità'] },
+  { label: 'E-commerce & Digital', sectors: ['E-commerce', 'Digital Agency'] },
+  { label: 'Servizi & Salute', sectors: ['Servizi Professionali', 'Medical & Health', 'Medicale & Sanità', 'Formazione'] },
+];
+const OTHER_SECTOR = 'Altro';
+
+const macroSector = (sector?: string) =>
+  MACRO_SECTORS.find(m => m.sectors.includes(sector || ''))?.label ?? OTHER_SECTOR;
+
 interface ClientsNetworkProps {
   initialClients: Client[];
 }
@@ -30,19 +46,19 @@ export default function ClientsNetwork({ initialClients }: ClientsNetworkProps) 
       
       const matchesSearch = client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             client.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            client.sector.toLowerCase().includes(searchQuery.toLowerCase());
+                            (client.sector || '').toLowerCase().includes(searchQuery.toLowerCase());
                             
-      const matchesSector = selectedSector === 'Tutti' || client.sector === selectedSector;
+      const matchesSector = selectedSector === 'Tutti' || macroSector(client.sector) === selectedSector;
       
       return matchesSearch && matchesSector;
     });
   }, [initialClients, searchQuery, selectedSector]);
 
-  // Extract unique sectors
+  // Macro-settori presenti, in ordine fisso, con "Tutti" sempre per primo
   const sectors = useMemo(() => {
-    const activeClients = initialClients.filter(c => c.showInSuccessStories);
-    const allSectors = activeClients.map(c => c.sector);
-    return ['Tutti', ...Array.from(new Set(allSectors))].sort();
+    const present = new Set(initialClients.filter(c => c.showInSuccessStories).map(c => macroSector(c.sector)));
+    const ordered = [...MACRO_SECTORS.map(m => m.label), OTHER_SECTOR].filter(label => present.has(label));
+    return ['Tutti', ...ordered];
   }, [initialClients]);
 
   return (

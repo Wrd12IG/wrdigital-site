@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     if (!bando) return { title: 'Bando non trovato' };
 
     return {
-        title: `${bando.title} | W[r]Digital`,
+        title: `${bando.title} | WR Digital`,
         description: `Ottieni fino a ${bando.max_amount} a fondo perduto con il ${bando.title}. Scopri come accedere ai fondi per la digitalizzazione.`,
         openGraph: {
             title: `${bando.title} - Fondi 2026`,

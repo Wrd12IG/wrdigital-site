@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import ServicePageClient from './ServicePageClient';
 import { prisma } from '@/lib/prisma';
 import { notFound, redirect } from 'next/navigation';
+import { orgRef } from '@/lib/company';
 
 export async function generateStaticParams() {
     const pages = await prisma.page.findMany({ select: { slug: true } });
@@ -42,22 +43,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!page) {
         return {
-            title: 'Servizio non trovato | W[r]Digital',
+            title: 'Servizio non trovato | WR Digital',
             robots: { index: false }
         };
     }
 
-    const valueProp = "W[r]Digital | Agenzia Milano";
+    const valueProp = "WR Digital | Agenzia Milano";
     const seo = (page.seo || {}) as any;
 
     // Fallback descriptions per servizi hub (quando DB vuoto)
     const SERVICE_META_FALLBACKS: Record<string, string> = {
         seo: 'Servizio SEO professionale a Milano e Monza Brianza. Audit tecnica, link building, content strategy e posizionamento locale. +300% traffico organico medio. Audit gratuita.',
-        ads: 'Gestione Google Ads e Meta Ads per PMI di Milano e Monza Brianza. Campagne PPC geolocalizzate, tracciamento conversioni, ROAS garantito. Fee fisso, nessuna % sul budget.',
+        ads: 'Gestione Google Ads e Meta Ads per PMI di Milano e Monza Brianza. Campagne PPC geolocalizzate, tracciamento conversioni, ROAS monitorato. Fee fisso, nessuna % sul budget.',
         social: 'Social Media Marketing a Milano e Brianza: gestione Instagram, Facebook, LinkedIn, TikTok. Strategia editoriale, crescita community e campagne a performance. Preventivo gratuito.',
         web: 'Realizzazione siti web a Milano e Monza: landing page da €900, siti corporate da €2.500, e-commerce da €4.500. SEO tecnica, Core Web Vitals e mobile-first inclusi.',
     };
-    const fallbackDesc = SERVICE_META_FALLBACKS[slug] || `${page.title} — W[r]Digital, agenzia digital marketing a Milano e Monza Brianza. Strategie data-driven, team senior dedicato. Audit gratuita.`;
+    const fallbackDesc = SERVICE_META_FALLBACKS[slug] || `${page.title} — WR Digital, agenzia digital marketing a Milano e Monza Brianza. Strategie data-driven, team senior dedicato. Audit gratuita.`;
     const metaDesc = seo.metaDescription || fallbackDesc;
 
     // 2. Costruzione Metadati Ottimizzati
@@ -70,7 +71,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         openGraph: {
             title: seo.ogTitle || seo.metaTitle || page.title,
             description: seo.ogDescription || metaDesc,
-            siteName: 'W[r]Digital Agency',
+            siteName: 'WR Digital',
             locale: 'it_IT',
             type: 'website',
             images: [
@@ -118,16 +119,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         "@type": "Service",
         "name": page.title,
         "description": content.description || page.seo?.metaDescription || '',
-        "provider": {
-            "@type": "Organization",
-            "name": "W[r]Digital",
-            "url": "https://www.wrdigital.it",
-            "logo": "https://www.wrdigital.it/logo.png",
-            "sameAs": [
-                "https://www.linkedin.com/company/wrdigital",
-                "https://www.instagram.com/wrdigital.it"
-            ]
-        },
+        "provider": orgRef(),
         "areaServed": [
             { "@type": "City", "name": "Milano" },
             { "@type": "City", "name": "Monza" },

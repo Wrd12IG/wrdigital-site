@@ -1,14 +1,15 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { orgRef } from '@/lib/company';
 
 export const metadata: Metadata = {
-    title: 'Consulenza SEO Nova Milanese e Brianza | W[r]Digital',
+    title: 'Consulenza SEO Nova Milanese e Brianza | WR Digital',
     description: 'Consulenza SEO per PMI a Nova Milanese, Desio e in Monza Brianza. Analisi, SEO locale e contenuti che portano clienti, non solo visite. Primo confronto gratuito.',
     alternates: {
         canonical: 'https://www.wrdigital.it/consulenza-seo-nova-milanese',
     },
     openGraph: {
-        title: 'Consulenza SEO Nova Milanese e Brianza | W[r]Digital',
+        title: 'Consulenza SEO Nova Milanese e Brianza | WR Digital',
         description: 'Consulenza SEO per PMI a Nova Milanese, Desio e in Monza Brianza. Analisi, SEO locale e contenuti che portano clienti, non solo visite. Primo confronto gratuito.',
         url: 'https://www.wrdigital.it/consulenza-seo-nova-milanese',
         locale: 'it_IT',
@@ -24,22 +25,7 @@ const jsonLd = {
             "@type": "Service",
             "name": "Consulenza SEO Nova Milanese",
             "description": "Servizio di ottimizzazione per i motori di ricerca (SEO) per aziende e PMI di Nova Milanese, Desio e in Monza Brianza. Include audit tecnica, local SEO e content strategy.",
-            "provider": {
-                "@type": "LocalBusiness",
-                "name": "W[r]Digital",
-                "url": "https://www.wrdigital.it",
-                "logo": "https://www.wrdigital.it/logo.png",
-                "image": "https://www.wrdigital.it/og-image.png",
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Via Venezia, 2",
-                    "addressLocality": "Nova Milanese",
-                    "addressRegion": "MB",
-                    "postalCode": "20834",
-                    "addressCountry": "IT"
-                },
-                "telephone": "+393401204651"
-            },
+            "provider": orgRef(),
             "areaServed": [
                 { "@type": "City", "name": "Nova Milanese" },
                 { "@type": "City", "name": "Desio" },

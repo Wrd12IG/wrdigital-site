@@ -4,13 +4,13 @@ import NewsletterForm from '@/components/NewsletterForm';
 import { prisma } from '@/lib/prisma';
 
 export const metadata: Metadata = {
-    title: 'Blog Digital Marketing | SEO, AI e Crescita | W[r]Digital',
+    title: 'Blog Digital Marketing | SEO, AI e Crescita | WR Digital',
     description: 'Guide pratiche, analisi e case study su SEO, Digital Marketing, AI e crescita aziendale a Milano e Monza Brianza. Strategie reali, dati verificabili.',
     openGraph: {
-        title: 'W[r]Digital Blog - Strategie di Digital Marketing per Crescere',
-        description: 'Guide pratiche, case study SEO e analisi AI per dominare il mercato digitale. Aggiornato ogni settimana dal team di esperti W[r]Digital.',
+        title: 'WR Digital Blog - Strategie di Digital Marketing per Crescere',
+        description: 'Guide pratiche, case study SEO e analisi AI per dominare il mercato digitale. Aggiornato ogni settimana dal team di esperti WR Digital.',
         url: 'https://www.wrdigital.it/blog',
-        siteName: 'W[r]Digital',
+        siteName: 'WR Digital',
         locale: 'it_IT',
         type: 'website',
         images: [
@@ -18,13 +18,13 @@ export const metadata: Metadata = {
                 url: '/og-blog.jpg',
                 width: 1200,
                 height: 630,
-                alt: 'W[r]Digital Blog - Digital Marketing Milano',
+                alt: 'WR Digital Blog - Digital Marketing Milano',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'W[r]Digital Blog - Strategie Digital Marketing Milano',
+        title: 'WR Digital Blog - Strategie Digital Marketing Milano',
         description: 'Guide pratiche, case study SEO e analisi AI per crescere online.',
         images: ['/og-blog.jpg'],
     },

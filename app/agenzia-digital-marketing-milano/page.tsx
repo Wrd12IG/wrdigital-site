@@ -2,14 +2,14 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-    title: 'Agenzia Digital Marketing Milano | SEO, Ads, Web | W[r]Digital',
+    title: 'Agenzia Digital Marketing Milano | SEO, Ads, Web | WR Digital',
     description: 'Agenzia digital marketing a Milano: SEO, Google Ads e Web Design per PMI milanesi. Sede a Nova Milanese, 20 min dal centro. +300% traffico organico. Preventivo gratuito.',
     alternates: {
         canonical: 'https://www.wrdigital.it/agenzia-digital-marketing-milano',
     },
     openGraph: {
-        title: 'Agenzia Digital Marketing Milano | W[r]Digital',
-        description: 'La tua agenzia digital marketing di fiducia a Milano. SEO, Ads, Social Media e Web Design con ROI garantito e trasparenza totale.',
+        title: 'Agenzia Digital Marketing Milano | WR Digital',
+        description: 'La tua agenzia digital marketing di fiducia a Milano. SEO, Ads, Social Media e Web Design con risultati misurabili e trasparenza totale.',
         url: 'https://www.wrdigital.it/agenzia-digital-marketing-milano',
         locale: 'it_IT',
         type: 'website',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Agenzia Digital Marketing Milano | W[r]Digital',
+        title: 'Agenzia Digital Marketing Milano | WR Digital',
         description: 'SEO, Google Ads e Web Design per PMI milanesi. Sede a Nova Milanese. Preventivo gratuito.',
         images: ['/og-image.png'],
     },
@@ -26,64 +26,6 @@ export const metadata: Metadata = {
 const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-        {
-            "@type": ["LocalBusiness", "MarketingAgency"],
-            "@id": "https://www.wrdigital.it/#business",
-            "name": "W[r]Digital — Agenzia Digital Marketing Milano",
-            "url": "https://www.wrdigital.it",
-            "logo": "https://www.wrdigital.it/logo.png",
-            "image": "https://www.wrdigital.it/og-image.png",
-            "telephone": "+393401204651",
-            "email": "info@wrdigital.it",
-            "foundingDate": "2019",
-            "priceRange": "€€",
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "47",
-                "bestRating": "5"
-            },
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Via Venezia, 2",
-                "addressLocality": "Nova Milanese",
-                "addressRegion": "MB",
-                "postalCode": "20834",
-                "addressCountry": "IT"
-            },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 45.5898,
-                "longitude": 9.1995
-            },
-            "areaServed": [
-                { "@type": "City", "name": "Milano", "sameAs": "https://www.wikidata.org/wiki/Q490" },
-                { "@type": "AdministrativeArea", "name": "Città Metropolitana di Milano" },
-                { "@type": "City", "name": "Nova Milanese" },
-                { "@type": "AdministrativeArea", "name": "Provincia di Monza e della Brianza" }
-            ],
-            "knowsAbout": [
-                "SEO Milano",
-                "Google Ads Milano",
-                "Agenzia digital marketing Milano",
-                "Social media marketing Milano",
-                "Creazione siti web Milano",
-                "Consulenza digital marketing Milano"
-            ],
-            "openingHoursSpecification": [
-                {
-                    "@type": "OpeningHoursSpecification",
-                    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                    "opens": "09:00",
-                    "closes": "18:00"
-                }
-            ],
-            "sameAs": [
-                "https://www.instagram.com/wrdigital.it",
-                "https://www.linkedin.com/company/wrdigital",
-                "https://www.facebook.com/wrdigital"
-            ]
-        },
         {
             "@type": "BreadcrumbList",
             "itemListElement": [

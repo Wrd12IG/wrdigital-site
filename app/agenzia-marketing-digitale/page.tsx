@@ -4,16 +4,17 @@ import Link from 'next/link';
 import { ArrowRight, Check, Download, Info } from 'lucide-react';
 import PillarServiceWidget from '@/components/PillarServiceWidget';
 import styles from './PillarPage.module.css';
+import { orgRef } from '@/lib/company';
 
 export const metadata: Metadata = {
-    title: 'Agenzia Marketing Digitale Milano e Monza | W[r]Digital',
+    title: 'Agenzia Marketing Digitale Milano e Monza | WR Digital',
     description: 'Scopri come scegliere la giusta agenzia di marketing digitale a Milano e Monza Brianza nel 2026. Guida strategica su SEO, AI Search, e metriche reali.',
     alternates: {
         canonical: '/agenzia-marketing-digitale',
     },
     openGraph: {
-        title: 'Agenzia Marketing Digitale Milano e Monza | W[r]Digital',
-        description: 'Non sprecare budget. Ecco come distinguere un\'agenzia seria da una fabbrica di fumo. La guida definitiva di W[r]Digital.',
+        title: 'Agenzia Marketing Digitale Milano e Monza | WR Digital',
+        description: 'Non sprecare budget. Ecco come distinguere un\'agenzia seria da una fabbrica di fumo. La guida definitiva di WR Digital.',
         url: 'https://www.wrdigital.it/agenzia-marketing-digitale',
         type: 'article',
         publishedTime: '2026-01-01',
@@ -29,18 +30,8 @@ const jsonLd = {
             "@type": "Article",
             "headline": "Agenzia Marketing Digitale Milano e Monza Brianza: La Guida Completa alla Strategia [r]eale 2026",
             "image": "https://www.wrdigital.it/og-pillar-marketing.jpg",
-            "author": {
-                "@type": "Organization",
-                "name": "W[r]Digital"
-            },
-            "publisher": {
-                "@type": "Organization",
-                "name": "W[r]Digital",
-                "logo": {
-                    "@type": "ImageObject",
-                    "url": "https://www.wrdigital.it/logo.png"
-                }
-            },
+            "author": orgRef(),
+            "publisher": orgRef(),
             "datePublished": "2026-01-01",
             "dateModified": "2026-01-06"
         },

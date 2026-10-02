@@ -44,7 +44,7 @@ export default function ClientsMarquee() {
                     <div className={styles.marqueeTrack}>
                         {/* Triplico la lista per un loop infinito fluido */}
                         {[...clients, ...clients, ...clients].map((client, index) => (
-                            <div key={`${client.name}-${index}`} className={styles.logoItem}>
+                            <div key={`${client.name}-${index}`} className={styles.logoItem} aria-hidden={index >= clients.length ? true : undefined}>
                                 {client.logo ? (
                                     <img
                                         src={client.logo}

@@ -7,33 +7,32 @@ import Link from 'next/link';
 import { useModal } from './ModalContext';
 import styles from './HeroSection.module.css';
 
-// Animated counter hook
+// Animated counter hook: il primo render (SSR) mostra già il valore finale,
+// così crawler e LLM leggono il dato reale; l'animazione da 0 avviene solo nel browser.
 function useAnimatedCounter(target: number, duration = 1800, delay = 1200) {
-    const [count, setCount] = useState(0);
-    const [started, setStarted] = useState(false);
+    const [count, setCount] = useState(target);
 
     useEffect(() => {
+        let interval: ReturnType<typeof setInterval> | undefined;
         const timer = setTimeout(() => {
-            setStarted(true);
+            let start = 0;
+            const step = Math.ceil(target / (duration / 16));
+            setCount(0);
+            interval = setInterval(() => {
+                start += step;
+                if (start >= target) {
+                    setCount(target);
+                    clearInterval(interval);
+                } else {
+                    setCount(start);
+                }
+            }, 16);
         }, delay);
-        return () => clearTimeout(timer);
-    }, [delay]);
-
-    useEffect(() => {
-        if (!started) return;
-        let start = 0;
-        const step = Math.ceil(target / (duration / 16));
-        const interval = setInterval(() => {
-            start += step;
-            if (start >= target) {
-                setCount(target);
-                clearInterval(interval);
-            } else {
-                setCount(start);
-            }
-        }, 16);
-        return () => clearInterval(interval);
-    }, [started, target, duration]);
+        return () => {
+            clearTimeout(timer);
+            if (interval) clearInterval(interval);
+        };
+    }, [target, duration, delay]);
 
     return count;
 }
@@ -245,8 +244,8 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                 <div className={styles.background} style={{ opacity: 0.4, pointerEvents: 'none' }} />
             )}
 
-            {/* ✨ Floating Stats Widget (desktop only) */}
-            {!isMobile && (
+            {/* ✨ Floating Stats Widget (desktop only: nascosto via CSS sotto i 1200px, ma sempre nell'HTML) */}
+            {(
                 <div className={styles.floatingStats}>
                     <div className={styles.statsHeader}>
                         <div className={styles.statsHeaderDot} />
@@ -291,7 +290,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                             id="main-h1"
                             className={`${styles.title} ${styles.animTitle}`}
                         >
-                            <span className="sr-only">Agenzia Digital Marketing — </span>
+                            <span className="sr-only">Agenzia Digital Marketing a Monza e Milano — </span>
                             {renderTitle()}
                         </h1>
                         {/* Keyword geo-locale visibile — segnale SEO esplicito per Google */}
