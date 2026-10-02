@@ -123,6 +123,17 @@ export default async function RootLayout({
   return (
     <html lang="it" suppressHydrationWarning className={inter.variable} style={{ '--icon-color': config?.iconColor || '#eab308' } as React.CSSProperties}>
       <head>
+        {/*
+          Decide prima del primo fotogramma se il banner cookie va nascosto.
+          Deve restare inline e sincrono: se girasse dopo, chi ha gia' dato il
+          consenso vedrebbe il banner comparire e sparire. Il consenso resta in
+          localStorage, nessuna logica di tracciamento e' toccata.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(localStorage.getItem('wrdigital-cookie-consent')){document.documentElement.setAttribute('data-cookie-consent','1')}}catch(e){}`,
+          }}
+        />
         {/* Leadfeeder – company visitor identification */}
         <Script
           id="leadfeeder-tracker"
