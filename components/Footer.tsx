@@ -111,25 +111,37 @@ export default function Footer({ isDarkMode = true, onToggleTheme, logo }: Foote
                     <div className={styles.certificationsGrid}>
                         <div className={styles.badgeWrapper}>
                             <img
-                                src="/certifications/google-ads-search.png"
+                                src="/certifications/google-ads-search.webp"
                                 alt="Google Ads Search Certified"
                                 className={styles.certificationBadge}
+                                width={110}
+                                height={110}
+                                loading="lazy"
+                                decoding="async"
                             />
                             <span className={styles.badgeLabel}>Search Ads</span>
                         </div>
                         <div className={styles.badgeWrapper}>
                             <img
-                                src="/certifications/shopping-ads.png"
+                                src="/certifications/shopping-ads.webp"
                                 alt="Shopping Ads Certified"
                                 className={styles.certificationBadge}
+                                width={110}
+                                height={110}
+                                loading="lazy"
+                                decoding="async"
                             />
                             <span className={styles.badgeLabel}>Shopping Ads</span>
                         </div>
                         <div className={styles.badgeWrapper}>
                             <img
-                                src="/certifications/google-ads-measurement.png"
+                                src="/certifications/google-ads-measurement.webp"
                                 alt="Google Ads Measurement Certified"
                                 className={styles.certificationBadge}
+                                width={110}
+                                height={110}
+                                loading="lazy"
+                                decoding="async"
                             />
                             <span className={styles.badgeLabel}>Measurement</span>
                         </div>

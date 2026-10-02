@@ -69,8 +69,26 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
     // Mobile detection for lighter background
     const [isMobile, setIsMobile] = useState(true);
 
+    // La scena 3D e' decorativa: su mobile non disegna nulla, ma il suo chunk
+    // (three + react-three/fiber + drei, ~230 KB) veniva scaricato lo stesso e
+    // buttato. Ora l'import parte solo da desktop e solo a browser libero.
+    const [show3D, setShow3D] = useState(false);
+
     useEffect(() => {
-        setIsMobile(window.innerWidth < 768);
+        const mobile = window.innerWidth < 768;
+        setIsMobile(mobile);
+        if (mobile) return;
+
+        const start = () => setShow3D(true);
+        const timer = window.setTimeout(() => {
+            if ('requestIdleCallback' in window) {
+                (window as unknown as { requestIdleCallback: (cb: () => void, o?: { timeout: number }) => void })
+                    .requestIdleCallback(start, { timeout: 1500 });
+            } else {
+                start();
+            }
+        }, 2500);
+        return () => window.clearTimeout(timer);
     }, []);
 
     // ✨ Aurora gradient: track mouse position as CSS custom props
@@ -235,7 +253,7 @@ export default function HeroSection({ timestamp, customTitle, customSubtitle, cu
                         }}
                     />
                     <div className={styles.overlay} />
-                    <ThreeScene />
+                    {show3D && <ThreeScene />}
                 </div>
             )}
 
