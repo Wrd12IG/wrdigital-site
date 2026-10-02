@@ -16,7 +16,7 @@ const staticTeam = [
     { name: 'Enxhi Gjashta',        role: 'Graphic Designer',                          color: '#60a5fa', avatar: '/images/team/enxhi.jpg',      tag: 'Design',  stats: { xp: '3+ Anni', stat1: 'Motion Graphics', stat2: 'Layout', bio: 'Dà vita ai pixel creando design dinamici e animazioni fluide.' } },
     { name: 'Valeria Giovanna Daniotti', role: 'Graphic Designer',                     color: '#60a5fa', avatar: '/images/team/valeria-daniotti.jpg', tag: 'Design',  stats: { xp: '3+ Anni', stat1: 'Brand Identity', stat2: 'Creatività Social', bio: 'Costruisce l\'identità visiva dei brand e la traduce in creatività che funzionano sui social.' } },
     { name: 'Giulia Tarricone',     role: 'Social Manager Junior',                     color: '#34d399', avatar: '/images/team/giulia.jpg',     tag: 'Team',    stats: { xp: '2+ Anni', stat1: 'Trend Analysis', stat2: 'Video Edit', bio: 'Scova le ultime tendenze e crea contenuti social freschi e virali.' } },
-    { name: 'Giada Morena',         role: 'Social Manager Junior',                     color: '#34d399', avatar: '/images/team/giada.jpg',      tag: 'Team',    stats: { xp: '2+ Anni', stat1: 'Creatività', stat2: 'Engagement', bio: 'Sviluppa idee creative per campagne social che catturano l\'attenzione.' } },
+    { name: 'Giada Morena',         role: 'Web Developer',                             color: '#818cf8', avatar: '/images/team/giada.jpg',      tag: 'Dev',     stats: { xp: '2+ Anni', stat1: 'Front-end', stat2: 'Siti Web', bio: 'Trasforma i progetti grafici in siti web veloci e curati in ogni dettaglio.' } },
 ];
 
 // Float animation durations per card (for staggered bobbing)
