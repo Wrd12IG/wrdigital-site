@@ -5,9 +5,6 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Delay in ms before loading the 3D scene (allows critical rendering to complete)
-const SCENE_LOAD_DELAY = 3000;
-
 // Waving Topographic Digital Grid Mesh representing Data Flow & SEO indexing
 function AnimatedMesh() {
     const meshRef = useRef<THREE.Mesh>(null);
