@@ -14,7 +14,10 @@ interface CookieConsent {
 }
 
 export default function CookieBanner() {
-    const [isVisible, setIsVisible] = useState(false);
+    // Nasce visibile: cosi' il banner e' nell'HTML servito dal server e viene
+    // dipinto con il primo fotogramma. Chi ha gia' dato il consenso non lo vede
+    // perche' lo script inline nel layout lo nasconde via CSS prima del paint.
+    const [isVisible, setIsVisible] = useState(true);
     const [showPreferences, setShowPreferences] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [consent, setConsent] = useState({
@@ -25,10 +28,8 @@ export default function CookieBanner() {
     useEffect(() => {
         setIsMounted(true);
         const savedConsent = localStorage.getItem('wrdigital-cookie-consent');
-        if (!savedConsent) {
-            const timer = setTimeout(() => setIsVisible(true), 1000);
-            return () => clearTimeout(timer);
-        } else {
+        if (savedConsent) {
+            setIsVisible(false);
             try {
                 const parsed = JSON.parse(savedConsent);
                 setConsent({
@@ -39,6 +40,7 @@ export default function CookieBanner() {
         }
 
         const handleOpenSettings = () => {
+            document.documentElement.removeAttribute('data-cookie-consent');
             setIsVisible(true);
             setShowPreferences(true);
         };
@@ -83,6 +85,7 @@ export default function CookieBanner() {
             statistics: consentData.statistics,
             marketing: consentData.marketing
         });
+        document.documentElement.setAttribute('data-cookie-consent', '1');
         setIsVisible(false);
         setShowPreferences(false);
         window.dispatchEvent(new Event('cookie-consent-update'));
@@ -96,7 +99,7 @@ export default function CookieBanner() {
     return (
         <div id="cookie-banner-stable-root" style={{ position: 'relative', zIndex: 9999 }}>
             <AnimatePresence>
-                {isVisible && isMounted && (
+                {isVisible && (
                     <>
                         {showPreferences && (
                             <motion.div
@@ -111,7 +114,7 @@ export default function CookieBanner() {
                         <motion.div
                             layout
                             className={`${styles.banner} ${showPreferences ? styles.modal : ''}`}
-                            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                            initial={false}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 20, scale: 0.95 }}
                             transition={{ duration: 0.3 }}

@@ -683,3 +683,12 @@ h6 {
 .pointer-events-none {
   pointer-events: none;
 }
+/* ---------------------------------------------------------------------------
+   Banner cookie: nascosto prima del primo fotogramma per chi ha gia' scelto.
+   L'attributo lo mette lo script inline in app/layout.tsx. Serve il CSS e non
+   lo stato di React, altrimenti il banner comparirebbe e sparirebbe a ogni
+   caricamento per i visitatori di ritorno.
+--------------------------------------------------------------------------- */
+html[data-cookie-consent="1"] #cookie-banner-stable-root {
+    display: none !important;
+}
