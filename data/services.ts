@@ -35,7 +35,7 @@ export const servicesData: Record<string, {
             { question: 'Quanto tempo ci vuole per vedere risultati SEO?', answer: 'I primi miglioramenti sono visibili in 2-3 mesi. Risultati significativi in 4-6 mesi. La SEO è un investimento a lungo termine che cresce esponenzialmente.' },
             { question: 'Quanto costa il servizio SEO?', answer: 'I nostri piani partono da €1.500/mese per PMI. Il costo dipende dalla competitività del settore e dagli obiettivi. Richiedi un preventivo personalizzato.' },
             { question: 'Lavorate con competitor nel mio settore?', answer: 'No. Garantiamo esclusività di settore per area geografica. Non lavorerai mai contro un nostro cliente.' },
-            { question: 'Cosa succede se non raggiungo i risultati?', answer: 'Offriamo una garanzia performance-based. Se non miglioriamo il tuo traffico organico del 50% in 6 mesi, lavoriamo gratis fino al raggiungimento.' }
+            { question: 'Cosa succede se non raggiungo i risultati?', answer: 'Non promettiamo posizioni su Google: quelle non dipendono da noi. Ci impegniamo sul risultato che possiamo controllare, e lo mettiamo per iscritto: se entro 6 mesi il traffico organico non cresce del 50%, continuiamo a lavorare senza fee finché non ci arriviamo.' }
         ],
         testimonials: [
             { quote: 'In 6 mesi siamo passati dalla pagina 3 alla prima posizione.', author: 'Marco B.', company: 'TechSolutions', result: '+380% Traffico' },
