@@ -4,7 +4,12 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         console.log('--- API CONTACT BODY ---', body);
-        const { name, email, phone, message, company, service, website, privacyAccepted } = body;
+        const { name, email, phone, message, company, service, website, privacyAccepted, hp_site } = body;
+
+        // Honeypot: campo nascosto che solo i bot compilano. Rispondiamo "ok" senza salvare né inviare nulla.
+        if (typeof hp_site === 'string' && hp_site.trim() !== '') {
+            return NextResponse.json({ success: true, message: 'Messaggio inviato' });
+        }
 
         // Validazione base
         if (!name || !email || !phone || !message) {

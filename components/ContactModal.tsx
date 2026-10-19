@@ -32,6 +32,7 @@ export default function ContactModal() {
         service: '',
         website: '',
         privacyAccepted: false,
+        hp_site: '',
     });
 
     const [errors, setErrors] = useState<FormErrors>({});
@@ -78,7 +79,7 @@ export default function ContactModal() {
             if (!response.ok) throw new Error(data.error);
 
             closeContactModal();
-            setFormState({ name: '', email: '', phone: '', company: '', message: '', service: '', website: '', privacyAccepted: false });
+            setFormState({ name: '', email: '', phone: '', company: '', message: '', service: '', website: '', privacyAccepted: false, hp_site: '' });
             router.push(`/grazie?name=${encodeURIComponent(formState.name)}`);
 
         } catch (error) {
@@ -125,6 +126,11 @@ export default function ContactModal() {
                             <p className={styles.subtitle}>Lascia i tuoi dati per ricevere un'analisi preliminare della tua presenza online. Nessun impegno, solo valore reale.</p>
 
                             <form onSubmit={handleSubmit} className={styles.form}>
+                                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+                                    <label>Lascia vuoto questo campo
+                                        <input type="text" name="hp_site" value={formState.hp_site} onChange={handleChange} tabIndex={-1} autoComplete="off" />
+                                    </label>
+                                </div>
                                 <div className={styles.row}>
                                     <div className={styles.formGroup}>
                                         <label className={styles.formLabel}>Nome e Cognome *</label>
