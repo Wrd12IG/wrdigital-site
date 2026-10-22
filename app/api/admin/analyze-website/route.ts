@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isAdminSession } from '@/lib/admin-guard';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import fs from 'fs';
@@ -14,8 +15,9 @@ const streamPipeline = promisify(pipeline);
  * Returns: { logo, name, description, socials: { facebook, instagram, linkedin, twitter } }
  */
 export async function POST(req: Request) {
-    const session = await getServerSession(authOptions);
-    const isAdmin = (session: any) => true;
+    if (!(await isAdminSession())) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     try {
         const { url } = await req.json();

@@ -1,3 +1,5 @@
+import { escapeHtml as esc } from '@/lib/spam-guard';
+
 
 export const EmailTemplate = (data: { name: string; email: string; phone?: string; message?: string; service?: string; company?: string }) => `
 <!DOCTYPE html>
@@ -25,27 +27,27 @@ export const EmailTemplate = (data: { name: string; email: string; phone?: strin
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
                         <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888; font-size: 12px; text-transform: uppercase; width: 30%;">Nome</td>
-                        <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; font-size: 15px;">${data.name}</td>
+                        <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; font-size: 15px;">${esc(data.name)}</td>
                     </tr>
                     <tr>
                         <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888; font-size: 12px; text-transform: uppercase;">Email</td>
                         <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; font-size: 15px;">
-                            <a href="mailto:${data.email}" style="color: #2563EB; text-decoration: none;">${data.email}</a>
+                            <a href="mailto:${esc(data.email)}" style="color: #2563EB; text-decoration: none;">${esc(data.email)}</a>
                         </td>
                     </tr>
                     <tr>
                         <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888; font-size: 12px; text-transform: uppercase;">Telefono</td>
                         <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; font-size: 15px;">
-                            <a href="tel:${data.phone}" style="color: #2563EB; text-decoration: none;">${data.phone || '-'}</a>
+                            <a href="tel:${esc(data.phone)}" style="color: #2563EB; text-decoration: none;">${esc(data.phone || '-')}</a>
                         </td>
                     </tr>
                     <tr>
                         <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888; font-size: 12px; text-transform: uppercase;">Azienda</td>
-                        <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; font-size: 15px;">${data.company || '-'}</td>
+                        <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; font-size: 15px;">${esc(data.company || '-')}</td>
                     </tr>
                     <tr>
                         <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888; font-size: 12px; text-transform: uppercase;">Interesse</td>
-                        <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #FACC15; font-weight: bold; font-size: 15px;">${data.service || 'Generico'}</td>
+                        <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #FACC15; font-weight: bold; font-size: 15px;">${esc(data.service || 'Generico')}</td>
                     </tr>
                 </table>
             </div>
@@ -65,8 +67,8 @@ export const EmailTemplate = (data: { name: string; email: string; phone?: strin
                     <table style="width: 100%; border-collapse: collapse; background-color: #fff8f0; border-radius: 8px; border: 1px solid #ffe6b3;">
                         ${Object.entries(details).filter(([k]) => k !== 'richiesta preventivo wizard' && !k.startsWith('---')).map(([key, value]) => `
                         <tr>
-                            <td style="padding: 12px 15px; border-bottom: 1px solid #ffe6b3; font-weight: bold; color: #555; width: 35%; text-transform: capitalize;">${key}</td>
-                            <td style="padding: 12px 15px; border-bottom: 1px solid #ffe6b3; color: #333;">${value}</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid #ffe6b3; font-weight: bold; color: #555; width: 35%; text-transform: capitalize;">${esc(key)}</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid #ffe6b3; color: #333;">${esc(value)}</td>
                         </tr>
                         `).join('')}
                     </table>
@@ -76,14 +78,14 @@ export const EmailTemplate = (data: { name: string; email: string; phone?: strin
             <div style="margin-top: 30px;">
                 <p style="color: #888; font-size: 12px; text-transform: uppercase; margin-bottom: 10px;">Messaggio:</p>
                 <div style="background-color: #fff8f0; border-left: 4px solid #FACC15; padding: 20px; font-style: italic; color: #555;">
-                    "${data.message}"
+                    "${esc(data.message)}"
                 </div>
             </div>
             `}
 
             <!-- Action Button -->
             <div style="margin-top: 40px; text-align: center;">
-                <a href="mailto:${data.email}" style="display: inline-block; background-color: #000000; color: #ffffff; padding: 14px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
+                <a href="mailto:${esc(data.email)}" style="display: inline-block; background-color: #000000; color: #ffffff; padding: 14px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
                     Rispondi Ora
                 </a>
             </div>
@@ -114,8 +116,8 @@ export const NewsletterTemplate = (email: string, phone?: string) => `
         </div>
         <div style="padding: 50px 30px; text-align: center;">
             <div style="background-color: #f0fdf4; border: 1px dashed #22C55E; padding: 20px; border-radius: 10px; display: inline-block; margin-bottom: 20px;">
-                <p style="margin: 0; font-size: 18px; font-weight: bold; color: #15803d;">${email}</p>
-                ${phone ? `<p style="margin: 5px 0 0 0; font-size: 14px; color: #15803d;">Tel: ${phone}</p>` : ''}
+                <p style="margin: 0; font-size: 18px; font-weight: bold; color: #15803d;">${esc(email)}</p>
+                ${phone ? `<p style="margin: 5px 0 0 0; font-size: 14px; color: #15803d;">Tel: ${esc(phone)}</p>` : ''}
             </div>
             <p style="color: #666; margin: 0;">si è appena iscritto alla newsletter.</p>
         </div>
@@ -137,7 +139,7 @@ export const ClientConfirmationTemplate = (name: string) => `
              <h1 style="color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 2px;">W[<span style="color: #FACC15;">r</span>]Digital</h1>
         </div>
         <div style="padding: 40px;">
-            <p style="font-size: 16px; margin-bottom: 20px;">Ciao <strong>${name}</strong>,</p>
+            <p style="font-size: 16px; margin-bottom: 20px;">Ciao <strong>${esc(name)}</strong>,</p>
             <p style="font-size: 16px; line-height: 1.6; color: #555;">Abbiamo ricevuto la tua richiesta. Il nostro team sta già analizzando il tuo messaggio e ti risponderemo entro 24 ore lavorative.</p>
             <p style="font-size: 16px; line-height: 1.6; color: #555;">Nel frattempo, se vuoi dare un'occhiata ai nostri ultimi lavori, visita il nostro <a href="https://wrdigital.it/#lavori" style="color: #FACC15; font-weight: bold; text-decoration: none;">Portfolio</a>.</p>
             

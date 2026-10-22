@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from './ToastContext';
+import Turnstile from './Turnstile';
 import styles from './EstimatorWizard.module.css';
 import {
     CheckCircle,
@@ -70,6 +71,7 @@ export default function EstimatorWizard() {
     const { addToast } = useToast();
     const [currentStep, setCurrentStep] = useState<number>(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [cfToken, setCfToken] = useState('');
 
     const [data, setData] = useState<FormData>({
         goal: '',
@@ -174,7 +176,8 @@ Social: ${data.socials.length > 0 ? data.socials.join(', ') : 'Nessuno seleziona
                     company: data.company,
                     service: 'preventivo',
                     message: messageText,
-                    privacyAccepted: true
+                    privacyAccepted: true,
+                    cf_token: cfToken
                 })
             });
 
@@ -409,6 +412,8 @@ Social: ${data.socials.length > 0 ? data.socials.join(', ') : 'Nessuno seleziona
                     {renderStep()}
                 </motion.div>
             </AnimatePresence>
+
+            {currentStep === 4 && <Turnstile onToken={setCfToken} />}
 
             {currentStep < 5 && (
                 <div className={styles.navigation}>

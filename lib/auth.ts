@@ -16,33 +16,15 @@ export const authOptions: AuthOptions = {
                     return null;
                 }
 
-                console.log('--- AUTH DEBUG ---');
-                console.log('Attempting login for:', credentials.email.toLowerCase());
-
-                // EMERGENCY BYPASS
-                if (credentials.email.toLowerCase() === 'roberto@wrdigital.it' && credentials.password === 'Wrdigital2025!') {
-                    console.log('--- EMERGENCY LOGIN SUCCESS ---');
-                    return {
-                        id: 'admin',
-                        email: 'roberto@wrdigital.it',
-                        name: 'Roberto Admin (Bypass)',
-                        role: 'admin'
-                    };
-                }
-
-                // Fetch user from Database instead of JSON file
                 const user = await prisma.user.findUnique({
                     where: { email: credentials.email.toLowerCase() }
                 });
 
                 if (!user) {
-                    console.log('User not found in DB');
                     return null;
                 }
-                console.log('User found:', user.email, 'Role:', user.role);
 
                 const isValid = await bcrypt.compare(credentials.password, user.password);
-                console.log('Password valid:', isValid);
 
                 if (!isValid) {
                     return null;
@@ -84,5 +66,5 @@ export const authOptions: AuthOptions = {
         strategy: 'jwt',
         maxAge: 30 * 24 * 60 * 60, // 30 giorni
     },
-    secret: process.env.NEXTAUTH_SECRET || 'wrdigital-secret-key-change-in-production',
+    secret: process.env.NEXTAUTH_SECRET,
 };

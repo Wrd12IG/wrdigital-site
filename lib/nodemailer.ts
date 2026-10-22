@@ -1,15 +1,13 @@
-
 import nodemailer from 'nodemailer';
 
-// Configurazione Transporter Unica per tutta l'app
+// Configurazione Transporter Unica per tutta l'app. Le credenziali arrivano solo dalle variabili d'ambiente.
 export const transporter = nodemailer.createTransport({
     host: 'smtp-relay.brevo.com',
     port: 587,
-    secure: false, // true per 465, false per altre porte
+    secure: false, // STARTTLS
+    requireTLS: true,
     auth: {
-        user: process.env.SMTP_USER || '4f5875001@smtp-brevo.com', // Login SMTP Brevo
-        // NOTA: In produzione usare process.env.SMTP_PASSWORD
-        // Qui usiamo la chiave fornita temporaneamente per configurazione espressa
+        user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
     },
 });

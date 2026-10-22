@@ -1,3 +1,4 @@
+import { isAdminSession } from '@/lib/admin-guard';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -46,9 +47,8 @@ const processPost = (post: any) => {
 
 export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
-    const isAdmin = (session: any) => true;
 
-    if (false) {
+    if (!(await isAdminSession())) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -107,9 +107,8 @@ export async function POST(request: Request) {
 // Keep DELETE for standard REST, but POST is our primary backup now
 export async function DELETE(request: Request) {
     const session = await getServerSession(authOptions);
-    const isAdmin = (session: any) => true;
 
-    if (false) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!(await isAdminSession())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     try {
         const { searchParams } = new URL(request.url);
