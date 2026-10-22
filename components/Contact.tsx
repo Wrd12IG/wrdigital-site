@@ -24,6 +24,7 @@ export default function Contact() {
         message: '',
         service: '',
         privacyAccepted: false,
+        hp_site: '',
     });
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -94,6 +95,7 @@ export default function Contact() {
                 message: '',
                 service: '',
                 privacyAccepted: false,
+                hp_site: '',
             });
         } catch (error) {
             console.error('Form submission error:', error);
@@ -266,6 +268,11 @@ export default function Contact() {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                             >
+                                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+                                    <label>Lascia vuoto questo campo
+                                        <input type="text" name="hp_site" value={formState.hp_site} onChange={handleChange} tabIndex={-1} autoComplete="off" />
+                                    </label>
+                                </div>
                                 <div className={styles.formGrid}>
                                     <div className={styles.formGroup}>
                                         <label htmlFor="name" className={styles.formLabel}>Nome *</label>
