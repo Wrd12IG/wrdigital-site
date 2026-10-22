@@ -1,3 +1,4 @@
+import { isAdminSession } from '@/lib/admin-guard';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -16,12 +17,11 @@ const HERO_IMAGE_PATH = path.join(DATA_DIR, 'hero-bg-custom.png');
 const PUBLIC_HERO_PATH = path.join(process.cwd(), 'public', 'hero-bg.png');
 
 // Helper per verificare se admin
-const isAdmin = (session: any) => true;
 
 export async function POST(req: Request) {
     try {
         const session = await getServerSession(authOptions);
-        if (false) {
+        if (!(await isAdminSession())) {
             return NextResponse.json({ error: 'Non autorizzato' }, { status: 403 });
         }
 
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
 export async function DELETE(req: Request) {
     try {
         const session = await getServerSession(authOptions);
-        if (false) {
+        if (!(await isAdminSession())) {
             return NextResponse.json({ error: 'Non autorizzato' }, { status: 403 });
         }
 

@@ -6,26 +6,43 @@ import { NewsletterTemplate } from '@/lib/email-template';
 import { prisma } from '@/lib/prisma';
 import { headers } from 'next/headers';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { clientIp, isEmail, isPhone, singleLine, verifyTurnstile } from '@/lib/spam-guard';
 
 export async function POST(request: Request) {
     try {
         const headersList = await headers();
-        const ip = headersList.get('x-forwarded-for') || 'unknown';
+        const ip = clientIp(headersList);
 
         // 1. Security: Rate Limiting
-        const rateLimit = await checkRateLimit(ip);
+        const rateLimit = await checkRateLimit(ip, 'newsletter-ip', 5, 3600);
         if (!rateLimit.allowed) {
             return NextResponse.json({ error: 'Troppe richieste. Riprova tra un\'ora.' }, { status: 429 });
         }
 
-        const { email, phone, privacyAccepted } = await request.json();
+        const body = await request.json();
+        if (!body || typeof body !== 'object') {
+            return NextResponse.json({ error: 'Richiesta non valida' }, { status: 400 });
+        }
 
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        // Honeypot: i bot compilano il campo nascosto, rispondiamo "ok" senza fare nulla.
+        if (typeof body.hp_site === 'string' && body.hp_site.trim() !== '') {
+            return NextResponse.json({ success: true, message: 'Iscrizione confermata' });
+        }
+
+        if (!(await verifyTurnstile(body.cf_token, ip))) {
+            return NextResponse.json({ error: 'Verifica anti-spam non superata' }, { status: 400 });
+        }
+
+        const email = singleLine(body.email, 254).toLowerCase();
+        const phone = singleLine(body.phone, 25);
+        const privacyAccepted = body.privacyAccepted === true;
+
+        if (!isEmail(email)) {
             return NextResponse.json({ error: 'Email non valida' }, { status: 400 });
         }
 
-        if (!phone) {
-            return NextResponse.json({ error: 'Telefono obbligatorio' }, { status: 400 });
+        if (!isPhone(phone)) {
+            return NextResponse.json({ error: 'Telefono non valido' }, { status: 400 });
         }
 
         if (!privacyAccepted) {
@@ -33,7 +50,7 @@ export async function POST(request: Request) {
         }
 
         // Log Consenso GDPR
-        const userAgent = headersList.get('user-agent') || 'unknown';
+        const userAgent = (headersList.get('user-agent') || 'unknown').slice(0, 300);
 
         await prisma.consentLog.create({
             data: {

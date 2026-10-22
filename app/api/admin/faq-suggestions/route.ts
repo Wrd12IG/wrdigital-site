@@ -1,3 +1,4 @@
+import { isAdminSession } from '@/lib/admin-guard';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -152,7 +153,7 @@ const faqTemplates: Record<string, any[]> = {
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
 
-    if (false) {
+    if (!(await isAdminSession())) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -222,7 +223,7 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
 
-    if (false) {
+    if (!(await isAdminSession())) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

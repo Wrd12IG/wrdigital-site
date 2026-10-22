@@ -1,33 +1,56 @@
 import { NextResponse } from 'next/server';
+import { checkRateLimit } from '@/lib/rate-limit';
+import { clean, clientIp, countLinks, isEmail, isPhone, singleLine, verifyTurnstile } from '@/lib/spam-guard';
+
+const OK = () => NextResponse.json({ success: true, message: 'Messaggio inviato' });
+const BAD = (error: string, status = 400) => NextResponse.json({ error }, { status });
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json();
-        console.log('--- API CONTACT BODY ---', body);
-        const { name, email, phone, message, company, service, website, privacyAccepted, hp_site } = body;
+        const ip = clientIp(request.headers);
 
-        // Honeypot: campo nascosto che solo i bot compilano. Rispondiamo "ok" senza salvare né inviare nulla.
-        if (typeof hp_site === 'string' && hp_site.trim() !== '') {
-            return NextResponse.json({ success: true, message: 'Messaggio inviato' });
+        // Rate limit per IP: 5 richieste/ora
+        if (!(await checkRateLimit(ip, 'contact-ip', 5, 3600)).allowed) {
+            return BAD('Troppe richieste. Riprova più tardi.', 429);
         }
 
-        // Validazione base
-        if (!name || !email || !phone || !message) {
-            return NextResponse.json({ error: 'Campi obbligatori mancanti' }, { status: 400 });
+        let body: any;
+        try {
+            body = await request.json();
+        } catch {
+            return BAD('Richiesta non valida');
         }
+        if (!body || typeof body !== 'object') return BAD('Richiesta non valida');
 
-        if (!privacyAccepted) {
-            return NextResponse.json({ error: 'Devi accettare la privacy policy' }, { status: 400 });
-        }
+        // Honeypot: solo i bot compilano il campo nascosto. Rispondiamo "ok" senza fare nulla.
+        if (typeof body.hp_site === 'string' && body.hp_site.trim() !== '') return OK();
 
-        // Try to save to database (optional, graceful failure)
+        if (!(await verifyTurnstile(body.cf_token, ip))) return BAD('Verifica anti-spam non superata');
+
+        const name = singleLine(body.name, 100);
+        const email = singleLine(body.email, 254).toLowerCase();
+        const phone = singleLine(body.phone, 25);
+        const message = clean(body.message, 3000);
+        const company = singleLine(body.company, 150);
+        const website = singleLine(body.website, 200);
+        const service = singleLine(body.service, 100);
+
+        if (!name || !email || !phone || !message) return BAD('Campi obbligatori mancanti');
+        if (!isEmail(email)) return BAD('Email non valida');
+        if (!isPhone(phone)) return BAD('Telefono non valido');
+        if (body.privacyAccepted !== true) return BAD('Devi accettare la privacy policy');
+
+        // Il nome non deve contenere link; il messaggio al massimo 2 (il wizard ne inserisce uno).
+        if (countLinks(name) > 0 || countLinks(company) > 0) return OK();
+        if (countLinks(message) > 2) return OK();
+
+        // Un solo invio all'ora per indirizzo email: impedisce di usare il form per bombardare terzi.
+        if (!(await checkRateLimit(email, 'contact-email', 1, 3600)).allowed) return OK();
+
         let dbSaved = false;
         try {
             const { prisma } = await import('@/lib/prisma');
-            const { headers } = await import('next/headers');
-            const headersList = await headers();
-            const ip = headersList.get('x-forwarded-for') || 'unknown';
-            const userAgent = headersList.get('user-agent') || 'unknown';
+            const userAgent = (request.headers.get('user-agent') || 'unknown').slice(0, 300);
 
             await prisma.consentLog.create({
                 data: {
@@ -37,77 +60,58 @@ export async function POST(request: Request) {
                     consentType: 'contact_form',
                     consentVersion: 'v1.0',
                     consentText: 'Ho letto e accetto la Privacy Policy e acconsento al trattamento dei dati personali.',
-                    accepted: true
-                }
+                    accepted: true,
+                },
             });
 
             await prisma.lead.create({
                 data: {
                     name,
                     email,
-                    phone: phone || null,
+                    phone,
                     company: company || null,
                     website: website || null,
                     message,
                     source: service === 'preventivo' ? 'wizard' : 'contact_form',
                     services: service,
                     ipAddress: ip,
-                    status: 'new'
-                }
+                    status: 'new',
+                },
             });
             dbSaved = true;
         } catch (dbError) {
             console.warn('Database save failed (continuing):', dbError);
         }
 
-        // Try to send emails (optional, graceful failure)
         let emailSent = false;
         try {
             const { transporter, mailOptions } = await import('@/lib/nodemailer');
             const { EmailTemplate, ClientConfirmationTemplate } = await import('@/lib/email-template');
 
-            // Email to admin
             await transporter.sendMail({
                 ...mailOptions,
                 to: 'info@wrdigital.it, roberto@wrdigital.it',
                 replyTo: email,
                 subject: `🔥 Lead: ${name} (${company || 'Privato'})`,
-                html: EmailTemplate({ name, email, phone, message, company, service })
+                html: EmailTemplate({ name, email, phone, message, company, service }),
             });
 
-            // Email to client
             await transporter.sendMail({
                 ...mailOptions,
                 to: email,
                 subject: 'Abbiamo ricevuto la tua richiesta - W[r]Digital',
-                html: ClientConfirmationTemplate(name)
+                html: ClientConfirmationTemplate(name),
             });
             emailSent = true;
         } catch (emailError) {
             console.warn('Email send failed (continuing):', emailError);
         }
 
-        // Log the submission for debugging
-        console.log('Contact form submitted:', {
-            name,
-            email,
-            service,
-            dbSaved,
-            emailSent,
-            timestamp: new Date().toISOString()
-        });
+        console.log('Contact form submitted:', { service, dbSaved, emailSent, timestamp: new Date().toISOString() });
 
-        // Always return success to the user (form was received)
-        return NextResponse.json({
-            success: true,
-            message: 'Messaggio inviato',
-            details: { dbSaved, emailSent }
-        });
-
-    } catch (error: any) {
+        return NextResponse.json({ success: true, message: 'Messaggio inviato' });
+    } catch (error) {
         console.error('Contact form error:', error);
-        return NextResponse.json({
-            error: 'Errore durante l\'invio. Riprova più tardi.'
-        }, { status: 500 });
+        return BAD("Errore durante l'invio. Riprova più tardi.", 500);
     }
 }

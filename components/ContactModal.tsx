@@ -1,5 +1,6 @@
 'use client';
 
+import Turnstile from './Turnstile';
 import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -15,6 +16,7 @@ interface FormErrors {
 }
 
 export default function ContactModal() {
+    const [cfToken, setCfToken] = useState('');
     const { isContactOpen, closeContactModal } = useModal();
     const { addToast } = useToast();
     const [isMounted, setIsMounted] = useState(false);
@@ -71,7 +73,7 @@ export default function ContactModal() {
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formState),
+                body: JSON.stringify({ ...formState, cf_token: cfToken }),
             });
 
             const data = await response.json();
@@ -230,6 +232,8 @@ export default function ContactModal() {
                                         Ho letto e accetto la <a href="/privacy-policy" style={{ color: '#FACC15', textDecoration: 'underline' }}>Privacy Policy</a> e acconsento al trattamento dei miei dati personali ai sensi del GDPR. *
                                     </label>
                                 </div>
+
+                                <Turnstile onToken={setCfToken} />
 
                                 <button
                                     type="submit"

@@ -1,3 +1,4 @@
+import { isAdminSession } from '@/lib/admin-guard';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
@@ -29,9 +30,8 @@ export async function GET() {
 
 export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
-    const isAdmin = (session: any) => true;
 
-    if (false) {
+    if (!(await isAdminSession())) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

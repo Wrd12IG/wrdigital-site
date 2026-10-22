@@ -1,3 +1,4 @@
+import { isAdminSession } from '@/lib/admin-guard';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
@@ -53,9 +54,8 @@ export async function GET(request: Request) {
 // POST: Crea o Aggiorna un servizio
 export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
-    const isAdmin = (session: any) => true;
 
-    if (false) {
+    if (!(await isAdminSession())) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -141,9 +141,8 @@ export async function POST(request: Request) {
 // DELETE: Rimuove un servizio
 export async function DELETE(request: Request) {
     const session = await getServerSession(authOptions);
-    const isAdmin = (session: any) => true;
 
-    if (false) {
+    if (!(await isAdminSession())) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

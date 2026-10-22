@@ -3,12 +3,15 @@
 
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import Turnstile from "./Turnstile";
 
 export default function NewsletterForm() {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [privacy, setPrivacy] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [hp, setHp] = useState('');
+    const [cfToken, setCfToken] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -18,7 +21,7 @@ export default function NewsletterForm() {
             const res = await fetch('/api/newsletter', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, phone, privacyAccepted: true })
+                body: JSON.stringify({ email, phone, privacyAccepted: true, hp_site: hp, cf_token: cfToken })
             });
 
             const data = await res.json();
@@ -41,6 +44,12 @@ export default function NewsletterForm() {
         <div className="max-w-2xl mx-auto w-full relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+                    <label>Lascia vuoto questo campo
+                        <input type="text" name="hp_site" value={hp} onChange={(e) => setHp(e.target.value)} tabIndex={-1} autoComplete="off" />
+                    </label>
+                </div>
+                <Turnstile onToken={setCfToken} />
                 <div className="relative bg-[#0a0a0a] rounded-lg p-1 flex flex-col md:flex-row items-stretch md:items-center border border-white/10 gap-1">
                     <input
                         type="email"

@@ -1,5 +1,6 @@
 'use client';
 
+import Turnstile from './Turnstile';
 import { useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useToast } from './ToastContext'; // Import Toast hook
@@ -13,6 +14,7 @@ interface FormErrors {
 }
 
 export default function Contact() {
+    const [cfToken, setCfToken] = useState('');
     const { addToast } = useToast(); // Use toast hook
     const sectionRef = useRef<HTMLElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
@@ -76,7 +78,7 @@ export default function Contact() {
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formState),
+                body: JSON.stringify({ ...formState, cf_token: cfToken }),
             });
 
             const data = await response.json();
@@ -410,6 +412,8 @@ export default function Contact() {
                                         Ho letto e accetto la <a href="/privacy-policy" style={{ color: '#FACC15', textDecoration: 'underline' }}>Privacy Policy</a> e acconsento al trattamento dei dati personali. *
                                     </label>
                                 </div>
+
+                                <Turnstile onToken={setCfToken} />
 
                                 <button
                                     type="submit"
