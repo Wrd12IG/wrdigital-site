@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from './ToastContext';
 import Turnstile from './Turnstile';
 import styles from './EstimatorWizard.module.css';
+import { trackOpenAILead } from '@/lib/openaiPixel';
 import {
     CheckCircle,
     Facebook,
@@ -182,6 +183,7 @@ Social: ${data.socials.length > 0 ? data.socials.join(', ') : 'Nessuno seleziona
             });
 
             if (res.ok) {
+                trackOpenAILead();
                 setCurrentStep(5);
                 addToast('Richiesta inviata con successo!', 'success');
             } else {

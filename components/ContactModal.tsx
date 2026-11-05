@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from './ModalContext';
 import { useToast } from './ToastContext';
 import styles from './ContactModal.module.css';
+import { trackOpenAILead } from '@/lib/openaiPixel';
 
 interface FormErrors {
     name?: string;
@@ -80,6 +81,7 @@ export default function ContactModal() {
 
             if (!response.ok) throw new Error(data.error);
 
+            trackOpenAILead();
             closeContactModal();
             setFormState({ name: '', email: '', phone: '', company: '', message: '', service: '', website: '', privacyAccepted: false, hp_site: '' });
             router.push(`/grazie?name=${encodeURIComponent(formState.name)}`);

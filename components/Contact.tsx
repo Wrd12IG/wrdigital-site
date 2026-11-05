@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useToast } from './ToastContext'; // Import Toast hook
 import styles from './Contact.module.css';
+import { trackOpenAILead } from '@/lib/openaiPixel';
 
 interface FormErrors {
     name?: string;
@@ -87,6 +88,7 @@ export default function Contact() {
                 throw new Error(data.error || 'Errore nell\'invio');
             }
 
+            trackOpenAILead();
             addToast('Messaggio inviato con successo! Ti risponderemo presto.', 'success');
 
             setFormState({
