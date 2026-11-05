@@ -450,7 +450,7 @@ export default function MilanoPage() {
                         <Link href="/consulenza-seo-monza" className="text-sm text-gray-300 bg-white/5 border border-white/10 px-4 py-2 rounded-full hover:border-yellow-400/50 hover:text-yellow-400 transition-all">SEO Monza</Link>
                         <Link href="/servizi/seo" className="text-sm text-gray-300 bg-white/5 border border-white/10 px-4 py-2 rounded-full hover:border-yellow-400/50 hover:text-yellow-400 transition-all">Servizio SEO</Link>
                         <Link href="/servizi/ads" className="text-sm text-gray-300 bg-white/5 border border-white/10 px-4 py-2 rounded-full hover:border-yellow-400/50 hover:text-yellow-400 transition-all">Google Ads</Link>
-                        <Link href="/servizi/web" className="text-sm text-gray-300 bg-white/5 border border-white/10 px-4 py-2 rounded-full hover:border-yellow-400/50 hover:text-yellow-400 transition-all">Web Design</Link>
+                        <Link href="/servizi/realizzazione-siti-web" className="text-sm text-gray-300 bg-white/5 border border-white/10 px-4 py-2 rounded-full hover:border-yellow-400/50 hover:text-yellow-400 transition-all">Web Design</Link>
                         <Link href="/servizi/social" className="text-sm text-gray-300 bg-white/5 border border-white/10 px-4 py-2 rounded-full hover:border-yellow-400/50 hover:text-yellow-400 transition-all">Social Media</Link>
                     </div>
                 </div>

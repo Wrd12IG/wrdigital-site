@@ -17,6 +17,16 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    return [
+      // Vecchio URL del servizio web: non dipende dal DB (prima andava in errore 500)
+      {
+        source: '/servizi/web',
+        destination: '/servizi/realizzazione-siti-web',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
