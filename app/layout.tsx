@@ -15,6 +15,7 @@ const GoogleTagManager = dynamic(() => import('@/components/GoogleTagManager'));
 const Footer = dynamic(() => import('@/components/Footer'));
 const GoogleAnalytics = dynamic(() => import('@/components/GoogleAnalytics'));
 const MicrosoftClarity = dynamic(() => import('@/components/MicrosoftClarity'));
+const OpenAIPixel = dynamic(() => import('@/components/OpenAIPixel'));
 
 import Navbar from '@/components/Navbar';
 import { Providers } from '@/components/Providers';
@@ -167,6 +168,7 @@ export default async function RootLayout({
               <GoogleAnalytics />
               <MicrosoftClarity />
               <GoogleTagManager />
+              <OpenAIPixel />
               <SpeedInsights />
             </ModalProvider>
           </ToastProvider>
